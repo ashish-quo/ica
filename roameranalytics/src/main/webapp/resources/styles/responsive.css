@@ -1,0 +1,106 @@
+
+@media (min-width: 1200px) {
+/*top10*/
+.col-lg-6 .symbol{width:20%;}
+.col-lg-6 .value{width:79%;}
+.col-lg-3 .symbol,.microsegment-statics.col-lg-3 .symbol{width:42%;}
+.col-lg-3 .value{width:50%;}
+/*roaming trends*/
+.microsegment-statics.col-lg-3 .value{width:56%;}
+.microsegment-statics.col-lg-3 .statics-subnum li{padding:0;}
+.microsegment-statics.col-lg-3 .statics-num{font-size:30px;}
+.microsegment-statics .subnum-text{font-size:11px;}
+.microsegment-statics .subnum-number{font-size:14px;}
+/*micro segment*/
+.microchart-panel{margin:0 10px 30px;}
+}
+/* Portrait tablet to landscape and desktop */
+@media (min-width:768px) and (max-width:1024px) {
+
+
+/*header*/
+.top-nav li{padding:0 7px;}
+
+/*custom date range*/
+.daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar{float:none;}
+/*micro segment*/
+.microchart-panel{margin:0 10px 30px;}
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+
+
+	/*Header*/
+	.header-left{float:none;}
+	.rmenu-icon,.res-logo{display:inline-block; float:left;}
+	.top-nav{float:right;margin-top:13px;}
+	.top-nav li{padding:0 15px 0 0;}
+	.logo-img,.top-nav span{display:none;}
+	.header-right{ border: 1px solid #bfc2cd; float: none;}
+	.header-notification{float:left; width:50%; text-align:center;}
+	.user-dropdown{float:right;margin-top:13px;}
+	.notify-dropdown{float: left;left: 0; right:auto}
+	.notify-dropdown.popover.bottom > .arrow{left:15%;}
+	/*sidebar*/
+	.sidebar{left:-320px;}
+	.sidebar.active{left:0;}
+	
+	
+	/*custom date range*/
+	.daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar{float:none;}
+	
+	/*main content*/
+	.main-content{padding-top:120px; margin-left:0;}
+	
+	/*micro segment*/
+	.microchart-panel{width:95%}
+}
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+		.col-lg-6 .symbol,.col-lg-3 .symbol{width:25%;}
+		.col-lg-6 .value,.col-lg-3 .value{width:70%;}
+		.col-lg-6 .value{margin:0;}
+		.col-lg-6 .statics-num{line-height:48px;}
+		/*roaming trends*/
+		.arpv-btns.btn-group, .arpv-btns.btn-group-vertical{padding:0;}
+		.arpv-btns .btn{padding:6px 10px;}
+	
+}
+
+
+/* Landscape phones and down */
+@media (max-width: 320px) { 
+	.header-notification{width:auto;}
+	
+	.sidebar.active{width:100%;}
+	.lefttop-nav li a{ width: 79px !important;}
+	.tray-list li a{width:auto !important;}
+	.tracklist-right,.tracklist-right table{width:88.7%;}
+	.tracklist-right td{text-align:center;}
+	.lefttop-nav li a.search-icon{width:12px !important;}
+	/*custom date range*/
+	.daterangepicker.dropdown-menu{left:0 !important; width:100%;z-index:99999;}
+	
+	/*dashboard*/
+	.dashboardtab li{width:96px; height:32px;}
+	.map-icon,.top10-icon,.roamingtrends-icon{background:url(../images/map-icon.png) no-repeat center; width:100%;height:100%; text-indent:-99999px;}
+	.top10-icon{background-image:url(../images/top10-icon.png);}
+	.roamingtrends-icon{background-image:url(../images/roamingtrends-icon.png);}
+	
+	.col-lg-6 .symbol,.col-lg-3 .symbol{width:35%;}
+	.col-lg-6 .value,.col-lg-3 .value{width:62%;}
+	.col-lg-6 .statics-num{line-height:48px;}
+	.statics-subnum{margin:0;}
+	.statics-subnum li{padding:0 5px;}
+	.subnum-text{font-size:12px;}
+	.subnum-number{font-size:14px;}
+	/*roaming trends*/
+	.roamingtrends-optionlist{margin-left:0;}
+	.roamingtrends-optionlist li{padding:10px 5px;border:none;}
+	.arpv-btns .btn{padding:6px;}
+	.commentshare-icon .dropdown-menu{width:305px;}
+	.track-dropdown.popover.bottom > .arrow{left: 68% !important;}
+	.comment-dropdown.popover.bottom > .arrow {left: 82%;}
+ }
