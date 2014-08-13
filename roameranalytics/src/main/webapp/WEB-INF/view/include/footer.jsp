@@ -4,9 +4,9 @@
 <script src="js/libs/angular.min.js"></script>
 <script src="js/libs/highcharts.js"></script>
 <script src="js/libs/highcharts-ng.min.js"></script>
-
 <script src="js/services.js"></script>
 <script src="js/controllers.js"></script>
+
 <script src="js/directives.js"></script>
 <script src="js/app.js"></script>
 
