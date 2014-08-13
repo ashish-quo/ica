@@ -5,7 +5,7 @@
 		<div class="col-lg-3 col-sm-6">
 			<div class="top10chart-panel">
 				<div class="linechart-box">
-					<div id="container"></div>
+					 <highchart id="roamerCountChart" config="roamerCountChartConfig" class="chart-container"></highchart>
 				</div>
 				<div class="top10chart-footer purple">
 					<p class="chart-name">Roamers</p>

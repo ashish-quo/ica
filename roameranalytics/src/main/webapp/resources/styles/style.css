@@ -1048,7 +1048,7 @@ a.bubble-label {
 	background-color:#fff;
 	margin: 0 auto;
 }
-#container, #container2, #container3, #container4 {
+#container, #container2, #container3, #container4, .chart-container {
 	min-width: 240px;
 	height: 295px;
 	margin: 0 auto

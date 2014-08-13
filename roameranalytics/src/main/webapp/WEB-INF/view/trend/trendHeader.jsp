@@ -4,9 +4,9 @@
 	</div>
 	<div class="col-lg-8">
 		<ul class="dashboardtab clearfix">
-			<li class="active"><a class="map-icon">Map</a></li>
-			<li><a  class="top10-icon">Top 10</a></li>
-			<li><a href="roamingtrends.htm"
+			<li ng-class="{active: isHeatMapSelected()}" ><a href ng-click="showHeatMap()" class="map-icon">Map</a></li>
+			<li ng-class="{active: isTopTenSelected()}"><a href ng-click="showTopTen()" class="top10-icon">Top 10</a></li>
+			<li ng-class="{active: isRoamingTrendSelected()}"><a href ng-click="showRoamingTrend()" 
 				class="roamingtrends-icon">Roaming Trends</a></li>
 		</ul>
 	</div>

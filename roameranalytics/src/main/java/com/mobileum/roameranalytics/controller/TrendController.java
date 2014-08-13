@@ -22,9 +22,22 @@ public class TrendController {
 		return new ModelAndView("trendHome");
 	}
 	
+	/**
+	 * Renders Roaming trend header
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.GET, value="/trendHeader")
-	public ModelAndView getTrendHeader() {
-		System.out.println("roaming Trend");
+	public ModelAndView showTrendHeader() {
+		System.out.println("Trend header");
 		return new ModelAndView("trendHeader");
+	}
+	/**
+	 * Renders roaming trends
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/roamingTrend")
+	public ModelAndView showRoamingTrends() {
+		System.out.println("Roaming Trends");
+		return new ModelAndView("roamingTrend");
 	}
 }
