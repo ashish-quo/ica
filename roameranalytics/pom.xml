@@ -34,6 +34,8 @@
 		<tiles.version>3.0.4</tiles.version>
 
 		<jettyVersion>7.2.0.v20101020</jettyVersion>
+		
+		<postgresVersion>9.3-1100-jdbc41</postgresVersion>
 
 	</properties>
 
@@ -43,6 +45,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<!-- Spring JDBC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
 			<version>${spring-framework.version}</version>
 		</dependency>
 
@@ -84,12 +92,14 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Hibernate -->
+		
+		<!-- database -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresVersion}</version>
 		</dependency>
+		
 
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
