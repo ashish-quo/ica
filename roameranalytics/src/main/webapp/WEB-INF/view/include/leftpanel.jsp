@@ -1,5 +1,5 @@
 
-<aside class="sidebar">
+<aside class="sidebar" ng-controller="SidebarController">
 	<ul class="lefttop-nav clearfix">
 		<li><a href="javascript:void(0)"
 			class="lefttop-icon track-icon cust-tooltip" original-title="Track"></a>
@@ -324,91 +324,26 @@
 					</p>
 				</li>
 			</ul></li>
-		<li class="nav-dropdown open"><a href="#"><i
-				class="persona-icon"></i> Personas</a>
+
+		<li ng-repeat="defaultAttr in defaultAttributes"
+			class="nav-dropdown open"><a href="#"><i
+				ng-class="defaultAttr.icon"></i> {{defaultAttr.attributeName}}</a>
 			<ul class="nav-sub leftmenu-hover persona-menu">
 				<form>
-					<li>
-						<div class="clearfix">
-							<p class="i-checks selectall-check pull-left">
-								<label> <input type="checkbox" name="All-persona"
-									id="All-persona" class="Select-all" value=""> <i></i></label> <label
-									for="All-persona" class="allpersona-icon">All</label>
-							</p>
-						</div>
-					</li>
-					<li>
+
+					<li ng-repeat="attrCat in defaultAttr.attributeCategoryList">
 						<div class="clearfix">
 							<p class="i-checks pull-left">
 								<label> <input type="checkbox" name="Business"
 									id="Business" value="" class="persona-check"> <i></i></label> <label
-									for="Business" class="business-icon">Business</label>
+									for="Business" ng-class="attrCat.icon">{{attrCat.categoryName}}</label>
 							</p>
 							<div class="pull-right">
 								<img src="images/persona-graph1.png" alt="graph">
 							</div>
 						</div>
 					</li>
-					<li>
-						<div class="clearfix">
-							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="leisure"
-									id="leisure" value="" class="persona-check"> <i></i></label> <label
-									for="leisure" class="lesiure-icon">leisure</label>
-							</p>
-							<div class="pull-right">
-								<img src="images/persona-graph2.png" alt="graph">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="clearfix">
-							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="Flashpacker"
-									id="Flashpacker" value="" class="persona-check"> <i></i></label>
-								<label for="Flashpacker" class="flashpacker-icon">Flashpacker</label>
-							</p>
-							<div class="pull-right">
-								<img src="images/persona-graph3.png" alt="graph">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="clearfix">
-							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="Family" id="Family"
-									value="" class="persona-check"> <i></i></label> <label
-									for="Family" class="family-icon">Family</label>
-							</p>
-							<div class="pull-right">
-								<img src="images/persona-graph2.png" alt="graph">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="clearfix">
-							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="Labour" id="Labour"
-									value="" class="persona-check"> <i></i></label> <label
-									for="Labour" class="labour-icon">Labour</label>
-							</p>
-							<div class="pull-right">
-								<img src="images/persona-graph3.png" alt="graph">
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="clearfix">
-							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="P-Other"
-									id="P-Other" value="" class="persona-check"> <i></i></label> <label
-									for="P-Other" class="otherpersona-icon">Other</label>
-							</p>
-							<div class="pull-right">
-								<img src="images/persona-graph3.png" alt="graph">
-							</div>
-						</div>
-					</li>
+
 				</form>
 			</ul></li>
 		<li class="nav-dropdown"><a href="#"><i class="criteria-icon"></i>
@@ -423,92 +358,28 @@
 				<li>
 					<p class="select-txt">Select from the list</p>
 				</li>
-				<form>
+				<form ng-repeat="hiddenAttr in hiddenAttributes">
 					<li>
 						<p class="i-checks selectall-check">
 							<label for="All-Roaming"> <input type="checkbox"
 								name="All-Roaming" id="All-Roaming" class="Select-all" value="">
-								<i></i></label> <label for="All-Roaming">All Roaming Category</label>
+								<i></i></label> <label for="All-Roaming">All
+								{{hiddenAttr.attributeName}}</label>
 						</p>
 					</li>
-					<li>
+					<li ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList">
 						<p class="i-checks">
 							<label for="Silent"> <input type="checkbox" name="Silent"
 								id="Silent" value="" class="roaming-check"> <i></i></label> <label
-								for="Silent">Silent</label>
+								for="Silent">{{hiddenCatAttr.categoryName}}</label>
 						</p>
 					</li>
 					<li>
-						<p class="i-checks">
-							<label> <input type="checkbox" name="Value" id="Value"
-								value="" class="roaming-check"> <i></i></label> <label
-								for="Value">Value</label>
-						</p>
-					</li>
-					<li>
-						<p class="i-checks">
-							<label> <input type="checkbox" name="Premium"
-								id="Premium" value="" class="roaming-check"> <i></i></label> <label
-								for="Premium">Premium</label>
-						</p>
+						<div class="menu-divider"></div>
 					</li>
 				</form>
-				<li>
-					<div class="menu-divider"></div>
-				</li>
-				<form>
-					<li>
-						<p class="i-checks selectall-check">
-							<label for="Device-Type"> <input type="checkbox"
-								name="Device-Type" id="Device-Type" class="Select-all" value="">
-								<i></i></label> <label for="Device-Type">All Device Type</label>
-						</p>
-					</li>
-					<li>
-						<p class="i-checks">
-							<label for="Value phone"> <input type="checkbox"
-								name="Value phone" id="Value phone" value=""
-								class="device-check"> <i></i></label> <label for="Value phone">Value
-								phone</label>
-						</p>
-					</li>
-					<li>
-						<p class="i-checks">
-							<label> <input type="checkbox" name="Feature phone"
-								id="Feature phone" value="" class="device-check"> <i></i></label>
-							<label for="Feature phone">Feature phone</label>
-						</p>
-					</li>
-					<li>
-						<p class="i-checks">
-							<label> <input type="checkbox" name="Smart phone"
-								id="Smart phone" value="" class="device-check"> <i></i></label>
-							<label for="Smart phone">Smart phone</label>
-						</p>
-					</li>
-					<li>
-						<p class="i-checks">
-							<label for="Premium phone"> <input type="checkbox"
-								name="Premium phone" id="Premium phone" value=""
-								class="device-check"> <i></i></label> <label for="Premium phone">Premium
-								phone</label>
-						</p>
-					</li>
-					<li>
-						<p class="i-checks">
-							<label> <input type="checkbox" name="Tablet" id="Tablet"
-								value="" class="device-check"> <i></i></label> <label
-								for="Tablet">Tablet</label>
-						</p>
-					</li>
-					<li>
-						<p class="i-checks">
-							<label> <input type="checkbox" name="Dongle" id="Dongle"
-								value="" class="device-check"> <i></i></label> <label
-								for="Dongle">Dongle</label>
-						</p>
-					</li>
-				</form>
+
+
 			</ul></li>
 	</ul>
 </aside>

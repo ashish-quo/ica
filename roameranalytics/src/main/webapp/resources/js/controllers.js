@@ -27,6 +27,17 @@
 	});
 
 	/**
+	 * Main Controller for global actions
+	 */
+	appControllers.controller('SidebarController',['$scope','$http', function($scope,$http) {
+		$http.get('getAttributes').success(function(data) {
+			$scope.attributes = data;
+			$scope.defaultAttributes = $scope.attributes['default'];
+			$scope.hiddenAttributes = $scope.attributes['hidden'];
+		});
+	}]);
+	
+	/**
 	 * Trend controller for trend screen actions
 	 */
 

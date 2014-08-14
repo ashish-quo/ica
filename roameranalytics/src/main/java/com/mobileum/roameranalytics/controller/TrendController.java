@@ -3,14 +3,18 @@
  */
 package com.mobileum.roameranalytics.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mobileum.roameranalytics.dao.TrendDao;
-import com.mobileum.roameranalytics.dao.TrendDaoI;
+import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.service.TrendServiceI;
 
 /**
  * @author Quovantis_Dev
@@ -21,7 +25,7 @@ import com.mobileum.roameranalytics.dao.TrendDaoI;
 public class TrendController {
 
 	@Autowired
-	TrendDaoI tdao;
+	private TrendServiceI trendService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showHome() {
@@ -48,5 +52,10 @@ public class TrendController {
 	public ModelAndView showRoamingTrends() {
 		System.out.println("Roaming Trends");
 		return new ModelAndView("roamingTrend");
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
+	public @ResponseBody Map<String,List<Attribute>> getAttributes() {
+		return trendService.getAttributes();
 	}
 }

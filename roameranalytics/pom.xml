@@ -34,7 +34,7 @@
 		<tiles.version>3.0.4</tiles.version>
 
 		<jettyVersion>7.2.0.v20101020</jettyVersion>
-		
+
 		<postgresVersion>9.3-1100-jdbc41</postgresVersion>
 
 	</properties>
@@ -83,7 +83,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
-			
+
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -92,33 +92,33 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		
+
 		<!-- database -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresVersion}</version>
 		</dependency>
-		
+
 
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-core</artifactId>
 			<version>${tiles.version}</version>
 			<exclusions>
-            <exclusion>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-nop</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-             </exclusion>
-             <exclusion>
-                 <groupId>org.slf4j</groupId>
-                 <artifactId>jcl-over-slf4j</artifactId>
-             </exclusion>
-        	</exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
@@ -130,20 +130,20 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>${tiles.version}</version>
 			<exclusions>
-            <exclusion>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-nop</artifactId>
-            </exclusion>
-            <exclusion>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-             </exclusion>
-             <exclusion>
-                 <groupId>org.slf4j</groupId>
-                 <artifactId>jcl-over-slf4j</artifactId>
-             </exclusion>
-        	</exclusions>
-			
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-nop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
+
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
@@ -173,6 +173,12 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>${jettyVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.10</version>
 		</dependency>
 
 	</dependencies>

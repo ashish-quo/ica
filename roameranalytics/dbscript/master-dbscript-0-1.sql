@@ -10,7 +10,7 @@ CREATE TABLE attribute
   type integer, -- type of attributr. dropdown/checkbox/radio
   icon character varying(20),
   view_type character varying(10),
-  dispaly_order integer,
+  display_order integer,
   CONSTRAINT attribute_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -31,7 +31,7 @@ CREATE TABLE attribute_category
   category_name character varying(50), -- stores the attribute details of particular attribute id
   attribute_id integer,
   icon character varying(20),
-  dispaly_order integer,
+  display_order integer,
   CONSTRAINT attribute_category_pkey PRIMARY KEY (id)
 )
 WITH (
