@@ -3,8 +3,7 @@
  */
 package roameranalytics;
 
-import static org.junit.Assert.*;
-import junit.framework.Assert;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
