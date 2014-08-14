@@ -5,6 +5,7 @@
 <script src="js/libs/highcharts.js"></script>
 <script src="js/libs/highcharts-ng.min.js"></script>
 <script src="js/libs/moment.js"></script>
+<script src="js/libs/nicescroll.js"></script>
 <script src="js/libs/daterangepicker.js"></script>
 <script src="js/services.js"></script>
 <script src="js/controllers.js"></script>

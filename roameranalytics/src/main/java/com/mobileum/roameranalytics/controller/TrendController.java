@@ -26,7 +26,7 @@ public class TrendController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showHome() {
 		System.out.println("home");
-		tdao.insertData();
+		//tdao.insertData();
 		
 		return new ModelAndView("trendHome");
 	}
