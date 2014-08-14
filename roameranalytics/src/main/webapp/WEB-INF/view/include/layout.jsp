@@ -23,6 +23,7 @@
 <link href="styles/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="styles/style.css" rel="stylesheet" type="text/css">
 <link href="styles/responsive.css" rel="stylesheet" type="text/css">
+<link href="styles/daterangepicker-bs3.css" rel="stylesheet" type="text/css">
 <body class="full-width" ng-controller="MainController">
 
 	<header class="clearfix">

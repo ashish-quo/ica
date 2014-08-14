@@ -4,10 +4,13 @@
 
 CREATE TABLE attribute
 (
-  id integer NOT NULL,
-  attribute_name character varying(50)[],
-  module_id character varying(15)[],
+  id SERIAL NOT NULL,
+  attribute_name character varying(50),
+  module_id character varying(15),
   type integer, -- type of attributr. dropdown/checkbox/radio
+  icon character varying(20),
+  view_type character varying(10),
+  dispaly_order integer,
   CONSTRAINT attribute_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -24,9 +27,11 @@ COMMENT ON COLUMN attribute.type IS 'type of attributr. dropdown/checkbox/radio'
 
 CREATE TABLE attribute_category
 (
-  id integer NOT NULL,
-  category_name character varying(50)[], -- stores the attribute details of particular attribute id
+  id SERIAL NOT NULL,
+  category_name character varying(50), -- stores the attribute details of particular attribute id
   attribute_id integer,
+  icon character varying(20),
+  dispaly_order integer,
   CONSTRAINT attribute_category_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -46,8 +51,8 @@ COMMENT ON COLUMN attribute_category.category_name IS 'stores the attribute deta
 CREATE TABLE bookmark
 (
   id integer NOT NULL,
-  search_filter character varying(1000)[],
-  bookmark_name character varying(50)[],
+  search_filter character varying(1000),
+  bookmark_name character varying(50),
   created_by integer,
   created_on timestamp without time zone,
   updated_on timestamp without time zone,
@@ -84,12 +89,12 @@ ALTER TABLE bookmark_tray
 CREATE TABLE campaign
 (
   id integer NOT NULL,
-  search_filter character varying(1000)[],
-  tag_name character varying(50)[],
+  search_filter character varying(1000),
+  tag_name character varying(50),
   created_by integer,
   created_on timestamp without time zone,
   updated_on timestamp without time zone,
-  country character varying(3)[],
+  country character varying(3),
   subscriber_count integer,
   projected_mt integer,
   projected_mo integer,
@@ -121,7 +126,7 @@ CREATE TABLE comment_details
   id integer NOT NULL,
   created_by integer,
   reply_to integer,
-  comment_text character varying(500)[],
+  comment_text character varying(500),
   comment_id integer,
   created_on timestamp without time zone,
   CONSTRAINT comment_details_pkey PRIMARY KEY (id)
@@ -139,7 +144,7 @@ ALTER TABLE comment_details
 CREATE TABLE comment_list
 (
   id integer NOT NULL,
-  search_filter character varying(1000)[],
+  search_filter character varying(1000),
   created_by integer,
   created_on timestamp without time zone,
   CONSTRAINT comment_list_pkey PRIMARY KEY (id)
@@ -158,7 +163,7 @@ CREATE TABLE country
 (
   id integer NOT NULL,
   country_code character varying(3),
-  country_name character varying(30)[],
+  country_name character varying(30),
   dial_code integer,
   CONSTRAINT country_pkey PRIMARY KEY (id)
 )
@@ -175,7 +180,7 @@ ALTER TABLE country
 CREATE TABLE "group"
 (
   id integer NOT NULL,
-  name character varying(15)[],
+  name character varying(15),
   role_id integer,
   CONSTRAINT group_pkey PRIMARY KEY (id)
 )
@@ -193,7 +198,7 @@ ALTER TABLE "group"
 CREATE TABLE role
 (
   id integer NOT NULL,
-  name character varying(15)[],
+  name character varying(15),
   CONSTRAINT role_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -211,8 +216,8 @@ ALTER TABLE role
 CREATE TABLE tag
 (
   id integer NOT NULL,
-  search_filter character varying(1000)[],
-  tag_name character varying(50)[],
+  search_filter character varying(1000),
+  tag_name character varying(50),
   created_by integer,
   created_on timestamp without time zone,
   updated_on timestamp without time zone,
@@ -231,7 +236,7 @@ ALTER TABLE tag
 CREATE TABLE tray
 (
   id integer NOT NULL,
-  tray_name character varying(50)[],
+  tray_name character varying(50),
   created_by integer,
   created_on timestamp without time zone,
   updated_on timestamp without time zone,
@@ -250,11 +255,11 @@ ALTER TABLE tray
 CREATE TABLE "user"
 (
   id integer NOT NULL,
-  username character varying(50)[],
-  password character varying(100)[],
-  lastname character varying(30)[],
-  firstname character varying(30)[],
-  mobile character varying(15)[],
+  username character varying(50),
+  password character varying(100),
+  lastname character varying(30),
+  firstname character varying(30),
+  mobile character varying(15),
   group_id integer,
   CONSTRAINT user_pkey PRIMARY KEY (id)
 )
