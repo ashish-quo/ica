@@ -261,8 +261,8 @@
 			<ul class="nav-sub">
 				<li><a href ng-click="thisWeekRange()"><fmt:message key="date.range.this.week"/></a></li>
 				<li><a href ng-click="lastWeekRange()"><fmt:message key="date.range.last.week"/></a></li>
-				<li><a href="#"><fmt:message key="date.range.this.month"/></a></li>
-				<li><a href="#"><fmt:message key="date.range.last.month"/></a></li>
+				<li><a href ng-click="thisMonth()"><fmt:message key="date.range.this.month"/></a></li>
+				<li><a href ng-click="lastMonth()"><fmt:message key="date.range.last.month"/></a></li>
 				<li><a href="#"><fmt:message key="date.range.this.quarter"/></a></li>
 				<li><a href="#"><fmt:message key="date.range.last.quarter"/></a></li>
 				<li><a href="#" id="date-range"><fmt:message key="date.range.custom"/></a></li>

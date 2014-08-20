@@ -81,6 +81,35 @@
 			$j('#display-cutdate').html(getDateRangeOfWeek(new Date().getWeek() - 1));
 		};
 		
+		$scope.thisMonth = function() {
+			var now = new Date();
+			var startTemp = new Date(now.getFullYear(),now.getMonth(),1);
+			
+			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			var end = appendZero(now.getDate()) + "/" + appendZero(now.getMonth()+1) + "/" + (""+now.getFullYear()).slice(2);
+			$j('#display-cutdate').html(start + " - " + end);
+		};
+		
+		$scope.lastMonth = function() {
+			var now = new Date();
+			var startTemp = new Date(now.getFullYear(),now.getMonth()-1,1);
+			var endTemp = new Date(now.getFullYear(),now.getMonth(),0);
+			
+			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			var end = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
+			$j('#display-cutdate').html(start + " - " + end);
+		};
+		
+		$scope.thisQuarter = function() {
+			var now = new Date();
+			var startTemp = new Date(now.getFullYear(),now.getMonth()-3,1);
+			var endTemp = new Date(now.getFullYear(),now.getMonth(),0);
+			
+			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			var end = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
+			$j('#display-cutdate').html(start + " - " + end);
+		};
+		
 		$scope.filterHiddenAttr = function(text) {
 			if ($scope.query == null || $scope.query.displayText == '' )
 				return true;
