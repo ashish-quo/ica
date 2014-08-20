@@ -22,7 +22,7 @@ import com.mobileum.roameranalytics.model.Attribute;
 @Service
 public class TrendServiceImpl implements TrendServiceI{
 
-<<<<<<< HEAD
+
 	/** The trend dao. */
 	@Autowired
 	private TrendDaoI trendDao;
@@ -49,6 +49,5 @@ public class TrendServiceImpl implements TrendServiceI{
 	{
 		System.out.println("hii"+QueryBuilder.queryForHeatMap());
 	}
-=======
->>>>>>> branch 'master' of git@github.com:tarunkohli/mobileum.git
+
 }

@@ -33,6 +33,10 @@ public class TrendDaoImpl implements TrendDaoI {
 
 	@Autowired
 	DataSource dataSource;
+	
+	/** The jdbc template. */
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 
 	public void insertData() {

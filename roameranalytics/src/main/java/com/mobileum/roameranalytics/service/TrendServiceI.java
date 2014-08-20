@@ -14,7 +14,6 @@ import com.mobileum.roameranalytics.model.Attribute;
  */
 public interface TrendServiceI {
 
-<<<<<<< HEAD
 	/**
 	 * Gets the attribute list for left panel.
 	 *
@@ -22,6 +21,5 @@ public interface TrendServiceI {
 	 */
 	public Map<String, List<Attribute>> getAttributes();
 	public void printQuery();
-=======
->>>>>>> branch 'master' of git@github.com:tarunkohli/mobileum.git
+
 }
