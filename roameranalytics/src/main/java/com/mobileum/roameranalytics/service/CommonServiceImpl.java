@@ -53,7 +53,6 @@ public class CommonServiceImpl implements CommonServiceI{
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.CommonServiceI#getAllCountries()
 	 */
-	@Override
 	public List<Country> getAllCountries() {
 		LOGGER.info("Getting all countries");
 		return this.commonDao.getAllCountries();

@@ -77,11 +77,10 @@ public class CommonDaoImpl implements CommonDaoI{
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAllCountries()
 	 */
-	@Override
+	
 	public List<Country> getAllCountries() {
 		String query = QueryBuilder.queryForAllCountries();
 		return jdbcTemplate.query(query, new RowMapper<Country>(){
-			@Override
 			public Country mapRow(ResultSet rs, int arg1) throws SQLException {
 				Country country = new Country();
 				country.setCountryName(rs.getString("countryName"));

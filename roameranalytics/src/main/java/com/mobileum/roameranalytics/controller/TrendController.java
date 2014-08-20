@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
 import com.mobileum.roameranalytics.service.CommonServiceI;
+import com.mobileum.roameranalytics.service.TrendServiceI;
 
 /**
  * @author Quovantis_Dev
@@ -28,11 +29,14 @@ public class TrendController {
 	@Autowired
 	private CommonServiceI commonService;
 	
+	@Autowired
+	private TrendServiceI trendService;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showHome() {
 		System.out.println("home");
 		//tdao.insertData();
-		
+		trendService.printQuery();
 		return new ModelAndView("trendHome");
 	}
 	

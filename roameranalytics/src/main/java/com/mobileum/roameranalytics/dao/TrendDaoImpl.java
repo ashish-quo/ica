@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
+import com.mobileum.roameranalytics.model.RoamingStats;
 
 /**
  * @author smruti
@@ -31,6 +33,10 @@ public class TrendDaoImpl implements TrendDaoI {
 
 	@Autowired
 	DataSource dataSource;
+	
+	/** The jdbc template. */
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 
 	public void insertData() {
@@ -43,6 +49,54 @@ public class TrendDaoImpl implements TrendDaoI {
 
 	}
 
+
+	public List<Attribute> getAttributeList() {
+		String query = QueryBuilder.queryForAttributes();
+		return jdbcTemplate.query(query, new ResultSetExtractor<List<Attribute>>() {
+			public List<Attribute> extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				Map<Long,Attribute> attrMap = new LinkedHashMap<Long, Attribute>();
+				while(rs.next()) {
+					Long attrId = rs.getLong("attrId");
+					if (!attrMap.containsKey(attrId)) {
+						Attribute attribute = new Attribute();
+						attribute.setId(attrId);
+						attribute.setAttributeName(rs.getString("attrName"));
+						attribute.setModuleId(rs.getInt("moduleId"));
+						attribute.setIcon(rs.getString("attrIcon"));
+						attribute.setType(rs.getInt("attrType"));
+						attribute.setViewType(rs.getString("viewType"));
+						attrMap.put(attrId, attribute);
+						attribute.setAttributeCategoryList(new ArrayList<AttributeCategory>());
+					} 
+					
+					AttributeCategory attrCat = new AttributeCategory();
+					attrCat.setCategoryName(rs.getString("catName"));
+					attrCat.setIcon(rs.getString("catIcon"));
+					attrMap.get(attrId).getAttributeCategoryList().add(attrCat);
+				}
+				return new ArrayList<Attribute>(attrMap.values());
+			}
+
+		});
+
+	}
 	
+	public List<RoamingStats> getMapList(String query){
+		
+		return jdbcTemplate.query(query,
+		        new RowMapper<RoamingStats>() {
+		            public RoamingStats mapRow(ResultSet rs, int rowNum) throws SQLException {
+		            	RoamingStats rstats = new RoamingStats();
+		            	//rstats.setFirstName(rs.getString("first_name"));
+		            	//rstats.setLastName(rs.getString("last_name"));
+		                return rstats;
+		            }
+		        });
+		
+		
+		
+	}
+
 
 }
