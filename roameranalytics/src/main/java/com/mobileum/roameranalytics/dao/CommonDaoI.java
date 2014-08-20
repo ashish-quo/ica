@@ -3,20 +3,16 @@
  */
 package com.mobileum.roameranalytics.dao;
 
-
 import java.util.List;
 
 import com.mobileum.roameranalytics.model.Attribute;
-import com.mobileum.roameranalytics.model.RoamingStats;
+import com.mobileum.roameranalytics.model.Country;
 
 /**
- * @author smruti
+ * @author sarvesh
  *
  */
-public interface TrendDaoI {
-	
-	public void insertData();
-	
+public interface CommonDaoI {
 
 	/**
 	 * Gets the attribute list for left panel.
@@ -24,8 +20,11 @@ public interface TrendDaoI {
 	 * @return the attribute list
 	 */
 	public List<Attribute> getAttributeList();
-	public List<RoamingStats> getMapList(String query);
 	
-
-
+	/**
+	 * Gets the all countries.
+	 *
+	 * @return the all countries
+	 */
+	public List<Country> getAllCountries();
 }

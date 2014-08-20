@@ -10,8 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,30 +22,25 @@ import org.springframework.stereotype.Repository;
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
-import com.mobileum.roameranalytics.model.RoamingStats;
+import com.mobileum.roameranalytics.model.Country;
 
 /**
- * @author smruti
+ * @author sarvesh
  *
  */
 @Repository
-public class TrendDaoImpl implements TrendDaoI {
+public class CommonDaoImpl implements CommonDaoI{
 
+	/** The jdbc template. */
 	@Autowired
-	DataSource dataSource;
-
-
-	public void insertData() {
-
-		String sql = "INSERT INTO country(id,country_code) VALUES(?, ?)";
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-		jdbcTemplate.update(sql, new Object[] { 2, "df", });
-
-	}
-
-
+	private JdbcTemplate jdbcTemplate;
+	
+	/** The logger. */
+	private static Logger LOGGER = LoggerFactory.getLogger("CommonDaoImpl");
+	
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAttributeList()
+	 */
 	public List<Attribute> getAttributeList() {
 		String query = QueryBuilder.queryForAttributes();
 		return jdbcTemplate.query(query, new ResultSetExtractor<List<Attribute>>() {
@@ -62,6 +57,7 @@ public class TrendDaoImpl implements TrendDaoI {
 						attribute.setIcon(rs.getString("attrIcon"));
 						attribute.setType(rs.getInt("attrType"));
 						attribute.setViewType(rs.getString("viewType"));
+						attribute.setDisplayText();
 						attrMap.put(attrId, attribute);
 						attribute.setAttributeCategoryList(new ArrayList<AttributeCategory>());
 					} 
@@ -77,22 +73,22 @@ public class TrendDaoImpl implements TrendDaoI {
 		});
 
 	}
-	
-	public List<RoamingStats> getMapList(String query){
-		
-		return jdbcTemplate.query(query,
-		        new RowMapper<RoamingStats>() {
-		            public RoamingStats mapRow(ResultSet rs, int rowNum) throws SQLException {
-		            	RoamingStats rstats = new RoamingStats();
-		            	//rstats.setFirstName(rs.getString("first_name"));
-		            	//rstats.setLastName(rs.getString("last_name"));
-		                return rstats;
-		            }
-		        });
-		
-		
-		
-	}
 
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAllCountries()
+	 */
+	@Override
+	public List<Country> getAllCountries() {
+		String query = QueryBuilder.queryForAllCountries();
+		return jdbcTemplate.query(query, new RowMapper<Country>(){
+			@Override
+			public Country mapRow(ResultSet rs, int arg1) throws SQLException {
+				Country country = new Country();
+				country.setCountryName(rs.getString("countryName"));
+				country.setCountryCode(rs.getString("countryCode"));
+				return country;
+			}
+		});
+	}
 
 }

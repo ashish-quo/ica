@@ -30,11 +30,69 @@
 	 * Main Controller for global actions
 	 */
 	appControllers.controller('SidebarController',['$scope','$http', function($scope,$http) {
+		$scope.startDate = "01/01/14";
+		$scope.endDate = "07/01/14";
 		$http.get('getAttributes').success(function(data) {
 			$scope.attributes = data;
 			$scope.defaultAttributes = $scope.attributes['default'];
 			$scope.hiddenAttributes = $scope.attributes['hidden'];
 		});
+		
+		$http.get("getCountries").success(function (data) {
+			$scope.countries = data;
+		});
+		
+		function appendZero(num) {
+			if (num < 10) {
+				return "0"+num;
+			} else 
+				return ""+num;
+		}
+		function getDateRangeOfWeek(weekNo){
+		    var d1 = new Date();
+		    numOfdaysPastSinceLastMonday = eval(d1.getDay()- 1);
+		    d1.setDate(d1.getDate() - numOfdaysPastSinceLastMonday);
+		    var weekNoToday = d1.getWeek();
+		    var weeksInTheFuture = eval( weekNo - weekNoToday );
+		    d1.setDate(d1.getDate() + eval( 7 * weeksInTheFuture ));
+		    var rangeIsFrom =  appendZero(d1.getDate()) +"/" + appendZero(eval(d1.getMonth()+1)) + "/" + (""+d1.getFullYear()).slice(2);
+		    d1.setDate(d1.getDate() + 6);
+		    var rangeIsTo =   appendZero(d1.getDate())+"/" + appendZero(eval(d1.getMonth()+1))+ "/" + (""+d1.getFullYear()).slice(2) ;
+		    return rangeIsFrom + " - " + rangeIsTo;
+		};
+		$scope.thisWeekRange = function() {
+			$j('#display-cutdate').html(getDateRangeOfWeek(new Date().getWeek()));
+		};
+		
+		$scope.lastWeekRange = function() {
+			/**var now = new Date();
+			var day = now.getDay()
+			var startTemp = new Date(now.getFullYear(),now.getMonth()+1,now.getDate() 
+					- now.getDay() + (now.getDay() == 0 ? -6:1));
+			
+			var startDate = startTemp.getDate() < 10 ? "0" + startTemp.getDate() : "" + startTemp.getDate();
+			var startMonth = startTemp.getMonth() < 10 ? "0" + startTemp.getMonth() : "" + startTemp.getMonth();
+			
+			var nowDate = now.getDate() < 10 ? "0" + now.getDate() : "" + now.getDate();
+			var nowMonth = (now.getMonth() +1) < 10 ? "0" + (now.getMonth() + 1) : "" + (now.getMonth()+1);
+			
+			var start = startDate + "/" + startMonth + "/" + (""+startTemp.getYear()).slice(1);
+			var end = nowDate + "/" + nowMonth + "/" + (""+now.getYear()).slice(1);*/
+			$j('#display-cutdate').html(getDateRangeOfWeek(new Date().getWeek() - 1));
+		};
+		
+		$scope.filterHiddenAttr = function(text) {
+			if ($scope.query == null || $scope.query.displayText == '' )
+				return true;
+			else {
+				return text.toUpperCase().indexOf($scope.query.displayText.toUpperCase()) != -1;
+			}
+		};
+		
+		$scope.toggleDefaultAttr = function(e) {
+			$j(e.srcElement).closest("li.nav-dropdown").toggleClass("open");
+			$j(e.srcElement).closest("li.nav-dropdown").find("ul").toggle();
+		}
 	}]);
 	
 	/**

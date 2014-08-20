@@ -17,6 +17,10 @@ import com.mobileum.roameranalytics.dao.Table;
  */
 public class QueryBuilder {
 
+	/**
+	 * Creates query for getting all attributes for left panel
+	 * @return query
+	 */
 	public static String queryForAttributes() {
 		StringBuilder query = new StringBuilder();
 		/*query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
@@ -30,6 +34,7 @@ public class QueryBuilder {
 		return query.toString();
 	}
 	
+
 	public static String queryForHeatMap() {
 				
 		SelectQuery selectQuery=new SelectQuery();
@@ -59,6 +64,18 @@ public class QueryBuilder {
 		
 		System.out.println(selectQuery.toString());
 		 return selectQuery.toString();
-		
+	}	
+
+	/**
+	 * Query for all countries.
+	 *
+	 * @return the string
+	 */
+	public static String queryForAllCountries() {
+		StringBuilder query = new StringBuilder();
+		/*query.append(" select country_name countryName, country_code countryCode from ").append(Table.COUNTRY)
+			.append(" order by country_name");*/
+		return query.toString();
+
 	}
 }

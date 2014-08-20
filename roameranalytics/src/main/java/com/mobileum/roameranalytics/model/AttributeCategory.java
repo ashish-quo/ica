@@ -16,6 +16,9 @@ public class AttributeCategory {
 	/** The category name. */
 	private String categoryName;
 	
+	/** The display text. */
+	private String displayText;
+	
 	/** The attribute id. */
 	private long attributeId;
 	
@@ -51,6 +54,7 @@ public class AttributeCategory {
 	 */
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+		setDisplayText(categoryName);
 	}
 
 	/**
@@ -93,6 +97,20 @@ public class AttributeCategory {
 	 */
 	public void setDisplayOrder(int displayOrder) {
 		this.displayOrder = displayOrder;
+	}
+
+	/**
+	 * @return the displayText
+	 */
+	public String getDisplayText() {
+		return displayText;
+	}
+
+	/**
+	 * @param displayText the displayText to set
+	 */
+	public void setDisplayText(String displayText) {
+		this.displayText = displayText;
 	}
 	
 }
