@@ -394,7 +394,7 @@ header {
 	text-transform:uppercase;
 	display:inline-block;
 }
-.persona-menu li {
+.default-menu li {
 	padding:10px 10px 10px 25px;
 }
 .menu-divider {
@@ -552,16 +552,17 @@ header {
 }
 .i-checks input[type="checkbox"]:checked + i, .i-checks input[type="radio"]:checked + i {
 	border-color:#aeb2b7;
+	content:"\f00c"
 }
 .i-checks input[type="radio"] + i {
 	border-radius: 100%;
 }
 .i-checks input[type="checkbox"]:checked + i:before {
-	content: "";
+	content: "\f00c";
 	color:#aeb2b7;
 }
 .i-checks input[type="radio"]:checked + i:before {
-	content: "";
+	content: "";
 	color:#fff;
 	border-color: transparent;
 }

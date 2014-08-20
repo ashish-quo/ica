@@ -20,4 +20,17 @@
 	      templateUrl: 'roamingTrend'
 	    };
 	  });
+	/**
+	 * Directive for roaming trends
+	 */
+	appDirectives.directive('a', function() {
+	    return {
+	      restrict: 'E',
+	      link: function(scope,element,attr) {
+	    	  element.on("click",function(event){
+	    		  
+	    	  });
+	      }
+	    };
+	  });
 })();

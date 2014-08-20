@@ -18,6 +18,9 @@ public class Attribute {
 	/** The attribute name. */
 	private String attributeName;
 	
+	/** The all attribute label. */
+	private String displayText;
+	
 	/** The module id. */
 	private int moduleId;
 	
@@ -149,5 +152,23 @@ public class Attribute {
 	public void setAttributeCategoryList(
 			List<AttributeCategory> attributeCategoryList) {
 		this.attributeCategoryList = attributeCategoryList;
+	}
+
+	/**
+	 * @return the allAttributeLabel
+	 */
+	public String getDisplayText() {
+		return displayText;
+	}
+	
+	/**
+	 */
+	public void setDisplayText() {
+		if ("default".equalsIgnoreCase(this.viewType)) {
+			this.displayText = "All";
+		} else {
+			this.displayText = "All " + this.attributeName;
+		}
+		
 	}
 }

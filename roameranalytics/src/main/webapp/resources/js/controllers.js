@@ -35,6 +35,18 @@
 			$scope.defaultAttributes = $scope.attributes['default'];
 			$scope.hiddenAttributes = $scope.attributes['hidden'];
 		});
+		$scope.filterHiddenAttr = function(text) {
+			if ($scope.query == null || $scope.query.displayText == '' )
+				return true;
+			else {
+				return text.toUpperCase().indexOf($scope.query.displayText.toUpperCase()) != -1;
+			}
+		};
+		
+		$scope.toggleDefaultAttr = function(e) {
+			$j(e.srcElement).closest("li.nav-dropdown").toggleClass("open");
+			$j(e.srcElement).closest("li.nav-dropdown").find("ul").toggle();
+		}
 	}]);
 	
 	/**

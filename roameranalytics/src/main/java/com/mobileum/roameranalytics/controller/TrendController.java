@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.service.CommonServiceI;
 import com.mobileum.roameranalytics.service.TrendServiceI;
 
 /**
@@ -25,7 +26,7 @@ import com.mobileum.roameranalytics.service.TrendServiceI;
 public class TrendController {
 
 	@Autowired
-	private TrendServiceI trendService;
+	private CommonServiceI commonService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showHome() {
@@ -56,6 +57,6 @@ public class TrendController {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
 	public @ResponseBody Map<String,List<Attribute>> getAttributes() {
-		return trendService.getAttributes();
+		return commonService.getAttributes();
 	}
 }
