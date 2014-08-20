@@ -10,15 +10,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
+import com.mobileum.roameranalytics.model.Country;
 
 /**
  * @author sarvesh
@@ -30,6 +34,9 @@ public class CommonDaoImpl implements CommonDaoI{
 	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	/** The logger. */
+	private static Logger LOGGER = LoggerFactory.getLogger("CommonDaoImpl");
 	
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAttributeList()
@@ -65,6 +72,23 @@ public class CommonDaoImpl implements CommonDaoI{
 
 		});
 
+	}
+
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAllCountries()
+	 */
+	@Override
+	public List<Country> getAllCountries() {
+		String query = QueryBuilder.queryForAllCountries();
+		return jdbcTemplate.query(query, new RowMapper<Country>(){
+			@Override
+			public Country mapRow(ResultSet rs, int arg1) throws SQLException {
+				Country country = new Country();
+				country.setCountryName(rs.getString("countryName"));
+				country.setCountryCode(rs.getString("countryCode"));
+				return country;
+			}
+		});
 	}
 
 }

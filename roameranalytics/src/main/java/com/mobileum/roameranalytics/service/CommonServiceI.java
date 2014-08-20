@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.Country;
 
 /**
  * @author Quovantis_Dev
@@ -20,4 +21,11 @@ public interface CommonServiceI {
 	 * @return the attribute list
 	 */
 	public Map<String, List<Attribute>> getAttributes();
+	
+	/**
+	 * Gets the all countries.
+	 *
+	 * @return the all countries
+	 */
+	public List<Country> getAllCountries();
 }

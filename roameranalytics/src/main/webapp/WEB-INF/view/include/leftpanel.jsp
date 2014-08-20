@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <aside class="sidebar" ng-controller="SidebarController">
 	<ul class="lefttop-nav clearfix">
 		<li><a href="javascript:void(0)"
@@ -259,21 +259,20 @@
 				class="custom-date-icon"></i> <span id="display-cutdate">14/08/14
 					- 21/12/14</span></a>
 			<ul class="nav-sub">
-				<li><a href="#">This week</a></li>
-				<li><a href="#">Last Week</a></li>
-				<li><a href="#">This month</a></li>
-				<li><a href="#">Last month</a></li>
-				<li><a href="#">This Quarter</a></li>
-				<li><a href="#">Last Quarter</a></li>
-				<li><a href="#" id="date-range">Custom</a></li>
+				<li><a href ng-click="thisWeekRange()"><fmt:message key="date.range.this.week"/></a></li>
+				<li><a href ng-click="lastWeekRange()"><fmt:message key="date.range.last.week"/></a></li>
+				<li><a href="#"><fmt:message key="date.range.this.month"/></a></li>
+				<li><a href="#"><fmt:message key="date.range.last.month"/></a></li>
+				<li><a href="#"><fmt:message key="date.range.this.quarter"/></a></li>
+				<li><a href="#"><fmt:message key="date.range.last.quarter"/></a></li>
+				<li><a href="#" id="date-range"><fmt:message key="date.range.custom"/></a></li>
 			</ul></li>
 		<li class="nav-dropdown"><a href="#"><i class="country-icon"></i>
-				All Countries</a>
+				<fmt:message key="attr.all.countries"/> </a>
 			<ul class="nav-sub leftmenu-hover">
 				<li>
 					<div class="country-search">
-						<input type="text" name="Country Search" placeholder="Search...">
-						<a href="#" class="search-icon"></a>
+						<input type="text" ng-model="countryQuery.countryName" name="Country Search" placeholder="Search...">
 					</div>
 				</li>
 				<li>
@@ -283,44 +282,18 @@
 					</div>
 				</li>
 				<li>
-					<p class="select-txt">Select from the list</p>
+					<p class="select-txt"><fmt:message key="select.from.list"/></p>
 				</li>
 				<li>
 					<p class="i-checks selectall-check">
-						<label> <input type="checkbox" name="Exclude" id="Exclude"
-							value=""> <i></i></label> <label for="Exclude">Exclude
-							Neighbours</label>
+						<label> <input type="checkbox" name="exculdeNeighbours" id="exculdeNeighbours"
+							value=""> <i></i></label> <label for="exculdeNeighbours"><fmt:message key="exclude.neigbhours"/></label>
 					</p>
 				</li>
-				<li>
+				<li ng-repeat="country in countries | filter:countryQuery">
 					<p class="i-checks">
-						<label> <input type="checkbox" name="India" id="India"
-							value=""> <i></i></label> <label for="India">India</label>
-					</p>
-				</li>
-				<li>
-					<p class="i-checks">
-						<label> <input type="checkbox" name="Egypt" id="Egypt"
-							value=""> <i></i></label> <label for="Egypt">Egypt</label>
-					</p>
-				</li>
-				<li>
-					<p class="i-checks">
-						<label> <input type="checkbox" name="Ecuador" id="Ecuador"
-							value=""> <i></i></label> <label for="Ecuador">Ecuador</label>
-					</p>
-				</li>
-				<li>
-					<p class="i-checks">
-						<label> <input type="checkbox" name="Ethiopia"
-							id="Ethiopia" value=""> <i></i>
-						</label> <label for="Ethiopia">Ethiopia</label>
-					</p>
-				</li>
-				<li>
-					<p class="i-checks">
-						<label> <input type="checkbox" name="Finland" id="Finland"
-							value=""> <i></i></label> <label for="Finland">Finland</label>
+						<label> <input type="checkbox" name="{{country.countryCode}}" id="{{country.countryCode}}"
+							value=""> <i></i></label> <label for="{{country.countryCode}}">{{country.countryName}}</label>
 					</p>
 				</li>
 			</ul></li>
@@ -334,7 +307,7 @@
 								<p class="i-checks selectall-check pull-left">
 									<label> <input type="checkbox" name="All-{{defaultAttr.attributeName}}"
 										id="All-{{defaultAttr.attributeName}}" class="select-all" value=""> <i></i></label>
-									<label for="All-{{defaultAttr.attributeName}}" class="all{{defaultAttr.icon}}">{{defaultAttr.allAttributeLabel}}</label>
+									<label for="All-{{defaultAttr.attributeName}}" class="all{{defaultAttr.icon}}">{{defaultAttr.displayText}}</label>
 								</p>
 							</div>
 						</li>
@@ -363,7 +336,7 @@
 					</div>
 				</li>
 				<li>
-					<p class="select-txt">Select from the list</p>
+					<p class="select-txt"><fmt:message key="select.from.list"/></p>
 				</li>
 				<form ng-repeat="hiddenAttr in hiddenAttributes">
 					<li ng-show="filterHiddenAttr(hiddenAttr.displayText)">

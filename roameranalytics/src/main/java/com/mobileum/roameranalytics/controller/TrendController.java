@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.Country;
 import com.mobileum.roameranalytics.service.CommonServiceI;
-import com.mobileum.roameranalytics.service.TrendServiceI;
 
 /**
  * @author Quovantis_Dev
@@ -55,8 +55,25 @@ public class TrendController {
 		return new ModelAndView("roamingTrend");
 	}
 	
+	/**
+	 * Gets the attributes.
+	 *
+	 * @return the attributes
+	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
 	public @ResponseBody Map<String,List<Attribute>> getAttributes() {
 		return commonService.getAttributes();
 	}
+	
+	/**
+	 * Gets the attributes.
+	 *
+	 * @return the attributes
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/getCountries")
+	public @ResponseBody List<Country> getCountries() {
+		return commonService.getAllCountries();
+	}
+	
+	
 }

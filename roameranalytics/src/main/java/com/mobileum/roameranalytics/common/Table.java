@@ -13,7 +13,10 @@ public enum Table {
 	ATTRIBUTE("ATTRIBUTE"),
 	
 	/** The attribute category. */
-	ATTRIBUTE_CATEGORY("ATTRIBUTE_CATEGORY");
+	ATTRIBUTE_CATEGORY("ATTRIBUTE_CATEGORY"),
+	
+	/** The country. */
+	COUNTRY("COUNTRY");
 	
 	/** The table name. */
 	private String tableName;
