@@ -102,8 +102,31 @@
 		
 		$scope.thisQuarter = function() {
 			var now = new Date();
-			var startTemp = new Date(now.getFullYear(),now.getMonth()-3,1);
-			var endTemp = new Date(now.getFullYear(),now.getMonth(),0);
+			var quarter = Math.floor((now.getMonth() + 3) / 3);
+			var quarterEndMonth = quarter * 3;
+			var quarterStartMonth = quarterEndMonth - 3;
+			var startTemp = new Date(now.getFullYear(),quarterStartMonth,1);
+			
+			var endTemp = new Date(now.getFullYear(),quarterEndMonth,0);
+			
+			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			var end = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
+			$j('#display-cutdate').html(start + " - " + end);
+		};
+		
+		$scope.lastQuarter = function() {
+			var now = new Date();
+			var quarter = Math.floor((now.getMonth() + 3) / 3);
+			var lastQuarter = quarter - 1;
+			if (lastQuarter <= 0) {
+				now.setFullYear(now.getFullYear() - 1);
+				lastQuarter = 4;
+			}
+			var quarterEndMonth = lastQuarter * 3;
+			var quarterStartMonth = quarterEndMonth - 3;
+			var startTemp = new Date(now.getFullYear(),quarterStartMonth,1);
+			
+			var endTemp = new Date(now.getFullYear(),quarterEndMonth,0);
 			
 			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
 			var end = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);

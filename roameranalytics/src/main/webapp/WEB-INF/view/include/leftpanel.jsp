@@ -263,8 +263,8 @@
 				<li><a href ng-click="lastWeekRange()"><fmt:message key="date.range.last.week"/></a></li>
 				<li><a href ng-click="thisMonth()"><fmt:message key="date.range.this.month"/></a></li>
 				<li><a href ng-click="lastMonth()"><fmt:message key="date.range.last.month"/></a></li>
-				<li><a href="#"><fmt:message key="date.range.this.quarter"/></a></li>
-				<li><a href="#"><fmt:message key="date.range.last.quarter"/></a></li>
+				<li><a href ng-click="thisQuarter()"><fmt:message key="date.range.this.quarter"/></a></li>
+				<li><a href ng-click="lastQuarter()"><fmt:message key="date.range.last.quarter"/></a></li>
 				<li><a href="#" id="date-range"><fmt:message key="date.range.custom"/></a></li>
 			</ul></li>
 		<li class="nav-dropdown"><a href="#"><i class="country-icon"></i>
