@@ -31,7 +31,7 @@ public class TrendController {
 	public ModelAndView showHome() {
 		System.out.println("home");
 		//tdao.insertData();
-		
+		trendService.printQuery();
 		return new ModelAndView("trendHome");
 	}
 	

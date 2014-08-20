@@ -20,4 +20,5 @@ public interface TrendServiceI {
 	 * @return the attribute list
 	 */
 	public Map<String, List<Attribute>> getAttributes();
+	public void printQuery();
 }

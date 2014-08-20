@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.dao.TrendDaoI;
 import com.mobileum.roameranalytics.model.Attribute;
 
@@ -43,4 +44,8 @@ public class TrendServiceImpl implements TrendServiceI{
 		return attributeMap;
 	}
 
+	public void printQuery()
+	{
+		System.out.println("hii"+QueryBuilder.queryForHeatMap());
+	}
 }
