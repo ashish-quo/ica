@@ -133,11 +133,17 @@
 			$j('#display-cutdate').html(start + " - " + end);
 		};
 		
-		$scope.filterHiddenAttr = function(text) {
+		$scope.filterHiddenAttr = function(id,text) {
 			if ($scope.query == null || $scope.query.displayText == '' )
 				return true;
 			else {
-				return text.toUpperCase().indexOf($scope.query.displayText.toUpperCase()) != -1;
+				var result = text.toUpperCase().indexOf($scope.query.displayText.toUpperCase()) != -1;
+				if (!result) {
+					var nextSib = $j('#li_'+id).next("li.sub_"+id);
+					if (nextSib.length > 0)
+						result = true;
+				}
+				return result;
 			}
 		};
 		

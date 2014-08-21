@@ -1,4 +1,5 @@
 var $j = jQuery.noConflict();
+
 Date.prototype.getWeek = function() {
 	  var date = new Date(this.getTime());
 	   date.setHours(0, 0, 0, 0);
@@ -23,7 +24,7 @@ $j( document ).ready(function() {
 	// Scroll
 	$j("html").niceScroll();
 	$j(".sidebar").niceScroll({cursorcolor:"#3fabdf",background: "#0d1218",cursorfixedheight: 100,scrollspeed :150}).resize();
-
+	//$j("body").css("overflow", "hidden");
 });
 
 //Select All check
@@ -38,6 +39,11 @@ $j(document).on( "change", ".select-all", function() {
 
 //Select All viceversa  
 $j(document).on('change',".sub-check" ,function(){
+	if($j(this).is(':checked')) {
+		$j(this).attr('checked', 'checked');
+	} else {
+		$j(this).removeAttr('checked');
+	}
 	var parent = $j(this).closest('form')
 	if($j(parent).find('.sub-check').length == $j(parent).find(".sub-check:checked").length) {
 		$j(parent).find('.select-all').attr("checked", "checked");
@@ -46,19 +52,12 @@ $j(document).on('change',".sub-check" ,function(){
 	}
 
 });
-$j(".roaming-check").click(function(){
-	if($j(".roaming-check").length == $j(".roaming-check:checked").length) {
-		$j("#All-Roaming").attr("checked", "checked");
-	} else {
-		$j("#All-Roaming").removeAttr("checked");
-	}
-
+// Resize the scroll bar on mouse over
+$j(document).on('mouseover',".sidebar" ,function(){
+	$j(".sidebar").getNiceScroll().resize();
 });
-$j(".device-check").click(function(){
-	if($j(".device-check").length == $j(".device-check:checked").length) {
-		$j("#Device-Type").attr("checked", "checked");
-	} else {
-		$j("#Device-Type").removeAttr("checked");
-	}
 
+$j(document).on("mouseover", "#mainContent" , function(){
+    //$j("body").css("overflow", "auto");        
+    $j("html").getNiceScroll().resize();
 });

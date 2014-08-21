@@ -43,6 +43,7 @@ public class CommonDaoImpl implements CommonDaoI{
 	 */
 	public List<Attribute> getAttributeList() {
 		String query = QueryBuilder.queryForAttributes();
+		LOGGER.info(query);
 		return jdbcTemplate.query(query, new ResultSetExtractor<List<Attribute>>() {
 			public List<Attribute> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {

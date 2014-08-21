@@ -339,25 +339,25 @@
 					<p class="select-txt"><fmt:message key="select.from.list"/></p>
 				</li>
 				<form ng-repeat="hiddenAttr in hiddenAttributes">
-					<li ng-show="filterHiddenAttr(hiddenAttr.displayText)">
+					<li ng-show="filterHiddenAttr(hiddenAttr.id,hiddenAttr.displayText)" id="li_{{hiddenAttr.id}}">
 						<p class="i-checks selectall-check">
 							<label> <input type="checkbox"
 								name="All-{{hiddenAttr.attributeName}}"
-								id="all-{{hiddenAttr.attributeName}}" class="select-all"
+								id="{{hiddenAttr.id}}" class="select-all"
 								value=""> <i></i></label> <label>
 								{{hiddenAttr.displayText}}</label>
 						</p>
 					</li>
-					<li ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList | filter:query">
+					<li ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList | filter:query" class="sub_{{hiddenAttr.id}}">
 						<p class="i-checks">
-							<label for="{{hiddenCatAttr.categoryName}}"> <input
-								type="checkbox" name="{{hiddenCatAttr.categoryName}}"
-								id="{{hiddenCatAttr.categoryName}}" value="" class="sub-check">
-								<i></i></label> <label for="{{hiddenCatAttr.categoryName}}">{{hiddenCatAttr.displayText}}</label>
+							<label for="{{hiddenCatAttr.categoryName}}_{{hiddenAttr.id}}"> <input
+								type="checkbox" name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"
+								id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value="" class="sub-check">
+								<i></i></label> <label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>
 						</p>
 					</li>
-					<li>
-						<div class="menu-divider"></div>
+					<li ng-show="filterHiddenAttr(hiddenAttr.id,hiddenAttr.displayText)">
+						<div class="menu-divider" id="divider_{{hiddenAttr.id}}" ></div>
 					</li>
 				</form>
 			</ul></li>
