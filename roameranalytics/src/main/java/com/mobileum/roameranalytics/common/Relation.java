@@ -7,7 +7,7 @@ package com.mobileum.roameranalytics.common;
  * @author sarvesh
  *
  */
-public enum Table {
+public enum Relation {
 	
 	/** The attribute. */
 	ATTRIBUTE("ATTRIBUTE"),
@@ -26,7 +26,7 @@ public enum Table {
 	 *
 	 * @param tableName the table name
 	 */
-	Table(String tableName) {
+	Relation(String tableName) {
 		this.tableName = tableName;
 	}
 	
