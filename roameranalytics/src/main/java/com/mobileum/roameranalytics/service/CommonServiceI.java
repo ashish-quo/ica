@@ -28,4 +28,11 @@ public interface CommonServiceI {
 	 * @return the all countries
 	 */
 	public List<Country> getAllCountries();
+	
+	/**
+	 * Added by smruti on 2014-07-21
+	 * @param str_date
+	 * @return
+	 */
+	public long dateToTimestamp(String str_date);
 }

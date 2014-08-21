@@ -36,7 +36,7 @@ public class TrendController {
 	public ModelAndView showHome() {
 		System.out.println("home");
 		//tdao.insertData();
-		trendService.printQuery();
+		System.out.println(trendService.getHeatMap("2014-01-11", "2014-01-17", "NIGERIA"));
 		return new ModelAndView("trendHome");
 	}
 	

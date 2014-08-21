@@ -3,7 +3,11 @@
  */
 package com.mobileum.roameranalytics.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,5 +60,27 @@ public class CommonServiceImpl implements CommonServiceI{
 	public List<Country> getAllCountries() {
 		LOGGER.info("Getting all countries");
 		return this.commonDao.getAllCountries();
+	}
+	
+	/**
+	 * Added by smruti on 2014-07-21
+	 * @param str_date
+	 * @return
+	 */
+	public long dateToTimestamp(String str_date)
+	{
+		try{
+
+			Date date;
+			DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
+			date = (Date) formatter.parse(str_date);
+			return date.getTime();
+
+		} catch (ParseException e)
+		{
+			LOGGER.info("Parsing exception in dateToTimestamp for date:"+str_date);
+
+		}
+		return 0;
 	}
 }

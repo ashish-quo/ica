@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
+import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
 
 /**
@@ -82,20 +83,25 @@ public class TrendDaoImpl implements TrendDaoI {
 
 	}
 	
-	public List<RoamingStats> getMapList(String query){
-		
-		return jdbcTemplate.query(query,
-		        new RowMapper<RoamingStats>() {
-		            public RoamingStats mapRow(ResultSet rs, int rowNum) throws SQLException {
-		            	RoamingStats rstats = new RoamingStats();
-		            	//rstats.setFirstName(rs.getString("first_name"));
-		            	//rstats.setLastName(rs.getString("last_name"));
-		                return rstats;
-		            }
-		        });
-		
-		
-		
+	public List<HeatMap> getHeatMapList(String query,long startDate, long endDate, String country){
+
+		return jdbcTemplate.query(query,new Object[] {country, startDate, endDate},
+				new RowMapper<HeatMap>() {
+			public HeatMap mapRow(ResultSet rs, int rowNum) throws SQLException {
+				HeatMap hm = new HeatMap();
+				hm.setCountryCode(rs.getString("visitedcountryname"));
+				hm.setDataUsage(rs.getLong("modatacount"));
+				hm.setMoUsage(rs.getLong("mocallcount"));
+				hm.setMtUsage(rs.getLong("mtcallcount"));
+				hm.setSmsUsage(rs.getLong("mosmscount"));
+				//rstats.setFirstName(rs.getString("first_name"));
+				//rstats.setLastName(rs.getString("last_name"));
+				return hm;
+			}
+		});
+
+
+
 	}
 
 
