@@ -32,7 +32,8 @@ CREATE TABLE attribute_category
   attribute_id integer,
   icon character varying(20),
   display_order integer,
-  CONSTRAINT attribute_category_pkey PRIMARY KEY (id)
+  CONSTRAINT attribute_category_pkey PRIMARY KEY (id),
+  CONSTRAINT attribute_category_Fkey FOREIGN KEY (attribute_id) REFERENCES ATTRIBUTE(ID)
 )
 WITH (
   OIDS=FALSE

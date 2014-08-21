@@ -29,7 +29,7 @@
 	<header class="clearfix">
 		<tiles:insertAttribute name="header" />
 	</header>
-	<div class="page-wrapper">
+	<div class="page-wrapper" id="leftPanel">
 		<tiles:insertAttribute name="leftpanel" />
 	</div>
 	<div class="main-content clearfix" id="mainContent">
