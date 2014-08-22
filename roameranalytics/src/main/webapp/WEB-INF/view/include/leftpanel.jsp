@@ -314,10 +314,10 @@
 						<li ng-repeat="attrCat in defaultAttr.attributeCategoryList">
 							<div class="clearfix">
 								<p class="i-checks pull-left">
-									<label> <input type="checkbox"
-										name="{{attrCat.categoryName}}" id="{{attrCat.categoryName}}"
+									<label> <input type="checkbox" ng-click="updateFilter()"
+										name="{{defaultAttr.id}}_{{attrCat.id}}" id="{{defaultAttr.id}}_{{attrCat.id}}"
 										value="" class="sub-check"> <i></i></label> <label
-										for="{{attrCat.categoryName}}" ng-class="attrCat.icon">{{attrCat.categoryName}}</label>
+										for="{{defaultAttr.id}}_{{attrCat.id}}" ng-class="attrCat.icon">{{attrCat.categoryName}}</label>
 								</p>
 								<div class="pull-right">
 									<img src="images/persona-graph1.png" alt="graph">
@@ -351,7 +351,7 @@
 					<li ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList | filter:query" class="sub_{{hiddenAttr.id}}">
 						<p class="i-checks">
 							<label for="{{hiddenCatAttr.categoryName}}_{{hiddenAttr.id}}"> <input
-								type="checkbox" name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"
+								type="checkbox" name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" ng-click="updateFilter()"
 								id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value="" class="sub-check">
 								<i></i></label> <label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>
 						</p>

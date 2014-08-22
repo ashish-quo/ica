@@ -25,7 +25,7 @@ public class QueryBuilder {
 		StringBuilder query = new StringBuilder();
 		query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
 				.append(" attr.type attrType,  attr.icon attrIcon, attr.view_type viewType, ")
-				.append(" attr.display_order attrDO, attrCat.category_name catName,")
+				.append(" attr.display_order attrDO, attrCat.category_name catName, attrCat.id catId,")
 				.append(" attrCat.icon catIcon from ")
 				.append(Relation.ATTRIBUTE).append(" attr inner join ")
 				.append(Relation.ATTRIBUTE_CATEGORY)

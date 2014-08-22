@@ -32,6 +32,7 @@
 	appControllers.controller('SidebarController',['$scope','$http', function($scope,$http) {
 		$scope.startDate = "01/01/14";
 		$scope.endDate = "07/01/14";
+		$scope.attributeFilter = {};
 		$http.get('getAttributes').success(function(data) {
 			$scope.attributes = data;
 			$scope.defaultAttributes = $scope.attributes['default'];
@@ -145,6 +146,24 @@
 				}
 				return result;
 			}
+		};
+		
+		$scope.updateFilter = function() {
+			$j("input.sub-check:checked").each(function () {
+				var id = $j(this).attr("id").split("_");
+				var attrId = id[0];
+				var catId = id[1];
+				var attrArray = $scope.attributeFilter[attrId];
+				if (attrArray == null) {
+					$scope.attributeFilter[attrId] = new Array();
+				}
+				$scope.attributeFilter[attrId].push(catId);
+			});
+			$j($scope.attributeFilter).each(function() {
+				console.log($j(this));
+			});
+			
+			
 		};
 		
 		$scope.toggleDefaultAttr = function(e) {

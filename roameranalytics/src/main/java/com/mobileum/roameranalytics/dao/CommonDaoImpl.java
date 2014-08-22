@@ -66,6 +66,7 @@ public class CommonDaoImpl implements CommonDaoI{
 					AttributeCategory attrCat = new AttributeCategory();
 					attrCat.setCategoryName(rs.getString("catName"));
 					attrCat.setIcon(rs.getString("catIcon"));
+					attrCat.setId(rs.getLong("catId"));
 					attrMap.get(attrId).getAttributeCategoryList().add(attrCat);
 				}
 				return new ArrayList<Attribute>(attrMap.values());
