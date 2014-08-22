@@ -1556,3 +1556,10 @@ button.btn-primary.unactive:hover {
 .full-width {
 	width:100%;
 }
+.error {
+	color: red;
+}
+.header-eror {
+	text-align: center;
+	color: red;
+}

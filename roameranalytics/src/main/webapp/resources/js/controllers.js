@@ -24,6 +24,7 @@
 		$scope.showPredict = function() {
 			$scope.tabIndex = 2;
 		};
+		$scope.error = '';
 	});
 
 	

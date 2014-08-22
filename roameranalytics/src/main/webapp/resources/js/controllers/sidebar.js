@@ -50,11 +50,15 @@
 			$scope.attributes = data;
 			$scope.defaultAttributes = $scope.attributes['default'];
 			$scope.hiddenAttributes = $scope.attributes['hidden'];
-		});
+		}).error(function(data, status, headers, config) {
+	        //$scope.$parent.error = data.message;
+	    });
 		
 		$http.get("getCountries").success(function (data) {
 			$scope.countries = data;
-		});
+		}).error(function(data, status, headers, config) {
+	        //$scope.$parent.error = data.message;
+	    });
 		
 		$scope.thisWeekRange = function() {
 			var dateRange = getDateRangeOfWeek(new Date().getWeek());

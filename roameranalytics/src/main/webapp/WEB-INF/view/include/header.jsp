@@ -22,9 +22,13 @@
           <span><fmt:message key="header.predict"/></span>
           </a>
         </li>
+        <li>
+        	<div id="error" class="header-eror clearfix"> {{error}} </div>
+        </li>
       </ul>
     </div>
   </div>
+  
   <div class="header-right clearfix">
     <div class="header-notification">
       <ul>
