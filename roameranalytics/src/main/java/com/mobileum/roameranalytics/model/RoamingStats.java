@@ -15,6 +15,10 @@ public class RoamingStats {
 	String countryCode;
 	
 	/**
+	 * Total Raomer Count
+	 */
+	long roamerTotal;
+	/**
 	 * Silent Raomer Count
 	 */
 	long roamerSilent;
@@ -34,6 +38,10 @@ public class RoamingStats {
 	 */
 	long mt;
 	
+	/**
+	 *	Total MO Count
+	 */
+	long moTotal;
 	/**
 	 *	local MO Count
 	 */
@@ -58,6 +66,20 @@ public class RoamingStats {
 	 * Sms count
 	 */
 	long smsUsage;
+
+	/**
+	 * @return the roamerTotal
+	 */
+	public long getRoamerTotal() {
+		return roamerTotal;
+	}
+
+	/**
+	 * @param roamerTotal the roamerTotal to set
+	 */
+	public void setRoamerTotal(long roamerTotal) {
+		this.roamerTotal = roamerTotal;
+	}
 
 	/**
 	 * @return the countryCode
@@ -127,6 +149,20 @@ public class RoamingStats {
 	 */
 	public void setMt(long mt) {
 		this.mt = mt;
+	}
+
+	/**
+	 * @return the moTotal
+	 */
+	public long getMoTotal() {
+		return moTotal;
+	}
+
+	/**
+	 * @param moTotal the moTotal to set
+	 */
+	public void setMoTotal(long moTotal) {
+		this.moTotal = moTotal;
 	}
 
 	/**

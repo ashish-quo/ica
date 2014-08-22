@@ -3,6 +3,7 @@
  */
 package com.mobileum.roameranalytics.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,8 @@ public class TrendController {
 	public ModelAndView showHome() {
 		System.out.println("home");
 		//tdao.insertData();
-		System.out.println(trendService.getHeatMap("2014-01-11", "2014-01-17", "NIGERIA"));
+		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
+		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
 		return new ModelAndView("trendHome");
 	}
 	

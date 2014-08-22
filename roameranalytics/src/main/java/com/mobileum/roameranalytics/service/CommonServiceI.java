@@ -35,4 +35,11 @@ public interface CommonServiceI {
 	 * @return
 	 */
 	public long dateToTimestamp(String str_date);
+	
+	/**
+	 * @Author Smruti 
+	 * @param list
+	 * @return
+	 */
+	public Object[] listToObjectArray(List<Object> list);
 }
