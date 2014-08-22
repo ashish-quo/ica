@@ -12,11 +12,11 @@ Date.prototype.getWeek = function() {
 	                        - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 $j( document ).ready(function() {
-	//Date range selector
-	$j('#date-range').daterangepicker(null, function(start, end, label) {
-		console.log(start.toISOString(), end.toISOString(), label);
-		$j('#display-cutdate').html(start.format('DD/MM/YY') + ' - ' + end.format('DD/MM/YY'));
-	});
+//	//Date range selector
+//	$j('#date-range').daterangepicker(null, function(start, end, label) {
+//		console.log(start.toISOString(), end.toISOString(), label);
+//		$j('#display-cutdate').html(start.format('DD/MM/YY') + ' - ' + end.format('DD/MM/YY'));
+//	});
 
 	// Main Nav
 	$j("#demo1").navgoco({accordion: false});
@@ -24,10 +24,9 @@ $j( document ).ready(function() {
 	// Scroll
 	$j("html").niceScroll();
 	$j(".sidebar").niceScroll({cursorcolor:"#3fabdf",background: "#0d1218",cursorfixedheight: 100,scrollspeed :150}).resize();
-	//$j("body").css("overflow", "hidden");
 });
 
-//Select All check
+//Select country
 $j(document).on( "change", ".country-chk", function() {
 	if($j(this).is(':checked')) {
 		$j(this).attr('checked', 'checked');

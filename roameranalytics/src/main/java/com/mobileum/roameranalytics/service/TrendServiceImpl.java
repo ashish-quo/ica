@@ -65,35 +65,35 @@ public class TrendServiceImpl implements TrendServiceI{
 	public  Map<String,HeatMap> getHeatMap(String startDate, String endDate, String country){
 		Map<String,HeatMap> mapHeatMap =new LinkedHashMap<String,HeatMap>();
 
-		Table table1=new Table("trip","tp");
-		table1.addGroupFunctions("sum(mocallcount) mocallcount");
-		table1.addGroupFunctions("sum(mtcallcount) mtcallcount");
-		table1.addGroupFunctions("sum(mosmscount) mosmscount");
-		table1.addGroupFunctions("sum(uplink+downlink) modatacount");
-		table1.addGroupFunctions("visitedcountryname");
-
-
-		SelectQuery sql=new SelectQuery();
-		sql.addTable(table1);
-		sql.addCriteria(table1, "visitedcountryname",Criteria.EQUALS, "?");
-		sql.addCriteria(table1, "starttime",Criteria.GREATEREQUAL, "?");
-		sql.addCriteria(table1, "endtime", Criteria.LESSEQUAL, "?");
-		sql.addGroupByColumn(table1, "visitedcountryname");
-
-		LOGGER.info(sql.toString()+" "+commonService.dateToTimestamp(startDate)+" ");
-		List<HeatMap> listHeatMap=trendDao.getHeatMapList(sql.toString(),commonService.dateToTimestamp(startDate) ,commonService.dateToTimestamp(endDate),  country);
-
-
-		if(!listHeatMap.isEmpty()) {
-			ListIterator<HeatMap> heatMapIterator = listHeatMap.listIterator();
-			while (heatMapIterator.hasNext())
-			{
-				HeatMap hmap = heatMapIterator.next();
-				mapHeatMap.put(hmap.getCountryCode(), hmap);
-
-			}
-		}else
-			LOGGER.info("No Result found");
+//		Table table1=new Table("trip","tp");
+//		table1.addGroupFunctions("sum(mocallcount) mocallcount");
+//		table1.addGroupFunctions("sum(mtcallcount) mtcallcount");
+//		table1.addGroupFunctions("sum(mosmscount) mosmscount");
+//		table1.addGroupFunctions("sum(uplink+downlink) modatacount");
+//		table1.addGroupFunctions("visitedcountryname");
+//
+//
+//		SelectQuery sql=new SelectQuery();
+//		sql.addTable(table1);
+//		sql.addCriteria(table1, "visitedcountryname",Criteria.EQUALS, "?");
+//		sql.addCriteria(table1, "starttime",Criteria.GREATEREQUAL, "?");
+//		sql.addCriteria(table1, "endtime", Criteria.LESSEQUAL, "?");
+//		sql.addGroupByColumn(table1, "visitedcountryname");
+//
+//		//LOGGER.info(sql.toString()+" "+commonService.dateToTimestamp(startDate)+" ");
+//		List<HeatMap> listHeatMap=trendDao.getHeatMapList(sql.toString(),commonService.dateToTimestamp(startDate) ,commonService.dateToTimestamp(endDate),  country);
+//
+//
+//		if(!listHeatMap.isEmpty()) {
+//			ListIterator<HeatMap> heatMapIterator = listHeatMap.listIterator();
+//			while (heatMapIterator.hasNext())
+//			{
+//				HeatMap hmap = heatMapIterator.next();
+//				mapHeatMap.put(hmap.getCountryCode(), hmap);
+//
+//			}
+//		}else
+//			LOGGER.info("No Result found");
 
 
 		return mapHeatMap;

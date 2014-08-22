@@ -256,8 +256,8 @@
 	</ul>
 	<ul class="mainnav" id="demo1">
 		<li class="nav-dropdown"><a href="#"><i
-				class="custom-date-icon"></i> <span id="display-cutdate">14/08/14
-					- 21/12/14</span></a>
+				class="custom-date-icon"></i> <span id="display-cutdate">{{dateRangeFrom}} 
+					- {{dateRangeTo}}</span></a>
 			<ul class="nav-sub">
 				<li><a href ng-click="thisWeekRange()"><fmt:message key="date.range.this.week"/></a></li>
 				<li><a href ng-click="lastWeekRange()"><fmt:message key="date.range.last.week"/></a></li>

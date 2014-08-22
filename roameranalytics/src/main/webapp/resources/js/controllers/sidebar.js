@@ -6,22 +6,26 @@
 	sidebar.controller('SidebarController',['$scope','$http', function($scope,$http) {
 		$scope.attributeFilter = {};
 		$scope.countryFilter = {};
-		$http.get('getAttributes').success(function(data) {
-			$scope.attributes = data;
-			$scope.defaultAttributes = $scope.attributes['default'];
-			$scope.hiddenAttributes = $scope.attributes['hidden'];
+		
+		$scope.dateRangeFrom = {};
+		$scope.dateRangeTo = {};
+		
+		//Date range selector
+		$j('#date-range').daterangepicker(null, function(start, end, label) {
+			$scope.dateRangeFrom = start.format('DD/MM/YY');
+			$scope.dateRangeTo = end.format('DD/MM/YY');
+			$scope.$apply();
 		});
 		
-		$http.get("getCountries").success(function (data) {
-			$scope.countries = data;
-		});
-		
+		// appends zero to date and months where value is less than 10
 		function appendZero(num) {
 			if (num < 10) {
 				return "0"+num;
 			} else 
 				return ""+num;
 		}
+		
+		// gives date range start and end of the week by week number
 		function getDateRangeOfWeek(weekNo){
 		    var d1 = new Date();
 		    numOfdaysPastSinceLastMonday = eval(d1.getDay()- 1);
@@ -32,10 +36,30 @@
 		    var rangeIsFrom =  appendZero(d1.getDate()) +"/" + appendZero(eval(d1.getMonth()+1)) + "/" + (""+d1.getFullYear()).slice(2);
 		    d1.setDate(d1.getDate() + 6);
 		    var rangeIsTo =   appendZero(d1.getDate())+"/" + appendZero(eval(d1.getMonth()+1))+ "/" + (""+d1.getFullYear()).slice(2) ;
-		    return rangeIsFrom + " - " + rangeIsTo;
+		    return {
+		    		"from":rangeIsFrom,
+		    		"to": rangeIsTo
+		    }
 		};
+		var currentWeek = new Date().getWeek();
+		var defaultDateRange = getDateRangeOfWeek(currentWeek);
+		$scope.dateRangeFrom = defaultDateRange.from;
+		$scope.dateRangeTo = defaultDateRange.to;
+		
+		$http.get('getAttributes').success(function(data) {
+			$scope.attributes = data;
+			$scope.defaultAttributes = $scope.attributes['default'];
+			$scope.hiddenAttributes = $scope.attributes['hidden'];
+		});
+		
+		$http.get("getCountries").success(function (data) {
+			$scope.countries = data;
+		});
+		
 		$scope.thisWeekRange = function() {
-			$j('#display-cutdate').html(getDateRangeOfWeek(new Date().getWeek()));
+			var dateRange = getDateRangeOfWeek(new Date().getWeek());
+			$scope.dateRangeFrom = dateRange.from;
+			$scope.dateRangeTo = dateRange.to;
 		};
 		
 		$scope.lastWeekRange = function() {
@@ -52,16 +76,17 @@
 			
 			var start = startDate + "/" + startMonth + "/" + (""+startTemp.getYear()).slice(1);
 			var end = nowDate + "/" + nowMonth + "/" + (""+now.getYear()).slice(1);*/
-			$j('#display-cutdate').html(getDateRangeOfWeek(new Date().getWeek() - 1));
+			var dateRange = getDateRangeOfWeek(new Date().getWeek() - 1);
+			$scope.dateRangeFrom = dateRange.from;
+			$scope.dateRangeTo = dateRange.to;
 		};
 		
 		$scope.thisMonth = function() {
 			var now = new Date();
 			var startTemp = new Date(now.getFullYear(),now.getMonth(),1);
 			
-			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			var end = appendZero(now.getDate()) + "/" + appendZero(now.getMonth()+1) + "/" + (""+now.getFullYear()).slice(2);
-			$j('#display-cutdate').html(start + " - " + end);
+			$scope.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			$scope.dateRangeTo = appendZero(now.getDate()) + "/" + appendZero(now.getMonth()+1) + "/" + (""+now.getFullYear()).slice(2);
 		};
 		
 		$scope.lastMonth = function() {
@@ -69,9 +94,8 @@
 			var startTemp = new Date(now.getFullYear(),now.getMonth()-1,1);
 			var endTemp = new Date(now.getFullYear(),now.getMonth(),0);
 			
-			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			var end = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
-			$j('#display-cutdate').html(start + " - " + end);
+			$scope.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			$scope.dateRangeTo = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
 		};
 		
 		$scope.thisQuarter = function() {
@@ -83,9 +107,8 @@
 			
 			var endTemp = new Date(now.getFullYear(),quarterEndMonth,0);
 			
-			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			var end = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
-			$j('#display-cutdate').html(start + " - " + end);
+			$scope.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			$scope.dateRangeTo = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
 		};
 		
 		$scope.lastQuarter = function() {
@@ -102,9 +125,8 @@
 			
 			var endTemp = new Date(now.getFullYear(),quarterEndMonth,0);
 			
-			var start = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			var end = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
-			$j('#display-cutdate').html(start + " - " + end);
+			$scope.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
+			$scope.dateRangeTo = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
 		};
 		
 		$scope.filterHiddenAttr = function(id,text) {
