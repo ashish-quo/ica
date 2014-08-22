@@ -8,12 +8,11 @@
 <script src="js/libs/moment.js"></script>
 <script src="js/libs/nicescroll.js"></script>
 <script src="js/libs/daterangepicker.js"></script>
-
-
-<script src="assets/migrate.js"></script>
+<script src="js/libs/migrate.js"></script>
 
 
 <script src="js/services.js"></script>
+<script src="js/controllers/sidebar.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/directives.js"></script>
 <script src="js/common.js"></script>

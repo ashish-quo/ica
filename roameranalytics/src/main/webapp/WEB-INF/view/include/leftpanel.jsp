@@ -286,13 +286,14 @@
 				</li>
 				<li>
 					<p class="i-checks selectall-check">
-						<label> <input type="checkbox" name="exculdeNeighbours" id="exculdeNeighbours"
+						<label> <input type="checkbox" name="exculdeNeighbours" id="exculdeNeighbours" 
 							value=""> <i></i></label> <label for="exculdeNeighbours"><fmt:message key="exclude.neigbhours"/></label>
 					</p>
 				</li>
 				<li ng-repeat="country in countries | filter:countryQuery">
 					<p class="i-checks">
-						<label> <input type="checkbox" name="{{country.countryCode}}" id="{{country.countryCode}}"
+						<label> <input type="checkbox" name="{{country.countryCode}}" class="country-chk" 
+						id="{{country.countryCode}}" ng-click="updateCountryFilter()"
 							value=""> <i></i></label> <label for="{{country.countryCode}}">{{country.countryName}}</label>
 					</p>
 				</li>
@@ -306,15 +307,15 @@
 							<div class="clearfix">
 								<p class="i-checks selectall-check pull-left">
 									<label> <input type="checkbox" name="All-{{defaultAttr.attributeName}}"
-										id="All-{{defaultAttr.attributeName}}" class="select-all" value=""> <i></i></label>
-									<label for="All-{{defaultAttr.attributeName}}" class="all{{defaultAttr.icon}}">{{defaultAttr.displayText}}</label>
+										id="{{defaultAttr.id}}" class="select-all" value=""> <i></i></label>
+									<label for="{{defaultAttr.id}}" class="all{{defaultAttr.icon}}">{{defaultAttr.displayText}}</label>
 								</p>
 							</div>
 						</li>
 						<li ng-repeat="attrCat in defaultAttr.attributeCategoryList">
 							<div class="clearfix">
 								<p class="i-checks pull-left">
-									<label> <input type="checkbox" ng-click="updateFilter()"
+									<label> <input type="checkbox" ng-click="updateAttributeFilter()"
 										name="{{defaultAttr.id}}_{{attrCat.id}}" id="{{defaultAttr.id}}_{{attrCat.id}}"
 										value="" class="sub-check"> <i></i></label> <label
 										for="{{defaultAttr.id}}_{{attrCat.id}}" ng-class="attrCat.icon">{{attrCat.categoryName}}</label>
@@ -350,7 +351,7 @@
 					</li>
 					<li ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList | filter:query" class="sub_{{hiddenAttr.id}}">
 						<p class="i-checks">
-							<label for="{{hiddenCatAttr.categoryName}}_{{hiddenAttr.id}}"> <input
+							<label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"> <input
 								type="checkbox" name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" ng-click="updateFilter()"
 								id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value="" class="sub-check">
 								<i></i></label> <label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>

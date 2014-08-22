@@ -28,6 +28,15 @@ $j( document ).ready(function() {
 });
 
 //Select All check
+$j(document).on( "change", ".country-chk", function() {
+	if($j(this).is(':checked')) {
+		$j(this).attr('checked', 'checked');
+	} else {
+		$j(this).removeAttr('checked');
+	}
+});
+
+//Select All check
 $j(document).on( "change", ".select-all", function() {
 	var checkboxes = $j(this).closest('form').find(':checkbox');
 	if($j(this).is(':checked')) {
