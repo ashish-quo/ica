@@ -83,9 +83,9 @@ public class TrendDaoImpl implements TrendDaoI {
 
 	}
 	
-	public List<HeatMap> getHeatMapList(String query,long startDate, long endDate, String country){
+	public List<HeatMap> getHeatMapList(String query,Object criteria[]){
 
-		return jdbcTemplate.query(query,new Object[] {country, startDate, endDate},
+		return jdbcTemplate.query(query,criteria,
 				new RowMapper<HeatMap>() {
 			public HeatMap mapRow(ResultSet rs, int rowNum) throws SQLException {
 				HeatMap hm = new HeatMap();
@@ -100,7 +100,25 @@ public class TrendDaoImpl implements TrendDaoI {
 			}
 		});
 
+	}
+	
+	
+	public List<RoamingStats> getTopRoamerDao(String query,Object criteria[]){
 
+		return jdbcTemplate.query(query,criteria,
+				new RowMapper<RoamingStats>() {
+			public RoamingStats mapRow(ResultSet rs, int rowNum) throws SQLException {
+				RoamingStats roamingStat = new RoamingStats();
+				roamingStat.setCountryCode(rs.getString("visitedcountryname"));
+				roamingStat.setMoTotal(rs.getLong("mocallcount"));
+				roamingStat.setMt(rs.getLong("mtcallcount"));
+				roamingStat.setSmsUsage(rs.getLong("mosmscount"));
+				roamingStat.setDataUsage(rs.getLong("modatacount"));
+				//rstats.setFirstName(rs.getString("first_name"));
+				//rstats.setLastName(rs.getString("last_name"));
+				return roamingStat;
+			}
+		});
 
 	}
 

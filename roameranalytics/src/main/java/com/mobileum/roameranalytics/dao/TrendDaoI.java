@@ -31,8 +31,14 @@ public interface TrendDaoI {
 	 * @param query
 	 * @return
 	 */
-	public List<HeatMap> getHeatMapList(String query,long startDate, long endDate, String country);
-		
+	public List<HeatMap> getHeatMapList(String query,Object criteria[]);	
+	
+	/**
+	 * Added by smruti on 2014-08-21
+	 * @param query
+	 * @return
+	 */
+	public List<RoamingStats> getTopRoamerDao(String query,Object criteria[]);
 	
 
 

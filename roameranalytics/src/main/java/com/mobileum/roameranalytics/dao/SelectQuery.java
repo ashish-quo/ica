@@ -17,7 +17,7 @@ public class SelectQuery {
     private final List<Table> tables = new ArrayList<Table>();
     private final List<Criteria> criterias = new ArrayList<Criteria>();
     private final List<String> groupByColumns = new ArrayList<String>();
-
+    private final List<String> orderByColumns = new ArrayList<String>();
     private boolean isDistinct = false;
 
     public void setDistinct(boolean isDistinct){
@@ -75,6 +75,11 @@ public class SelectQuery {
         String columnWithAlias = getColumnWithAlias(table, column);
         groupByColumns.add(columnWithAlias);
     }
+    
+    public void addOrderByColumn(Table table, String column) {
+        String columnWithAlias = getColumnWithAlias(table, column);
+        orderByColumns.add(columnWithAlias);
+    }
 
     public void addTable(Table table) {
         tables.add(table);
@@ -86,6 +91,7 @@ public class SelectQuery {
         appendTables(sql);
         appendCriterias(sql);
         appendGroupBy(sql);
+        appendOrderBy(sql);
         return sql.toString();
     }
 
@@ -165,6 +171,26 @@ public class SelectQuery {
         }
         ListIterator<String> columnIterator =
             groupByColumns.listIterator();
+        while (columnIterator.hasNext())
+        {
+            String column = columnIterator.next();
+            sql.append(column);
+            if (columnIterator.hasNext())
+            {
+                sql.append(",");
+            }
+            sql.append(" ");
+        }
+    }
+    
+    
+    private void appendOrderBy(StringBuilder sql) {
+        if (orderByColumns.size() > 0)
+        {
+            sql.append(" ORDER BY ");
+        }
+        ListIterator<String> columnIterator =
+        		orderByColumns.listIterator();
         while (columnIterator.hasNext())
         {
             String column = columnIterator.next();

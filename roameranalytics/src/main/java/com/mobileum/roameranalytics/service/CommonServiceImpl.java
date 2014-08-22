@@ -72,9 +72,9 @@ public class CommonServiceImpl implements CommonServiceI{
 		try{
 
 			Date date;
-			DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			date = (Date) formatter.parse(str_date);
-			return date.getTime();
+			return date.getTime()/1000;
 
 		} catch (ParseException e)
 		{
@@ -82,5 +82,12 @@ public class CommonServiceImpl implements CommonServiceI{
 
 		}
 		return 0;
+	}
+	
+	public Object[] listToObjectArray(List<Object> list)
+	{
+		Object[] whereCriteria = new Object[list.size()];
+		whereCriteria = list.toArray(whereCriteria);
+		return whereCriteria;
 	}
 }

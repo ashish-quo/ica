@@ -6,7 +6,6 @@ package com.mobileum.roameranalytics.service;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -21,6 +20,8 @@ import com.mobileum.roameranalytics.dao.Table;
 import com.mobileum.roameranalytics.dao.TrendDaoI;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.HeatMap;
+import com.mobileum.roameranalytics.model.RoamingStats;
+import com.mobileum.roameranalytics.model.TopCountry;
 
 /**
  * @author Quovantis_Dev
@@ -29,6 +30,7 @@ import com.mobileum.roameranalytics.model.HeatMap;
 @Service
 public class TrendServiceImpl implements TrendServiceI{
 
+	@Autowired
 	private CommonServiceI commonService;
 
 	/** The trend dao. */
@@ -36,7 +38,7 @@ public class TrendServiceImpl implements TrendServiceI{
 	private TrendDaoI trendDao;
 	
 	/** The logger. */
-	private static Logger LOGGER = LoggerFactory.getLogger("CommonServiceImpl");
+	private static Logger LOGGER = LoggerFactory.getLogger("TrendServiceImpl");
 	
 	
 	/* (non-Javadoc)
@@ -62,41 +64,114 @@ public class TrendServiceImpl implements TrendServiceI{
 		System.out.println("hii"+QueryBuilder.queryForHeatMap());
 	}
 	
-	public  Map<String,HeatMap> getHeatMap(String startDate, String endDate, String country){
+	public  Map<String,HeatMap> getHeatMap(String startDate, String endDate, List<String> country){
 		Map<String,HeatMap> mapHeatMap =new LinkedHashMap<String,HeatMap>();
+		Table table1=new Table("trip","tp");
+		table1.addGroupFunctions("sum(mocallcount) mocallcount");
+		table1.addGroupFunctions("sum(mtcallcount) mtcallcount");
+		table1.addGroupFunctions("sum(mosmscount) mosmscount");
+		table1.addGroupFunctions("sum(uplink+downlink) modatacount");
+		table1.addGroupFunctions("visitedcountryname");
 
-//		Table table1=new Table("trip","tp");
-//		table1.addGroupFunctions("sum(mocallcount) mocallcount");
-//		table1.addGroupFunctions("sum(mtcallcount) mtcallcount");
-//		table1.addGroupFunctions("sum(mosmscount) mosmscount");
-//		table1.addGroupFunctions("sum(uplink+downlink) modatacount");
-//		table1.addGroupFunctions("visitedcountryname");
-//
-//
-//		SelectQuery sql=new SelectQuery();
-//		sql.addTable(table1);
-//		sql.addCriteria(table1, "visitedcountryname",Criteria.EQUALS, "?");
-//		sql.addCriteria(table1, "starttime",Criteria.GREATEREQUAL, "?");
-//		sql.addCriteria(table1, "endtime", Criteria.LESSEQUAL, "?");
-//		sql.addGroupByColumn(table1, "visitedcountryname");
-//
-//		//LOGGER.info(sql.toString()+" "+commonService.dateToTimestamp(startDate)+" ");
-//		List<HeatMap> listHeatMap=trendDao.getHeatMapList(sql.toString(),commonService.dateToTimestamp(startDate) ,commonService.dateToTimestamp(endDate),  country);
-//
-//
-//		if(!listHeatMap.isEmpty()) {
-//			ListIterator<HeatMap> heatMapIterator = listHeatMap.listIterator();
-//			while (heatMapIterator.hasNext())
-//			{
-//				HeatMap hmap = heatMapIterator.next();
-//				mapHeatMap.put(hmap.getCountryCode(), hmap);
-//
-//			}
-//		}else
-//			LOGGER.info("No Result found");
+		SelectQuery sql=new SelectQuery();
+		sql.addTable(table1);
+		List<Object> listCriteria=new ArrayList<Object>();
+		if(!country.isEmpty())
+		{
+			for (String row : country) {
+				sql.addCriteria(table1, "visitedcountryname",Criteria.EQUALS, "?");
+				listCriteria.add(row);
+				
+				}
+		}
+		sql.addCriteria(table1, "starttime",Criteria.GREATEREQUAL, "?");
+		sql.addCriteria(table1, "endtime", Criteria.LESSEQUAL, "?");
+		sql.addGroupByColumn(table1, "visitedcountryname");
+		//sql.addOrderByColumn(table1, "visitedcountryname");
+		try
+		{
+		LOGGER.info(sql.toString()+" "+commonService.dateToTimestamp(startDate)+" "+commonService.dateToTimestamp(endDate));
+		listCriteria.add(commonService.dateToTimestamp(startDate));
+		listCriteria.add(commonService.dateToTimestamp(endDate));
+		
+		Object[] whereCriteria = commonService.listToObjectArray(listCriteria);
+		
+		
+		List<HeatMap> listHeatMap=new ArrayList<HeatMap>();
+		
+		listHeatMap=trendDao.getHeatMapList(sql.toString(),whereCriteria);
+
+		
+		if(!listHeatMap.isEmpty()) {
+			
+			for (HeatMap heatMap : listHeatMap)
+			{
+				mapHeatMap.put(heatMap.getCountryCode(), heatMap);
+
+			}
+		}else
+			LOGGER.info(" No Result found");
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
 
 
 		return mapHeatMap;
 	}
+	
+	
+	public List<RoamingStats> getTopRoamer(String startDate, String endDate, String orderBy){
+		
+		
+		Table table1=new Table("trip","tp");
+		table1.addGroupFunctions("sum(distinct msisdn) roamercount");
+		table1.addGroupFunctions("sum(mocallcount) mocallcount");
+		table1.addGroupFunctions("sum(mtcallcount) mtcallcount");
+		table1.addGroupFunctions("sum(mosmscount) mosmscount");
+		table1.addGroupFunctions("sum(uplink+downlink) modatacount");
+		table1.addGroupFunctions("visitedcountryname");
+		SelectQuery sql=new SelectQuery();
+		sql.addTable(table1);
+		
+		List<Object> listCriteria=new ArrayList<Object>();
+		sql.addCriteria(table1, "starttime",Criteria.GREATEREQUAL, "?");
+		sql.addCriteria(table1, "endtime", Criteria.LESSEQUAL, "?");
+		sql.addGroupByColumn(table1, "visitedcountryname");
+		sql.addOrderByColumn(table1, orderBy);
+		
+		LOGGER.info(sql.toString()+" "+commonService.dateToTimestamp(startDate)+" "+commonService.dateToTimestamp(endDate));
+		listCriteria.add(commonService.dateToTimestamp(startDate));
+		listCriteria.add(commonService.dateToTimestamp(endDate));
+		
+		Object[] whereCriteria = commonService.listToObjectArray(listCriteria);
+		
+		return trendDao.getTopRoamerDao(sql.toString(),whereCriteria);
+				
+	}
+	
+	
+	public  TopCountry getTopCountry(String startDate, String endDate){
+		TopCountry topCountry =new TopCountry();
+
+		/**	Get Top 10 Country List **/
+		
+		try
+		{
+		topCountry.setTopRoamer(getTopRoamer(startDate,endDate,"roamercount desc limit 10"));
+		topCountry.setTopMo(getTopRoamer(startDate,endDate,"mocallcount desc limit 10"));
+		topCountry.setTopMt(getTopRoamer(startDate,endDate,"mtcallcount desc limit 10"));
+		topCountry.setTopData(getTopRoamer(startDate,endDate,"modatacount desc limit 10"));
+		topCountry.setTopSms(getTopRoamer(startDate,endDate,"mosmscount desc limit 10"));
+			
+		
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		return topCountry;
+	}
+
 
 }
