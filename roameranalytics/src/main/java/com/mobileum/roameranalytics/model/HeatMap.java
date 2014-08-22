@@ -10,10 +10,10 @@ package com.mobileum.roameranalytics.model;
 public class HeatMap {
 	
 	String countryCode;
-	float moUsage;
-	float mtUsage;
-	float dataUsage;
-	float smsUsage;
+	long moUsage;
+	long mtUsage;
+	long dataUsage;
+	long smsUsage;
 	float usagePojection;
 	
 	/**
@@ -31,49 +31,49 @@ public class HeatMap {
 	/**
 	 * @return the moUsage
 	 */
-	public float getMoUsage() {
+	public long getMoUsage() {
 		return moUsage;
 	}
 	/**
 	 * @param moUsage the moUsage to set
 	 */
-	public void setMoUsage(float moUsage) {
+	public void setMoUsage(long moUsage) {
 		this.moUsage = moUsage;
 	}
 	/**
 	 * @return the mtUsage
 	 */
-	public float getMtUsage() {
+	public long getMtUsage() {
 		return mtUsage;
 	}
 	/**
 	 * @param mtUsage the mtUsage to set
 	 */
-	public void setMtUsage(float mtUsage) {
+	public void setMtUsage(long mtUsage) {
 		this.mtUsage = mtUsage;
 	}
 	/**
 	 * @return the dataUsage
 	 */
-	public float getDataUsage() {
+	public long getDataUsage() {
 		return dataUsage;
 	}
 	/**
 	 * @param dataUsage the dataUsage to set
 	 */
-	public void setDataUsage(float dataUsage) {
+	public void setDataUsage(long dataUsage) {
 		this.dataUsage = dataUsage;
 	}
 	/**
 	 * @return the smsUsage
 	 */
-	public float getSmsUsage() {
+	public long getSmsUsage() {
 		return smsUsage;
 	}
 	/**
 	 * @param smsUsage the smsUsage to set
 	 */
-	public void setSmsUsage(float smsUsage) {
+	public void setSmsUsage(long smsUsage) {
 		this.smsUsage = smsUsage;
 	}
 	/**

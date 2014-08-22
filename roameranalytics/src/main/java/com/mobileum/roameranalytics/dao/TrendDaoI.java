@@ -7,6 +7,7 @@ package com.mobileum.roameranalytics.dao;
 import java.util.List;
 
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
 
 /**
@@ -24,7 +25,14 @@ public interface TrendDaoI {
 	 * @return the attribute list
 	 */
 	public List<Attribute> getAttributeList();
-	public List<RoamingStats> getMapList(String query);
+	
+	/**
+	 * Added by smruti on 2014-08-21
+	 * @param query
+	 * @return
+	 */
+	public List<HeatMap> getHeatMapList(String query,long startDate, long endDate, String country);
+		
 	
 
 
