@@ -77,8 +77,8 @@ public class SelectQuery {
     }
     
     public void addOrderByColumn(Table table, String column) {
-        String columnWithAlias = getColumnWithAlias(table, column);
-        orderByColumns.add(columnWithAlias);
+        //String columnWithAlias = getColumnWithAlias(table, column);
+        orderByColumns.add(column);
     }
 
     public void addTable(Table table) {
