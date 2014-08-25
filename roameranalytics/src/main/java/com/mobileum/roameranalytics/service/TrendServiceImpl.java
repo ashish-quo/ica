@@ -141,9 +141,38 @@ public class TrendServiceImpl implements TrendServiceI{
 		try
 		{
 		topCountry.setTopRoamer(getTopRoamer(startDate,endDate,"roamercount desc limit 10"));
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		try
+		{
+			
 		topCountry.setTopMo(getTopRoamer(startDate,endDate,"mocallcount desc limit 10"));
+
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		try
+		{
+		
 		topCountry.setTopMt(getTopRoamer(startDate,endDate,"mtcallcount desc limit 10"));
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		try
+		{
+		
 		topCountry.setTopData(getTopRoamer(startDate,endDate,"modatacount desc limit 10"));
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		try
+		{
+		
 		topCountry.setTopSms(getTopRoamer(startDate,endDate,"mosmscount desc limit 10"));
 			
 		

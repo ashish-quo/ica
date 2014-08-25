@@ -273,6 +273,151 @@ ALTER TABLE "user"
   OWNER TO postgres;
   
 
+ -- Table trip added by smruti on 22-08-2014
+ 
+  -- Table: trip
 
+-- DROP TABLE trip;
+
+CREATE TABLE trip
+(
+  id bigserial NOT NULL,
+  opcoid character varying(20),
+  roamtype character varying(5),
+  homemcc integer,
+  homemnc integer,
+  visitedmcc integer,
+  visitedmnc integer,
+  imsi bigint,
+  msisdn bigint,
+  starttime bigint,
+  endtime bigint,
+  imei character varying(20),
+  tac character varying(8),
+  chargingplan smallint,
+  priceplan character varying(20),
+  mocallcount bigint,
+  mocallminutes bigint,
+  mtcallcount bigint,
+  mtcallminutes bigint,
+  mosmscount bigint,
+  mtsmscount bigint,
+  uplink bigint,
+  downlink bigint,
+  mocallcountlocal bigint,
+  mocallcounthome bigint,
+  mocallcountothers bigint,
+  mocallminuteslocal bigint,
+  mocallminuteshome bigint,
+  mocallminutesothers bigint,
+  mtcallcountlocal bigint,
+  mtcallcounthome bigint,
+  mtcallcountothers bigint,
+  mtcallminuteslocal bigint,
+  mtcallminuteshome bigint,
+  mtcallminutesothers bigint,
+  mosmscountlocal bigint,
+  mosmscounthome bigint,
+  mosmscountothers bigint,
+  mtsmscountlocal bigint,
+  mtsmscounthome bigint,
+  mtsmscountothers bigint,
+  mocallcountquadroam smallint,
+  mocallminutesquadroam smallint,
+  mtcallcountquadroam smallint,
+  mtcallminutesquadroam smallint,
+  mosmscountquadroam smallint,
+  mtsmscountquadroam smallint,
+  uplinkquadroam smallint,
+  downlinkquadroam smallint,
+  tonnagequadroam smallint,
+  overalltripcategory smallint,
+  mocallcountquaddomestic smallint,
+  mocallminutesquaddomestic smallint,
+  mtcallcountquaddomestic smallint,
+  mtcallminutesquaddomestic smallint,
+  mosmscountquaddomestic smallint,
+  mtsmscountquaddomestic smallint,
+  uplinkquaddomestic smallint,
+  downlinkquaddomestic smallint,
+  tonnagequaddomestic smallint,
+  overalldomesticcategory smallint,
+  msisdntimestamp bigint,
+  imeitimestamp bigint,
+  chargingplanapproximity smallint,
+  starttimestring character varying(20),
+  endtimestring character varying(20),
+  visitedcountryname character varying(30),
+  visitednetworkname character varying(30),
+  homecountryname character varying(30),
+  homenetworkname character varying(30),
+  devicename character varying(30),
+  devicemanufacturer character varying(20),
+  CONSTRAINT trip_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE trip
+  OWNER TO postgres;
+
+ -- Table triptime added by smruti on 22-08-2014
   
-  
+  -- Table: triptime
+
+-- DROP TABLE triptime;
+
+CREATE TABLE triptime
+(
+  id bigserial NOT NULL,
+  opcoid character varying(20),
+  roamtype character varying(5),
+  homemcc integer,
+  homemnc integer,
+  visitedmcc integer,
+  visitedmnc integer,
+  imsi bigint,
+  tripstarttime bigint,
+  tripendtime bigint,
+  usagebintime bigint,
+  priceplan character varying(20),
+  mocallcount bigint,
+  mocallminutes bigint,
+  mtcallcount bigint,
+  mtcallminutes bigint,
+  mosmscount bigint,
+  mtsmscount bigint,
+  uplink bigint,
+  downlink bigint,
+  mocallcountlocal bigint,
+  mocallcounthome bigint,
+  mocallcountothers bigint,
+  mocallminuteslocal bigint,
+  mocallminuteshome bigint,
+  mocallminutesothers bigint,
+  mtcallcountlocal bigint,
+  mtcallcounthome bigint,
+  mtcallcountothers bigint,
+  mtcallminuteslocal bigint,
+  mtcallminuteshome bigint,
+  mtcallminutesothers bigint,
+  mosmscountlocal bigint,
+  mosmscounthome bigint,
+  mosmscountothers bigint,
+  mtsmscountlocal bigint,
+  mtsmscounthome bigint,
+  mtsmscountothers bigint,
+  tripstarttimestring character varying(20),
+  tripendtimestring character varying(20),
+  visitedcountryname character varying(30),
+  visitednetworkname character varying(30),
+  homecountryname character varying(30),
+  homenetworkname character varying(30),
+  CONSTRAINT triptime_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE triptime
+  OWNER TO postgres;
+

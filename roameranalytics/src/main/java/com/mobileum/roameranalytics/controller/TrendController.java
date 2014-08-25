@@ -42,6 +42,8 @@ public class TrendController {
 		//tdao.insertData();
 		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
 		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
+		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
+		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
 		return new ModelAndView("trendHome");
 	}
 	
