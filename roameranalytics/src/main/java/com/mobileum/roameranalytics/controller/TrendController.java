@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
+import com.mobileum.roameranalytics.model.RoamingTrend;
 import com.mobileum.roameranalytics.service.CommonServiceI;
 import com.mobileum.roameranalytics.service.TrendServiceI;
 
@@ -79,6 +82,18 @@ public class TrendController {
 	@RequestMapping(method=RequestMethod.GET, value="/getCountries")
 	public @ResponseBody List<Country> getCountries() {
 		return commonService.getAllCountries();
+	}
+	
+	/**
+	 * Gets the roaming trends data.
+	 *
+	 * @param req the req
+	 * @return the roaming trends data
+	 */
+	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingTrendsData")
+	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) {
+		Object startdate = req.getParameter("attributes");
+		return null;
 	}
 	
 	

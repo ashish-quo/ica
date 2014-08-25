@@ -13,6 +13,7 @@
 
 <script src="js/services.js"></script>
 <script src="js/controllers/sidebar.js"></script>
+<script src="js/controllers/trends.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/directives.js"></script>
 <script src="js/common.js"></script>

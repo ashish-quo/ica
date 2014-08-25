@@ -256,8 +256,8 @@
 	</ul>
 	<ul class="mainnav" id="demo1">
 		<li class="nav-dropdown"><a href="#"><i
-				class="custom-date-icon"></i> <span id="display-cutdate">{{dateRangeFrom}} 
-					- {{dateRangeTo}}</span></a>
+				class="custom-date-icon"></i> <span id="display-cutdate">{{filters.dateRangeFrom}} 
+					- {{filters.dateRangeTo}}</span></a>
 			<ul class="nav-sub">
 				<li><a href ng-click="thisWeekRange()"><fmt:message key="date.range.this.week"/></a></li>
 				<li><a href ng-click="lastWeekRange()"><fmt:message key="date.range.last.week"/></a></li>
@@ -352,7 +352,7 @@
 					<li ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList | filter:query" class="sub_{{hiddenAttr.id}}">
 						<p class="i-checks">
 							<label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"> <input
-								type="checkbox" name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" ng-click="updateFilter()"
+								type="checkbox" name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" ng-click="updateAttributeFilter()"
 								id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value="" class="sub-check">
 								<i></i></label> <label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>
 						</p>
