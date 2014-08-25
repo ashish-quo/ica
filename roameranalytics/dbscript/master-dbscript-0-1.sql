@@ -11,6 +11,7 @@ CREATE TABLE attribute
   icon character varying(20),
   view_type character varying(10),
   display_order integer,
+  attr_ind integer, -- attribute indicator
   CONSTRAINT attribute_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -32,6 +33,7 @@ CREATE TABLE attribute_category
   attribute_id integer,
   icon character varying(20),
   display_order integer,
+  cat_ind integer, -- category indicator
   CONSTRAINT attribute_category_pkey PRIMARY KEY (id),
   CONSTRAINT attribute_category_Fkey FOREIGN KEY (attribute_id) REFERENCES ATTRIBUTE(ID)
 )
