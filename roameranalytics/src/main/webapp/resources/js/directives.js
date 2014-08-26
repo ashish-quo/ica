@@ -1,5 +1,5 @@
 ( function () {
-	var appDirectives = angular.module("app.directives",[]);
+	var appDirectives = angular.module("app.directives",["highcharts-ng"]);
 	
 	/**
 	 * Directive for Trend Screen tabs
@@ -17,20 +17,7 @@
 	appDirectives.directive('roamingTrend', function() {
 	    return {
 	      restrict: 'E',
-	      templateUrl: 'roamingTrend'
-	    };
-	  });
-	/**
-	 * Directive for roaming trends
-	 */
-	appDirectives.directive('a', function() {
-	    return {
-	      restrict: 'E',
-	      link: function(scope,element,attr) {
-	    	  element.on("click",function(event){
-	    		  
-	    	  });
-	      }
+	      templateUrl: 'roamingTrend',
 	    };
 	  });
 })();

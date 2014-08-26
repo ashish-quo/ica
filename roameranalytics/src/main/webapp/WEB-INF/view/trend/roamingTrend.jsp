@@ -1,6 +1,6 @@
 
 
-<div class="top10chart-view">
+<div class="top10chart-view" ng-controller="RoamingTrendController">
 	<div class="row">
 		<div class="col-lg-3 col-sm-6">
 			<div class="top10chart-panel">

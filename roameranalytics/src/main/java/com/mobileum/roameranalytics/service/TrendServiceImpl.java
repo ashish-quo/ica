@@ -30,6 +30,7 @@ import com.mobileum.roameranalytics.model.TopCountry;
 @Service
 public class TrendServiceImpl implements TrendServiceI{
 
+	/** The common service. */
 	@Autowired
 	private CommonServiceI commonService;
 
@@ -39,25 +40,6 @@ public class TrendServiceImpl implements TrendServiceI{
 	
 	/** The logger. */
 	private static Logger LOGGER = LoggerFactory.getLogger("TrendServiceImpl");
-	
-	
-	/* (non-Javadoc)
-	 * @see com.mobileum.roameranalytics.service.TrendServiceI#getAttributes()
-	 */
-	public Map<String, List<Attribute>> getAttributes() {
-		Map<String, List<Attribute>> attributeMap = new LinkedHashMap<String, List<Attribute>>();
-		List<Attribute> attributeList = trendDao.getAttributeList();
-		for (Attribute attribute : attributeList) {
-			String viewType = attribute.getViewType();
-			List<Attribute> list = attributeMap.get(viewType);
-			if (list == null) {
-				list = new ArrayList<Attribute>();
-				attributeMap.put(viewType, list);
-			}
-			list.add(attribute);
-		}
-		return attributeMap;
-	}
 
 	public void printQuery()
 	{
