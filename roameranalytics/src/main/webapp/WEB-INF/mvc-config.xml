@@ -14,7 +14,7 @@
 	<mvc:resources mapping="/**" location="/resources/" />
 
 	<bean id="tilesViewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver" lazy-init="true">
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.tiles3.TilesView"  />
 	</bean>
