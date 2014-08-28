@@ -19,9 +19,11 @@ import com.mobileum.roameranalytics.dao.SelectQuery;
 import com.mobileum.roameranalytics.dao.Table;
 import com.mobileum.roameranalytics.dao.TrendDaoI;
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
 import com.mobileum.roameranalytics.model.TopCountry;
+import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 
 /**
  * @author Quovantis_Dev
@@ -182,6 +184,14 @@ public class TrendServiceImpl implements TrendServiceI{
 		}
 		
 		return topCountry;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.service.TrendServiceI#getTrendsCharts(com.mobileum.roameranalytics.model.Fitler)
+	 */
+	@Override
+	public RoamingTrend getTrendsCharts(Filter filter) {
+		return this.trendDao.getTrendsCharts(filter);
 	}
 
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.model;
+package com.mobileum.roameranalytics.model.chart;
 
 /**
  * @author sarvesh

@@ -9,6 +9,7 @@ import java.util.List;
 import com.mobileum.roameranalytics.dao.Criteria;
 import com.mobileum.roameranalytics.dao.SelectQuery;
 import com.mobileum.roameranalytics.dao.Table;
+import com.mobileum.roameranalytics.model.Filter;
 
 /**
  * The Class QueryBuilder. Creates dynamic queries.
@@ -76,6 +77,30 @@ public class QueryBuilder {
 		query.append(" select country_name countryName, country_code countryCode from ")
 			.append(Relation.COUNTRY).append(" order by country_name");
 		return query.toString();
-
+	}
+	
+	/**
+	 * Returns query for trends chart
+	 * @param filter - filters selected
+	 * @return query
+	 */
+	public static String queryForTrends(Filter filter) {
+		StringBuilder query = new StringBuilder();
+		query.append(" select sum(1) imsicount, sum(triptime.mocallcount) mocallcount, ")
+			.append(" sum(triptime.mtcallcount) mtcallcount, sum(triptime.mosmscount) mosmscount,")
+			.append(" sum(triptime.uplink + triptime.downlink)  datausage, ")
+			.append(" triptime.usagebintime usagebintime,trip.overalltripcategory overalltripcategory from ")
+			.append(Relation.TRIP_TIME).append(" triptime inner join ").append(Relation.TRIP)
+			.append(" trip on triptime.imsi = trip.imsi and triptime.tripstarttime = trip.starttime ")
+			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate ");
+			
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+		}
+		query.append(" group by  triptime.usagebintime, trip.overalltripcategory ");
+		query.append("  order by triptime.usagebintime ");
+		return query.toString();
 	}
 }

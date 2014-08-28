@@ -1,5 +1,6 @@
 (function(){
 	var trends = angular.module("app.trends",[]);
+	
 	/**
 	 * Controller for trend actions
 	 */
@@ -7,6 +8,26 @@
 	trends.controller('RoamingTrendController',
 			['$scope','$rootScope','$http', function($scope,$rootScope,$http) {
 				
+//				$j("#roamerCountChart").highcharts({
+//					
+//				});
+				$scope.roamerCountChartConfig = {
+						 options: {
+					            chart: {
+					                type: 'column'
+					            }
+					        },
+					        xAxis: {
+					               categories: ["A","B","C","D","E"]
+				            },
+					        series: [{
+					            data: [10, 15, 12, 8, 7]
+					        }],
+					        title: {
+					            text: 'Hello'
+					        },
+					        loading: false
+				    }
 				$rootScope.$on('refresh-roaming-trends', function (event, filters) {
 					var attrs = '';
 					for (var key in filters.attributes) {
@@ -16,54 +37,43 @@
 					}
 					attrs = attrs.substring(0, attrs.length - 1);
 					var params = { 'dateRangeFrom' : filters.dateRangeFrom,
-						'dateRangeTo ': filters.dateRangeFrom,
+						'dateRangeTo': filters.dateRangeTo,
 						'attributes' : attrs,
 						'countries' : filters.countries.join(",")
 					}
 					$http.get("getRoamingTrendsData", { 'params' : params}).success(function(result) {
+						
 						$scope.roamerCountChartConfig = {
-								options : {
-									chart : {
-										type : 'line',
-										zoomType : 'x'
-									}
-								},
-								series : [ {
-									data : [ 10, 15, 12, 8, 7, 1, 1, 19, 15, 10 ]
-								} ],
-								title : {
-									text : 'Hello'
-								},
-								xAxis : {
-									currentMin : 0,
-									currentMax : 10,
-									minRange : 1
-								},
-								loading : false
-						}
+								 options: {
+							            chart: {
+							                type: 'column'
+							            }
+							        },
+							        xAxis: {
+							               categories: result.roamersCountChart.dowCategoryList.map(function(value) {
+							            	   return value.substring(0,3);
+							               })
+						            },
+						            yAxis: {
+						                min: 0,
+						                title: {
+						                    text: ''
+						                }
+						            },
+							        series: result.roamersCountChart.dowSeriesList,
+							        title: {
+							            text: 'Roamers Count'
+							        },
+							        
+						            plotOptions: {
+						                column: {
+						                    pointPadding: 0.2,
+						                    borderWidth: 0
+						                }
+						            },
+							        loading: false
+						    }
 					});
-				});
-				$http.get("getAttributes").success(function (data) {
-					$scope.roamerCountChartConfig = {
-							options : {
-								chart : {
-									type : 'line',
-									zoomType : 'x'
-								}
-							},
-							series : [ {
-								data : [ 10, 15, 12, 8, 7, 1, 1, 19, 15, 10 ]
-							} ],
-							title : {
-								text : 'Hello'
-							},
-							xAxis : {
-								currentMin : 0,
-								currentMax : 10,
-								minRange : 1
-							},
-							loading : false
-					};;
 				});
 
 	}]);

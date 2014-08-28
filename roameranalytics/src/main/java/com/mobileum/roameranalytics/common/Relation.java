@@ -16,7 +16,13 @@ public enum Relation {
 	ATTRIBUTE_CATEGORY("ATTRIBUTE_CATEGORY"),
 	
 	/** The country. */
-	COUNTRY("COUNTRY");
+	COUNTRY("COUNTRY"),
+	
+	/** The trip time. */
+	TRIP_TIME("TRIPTIME"),
+	
+	/** The trip. */
+	TRIP("TRIP");
 	
 	/** The table name. */
 	private String tableName;

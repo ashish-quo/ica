@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
 import com.mobileum.roameranalytics.model.TopCountry;
+import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 
 /**
  * @author sarvesh
@@ -46,6 +48,13 @@ public interface TrendServiceI {
 	 */
 	public List<RoamingStats> getTopRoamer(String startDate, String endDate,  String orderBy);
 		
-			
+
+	/**
+	 * Gets the trends charts.
+	 *
+	 * @param filter the filter
+	 * @return the trends charts
+	 */
+	public RoamingTrend getTrendsCharts(Filter filter);		
 
 }

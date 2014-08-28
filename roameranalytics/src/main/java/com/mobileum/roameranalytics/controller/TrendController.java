@@ -3,9 +3,15 @@
  */
 package com.mobileum.roameranalytics.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
-import com.mobileum.roameranalytics.model.RoamingTrend;
+import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.service.CommonServiceI;
 import com.mobileum.roameranalytics.service.TrendServiceI;
 
@@ -91,12 +99,20 @@ public class TrendController {
 	 *
 	 * @param req the req
 	 * @return the roaming trends data
+	 * @throws ParseException 
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingTrendsData")
-	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) {
-		Object startdate = req.getParameter("attributes");
-		return null;
+	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) throws ParseException {
+		String startdate = req.getParameter("dateRangeFrom");
+		String endDate = req.getParameter("dateRangeTo");
+		String attributes = req.getParameter("attributes");
+		String countries = req.getParameter("countries");
+		Filter filter = new Filter();
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		filter.setSelectedCountries(countries);
+		//filter.setSelectedAttributes(selectedAttributes);
+		return this.trendService.getTrendsCharts(filter);
 	}
-	
-	
 }
