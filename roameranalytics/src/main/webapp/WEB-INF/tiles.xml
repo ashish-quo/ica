@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 	<definition name="base.definition" template="/WEB-INF/view/include/layout.jsp">
 		<put-attribute name="header" value="/WEB-INF/view/include/header.jsp" />
@@ -12,6 +12,14 @@
 
 	<definition name="trendHome" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/view/trend/home.jsp" />
+	</definition>
+	
+	<definition name="login" extends="base.definition">
+	<put-attribute name="header" value="" />
+		<put-attribute name="leftpanel" value="" />
+
+		<put-attribute name="footer" value="" />
+		<put-attribute name="body" value="/WEB-INF/view/login.jsp" />
 	</definition>
 	
 	<definition name="heatMap" template="/WEB-INF/view/trend/heatMap.jsp">
