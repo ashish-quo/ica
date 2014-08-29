@@ -22,7 +22,7 @@
 <!-- Loading style -->
 <link href="styles/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="styles/style.css" rel="stylesheet" type="text/css">
-<link href="styles/chart.css" rel="stylesheet" type="text/css">
+<link href="styles/app.css" rel="stylesheet" type="text/css">
 <link href="styles/responsive.css" rel="stylesheet" type="text/css">
 <link href="assets/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css">
 <body class="full-width" ng-controller="MainController">
