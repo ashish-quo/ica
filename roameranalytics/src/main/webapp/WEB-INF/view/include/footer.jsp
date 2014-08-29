@@ -12,6 +12,7 @@
 
 
 <script src="js/services.js"></script>
+<script src="js/utility.js"></script>
 <script src="js/controllers/sidebar.js"></script>
 <script src="js/controllers/trends.js"></script>
 <script src="js/controllers.js"></script>

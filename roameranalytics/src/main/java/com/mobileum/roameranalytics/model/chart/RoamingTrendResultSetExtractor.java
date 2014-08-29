@@ -48,6 +48,8 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		
 		Set<DayOfWeek> dowCategory = new TreeSet<DayOfWeek>();
 		Set<Long> dateCategory = new TreeSet<Long>();
+		long startDate = System.currentTimeMillis();
+		boolean first = true;
 		while (rs.next()) {
 			Long date = rs.getLong("usagebintime");
 			Double count = rs.getDouble("imsicount");
@@ -60,7 +62,10 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(date);
 			dateCategory.add(date);
-
+			if (first) {
+				startDate = date;
+				first = false;
+			}
 			DayOfWeek dow = DayOfWeek.of(cal.get(Calendar.DAY_OF_WEEK));
 			dowCategory.add(dow);
 			
@@ -85,7 +90,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		RoamingTrend roamingTrend = new RoamingTrend();
 		
 		populateRoamingTrend(dowCountMap, perDayCountMap, dowCallMap, perDayCallMap, 
-				dowDataMap, perDayDataMap,dowSMSMap,perDaySMSMap, dowCategory, dateCategory, roamingTrend);
+				dowDataMap, perDayDataMap,dowSMSMap,perDaySMSMap, dowCategory, dateCategory, roamingTrend, startDate);
 		
 		return roamingTrend;
 	}
@@ -107,19 +112,19 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Map<DayOfWeek, Double> dowSMSMap,
 			Map<Long, Double> perDaySMSMap,
 			Set<DayOfWeek> dowCategory, Set<Long> dateCategory,
-			RoamingTrend roamingTrend) {
+			RoamingTrend roamingTrend, long startDate) {
 		
 		// Roamer Count Chart
-		populateRoamerCountChart(dowCountMap, perDayCountMap, dowCategory, dateCategory, roamingTrend);
+		populateRoamerCountChart(dowCountMap, perDayCountMap, dowCategory, dateCategory, roamingTrend, startDate);
 		
 		// Voice Chart
-		populateVoiceCallChart(dowCallMap, perDayCallMap, dowCategory, dateCategory, roamingTrend);
+		populateVoiceCallChart(dowCallMap, perDayCallMap, dowCategory, dateCategory, roamingTrend, startDate);
 		
 		// Data Chart
-		populateDataChart(dowDataMap, perDayDataMap, dowCategory, dateCategory, roamingTrend);
+		populateDataChart(dowDataMap, perDayDataMap, dowCategory, dateCategory, roamingTrend, startDate);
 		
 		//SMS  Chart
-		populateSMSChart(dowSMSMap, perDaySMSMap, dowCategory, dateCategory, roamingTrend);
+		populateSMSChart(dowSMSMap, perDaySMSMap, dowCategory, dateCategory, roamingTrend, startDate);
 	}
 
 	
@@ -135,7 +140,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Map<DayOfWeek, Double> dowDataMap,
 			Map<Long, Double> perDayDataMap,
 			Set<DayOfWeek> dowCategory, Set<Long> dateCategory,
-			RoamingTrend roamingTrend) {
+			RoamingTrend roamingTrend, long startDate) {
 		
 		List<ChartSeries> dowDataSeriesList = new ArrayList<ChartSeries>();
 		
@@ -145,14 +150,15 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		
 		List<ChartSeries> perDayDataSeriesList = new ArrayList<ChartSeries>();
 		
-		ChartSeries dateSeries = new ChartSeries();
+		PerDaySeries dateSeries = new PerDaySeries();
 		dateSeries.setData(perDayDataMap.values());
+		dateSeries.setPointStart(startDate);
 		perDayDataSeriesList.add(dateSeries);
 	
 		
 		RoamingTrendChart dataChart = new RoamingTrendChart();
 		dataChart.setDowCategoryList(dowCategory);
-		dataChart.setPerDayCategoryList(dateCategory);
+		//dataChart.setPerDayCategoryList(dateCategory);
 		dataChart.setDowSeriesList(dowDataSeriesList);
 		dataChart.setPerDaySeriesList(perDayDataSeriesList);
 		roamingTrend.setRoamersSMSChart(dataChart);
@@ -169,7 +175,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Map<DayOfWeek, Double> dowDataMap,
 			Map<Long, Double> perDayDataMap,
 			Set<DayOfWeek> dowCategory, Set<Long> dateCategory,
-			RoamingTrend roamingTrend) {
+			RoamingTrend roamingTrend, long startDate) {
 		
 		List<ChartSeries> dowDataSeriesList = new ArrayList<ChartSeries>();
 		
@@ -179,14 +185,15 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		
 		List<ChartSeries> perDayDataSeriesList = new ArrayList<ChartSeries>();
 		
-		ChartSeries dateSeries = new ChartSeries();
+		PerDaySeries dateSeries = new PerDaySeries();
 		dateSeries.setData(perDayDataMap.values());
+		dateSeries.setPointStart(startDate);
 		perDayDataSeriesList.add(dateSeries);
 	
 		
 		RoamingTrendChart dataChart = new RoamingTrendChart();
 		dataChart.setDowCategoryList(dowCategory);
-		dataChart.setPerDayCategoryList(dateCategory);
+		//dataChart.setPerDayCategoryList(dateCategory);
 		dataChart.setDowSeriesList(dowDataSeriesList);
 		dataChart.setPerDaySeriesList(perDayDataSeriesList);
 		roamingTrend.setRoamersDataChart(dataChart);
@@ -204,7 +211,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Map<VoiceType, Map<DayOfWeek, Double>> dowCallMap,
 			Map<VoiceType, Map<Long, Double>> perDayCallMap,
 			Set<DayOfWeek> dowCategory, Set<Long> dateCategory,
-			RoamingTrend roamingTrend) {
+			RoamingTrend roamingTrend, long startDate) {
 		List<ChartSeries> dowCallSeriesList = new ArrayList<ChartSeries>();
 		for (VoiceType voiceType : dowCallMap.keySet()) {
 			ChartSeries series = new ChartSeries();
@@ -215,15 +222,16 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		
 		List<ChartSeries> perDayCallSeriesList = new ArrayList<ChartSeries>();
 		for (VoiceType voiceType : perDayCallMap.keySet()) {
-			ChartSeries series = new ChartSeries();
+			PerDaySeries series = new PerDaySeries();
 			series.setName(voiceType.name());
+			series.setPointStart(startDate);
 			series.setData(perDayCallMap.get(voiceType).values());
 			perDayCallSeriesList.add(series);
 		}
 		
 		RoamingTrendChart voiceChart = new RoamingTrendChart();
 		voiceChart.setDowCategoryList(dowCategory);
-		voiceChart.setPerDayCategoryList(dateCategory);
+		//voiceChart.setPerDayCategoryList(dateCategory);
 		voiceChart.setDowSeriesList(dowCallSeriesList);
 		voiceChart.setPerDaySeriesList(perDayCallSeriesList);
 		roamingTrend.setRoamersMTMOChart(voiceChart);
@@ -240,7 +248,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Map<RoamerType, Map<DayOfWeek, Double>> dowCountMap,
 			Map<RoamerType, Map<Long, Double>> perDayCountMap,
 			Set<DayOfWeek> dowCategory, Set<Long> dateCategory,
-			RoamingTrend roamingTrend) {
+			RoamingTrend roamingTrend, long startDate) {
 		
 		List<ChartSeries> dowCountSeriesList = new ArrayList<ChartSeries>();
 		for (RoamerType roamerType : dowCountMap.keySet()) {
@@ -252,15 +260,16 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		
 		List<ChartSeries> perDayCountSeriesList = new ArrayList<ChartSeries>();
 		for (RoamerType roamerType : perDayCountMap.keySet()) {
-			ChartSeries series = new ChartSeries();
+			PerDaySeries series = new PerDaySeries();
 			series.setName(roamerType.name());
+			series.setPointStart(startDate);
 			series.setData(perDayCountMap.get(roamerType).values());
 			perDayCountSeriesList.add(series);
 		}
 		
 		RoamingTrendChart roamerCountChart = new RoamingTrendChart();
 		roamerCountChart.setDowCategoryList(dowCategory);
-		roamerCountChart.setPerDayCategoryList(dateCategory);
+		//roamerCountChart.setPerDayCategoryList(dateCategory);
 		roamerCountChart.setDowSeriesList(dowCountSeriesList);
 		roamerCountChart.setPerDaySeriesList(perDayCountSeriesList);
 		roamingTrend.setRoamersCountChart(roamerCountChart);
@@ -278,7 +287,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Double data) {
 		Double perDayData = perDayDataMap.get(date);
 		if (perDayData == null) {
-			perDayDataMap.put(date, perDayData);
+			perDayDataMap.put(date, data);
 		} else {
 			perDayDataMap.put(date, perDayData + data);
 		}
@@ -296,7 +305,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Double data) {
 		Double dowData = dowDataMap.get(dow);
 		if (dowData == null) {
-			dowDataMap.put(dow, dowData);
+			dowDataMap.put(dow, data);
 		} else {
 			dowDataMap.put(dow, dowData + data);
 		}

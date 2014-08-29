@@ -9,6 +9,7 @@ import java.util.List;
 import com.mobileum.roameranalytics.dao.Criteria;
 import com.mobileum.roameranalytics.dao.SelectQuery;
 import com.mobileum.roameranalytics.dao.Table;
+import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.model.Filter;
 
 /**

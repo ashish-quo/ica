@@ -3,7 +3,9 @@
 	/**
 	 * Controller for sidebar actions
 	 */
-	sidebar.controller('SidebarController',['$scope','$rootScope', '$http', function($scope,$rootScope,$http) {
+	sidebar.controller('SidebarController',
+			['$scope','$rootScope', '$http', 'util', function($scope,$rootScope,$http,util) {
+				
 		$rootScope.filters = {
 				attributes : {},
 				countries : new Array(),
@@ -13,37 +15,16 @@
 		
 		//Date range selector
 		$j('#date-range').daterangepicker(null, function(start, end, label) {
-			$rootScope.dateRangeFrom = start.format('DD/MM/YY');
-			$rootScope.dateRangeTo = end.format('DD/MM/YY');
+			$rootScope.filters.dateRangeFrom = start.format('DD/MM/YY');
+			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
+			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			$rootScope.$apply();
+			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
 		});
-		
-		// appends zero to date and months where value is less than 10
-		function appendZero(num) {
-			if (num < 10) {
-				return "0"+num;
-			} else 
-				return ""+num;
-		}
-		
-		// gives date range start and end of the week by week number
-		function getDateRangeOfWeek(weekNo){
-		    var d1 = new Date();
-		    numOfdaysPastSinceLastMonday = eval(d1.getDay()- 1);
-		    d1.setDate(d1.getDate() - numOfdaysPastSinceLastMonday);
-		    var weekNoToday = d1.getWeek();
-		    var weeksInTheFuture = eval( weekNo - weekNoToday );
-		    d1.setDate(d1.getDate() + eval( 7 * weeksInTheFuture ));
-		    var rangeIsFrom =  appendZero(d1.getDate()) +"/" + appendZero(eval(d1.getMonth()+1)) + "/" + (""+d1.getFullYear()).slice(2);
-		    d1.setDate(d1.getDate() + 6);
-		    var rangeIsTo =   appendZero(d1.getDate())+"/" + appendZero(eval(d1.getMonth()+1))+ "/" + (""+d1.getFullYear()).slice(2) ;
-		    return {
-		    		"from":rangeIsFrom,
-		    		"to": rangeIsTo
-		    }
-		};
 		var currentWeek = new Date().getWeek();
-		var defaultDateRange = getDateRangeOfWeek(currentWeek);
+		var defaultDateRange = util.getDateRangeOfWeek(currentWeek);
 		$rootScope.filters.dateRangeFrom = defaultDateRange.from;
 		$rootScope.filters.dateRangeTo = defaultDateRange.to;
 		
@@ -62,36 +43,36 @@
 	    });
 		
 		$scope.thisWeekRange = function() {
-			var dateRange = getDateRangeOfWeek(new Date().getWeek());
+			var dateRange = util.getDateRangeOfWeek(new Date().getWeek());
 			$rootScope.filters.dateRangeFrom = dateRange.from;
 			$rootScope.filters.dateRangeTo = dateRange.to;
+			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
+			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
 		};
 		
 		$scope.lastWeekRange = function() {
-			/**var now = new Date();
-			var day = now.getDay()
-			var startTemp = new Date(now.getFullYear(),now.getMonth()+1,now.getDate() 
-					- now.getDay() + (now.getDay() == 0 ? -6:1));
-			
-			var startDate = startTemp.getDate() < 10 ? "0" + startTemp.getDate() : "" + startTemp.getDate();
-			var startMonth = startTemp.getMonth() < 10 ? "0" + startTemp.getMonth() : "" + startTemp.getMonth();
-			
-			var nowDate = now.getDate() < 10 ? "0" + now.getDate() : "" + now.getDate();
-			var nowMonth = (now.getMonth() +1) < 10 ? "0" + (now.getMonth() + 1) : "" + (now.getMonth()+1);
-			
-			var start = startDate + "/" + startMonth + "/" + (""+startTemp.getYear()).slice(1);
-			var end = nowDate + "/" + nowMonth + "/" + (""+now.getYear()).slice(1);*/
-			var dateRange = getDateRangeOfWeek(new Date().getWeek() - 1);
+			var dateRange = util.getDateRangeOfWeek(new Date().getWeek() - 1);
 			$rootScope.filters.dateRangeFrom = dateRange.from;
 			$rootScope.filters.dateRangeTo = dateRange.to;
+			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
+			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
 		};
 		
 		$scope.thisMonth = function() {
 			var now = new Date();
 			var startTemp = new Date(now.getFullYear(),now.getMonth(),1);
 			
-			$rootScope.filters.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			$rootScope.filters.dateRangeTo = appendZero(now.getDate()) + "/" + appendZero(now.getMonth()+1) + "/" + (""+now.getFullYear()).slice(2);
+			$rootScope.filters.dateRangeFrom =  util.getDateString(startTemp.getDate(),startTemp.getMonth()+1,startTemp.getFullYear());
+			$rootScope.filters.dateRangeTo = util.getDateString(now.getDate(),now.getMonth()+1,now.getFullYear());
+			
+			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
+			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
 		};
 		
 		$scope.lastMonth = function() {
@@ -99,8 +80,13 @@
 			var startTemp = new Date(now.getFullYear(),now.getMonth()-1,1);
 			var endTemp = new Date(now.getFullYear(),now.getMonth(),0);
 			
-			$rootScope.filters.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			$rootScope.filters.dateRangeTo = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
+			$rootScope.filters.dateRangeFrom = util.getDateString(startTemp.getDate(),startTemp.getMonth()+1,startTemp.getFullYear());
+			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
+			
+			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
+			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
 		};
 		
 		$scope.thisQuarter = function() {
@@ -112,8 +98,13 @@
 			
 			var endTemp = new Date(now.getFullYear(),quarterEndMonth,0);
 			
-			$rootScope.filters.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			$rootScope.filters.dateRangeTo = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
+			$rootScope.filters.dateRangeFrom = util.getDateString(startTemp.getDate(),startTemp.getMonth()+1,startTemp.getFullYear());
+			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
+			
+			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
+			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
 		};
 		
 		$scope.lastQuarter = function() {
@@ -130,8 +121,13 @@
 			
 			var endTemp = new Date(now.getFullYear(),quarterEndMonth,0);
 			
-			$rootScope.filters.dateRangeFrom = appendZero(startTemp.getDate()) + "/" + appendZero(startTemp.getMonth()+1) + "/" + (""+startTemp.getFullYear()).slice(2);
-			$rootScope.filters.dateRangeTo = appendZero(endTemp.getDate()) + "/" + appendZero(endTemp.getMonth()+1) + "/" + (""+endTemp.getFullYear()).slice(2);
+			$rootScope.filters.dateRangeFrom = util.getDateString(startTemp.getDate(),startTemp.getMonth()+1,startTemp.getFullYear());
+			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
+			
+			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
+			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
 		};
 		
 		$scope.filterHiddenAttr = function(id,text) {
@@ -172,7 +168,7 @@
 				$rootScope.filters.countries.push(id);
 			});
 			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
-				$rootScope.$broadcast("refresh-roaming-trends",$rootScope.filters);
+				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
 		

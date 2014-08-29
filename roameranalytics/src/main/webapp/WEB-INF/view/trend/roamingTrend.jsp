@@ -1,86 +1,114 @@
-
-
 <div class="top10chart-view" ng-controller="RoamingTrendController">
-	<div class="row">
-		<div class="col-lg-3 col-sm-6">
-			<div class="top10chart-panel">
-				<div class="linechart-box">
-					 <highchart id="roamerCountChart" config="roamerCountChartConfig" class="chart-container"></highchart>
+	<div class="top10chart-trends">
+		<div class="col-lg-3">
+			<div class="topChart-panel-tr">
+				<div class="front-top">
+					<div class="linechart-box-tr">
+						<div class="topChart-angle pull-right extrlightblue clearfix">
+							<input type="button" id="rom-opt-b" value="Log Scale" ng-model="logScale" ng-click="logScale='true'"
+								ng-class="{'active-scale' : logScale == 'true'}"
+								class="angle_btn "> <input type="button" id="rom-opt-a" ng-model="logScale" 
+								ng-click="logScale='false'" ng-class="{'active-scale': logScale == 'false'}" 
+								value="Linear Scale" class="angle_btn ">
+						</div>
+						<highchart id="roamerCountChart" config="roamerCountChartConfig"
+							class="container-chart-box"></highchart>
+					</div>
 				</div>
-				<div class="top10chart-footer purple">
+				<div class="top10chart-footer lightblue clearfix">
 					<p class="chart-name">Roamers</p>
-					<div class="chart-radio purple">
+					<div class="chart-radio lightblue">
 						<p class="i-checks">
-							<label> <input type="radio" name="Roamers" id="Roamers1"
-								value=""> <i></i></label> <label for="Roamers1">Day of
-								week</label>
+							<label> <input type="radio" checked
+								name="countChartOption" id="countChartOptionDoW" value="true"
+								ng-model="countDoW"> <i></i></label> <label
+								for="countChartOptionDoW">Day of week</label>
 						</p>
 						<p class="i-checks">
-							<label> <input type="radio" name="Roamers" id="Roamers2"
-								value="" checked> <i></i></label> <label for="Roamers2">Per
-								day</label>
+							<label> <input type="radio" name="countChartOption"
+								id="countChartOptionPD" value="false" ng-model="countDoW">
+								<i></i></label> <label for="countChartOptionPD">Per day</label>
 						</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-3 col-sm-6">
-			<div class="top10chart-panel">
-				<div class="linechart-box">
-					<div id="container2"></div>
+		<div class="col-lg-3">
+			<div class="topChart-panel-tr">
+				<div class="front-top">
+					<div class="linechart-box-tr">
+						<highchart id="roamerVoiceChart" config="roamerVoiceChartConfig"
+							class="container-chart-box"></highchart>
+					</div>
 				</div>
-				<div class="top10chart-footer teal">
-					<p class="chart-name">MT + MO (Min)</p>
-					<div class="chart-radio teal">
+				<div class="top10chart-footer green clearfix">
+					<p class="chart-name">Voice (Min)</p>
+					<div class="chart-radio green">
 						<p class="i-checks">
-							<label> <input type="radio" name="MTMO" id="MTMO1"
-								value="" checked> <i></i></label> <label for="MTMO1">Day
+							<label> <input type="radio" name="voiceChartOption"
+								id="voiceChartOptionDoW" ng-model="voiceDoW" value="true"
+								checked> <i></i></label> <label for="voiceChartOptionDoW">Day
 								of week</label>
 						</p>
 						<p class="i-checks">
-							<label> <input type="radio" name="MTMO" id="MTMO2"
-								value=""> <i></i></label> <label for="MTMO2">Per day</label>
+							<label> <input type="radio" name="voiceChartOption"
+								id="voiceChartOptionPD" ng-model="voiceDoW" value="false">
+								<i></i></label> <label for="voiceChartOptionPD">Per day</label>
 						</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-3 col-sm-6">
-			<div class="top10chart-panel">
-				<div class="linechart-box">
-					<div id="container3"></div>
+		<div class="col-lg-3">
+			<div class="topChart-panel-tr">
+				<div class="front-top">
+					<div class="linechart-box-tr">
+
+						<highchart id="roamerDataChart" config="roamerDataChartConfig"
+							class="container-chart-box"></highchart>
+					</div>
 				</div>
-				<div class="top10chart-footer orange">
+				
+				<div class="top10chart-footer dark-light-orange clearfix">
+					<p class="chart-name">Data (MB)</p>
+					<div class="chart-radio dark-light-orange">
+						<p class="i-checks">
+							<label> <input type="radio" name="dataDataOption"
+								id="dataChartOptionDoW" ng-model="dataDoW" value="true"
+								checked> <i></i></label> <label for="dataChartOptionDoW">Day
+								of week</label>
+						</p>
+						<p class="i-checks">
+							<label> <input type="radio" name="dataChartOption"
+								id="dataChartOptionPD" ng-model="dataDoW" value="false">
+								<i></i></label> <label for="dataChartOptionPD">Per day</label>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="topChart-panel-tr">
+				<div class="front-top">
+					<div class="linechart-box-tr">
+
+						<highchart id="roamerSMSChart" config="roamerSMSChartConfig"
+							class="container-chart-box"></highchart>
+					</div>
+				</div>
+				<div class="top10chart-footer yellow clearfix">
 					<p class="chart-name">SMS</p>
-					<div class="chart-radio orange">
+					<div class="chart-radio yellow">
 						<p class="i-checks">
-							<label> <input type="radio" name="SMS" id="SMS1" value=""
-								checked> <i></i></label> <label for="SMS1">Day of week</label>
-						</p>
-						<p class="i-checks">
-							<label> <input type="radio" name="SMS" id="SMS2" value="">
-								<i></i></label> <label for="SMS2">Per day</label>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-3 col-sm-6">
-			<div class="top10chart-panel">
-				<div class="linechart-box">
-					<div id="container4"></div>
-				</div>
-				<div class="top10chart-footer green">
-					<p class="chart-name">Data(MB)</p>
-					<div class="chart-radio  green">
-						<p class="i-checks">
-							<label> <input type="radio" name="Data" id="Data1"
-								value="" checked> <i></i></label> <label for="Data1">Day
+							<label> <input type="radio" name="smsChartOption"
+								id="smsChartOptionDoW" ng-model="smsDoW" value="true"
+								checked> <i></i></label> <label for="smsChartOptionDoW">Day
 								of week</label>
 						</p>
 						<p class="i-checks">
-							<label> <input type="radio" name="Data" id="Data2"
-								value=""> <i></i></label> <label for="Data2">Per day</label>
+							<label> <input type="radio" name="smsChartOption"
+								id="smsChartOptionPD" ng-model="smsDoW" value="false">
+								<i></i></label> <label for="smsChartOptionPD">Per day</label>
 						</p>
 					</div>
 				</div>
@@ -91,30 +119,28 @@
 		<div class="col-lg-12">
 			<ul class="roamingtrends-optionlist">
 				<li>
-					<p class="i-checks">
-						<label> <input type="checkbox" name="Premium1"
-							id="Premium1" value="" checked> <i></i></label> <label
-							for="Premium1">Premium</label>
-					</p>
-					<p class="i-checks">
-						<label> <input type="checkbox" name="Value1" id="Value1"
-							value="" checked> <i></i></label> <label for="Value1">Value</label>
-					</p>
-					<p class="i-checks">
-						<label> <input type="checkbox" name="Silent1" id="Silent1"
-							value="" checked> <i></i></label> <label for="Silent1">Silent</label>
-					</p>
+					<div class="btn-group arpv-btns" data-toggle="buttons">
+						<label class="btn btn-primary active"> <input type="radio"
+							name="options" id="allarpv" checked> All
+						</label> <label class="btn btn-primary"> <input type="radio"
+							name="options" id="higharpv"> Silent
+						</label> <label class="btn btn-primary"> <input type="radio"
+							name="options" id="medarpv"> Value
+						</label> <label class="btn btn-primary"> <input type="radio"
+							name="options" id="lowarpv"> Premium
+						</label>
+					</div>
 				</li>
 				<li>
 					<div class="btn-group arpv-btns" data-toggle="buttons">
 						<label class="btn btn-primary active"> <input type="radio"
 							name="options" id="allarpv" checked> All
 						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="higharpv"> High ARPV
+							name="options" id="higharpv"> High ARPU
 						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="medarpv"> Med ARPV
+							name="options" id="medarpv"> Med ARPU
 						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="lowarpv"> Low ARPV
+							name="options" id="lowarpv"> Low ARPU
 						</label>
 					</div>
 				</li>
@@ -133,23 +159,20 @@
 		</div>
 	</div>
 </div>
-
-
 <div class="row dashboard-statics">
-	<div class="col-lg-6">
+	<div class="col-lg-6 col-md-6">
 		<section class="panel">
-			<div class="symbol purple">
+			<div class="symbol lightblue">
 				<i class="roamers-icon"></i>
 				<p>Roamers</p>
 			</div>
 			<div class="value">
-				<p class="statics-num purple-text">425</p>
+				<p class="statics-num lightblue-text">425</p>
 				<ul class="statics-subnum">
-					<li>
+					<li class="cust-tooltip-dn" original-title="Projected: 350">
 						<p class="subnum-text">Silent</p>
 						<p class="subnum-number">
-							<span class="arr-space"><i class="caret"></i><i
-								class="caret"></i></span>300
+							<span class="arr-space"><img src="images/down-icon.png"></span>300
 						</p>
 					</li>
 					<li>
@@ -164,26 +187,30 @@
 			</div>
 		</section>
 	</div>
-	<div class="col-lg-6">
+	<div class="col-lg-6 col-md-6">
 		<section class="panel">
-			<div class="symbol orange">
+			<div class="symbol purple">
 				<i class="mo-icon"></i>
 				<p>MO(min)</p>
 			</div>
 			<div class="value">
-				<p class="statics-num orange-text">425</p>
+				<p class="statics-num purple-text">425</p>
 				<ul class="statics-subnum">
-					<li>
-						<p class="subnum-text">Silent</p>
-						<p class="subnum-number">300</p>
+					<li class="cust-tooltip-dn" original-title="Projected: 81">
+						<p class="subnum-text">Home</p>
+						<p class="subnum-number">
+							<span class="arr-space"><img src="images/down-icon.png"></span>50
+						</p>
 					</li>
 					<li>
-						<p class="subnum-text">Value</p>
-						<p class="subnum-number">75</p>
+						<p class="subnum-text">Local</p>
+						<p class="subnum-number">350</p>
 					</li>
 					<li>
-						<p class="subnum-text">Premium</p>
-						<p class="subnum-number">50</p>
+						<p class="subnum-text">Intl.</p>
+						<p class="subnum-number">
+							<span class="arr-space"><img src="images/up-icon.png"></span>25
+						</p>
 					</li>
 				</ul>
 			</div>
@@ -193,23 +220,23 @@
 <div class="row dashboard-statics">
 	<div class="col-lg-3">
 		<section class="panel">
-			<div class="symbol teal">
+			<div class="symbol light-green">
 				<i class="mt-icon"></i>
-				<p>MT(min)</p>
+				<p>MT(Min)</p>
 			</div>
 			<div class="value">
-				<p class="statics-num teal-text">987</p>
+				<p class="statics-num light-green-text">987</p>
 			</div>
 		</section>
 	</div>
 	<div class="col-lg-3">
 		<section class="panel">
-			<div class="symbol green">
+			<div class="symbol light-orange">
 				<i class="data-icon"></i>
-				<p>Data(mb)</p>
+				<p>Data(MB)</p>
 			</div>
 			<div class="value">
-				<p class="statics-num green-text">1095</p>
+				<p class="statics-num light-orange-text">1095</p>
 			</div>
 		</section>
 	</div>
@@ -226,95 +253,4 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-lg-6">
-		<div class="panel">
-			<div class="alertpanel-head">
-				<span><i class="alert-icon"></i></span>
-				<p>Alert</p>
-			</div>
-			<ul class="alert-list">
-				<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-					sed do eiusmod tempor incididunt ut labore et dolore qualconsequat.
-				</li>
-				<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-					sed do eiusmod tempor incididunt ut labore et dolore qualconsequat.
-				</li>
-				<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-					sed do eiusmod tempor incididunt ut labore et dolore qualconsequat.
-				</li>
-			</ul>
-		</div>
-	</div>
-	<div class="col-lg-6">
-		<div class="panel">
-			<div class="commentpanel-head">
-				<span><i class="comment-icon"></i></span>
-				<p>Comment</p>
-			</div>
-			<table class="comment-list">
-				<tr>
-					<td>
-						<div class="clearfix">
-							<p class="comment-name">Sangeeta Sharma</p>
-							<i class="comment-date">Jun 25, 2014 </i>
-						</div>
-						<p class="comment-text">Lorem ipsum dolor sit amet,
-							consectetur adipisicing elit, sed deius</p>
-					</td>
-					<td><i class="public-icon cust-tooltip"
-						original-title="Public"></i> <span class="dropdown"><a
-							href="javascript:void(0)" class="more-icon cust-tooltip"
-							data-toggle="dropdown" original-title="More"></a>
-							<ul class="dropdown-menu popover left pull-right more-dd"
-								role="menu" aria-labelledby="dLabel">
-								<div class="arrow"></div>
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul> </span></td>
-				</tr>
-				<tr>
-					<td>
-						<div class="clearfix">
-							<p class="comment-name">Sangeeta Sharma</p>
-							<i class="comment-date">Jun 25, 2014 </i>
-						</div>
-						<p class="comment-text">Lorem ipsum dolor sit amet,
-							consectetur adipisicing elit, sed deius</p>
-					</td>
-					<td><i class="friends-icon cust-tooltip"
-						original-title="Friends"></i> <span class="dropdown"><a
-							href="javascript:void(0)" class="more-icon cust-tooltip"
-							data-toggle="dropdown" original-title="More"></a>
-							<ul class="dropdown-menu popover left pull-right more-dd"
-								role="menu" aria-labelledby="dLabel">
-								<div class="arrow"></div>
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul> </span></td>
-				</tr>
-				<tr>
-					<td>
-						<div class="clearfix">
-							<p class="comment-name">Sangeeta Sharma</p>
-							<i class="comment-date">Jun 25, 2014 </i>
-						</div>
-						<p class="comment-text">Lorem ipsum dolor sit amet,
-							consectetur adipisicing elit, sed deius</p>
-					</td>
-					<td><i class="public-icon cust-tooltip"
-						original-title="Public"></i> <span class="dropdown"><a
-							href="javascript:void(0)" class="more-icon cust-tooltip"
-							data-toggle="dropdown" original-title="More"></a>
-							<ul class="dropdown-menu popover left pull-right more-dd"
-								role="menu" aria-labelledby="dLabel">
-								<div class="arrow"></div>
-								<li><a href="#">Edit</a></li>
-								<li><a href="#">Delete</a></li>
-							</ul> </span></td>
-				</tr>
-			</table>
-		</div>
-	</div>
-</div>
-</div>
+

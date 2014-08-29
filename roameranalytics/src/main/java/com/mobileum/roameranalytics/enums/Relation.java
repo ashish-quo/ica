@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.common;
+package com.mobileum.roameranalytics.enums;
 
 /**
  * @author sarvesh

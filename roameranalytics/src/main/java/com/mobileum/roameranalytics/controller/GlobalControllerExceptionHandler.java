@@ -29,7 +29,8 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ErrorDto handleGenericExeption(HttpServletRequest req, HttpServletResponse resp, Exception exception) throws IOException {
-    	LOGGER.error("Request: " + req.getRequestURL() + " raised " + exception);
+    	LOGGER.error("Request: " + req.getRequestURL() + " raised " + exception.getStackTrace());
+    	exception.printStackTrace();
         resp.setStatus(500);
         ErrorDto error = new ErrorDto();
         error.setMessage(exception.toString());
