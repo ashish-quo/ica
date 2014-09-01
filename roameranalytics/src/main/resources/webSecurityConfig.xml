@@ -8,12 +8,14 @@
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
 	<http use-expressions="true">
+	<access-denied-handler error-page="/login" />
 		<intercept-url pattern="/anonymous*" access="isAnonymous()" />
 		<intercept-url pattern="/login*" access="permitAll" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 
-		<form-login login-page='/login' login-processing-url="/perform_login"
+		<form-login login-page='/login' login-processing-url="/perform_login" 
 			default-target-url="/" authentication-failure-url="/login?error=true"
+			username-parameter="username"	password-parameter="password" 
 			always-use-default-target="true" />
 
 		<logout logout-url="/perform_logout" delete-cookies="JSESSIONID"
@@ -24,13 +26,17 @@
 	<beans:bean name="customLogoutSuccessHandler"
 		class="com.mobileum.roameranalytics.security.CustomLogoutSuccessHandler" />
 
+	
+	
+	<!-- Select users and user_roles from database -->
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="user1" password="user1Pass" authorities="ROLE_USER" />
-				<user name="user" password="pass" authorities="ROLE_ADMIN" />
-			</user-service>
-		</authentication-provider>
+	  <authentication-provider>
+		<jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query=
+		    "select username,password,enabled from userinfo where username=?;"
+		  authorities-by-username-query=
+		    "select username, role_name from user_roles where username =?;" />
+	  </authentication-provider>
 	</authentication-manager>
 
 </beans:beans>
