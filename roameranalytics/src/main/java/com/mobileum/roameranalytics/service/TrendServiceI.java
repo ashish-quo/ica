@@ -6,7 +6,6 @@ package com.mobileum.roameranalytics.service;
 import java.util.List;
 import java.util.Map;
 
-import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;

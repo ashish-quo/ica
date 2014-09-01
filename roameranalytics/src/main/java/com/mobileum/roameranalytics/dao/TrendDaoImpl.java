@@ -5,21 +5,11 @@ package com.mobileum.roameranalytics.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javax.sql.DataSource;
 
@@ -34,18 +24,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.common.RAConstants;
-import com.mobileum.roameranalytics.enums.RoamerType;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
-import com.mobileum.roameranalytics.model.chart.ChartSeries;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
-import com.mobileum.roameranalytics.model.chart.RoamingTrendChart;
 import com.mobileum.roameranalytics.model.chart.RoamingTrendResultSetExtractor;
 
 /**
@@ -114,7 +100,8 @@ public class TrendDaoImpl implements TrendDaoI {
 				});
 
 	}
-
+	
+	@Override
 	public List<HeatMap> getHeatMapList(String query, Object criteria[]) {
 
 		return jdbcTemplate.query(query, criteria, new RowMapper<HeatMap>() {
@@ -132,7 +119,7 @@ public class TrendDaoImpl implements TrendDaoI {
 		});
 
 	}
-
+	@Override
 	public List<RoamingStats> getTopRoamerDao(String query, Object criteria[]) {
 
 		return jdbcTemplate.query(query, criteria,

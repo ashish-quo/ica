@@ -251,28 +251,45 @@ WITH (
 ALTER TABLE tray
   OWNER TO postgres;
 
--- Table: "user"
+-- Table userinfo added by smruti on 29-08-2014
 
--- DROP TABLE "user";
+-- DROP TABLE userinfo;
 
-CREATE TABLE "user"
+CREATE TABLE userinfo
 (
-  id integer NOT NULL,
+  id serial NOT NULL,
   username character varying(50),
   password character varying(100),
-  lastname character varying(30),
-  firstname character varying(30),
-  mobile character varying(15),
-  group_id integer,
-  CONSTRAINT user_pkey PRIMARY KEY (id)
+  enabled boolean,
+  CONSTRAINT userinfo_pkey PRIMARY KEY (id),
+  CONSTRAINT userinfo_username_key UNIQUE (username)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE "user"
+ALTER TABLE userinfo
+  OWNER TO postgres;
+
+  
+ -- Table trip added by smruti on 27-08-2014
+ 
+  -- Table: user_roles
+
+-- DROP TABLE user_roles;
+
+CREATE TABLE user_roles
+(
+  user_role_id serial NOT NULL,
+  user_id integer,
+  role_name character varying(10),
+  CONSTRAINT user_roles_pkey PRIMARY KEY (user_role_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE user_roles
   OWNER TO postgres;
   
-
  -- Table trip added by smruti on 22-08-2014
  
   -- Table: trip
