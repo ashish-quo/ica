@@ -114,7 +114,8 @@ public class TrendDaoImpl implements TrendDaoI {
 				});
 
 	}
-
+	
+	@Override
 	public List<HeatMap> getHeatMapList(String query, Object criteria[]) {
 
 		return jdbcTemplate.query(query, criteria, new RowMapper<HeatMap>() {
@@ -132,7 +133,7 @@ public class TrendDaoImpl implements TrendDaoI {
 		});
 
 	}
-
+	@Override
 	public List<RoamingStats> getTopRoamerDao(String query, Object criteria[]) {
 
 		return jdbcTemplate.query(query, criteria,
