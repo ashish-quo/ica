@@ -68,10 +68,10 @@ public class TrendController {
 	 * Renders roaming trends
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/roamingTrend")
+	@RequestMapping(method=RequestMethod.GET, value="/trends")
 	public ModelAndView showRoamingTrends() {
 		System.out.println("Roaming Trends");
-		return new ModelAndView("roamingTrend");
+		return new ModelAndView("trends");
 	}
 	
 	/**

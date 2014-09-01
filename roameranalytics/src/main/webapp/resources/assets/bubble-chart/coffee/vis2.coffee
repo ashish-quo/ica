@@ -5,7 +5,7 @@ Bubbles = () ->
   # standard variables accessible to
   # the rest of the functions inside Bubbles
   width = 240	
-  height = 300
+  height = 290
   data = []
   node = null
   label = null

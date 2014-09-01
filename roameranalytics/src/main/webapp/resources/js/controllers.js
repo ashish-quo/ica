@@ -6,24 +6,40 @@
 	 */
 	appControllers.controller('MainController',
 			['$scope', '$rootScope', function($scope, $rootScope) {
+				
 		$rootScope.tabIndex = 0;
-		$rootScope.isTrendTab = function() {
+		
+		$rootScope.isHomeTab = function() {
 			return $rootScope.tabIndex == 0
 		};
+		$rootScope.isTrendTab = function() {
+			return $rootScope.tabIndex == 1;
+		};
 		$rootScope.isMicroSegmentTab = function() {
-			return $rootScope.tabIndex == 1
+			return $rootScope.tabIndex == 2;
 		};
-		$rootScope.isPredictTab = function() {
-			return $rootScope.tabIndex == 2
+		$rootScope.isBeforeTravelTab = function() {
+			return $rootScope.tabIndex == 3;
 		};
-		$rootScope.showTrends = function() {
+		
+		$rootScope.isUponLandingTab = function() {
+			return $rootScope.tabIndex == 4;
+		};
+		
+		$rootScope.showHome = function() {
 			$rootScope.tabIndex = 0;
 		};
-		$rootScope.showMicroSegment = function() {
+		$rootScope.showTrends = function() {
 			$rootScope.tabIndex = 1;
 		};
-		$rootScope.showPredict = function() {
+		$rootScope.showMicroSegment = function() {
 			$rootScope.tabIndex = 2;
+		};
+		$rootScope.showBeforeTravel = function() {
+			$rootScope.tabIndex = 3;
+		};
+		$rootScope.showUponLanding = function() {
+			$rootScope.tabIndex = 4;
 		};
 		$rootScope.error = '';
 	}]);

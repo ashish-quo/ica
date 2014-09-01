@@ -12,12 +12,6 @@ Date.prototype.getWeek = function() {
 	                        - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 $j( document ).ready(function() {
-//	//Date range selector
-//	$j('#date-range').daterangepicker(null, function(start, end, label) {
-//		console.log(start.toISOString(), end.toISOString(), label);
-//		$j('#display-cutdate').html(start.format('DD/MM/YY') + ' - ' + end.format('DD/MM/YY'));
-//	});
-
 	// Main Nav
 	$j("#demo1").navgoco({accordion: false});
 	
@@ -34,9 +28,18 @@ $j(document).on( "change", ".country-chk", function() {
 		$j(this).removeAttr('checked');
 	}
 });
+	
+$j(document).on("change",".persona-check").click(function(){
+	if($j(".persona-check").length == $j(".persona-check:checked").length) {
+		$j("#All-persona").attr("checked", "checked");
+	} else {
+		$j("#All-persona").removeAttr("checked");
+	}
+
+});
 
 //Select All check
-$j(document).on( "change", ".select-all", function() {
+$j(document).on( "change", ".Select-all", function() {
 	var checkboxes = $j(this).closest('form').find(':checkbox');
 	if($j(this).is(':checked')) {
 		checkboxes.attr('checked', 'checked');
@@ -54,12 +57,14 @@ $j(document).on('change',".sub-check" ,function(){
 	}
 	var parent = $j(this).closest('form')
 	if($j(parent).find('.sub-check').length == $j(parent).find(".sub-check:checked").length) {
-		$j(parent).find('.select-all').attr("checked", "checked");
+		$j(parent).find('.Select-all').attr("checked", "checked");
 	} else {
-		$j(parent).find('.select-all').removeAttr("checked");
+		$j(parent).find('.Select-all').removeAttr("checked");
 	}
 
 });
+
+
 // Resize the scroll bar on mouse over
 $j(document).on('mouseover',".sidebar" ,function(){
 	$j(".sidebar").getNiceScroll().resize();

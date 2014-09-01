@@ -24,8 +24,6 @@
 	
 	<definition name="heatMap" template="/WEB-INF/view/trend/heatMap.jsp">
 	</definition>
-	<definition name="trendHeader" template="/WEB-INF/view/trend/trendHeader.jsp">
-	</definition>
-	<definition name="roamingTrend" template="/WEB-INF/view/trend/roamingTrend.jsp">
+	<definition name="trends" template="/WEB-INF/view/trend/trends.jsp">
 	</definition>
 </tiles-definitions>

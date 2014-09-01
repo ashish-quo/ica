@@ -8,6 +8,7 @@
 				
 		$rootScope.filters = {
 				attributes : {},
+				personas : new Array(),
 				countries : new Array(),
 				dateRangeFrom : '',
 				dateRangeTo : ''
@@ -19,7 +20,7 @@
 			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			$rootScope.$apply();
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		});
@@ -47,7 +48,7 @@
 			$rootScope.filters.dateRangeFrom = dateRange.from;
 			$rootScope.filters.dateRangeTo = dateRange.to;
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
@@ -57,7 +58,7 @@
 			$rootScope.filters.dateRangeFrom = dateRange.from;
 			$rootScope.filters.dateRangeTo = dateRange.to;
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
@@ -70,7 +71,7 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(now.getDate(),now.getMonth()+1,now.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
@@ -84,7 +85,7 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
@@ -102,7 +103,7 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
@@ -125,7 +126,7 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
@@ -144,6 +145,18 @@
 			}
 		};
 		
+		
+		$scope.updatePersonaFilter = function() {
+			$rootScope.filters.personas = new Array();
+			$j("input.persona-check:checked").each(function () {
+				var id = $j(this).attr("id");
+				$rootScope.filters.personas[attrId].push(catId);
+			});
+			if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
+		};
+		
 		$scope.updateAttributeFilter = function() {
 			$rootScope.filters.attributes = {};
 			$j("input.sub-check:checked").each(function () {
@@ -157,8 +170,8 @@
 				$rootScope.filters.attributes[attrId].push(catId);
 			});
 			
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
-				$rootScope.$broadcast("refresh-roaming-trends",$rootScope.filters);
+			if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
 		$scope.updateCountryFilter = function() {
@@ -167,14 +180,10 @@
 				var id = $j(this).attr("id")
 				$rootScope.filters.countries.push(id);
 			});
-			if ($rootScope.tabIndex == 0 && $rootScope.trendTabIndex == 2) {
+			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
 		
-		$scope.toggleDefaultAttr = function(e) {
-			$j(e.srcElement).closest("li.nav-dropdown").toggleClass("open");
-			$j(e.srcElement).closest("li.nav-dropdown").find("ul").toggle();
-		}
 	}]);
 })();

@@ -29,7 +29,9 @@ $(function () {
                 },
 
                 mapNavigation: {
-                    enabled: true
+                    enabled: true,
+					enableDoubleClickZoomTo: true,
+					enableMouseWheelZoom:false
                 },
                 
                 legend: {
@@ -53,27 +55,19 @@ $(function () {
 
                 colorAxis: {
                     dataClasses: [{
-                        to: 3,
-						name: 'As Projected'
-                    }, {
-                        from: 3,
-                        to: 10,
-						name: 'High Negative' 
-                    }, {
-                        from: 10,
-                        to: 30 ,
-						name: 'Negative'
+                        to: 30,
+						name: 'Positive'
                     }, {
                         from: 30,
-                        to: 50 ,
-						name: 'High Positive'
+                        to: 65,
+						name: 'Expected' 
                     }, {
-                        from: 50,
-                        to: 70 ,
-						name: 'Positive'
+                        from: 65,
+                        to: 100 ,
+						name: 'Negative'
                     }],
-					minColor: '#eda78e',
-                    maxColor: '#87d796'
+					minColor: '#87d796',
+                    maxColor: '#fca5ad'
 
                 },
 				

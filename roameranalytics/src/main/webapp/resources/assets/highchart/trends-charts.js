@@ -1,5 +1,66 @@
 $(function () {
-       $('#container').highcharts({
+	$('#container-front-first').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+               categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
+            },
+            yAxis: {
+                //min: 0,
+				type: 'logarithmic',
+                title: {
+                    text: ''
+                }
+				
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Silent',
+                data: [135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 84.4],
+                color:'#bfaea0'
+            }, {
+                name: 'Value',
+                data: [105.0, 104.3, 91.2, 83.5, 76.6, 42.3, 54.4],
+                color:'#434348'
+    
+            }, {
+                name: 'Premium',
+                data: [105.0, 104.3, 91.2, 83.5, 66.6, 32.3, 54.4],
+                color:'#e8a26a'
+    
+            }]
+			
+        });
+		
+		$("#rom-opt-b").click(function(){
+			$('#container-front-first').highcharts().yAxis[0].update({ type: 'linear'});
+		});
+		$("#rom-opt-a").click(function(){
+			$('#container-front-first').highcharts().yAxis[0].update({ type: 'logarithmic'});
+		});
+	
+		
+       $('#container-back-first').highcharts({
             title: {
                 text: ''
             },
@@ -7,6 +68,7 @@ $(function () {
                 categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
             },
             yAxis: {
+				type: 'logarithmic',
                 title: {
                     text: ''
                 },
@@ -25,25 +87,31 @@ $(function () {
                 //verticalAlign: 'middle',
                 borderWidth: 0
             },
-            series: [{
-				showInLegend:false,
-                name: 'Tokyo',
-                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 11.5]
+            series: [{				
+                name: 'Silent',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 11.5],
+                color:'#bfaea0'
             }, {
-				showInLegend:false,
-                name: 'New York',
-                data: [24.8, 24.1, 20.1, 14.1, 8.6, 2.5, 21.5]
+                name: 'Value',
+                data: [24.8, 24.1, 20.1, 14.1, 8.6, 2.5, 21.5],
+                color:'#434348'
             }, {
-				showInLegend:false,
-                name: 'Berlin',
-                data: [18.6, 17.9, 14.3, 9.0, 3.9, 1.0, 5.5]
-            }, {
-				showInLegend:false,
-                name: 'London',
-                data: [17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 1.5]
+                name: 'Premium',
+                data: [18.6, 17.9, 14.3, 9.0, 3.9, 1.0, 5.5],
+                color:'#e8a26a'
             }]
         });
-		$('#container2').highcharts({
+		$("#rom-opt-d").click(function(){
+			$('#container-back-first').highcharts().yAxis[0].update({ type: 'linear'});
+		});
+		$("#rom-opt-c").click(function(){
+			$('#container-back-first').highcharts().yAxis[0].update({ type: 'logarithmic'});
+		});
+		
+		
+		
+		
+		$('#container-front-second').highcharts({
             chart: {
                 type: 'column'
             },
@@ -57,7 +125,7 @@ $(function () {
                categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
             },
             yAxis: {
-                min: 0,
+                type: 'logarithmic',
                 title: {
                     text: ''
                 }
@@ -82,12 +150,56 @@ $(function () {
                 color:'#f684ba'
             }, {
                 name: 'MO',
-                data: [105.0, 104.3, 91.2, 83.5, 106.6, 92.3, 54.4],
+                data: [105.0, 104.3, 91.2, 83.5, 66.6, 22.3, 54.4],
                 color:'#4ed3e7'
     
             }]
         });
-		$('#container3').highcharts({
+		
+				
+		
+		
+		$('#container-back-second').highcharts({
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
+            },
+            yAxis: {
+				type: 'logarithmic',
+                title: {
+                    text: ''
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: '°C'
+            },
+            legend: {
+                layout: 'horizontal',
+               // align: 'right',
+                //verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{				
+                name: 'MT',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 11.5],
+				color:'#f684ba'
+            }, {
+                name: 'MO',
+                data: [24.8, 24.1, 20.1, 14.1, 8.6, 2.5, 21.5],
+				color:'#4ed3e7'
+            }]
+        });
+		
+		
+				
+		$('#container-front-third').highcharts({
             chart: {
                 type: 'column'
             },
@@ -101,7 +213,7 @@ $(function () {
                categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
             },
             yAxis: {
-                min: 0,
+                type: 'logarithmic',
                 title: {
                     text: ''
                 }
@@ -120,23 +232,57 @@ $(function () {
                     borderWidth: 0
                 }
             },
-           series: [{
-                name: 'Silent',
+            series: [{
+				showInLegend:false,
+                name: 'MT',
                 data: [135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 84.4],
-                color:'#edcf7d'
-            }, {
-                name: 'Value',
-                data: [105.0, 104.3, 91.2, 83.5, 106.6, 92.3, 54.4],
-                color:'#434348'
-    
-            }, {
-                name: 'Premium',
-                data: [59.0, 59.6, 52.4, 65.2, 59.3, 51.2, 74.4],
-				color:'#c49ffc'
-    
+                color:'#fdc798'
+            }
+			]
+        });
+	
+		
+		
+		$('#container-back-third').highcharts({
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
+            },
+            yAxis: {
+				type: 'logarithmic',
+                title: {
+                    text: ''
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#959099'
+                }]
+            },
+            tooltip: {
+                valueSuffix: '°C'
+            },
+            legend: {
+                layout: 'horizontal',
+               // align: 'right',
+                //verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+				showInLegend:false,
+                name: 'Berlin',
+                data: [18.6, 17.9, 14.3, 9.0, 3.9, 1.0, 5.5],
+				color: '#fdc798'
+				
             }]
         });
-		$('#container4').highcharts({
+	
+		
+		
+		
+		$('#container-front-four').highcharts({
             chart: {
                 type: 'column'
             },
@@ -150,7 +296,7 @@ $(function () {
                categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
             },
             yAxis: {
-                min: 0,
+                type: 'logarithmic',
                 title: {
                     text: ''
                 }
@@ -169,23 +315,59 @@ $(function () {
                     borderWidth: 0
                 }
             },
-           series: [{
-                name: 'Silent',
+            series: [{
+				showInLegend:false,
+                name: 'MT',
                 data: [135.6, 148.5, 216.4, 194.1, 95.6, 54.4, 84.4],
-                color:'#edcf7d'
-            }, {
-                name: 'Value',
-                data: [105.0, 104.3, 91.2, 83.5, 106.6, 92.3, 54.4],
-                color:'#434348'
-    
-            }, {
-                name: 'Premium',
-                data: [59.0, 59.6, 52.4, 65.2, 59.3, 51.2, 74.4],
-				color:'#c49ffc'
-    
+                color:'#fae492'
             }]
         });
-		$('#bar-chart').highcharts({
+		
+		
+		
+		
+		$('#container-back-four').highcharts({
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: ['Mon', 'Tues', 'Wed', 'Thus', 'Fri', 'Sat','Sun']
+            },
+            yAxis: {
+				type: 'logarithmic',
+                title: {
+                    text: ''
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#959099'
+                }]
+            },
+            tooltip: {
+                valueSuffix: '°C'
+            },
+            legend: {
+                layout: 'horizontal',
+               // align: 'right',
+                //verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+				showInLegend:false,
+                name: 'Tokyo',
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 11.5],
+				 color: '#fcb322'
+            }]
+        });
+	
+	
+	
+	
+	
+	
+	
+	$('#bar-chart').highcharts({
             chart: {
                 type: 'bar',
 				height: 150,
@@ -294,5 +476,14 @@ $(function () {
             }],
             colors: ['#5dadb2'],
         });
+    
+    
+		
     });
     
+	
+	
+	
+	
+	
+	

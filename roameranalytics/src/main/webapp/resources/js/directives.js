@@ -1,23 +1,15 @@
 ( function () {
 	var appDirectives = angular.module("app.directives",["highcharts-ng"]);
 	
-	/**
-	 * Directive for Trend Screen tabs
-	 */
-	appDirectives.directive('trendHeader', function() {
-	    return {
-	      restrict: 'E',
-	      templateUrl: 'trendHeader'
-	    };
-	  });
+
 	
 	/**
 	 * Directive for roaming trends
 	 */
-	appDirectives.directive('roamingTrend', function() {
+	appDirectives.directive('trends', function() {
 	    return {
 	      restrict: 'E',
-	      templateUrl: 'roamingTrend',
+	      templateUrl: 'trends',
 	    };
 	  });
 })();

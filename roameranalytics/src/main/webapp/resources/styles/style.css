@@ -837,6 +837,7 @@ div.panel-collapse .panel-body
 .i-checks input[type="checkbox"]:checked + i, .i-checks input[type="radio"]:checked + i
 {
 	border-color: #aeb2b7;
+	content:"\f00c"
 }
 .i-checks input[type="radio"] + i
 {
@@ -844,12 +845,12 @@ div.panel-collapse .panel-body
 }
 .i-checks input[type="checkbox"]:checked + i:before
 {
-	content: "";
+	content: "\f00c";
 	color: #aeb2b7;
 }
 .i-checks input[type="radio"]:checked + i:before
 {
-	content: "";
+	content: "";
 	color: #fff;
 	border-color: transparent;
 }

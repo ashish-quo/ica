@@ -173,23 +173,23 @@
 					</div>
 					<p class="tray-heading">Tray</p>
 					<ul class="tray-list">
-						<li><a href="tray-dashboard.htm">
+						<li><a href="bookmark-dashboard.htm">
 								<p class="traylist-heading">July Business roamers</p>
 								<p class="tray-text">3 charts</p>
 						</a></li>
-						<li><a href="tray-dashboard.htm">
+						<li><a href="bookmark-dashboard.htm">
 								<p class="traylist-heading">Tray 2</p>
 								<p class="tray-text">3 charts</p>
 						</a></li>
-						<li><a href="tray-dashboard.htm">
+						<li><a href="bookmark-dashboard.htm">
 								<p class="traylist-heading">Tray 3</p>
 								<p class="tray-text">3 charts</p>
 						</a></li>
-						<li><a href="tray-dashboard.htm">
+						<li><a href="bookmark-dashboard.htm">
 								<p class="traylist-heading">Tray 4</p>
 								<p class="tray-text">3 charts</p>
 						</a></li>
-						<li><a href="tray-dashboard.htm">
+						<li><a href="bookmark-dashboard.htm">
 								<p class="traylist-heading">Tray 5</p>
 								<p class="tray-text">3 charts</p>
 						</a></li>
@@ -224,35 +224,7 @@
 					</ul>
 				</div>
 			</div></li>
-		<li><a href="javascript:void(0)"
-			class="lefttop-icon dollar-icon cust-tooltip"
-			original-title="Campaign"> </a>
-			<div class="lefttop-nav-dropdown">
-				<div class="lefttop-submenu">
-					<h1>Campaign</h1>
-					<div class="country-search">
-						<input type="text" name="Country Search" placeholder="Search...">
-						<a href="#" class="search-icon"></a>
-					</div>
-					<ul class="tray-list">
-						<li><a href="javascript:void(0)">
-								<p class="tray-text">Campaign 1</p>
-						</a></li>
-						<li><a href="javascript:void(0)">
-								<p class="tray-text">Campaign 2</p>
-						</a></li>
-						<li><a href="javascript:void(0)">
-								<p class="tray-text">Campaign 3</p>
-						</a></li>
-						<li><a href="javascript:void(0)">
-								<p class="tray-text">Campaign 4</p>
-						</a></li>
-						<li><a href="javascript:void(0)">
-								<p class="tray-text">Campaign 5</p>
-						</a></li>
-					</ul>
-				</div>
-			</div></li>
+
 	</ul>
 	<ul class="mainnav" id="demo1">
 		<li class="nav-dropdown"><a href="#"><i
@@ -298,69 +270,139 @@
 					</p>
 				</li>
 			</ul></li>
-		
-			<li class="nav-dropdown open" ng-repeat="defaultAttr in defaultAttributes"><a href ng-click="toggleDefaultAttr($event)"><i
-					ng-class="defaultAttr.icon"></i> {{defaultAttr.attributeName}}</a>
-				<ul class="nav-sub leftmenu-hover default-menu">
-					<form>
-						<li>
-							<div class="clearfix">
-								<p class="i-checks selectall-check pull-left">
-									<label> <input type="checkbox" name="All-{{defaultAttr.attributeName}}"
-										id="{{defaultAttr.id}}" class="select-all" value=""> <i></i></label>
-									<label for="{{defaultAttr.id}}" class="all{{defaultAttr.icon}}">{{defaultAttr.displayText}}</label>
-								</p>
+		<li class="nav-dropdown open"><a href="#"><i
+				class="persona-icon"></i> Personas</a>
+			<ul class="nav-sub leftmenu-hover persona-menu">
+				<form>
+					<li>
+						<div class="clearfix">
+							<p class="i-checks selectall-check pull-left">
+								<label> <input type="checkbox" name="All-persona"
+									id="All-persona" class="Select-all" value=""> <i></i></label> <label
+									for="All-persona" class="allpersona-icon">All</label>
+							</p>
+						</div>
+					</li>
+					<li>
+						<div class="clearfix">
+							<p class="i-checks pull-left">
+								<label> <input type="checkbox" name="Business"
+									id="Business" value="" class="persona-check"> <i></i></label> <label
+									for="Business" class="business-icon">Business</label>
+							</p>
+							<div class="pull-right">
+								<img src="images/persona-graph1.png" alt="graph">
 							</div>
-						</li>
-						<li ng-repeat="attrCat in defaultAttr.attributeCategoryList">
-							<div class="clearfix">
-								<p class="i-checks pull-left">
-									<label> <input type="checkbox" ng-click="updateAttributeFilter()"
-										name="{{defaultAttr.id}}_{{attrCat.id}}" id="{{defaultAttr.id}}_{{attrCat.id}}"
-										value="" class="sub-check"> <i></i></label> <label
-										for="{{defaultAttr.id}}_{{attrCat.id}}" ng-class="attrCat.icon">{{attrCat.categoryName}}</label>
-								</p>
-								<div class="pull-right">
-									<img src="images/persona-graph1.png" alt="graph">
-								</div>
+						</div>
+					</li>
+					<li>
+						<div class="clearfix">
+							<p class="i-checks pull-left">
+								<label> <input type="checkbox" name="leisure"
+									id="leisure" value="" class="persona-check"> <i></i></label> <label
+									for="leisure" class="lesiure-icon">leisure</label>
+							</p>
+							<div class="pull-right">
+								<img src="images/persona-graph2.png" alt="graph">
 							</div>
-						</li>
-
-					</form>
-				</ul></li>
+						</div>
+					</li>
+					<li>
+						<div class="clearfix">
+							<p class="i-checks pull-left">
+								<label> <input type="checkbox" name="Flashpacker"
+									id="Flashpacker" value="" class="persona-check"> <i></i></label>
+								<label for="Flashpacker" class="flashpacker-icon">Flashpacker</label>
+							</p>
+							<div class="pull-right">
+								<img src="images/persona-graph3.png" alt="graph">
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="clearfix">
+							<p class="i-checks pull-left">
+								<label> <input type="checkbox" name="Family" id="Family"
+									value="" class="persona-check"> <i></i></label> <label
+									for="Family" class="family-icon">Family</label>
+							</p>
+							<div class="pull-right">
+								<img src="images/persona-graph2.png" alt="graph">
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="clearfix">
+							<p class="i-checks pull-left">
+								<label> <input type="checkbox" name="Labour" id="Labour"
+									value="" class="persona-check"> <i></i></label> <label
+									for="Labour" class="labour-icon">Labour</label>
+							</p>
+							<div class="pull-right">
+								<img src="images/persona-graph3.png" alt="graph">
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="clearfix">
+							<p class="i-checks pull-left">
+								<label> <input type="checkbox" name="P-Other"
+									id="P-Other" value="" class="persona-check"> <i></i></label> <label
+									for="P-Other" class="otherpersona-icon">Other</label>
+							</p>
+							<div class="pull-right">
+								<img src="images/persona-graph3.png" alt="graph">
+							</div>
+						</div>
+					</li>
+				</form>
+			</ul></li>
 		<li class="nav-dropdown"><a href="#"><i class="criteria-icon"></i>
 				More Criteria</a>
-			<ul class="nav-sub leftmenu-hover">
+			<ul class="nav-sub-child leftmenu-hover">
 				<li>
 					<div class="country-search">
-						<input ng-model="query.displayText" type="text"  placeholder="Search...">
+						<input type="text" name="Country Search" placeholder="Search...">
+						<a href="#" class="search-icon"></a>
 					</div>
 				</li>
 				<li>
-					<p class="select-txt"><fmt:message key="select.from.list"/></p>
+					<p class="select-txt">Select from the list</p>
 				</li>
-				<form ng-repeat="hiddenAttr in hiddenAttributes">
-					<li ng-show="filterHiddenAttr(hiddenAttr.id,hiddenAttr.displayText)" id="li_{{hiddenAttr.id}}">
-						<p class="i-checks selectall-check">
-							<label> <input type="checkbox"
-								name="All-{{hiddenAttr.attributeName}}"
-								id="{{hiddenAttr.id}}" class="select-all"
-								value=""> <i></i></label> <label>
-								{{hiddenAttr.displayText}}</label>
-						</p>
-					</li>
-					<li ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList | filter:query" class="sub_{{hiddenAttr.id}}">
-						<p class="i-checks">
-							<label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"> <input
-								type="checkbox" name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" ng-click="updateAttributeFilter()"
-								id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value="" class="sub-check">
-								<i></i></label> <label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>
-						</p>
-					</li>
-					<li ng-show="filterHiddenAttr(hiddenAttr.id,hiddenAttr.displayText)">
-						<div class="menu-divider" id="divider_{{hiddenAttr.id}}" ></div>
-					</li>
-				</form>
+				<li class="categoryArea">
+					<div class="panel-group" id="accordion">
+					
+						<form ng-repeat="hiddenAttr in hiddenAttributes">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<p class="i-checks selectall-check float_left">
+											<label for="{{hiddenAttr.id}}"> <input type="checkbox"
+												name="All-{{hiddenAttr.id}}" id="{{hiddenAttr.id}}" class="Select-all"
+												value=""> <i></i></label>
+										</p>
+										<a data-toggle="collapse" data-parent="#accordion"
+											href="#collapse{{$index}}">{{hiddenAttr.attributeName}} </a>
+										<div class="clearfix"></div>
+									</h4>
+								</div>
+								<div id="collapse{{$index}}" class="panel-collapse collapse">
+									<div class="panel-body">
+										<div class="panel_category" ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList">
+											<p class="i-checks">
+												<label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"> <input type="checkbox"
+													name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value=""
+													class="sub-check"> <i></i></label> <label
+													for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="menu-divider"></div>	
+						</form>
+					</div>
+				</li>
 			</ul></li>
 	</ul>
 </aside>

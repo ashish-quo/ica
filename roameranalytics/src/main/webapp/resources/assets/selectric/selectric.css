@@ -23,18 +23,23 @@
   margin: 0 30px 0 0;
   padding: 6px;
   font-size: 12px;
-  line-height: 18px;
+  line-height: 30px;
   color: #444;
   min-height: 18px;
+  text-align:left;
+  font-weight:normal;
+  margin-left:10px;
+  text-transform:capitalize;
 }
 
+.close-icon { background:url(../../images/close-icon.png) no-repeat; display:block; width:14px; height:12px; margin-top:10px; margin-right:5px;}
 .selectric .button {
   display: block;
   position: absolute;
   right: 0;
   top: 0;
   width: 30px;
-  height: 30px;
+  height: 42px;
   color: #BBB;
   text-align: center;
   font: 0/0 a;
@@ -69,7 +74,7 @@
 }
 
 .selectricOpen {
-  z-index: 9999;
+  z-index: 99;
 }
 
 .selectricOpen .selectric {
