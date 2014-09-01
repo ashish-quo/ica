@@ -1,21 +1,90 @@
 
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
 /*top10*/
 .col-lg-6 .symbol{width:20%;}
+.col-lg-6 .col-lg-6 .symbol {width: 42%;}
 .col-lg-6 .value{width:79%;}
+.col-lg-6 .col-lg-6 .value{width:55%;}
 .col-lg-3 .symbol,.microsegment-statics.col-lg-3 .symbol{width:42%;}
 .col-lg-3 .value{width:50%;}
 /*roaming trends*/
-.microsegment-statics.col-lg-3 .value{width:56%;}
+.microsegment-statics.col-lg-3 .value{width:70%;}
 .microsegment-statics.col-lg-3 .statics-subnum li{padding:0;}
 .microsegment-statics.col-lg-3 .statics-num{font-size:30px;}
-.microsegment-statics .subnum-text{font-size:11px;}
-.microsegment-statics .subnum-number{font-size:14px;}
+
 /*micro segment*/
 .microchart-panel{margin:0 10px 30px;}
+
+.container-chart-box {
+    width: 229px;
+}
+
+.topChart-panel-tr {
+    width: 246px;
+}
+.linechart-box-tr {
+    width: 235px;
+}
+.top10chart-footer .chart-radio {
+    padding: 0 10px 15px;
+}
+
+
+}
+
+@media (min-width:980px) and (max-width:1280px) {
+	
+.col-lg-6 .value{width:78%;}
+.top-nav li {padding: 0 9px !important;}
+.bubble-label-chart .angle_btn {font-size:10.5px;}
+.top10chart-view-home .col-sm-6 {padding:0px 5px;}
+
+.top10chart-panel {
+    width: 239px;
+}
+.statics-subnum {
+    margin: 0 3%;
+}
+.statics-subnum li {
+    padding: 0 16px;
+}
+#vis, #vis2, #vis3, #vis4 {
+    width: 220px;
+}
+.linechart-box {
+    width: 214px;
+}
+#container, #container2, #container3, #container4 {
+    min-width: 214px;
+}
+.microsegment-statics .panel .symbol {width: 67px !important; padding:15px 5px !important;}
+.track-dropdown.bottom {
+    margin: 15px -8px 0 0 !important;
+}
+/*.microsegment-statics .panel .symbol i.roamers-icon { background-size: 85% auto;
+}*/
+
+.microsegment-statics .subnum-text{font-size:11px;}
+.microsegment-statics .subnum-number{font-size:14px;}
+
+}
+
+@media (min-width:768px) and (max-width:1024px) {
+.logo {padding: 0 15px;}
+.top-nav li {
+    display: inline-block;
+    padding: 0 10px;
+}
+.top10chart-view .col-sm-6 .topChart-panel-tr {
+    margin-bottom: 15px;
+}
+
+.microchart-panel {
+    width: 98%;
+}
 }
 /* Portrait tablet to landscape and desktop */
-@media (min-width:768px) and (max-width:1024px) {
+@media (min-width:768px) and (max-width:979px) {
 
 
 /*header*/
@@ -25,6 +94,10 @@
 .daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar{float:none;}
 /*micro segment*/
 .microchart-panel{margin:0 10px 30px;}
+.top10chart-view .col-sm-6 .topChart-panel-tr {margin-bottom:15px;}
+.top-nav {margin-top: 8px;}
+.top-nav span{display:none;}
+.top-nav li {padding: 0 11px;}
 }
 
 /* Landscape phone to portrait tablet */
@@ -35,7 +108,7 @@
 	.header-left{float:none;}
 	.rmenu-icon,.res-logo{display:inline-block; float:left;}
 	.top-nav{float:right;margin-top:13px;}
-	.top-nav li{padding:0 15px 0 0;}
+	.top-nav li{padding:0 10px 0 0; margin-top:5px}
 	.logo-img,.top-nav span{display:none;}
 	.header-right{ border: 1px solid #bfc2cd; float: none;}
 	.header-notification{float:left; width:50%; text-align:center;}
@@ -51,37 +124,112 @@
 	.daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar{float:none;}
 	
 	/*main content*/
-	.main-content{padding-top:120px; margin-left:0;}
+	.main-content{padding-top:90px; margin-left:0;}
 	
 	/*micro segment*/
-	.microchart-panel{width:95%}
+	.microchart-panel{width:100%; margin: 0 0 15px;}
+	.top10chart-view .col-sm-6 .topChart-panel-tr {margin-bottom:15px;}
+	
+}
+
+@media (max-width: 640px) {
+	
+.col-lg-6 .value, .col-lg-3 .value {
+    width: 66% !important;
+}
+.statics-subnum {
+    display: inline-block;
+    margin: 0 5px;
+}
+.statics-subnum li {
+    color: #666666;
+    display: inline-block;
+    padding: 0 8px;
+}
+
+.header-left .top-nav li {
+    margin-top: 5px;
+    padding: 0 8px !important;
+}
+.user-dropdown .notify-dropdown.popover.bottom > .arrow {
+    left: auto;
+    right: 4%;
+}
+.user-dropdown .notify-dropdown {
+    left: -23px;
+}
+#onload-popup .modal-dialog {
+    margin: 90px auto;
+    width: 283px !important;
+}
+	
 }
  
 /* Landscape phones and down */
 @media (max-width: 480px) { 
 		.col-lg-6 .symbol,.col-lg-3 .symbol{width:25%;}
 		.col-lg-6 .value,.col-lg-3 .value{width:70%;}
-		.col-lg-6 .value{margin:0;}
+		/*.col-lg-6 .value{margin:0;}*/
 		.col-lg-6 .statics-num{line-height:48px;}
+
+.tag-div {
+    font-size: 12px;
+    height: 29px;
+    line-height: 29px;
+    margin: 4px 0px 7px 10px;
+    padding: 0 26px 0 8px;
+}
+.top-nav li{padding:0 13px!important; margin-top:5px}
+.map-tabs {
+padding: 10px 20px 10px 10px;
+top: 16px;
+}
+.map-tabs .i-checks label:nth-child(1) {
+    margin-right: 3px;
+}
+.map-tabs .i-checks label {
+color: #2a3542;
+font-size: 11px;
+}
+.map-tabs li {
+padding: 7px 0;
+}
+.map-tabs li p.i-checks i {
+height: 15px;
+width: 15px;
+}
+.micro-month {margin-left:0px !important; width:100% !important;}
+
+.delete-tag {height:28px;}
 		/*roaming trends*/
 		.arpv-btns.btn-group, .arpv-btns.btn-group-vertical{padding:0;}
 		.arpv-btns .btn{padding:6px 10px;}
-	
+		
+		/* before travel page */
+		.seamless-call li {margin-bottom: 17px !important; }
+		.before-trv-third .col-md-6 {min-height: 230px !important;}
 }
 
 
 /* Landscape phones and down */
 @media (max-width: 320px) { 
 	.header-notification{width:auto;}
-	
+	.logo {padding: 0 10px;}
+	.sidebar .lefttop-nav li a {width:106px !important}
+	.top-nav li{padding:0 15px 0 0 !important; margin-top:5px}
 	.sidebar.active{width:100%;}
 	.lefttop-nav li a{ width: 79px !important;}
 	.tray-list li a{width:auto !important;}
 	.tracklist-right,.tracklist-right table{width:88.7%;}
 	.tracklist-right td{text-align:center;}
 	.lefttop-nav li a.search-icon{width:12px !important;}
+	.commentshare-icon .dropdown-menu {padding: 10px; width: 300px !important; z-index: 9;}
+	.track-dropdown.bottom {margin:15px -7px 0 0 !important;}
+	.comment-dropdown.bottom {margin:15px -35px 0 0 !important;}
 	/*custom date range*/
 	.daterangepicker.dropdown-menu{left:0 !important; width:100%;z-index:99999;}
+	.user-dropdown .notify-dropdown {left: -22px;}
+	.user-dropdown .notify-dropdown.popover.bottom > .arrow {left:auto; right:4%;	}
 	
 	/*dashboard*/
 	.dashboardtab li{width:96px; height:32px;}
@@ -90,10 +238,14 @@
 	.roamingtrends-icon{background-image:url(../images/roamingtrends-icon.png);}
 	
 	.col-lg-6 .symbol,.col-lg-3 .symbol{width:35%;}
-	.col-lg-6 .value,.col-lg-3 .value{width:62%;}
+	.col-lg-6 .value,.col-lg-3 .value{width:60% !important;}
+	.microsegment-statics.col-lg-3 .value {
+    margin-top: 25px !important;
+    width: 75% !important;
+}
 	.col-lg-6 .statics-num{line-height:48px;}
 	.statics-subnum{margin:0;}
-	.statics-subnum li{padding:0 5px;}
+	.statics-subnum li{padding:0 3px;}
 	.subnum-text{font-size:12px;}
 	.subnum-number{font-size:14px;}
 	/*roaming trends*/
@@ -103,4 +255,39 @@
 	.commentshare-icon .dropdown-menu{width:305px;}
 	.track-dropdown.popover.bottom > .arrow{left: 68% !important;}
 	.comment-dropdown.popover.bottom > .arrow {left: 82%;}
+	
+	/* before travel page */
+	.subscribers-num .subnum-number {font-size: 24px !important;}
+	.subscribers-num p {font-size: 11px; margin-bottom:5px !important;}
+	.seamless-call {margin-left: 3px !important;}
+	.seamless-call li {font-size: 13px !important;  line-height:22px;}
+	.subnum-number-md {font-size:18px !important;}
+	
+	/* pop */
+	
+	#onload-popup .modal-dialog {
+    margin: 30px auto;
+    width: 258px !important;
+}
+.modal-filter .tag-div {
+    margin-bottom: 10px;
+}
+
+button.btn-primary {
+    font-size: 16px;
+    margin: 10px 0;
+    width: 99px !important;
+}
  }
+ 
+@media (max-width: 255px) {
+	.header-notification {
+    border-right: 1px solid #bfc2cd;
+    display: inline-block;
+    padding: 19px 6px;
+}
+.user-dropdown {
+    display: inline-block;
+    padding: 0 7px;
+}	
+}
