@@ -87,8 +87,8 @@ public class QueryBuilder {
 	 */
 	public static String queryForTrends(Filter filter) {
 		StringBuilder query = new StringBuilder();
-		query.append(" select sum(1) imsicount, sum(triptime.mocallcount) mocallcount, ")
-			.append(" sum(triptime.mtcallcount) mtcallcount, sum(triptime.mosmscount) mosmscount,")
+		query.append(" select sum(1) imsicount, sum(triptime.mocallminutes) mocallminutes, ")
+			.append(" sum(triptime.mtcallminutes) mtcallminutes, sum(triptime.mosmscount) mosmscount,")
 			.append(" sum(triptime.uplink + triptime.downlink)  datausage, ")
 			.append(" triptime.usagebintime usagebintime,trip.overalltripcategory overalltripcategory from ")
 			.append(Relation.TRIP_TIME).append(" triptime inner join ").append(Relation.TRIP)

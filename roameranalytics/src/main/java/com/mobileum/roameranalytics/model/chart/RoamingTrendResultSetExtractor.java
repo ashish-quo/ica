@@ -54,8 +54,8 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			Long date = rs.getLong("usagebintime");
 			Double count = rs.getDouble("imsicount");
 			Integer tripCategory = rs.getInt("overalltripcategory");
-			Double mt = rs.getDouble("mtcallcount");
-			Double mo = rs.getDouble("mocallcount");
+			Double mt = rs.getDouble("mtcallminutes");
+			Double mo = rs.getDouble("mocallminutes");
 			Double mosms = rs.getDouble("mosmscount");
 			Double data = rs.getDouble("datausage");
 			
