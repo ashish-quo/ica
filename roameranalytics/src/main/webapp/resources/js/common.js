@@ -29,42 +29,6 @@ $j(document).on( "change", ".country-chk", function() {
 	}
 });
 	
-$j(document).on("change",".persona-check").click(function(){
-	if($j(".persona-check").length == $j(".persona-check:checked").length) {
-		$j("#All-persona").attr("checked", "checked");
-	} else {
-		$j("#All-persona").removeAttr("checked");
-	}
-
-});
-
-//Select All check
-$j(document).on( "change", ".Select-all", function() {
-	var checkboxes = $j(this).closest('form').find(':checkbox');
-	if($j(this).is(':checked')) {
-		checkboxes.attr('checked', 'checked');
-	} else {
-		checkboxes.removeAttr('checked');
-	}
-});
-
-//Select All viceversa  
-$j(document).on('change',".sub-check" ,function(){
-	if($j(this).is(':checked')) {
-		$j(this).attr('checked', 'checked');
-	} else {
-		$j(this).removeAttr('checked');
-	}
-	var parent = $j(this).closest('form')
-	if($j(parent).find('.sub-check').length == $j(parent).find(".sub-check:checked").length) {
-		$j(parent).find('.Select-all').attr("checked", "checked");
-	} else {
-		$j(parent).find('.Select-all').removeAttr("checked");
-	}
-
-});
-
-
 // Resize the scroll bar on mouse over
 $j(document).on('mouseover',".sidebar" ,function(){
 	$j(".sidebar").getNiceScroll().resize();

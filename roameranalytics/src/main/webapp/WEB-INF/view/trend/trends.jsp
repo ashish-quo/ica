@@ -3,14 +3,14 @@
 		<h1 class="maincontent-heading">TRENDS</h1>
 	</div>
 	<div class="col-lg-7">
-		<div class="tag-div">
-			Nigeria <a href="javascript:void(0)" class="delete-tag"></a>
+		<div class="tag-div" ng-repeat="filter in filters.countriesText">
+			{{filter}} <a href="javascript:void(0)" class="delete-tag"></a>
 		</div>
-		<div class="tag-div">
-			Business <a href="javascript:void(0)" class="delete-tag"></a>
+		<div class="tag-div" ng-repeat="filter in filters.personasText">
+			{{filter}} <a href="javascript:void(0)" class="delete-tag"></a>
 		</div>
-		<div class="tag-div">
-			Premium Phone <a href="javascript:void(0)" class="delete-tag"></a>
+		<div class="tag-div" ng-repeat="filter in filters.attributesText">
+			{{filter}} <a href="javascript:void(0)" class="delete-tag"></a>
 		</div>
 	</div>
 	<div class="col-lg-2">

@@ -8,6 +8,9 @@
 				
 		$rootScope.filters = {
 				attributes : {},
+				countriesText : new Array(),
+				personasText : new Array(),
+				attributesText : new Array(),
 				personas : new Array(),
 				countries : new Array(),
 				dateRangeFrom : '',
@@ -145,24 +148,106 @@
 			}
 		};
 		
-		
-		$scope.updatePersonaFilter = function() {
+		$scope.selectAllPersonas = function(id) {
+			var element = $j("input#"+id);
+			var checkboxes = $j(element).closest('form').find(':checkbox');
+			if($j(element).is(':checked')) {
+				checkboxes.attr('checked', 'checked');
+			} else {
+				checkboxes.removeAttr('checked');
+			}
 			$rootScope.filters.personas = new Array();
-			$j("input.persona-check:checked").each(function () {
+			$rootScope.filters.personasText = new Array();
+			var selectAll = $j("input.all-persona:not(:checked)");
+			$j(selectAll).closest("form").find("input.persona-check:checked").each(function () {
 				var id = $j(this).attr("id");
-				$rootScope.filters.personas[attrId].push(catId);
+				var name =  $j(this).attr("name");
+				$rootScope.filters.personas.push(id);
+				$rootScope.filters.personasText.push(name);
 			});
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
 		};
 		
-		$scope.updateAttributeFilter = function() {
+		$scope.clearSelectAllAttribute = function (attrId,catId) {
+			var element = $j('input#'+attrId+'_'+catId);
+			var checkboxes = $j(element).closest('form').find(':checkbox');
+			if($j(element).is(':checked')) {
+				checkboxes.attr('checked', 'checked');
+			} else {
+				checkboxes.removeAttr('checked');
+			}
 			$rootScope.filters.attributes = {};
-			$j("input.sub-check:checked").each(function () {
+			$rootScope.filters.attributesText = new Array();
+			var selectAll = $j("input.all-attr:not(:checked)");
+			$j(selectAll).closest("form").find("input.sub-check:checked").each(function () {
 				var id = $j(this).attr("id").split("_");
+				var name = $j(this).attr("name");
 				var attrId = id[0];
 				var catId = id[1];
+				$rootScope.filters.attributesText.push(name);
+				var attrArray = $rootScope.filters.attributes[attrId];
+				if (attrArray == null) {
+					$rootScope.filters.attributes[attrId] = new Array();
+				}
+				$rootScope.filters.attributes[attrId].push(catId);
+			});
+		}
+		$scope.updatePersonaFilter = function(id) {
+			$rootScope.filters.personas = new Array();
+			$rootScope.filters.personasText = new Array();
+			
+			var element = $j("input#"+id);
+			if($j(element).is(':checked')) {
+				$j(element).attr('checked', 'checked');
+			} else {
+				$j(element).removeAttr('checked');
+			}
+			var parent = $j(element).closest('form');
+			
+			if($j(parent).find(".persona-check").length == $j(".persona-check:checked").length) {
+				$j(parent).find('input.Select-all').attr("checked", "checked");
+			} else {
+				$j(parent).find('input.Select-all').removeAttr("checked");
+			}
+			
+			var selectAll = $j("input.all-persona:not(:checked)");
+			$j(selectAll).closest("form").find("input.persona-check:checked").each(function () {
+				var id = $j(this).attr("id");
+				var name =  $j(this).attr("name");
+				$rootScope.filters.personas.push(id);
+				$rootScope.filters.personasText.push(name);
+			});
+			if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			}
+		};
+		
+		$scope.updateAttributeFilter = function(attrId,catId) {
+			$rootScope.filters.attributes = {};
+			$rootScope.filters.attributesText = new Array();
+			var element = $j('input#'+attrId+'_'+catId);
+			if($j(element).is(':checked')) {
+				$j(element).attr('checked', 'checked');
+			} else {
+				$j(element).removeAttr('checked');
+			}
+			var parent = $j(element).closest('form');
+			if($j(parent).find('.sub-check').length == $j(parent).find(".sub-check:checked").length) {
+				$j(parent).find('.Select-all').attr("checked", "checked");
+			} else {
+				$j(parent).find('.Select-all').removeAttr("checked");
+			}
+			
+			
+			var selectAll = $j("input.all-attr:not(:checked)");
+			$j(selectAll).closest("form").find("input.sub-check:checked").each(function () {
+				var id = $j(this).attr("id").split("_");
+				var name = $j(this).attr("name");
+				var attrId = id[0];
+				var catId = id[1];
+				$rootScope.filters.attributesText.push(name);
 				var attrArray = $rootScope.filters.attributes[attrId];
 				if (attrArray == null) {
 					$rootScope.filters.attributes[attrId] = new Array();
@@ -176,8 +261,11 @@
 		};
 		$scope.updateCountryFilter = function() {
 			$rootScope.filters.countries = new Array();
+			$rootScope.filters.countriesText = new Array();
 			$j("input.country-chk:checked").each(function () {
-				var id = $j(this).attr("id")
+				var id = $j(this).attr("id");
+				var name = $j(this).attr("name");
+				$rootScope.filters.countriesText.push(name);
 				$rootScope.filters.countries.push(id);
 			});
 			if ($rootScope.tabIndex == 1) {

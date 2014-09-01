@@ -264,7 +264,7 @@
 				</li>
 				<li ng-repeat="country in countries | filter:countryQuery">
 					<p class="i-checks">
-						<label> <input type="checkbox" name="{{country.countryCode}}" class="country-chk" 
+						<label> <input type="checkbox" name="{{country.countryName}}" class="country-chk" 
 						id="{{country.countryCode}}" ng-click="updateCountryFilter()"
 							value=""> <i></i></label> <label for="{{country.countryCode}}">{{country.countryName}}</label>
 					</p>
@@ -277,8 +277,8 @@
 					<li>
 						<div class="clearfix">
 							<p class="i-checks selectall-check pull-left">
-								<label> <input type="checkbox" name="All-persona"
-									id="All-persona" class="Select-all" value=""> <i></i></label> <label
+								<label> <input type="checkbox" name="All-persona" ng-click="selectAllPersonas('All-persona')"
+									id="All-persona" class="Select-all all-persona" value=""> <i></i></label> <label
 									for="All-persona" class="allpersona-icon">All</label>
 							</p>
 						</div>
@@ -286,7 +286,7 @@
 					<li>
 						<div class="clearfix">
 							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="Business"
+								<label> <input type="checkbox" name="Business" ng-click="updatePersonaFilter('Business')"
 									id="Business" value="" class="persona-check"> <i></i></label> <label
 									for="Business" class="business-icon">Business</label>
 							</p>
@@ -298,7 +298,7 @@
 					<li>
 						<div class="clearfix">
 							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="leisure"
+								<label> <input type="checkbox" name="leisure" ng-click="updatePersonaFilter('leisure')"
 									id="leisure" value="" class="persona-check"> <i></i></label> <label
 									for="leisure" class="lesiure-icon">leisure</label>
 							</p>
@@ -310,7 +310,7 @@
 					<li>
 						<div class="clearfix">
 							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="Flashpacker"
+								<label> <input type="checkbox" name="Flashpacker" ng-click="updatePersonaFilter('Flashpacker')"
 									id="Flashpacker" value="" class="persona-check"> <i></i></label>
 								<label for="Flashpacker" class="flashpacker-icon">Flashpacker</label>
 							</p>
@@ -322,7 +322,7 @@
 					<li>
 						<div class="clearfix">
 							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="Family" id="Family"
+								<label> <input type="checkbox" name="Family" id="Family" ng-click="updatePersonaFilter('Family')"
 									value="" class="persona-check"> <i></i></label> <label
 									for="Family" class="family-icon">Family</label>
 							</p>
@@ -334,7 +334,7 @@
 					<li>
 						<div class="clearfix">
 							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="Labour" id="Labour"
+								<label> <input type="checkbox" name="Labour" id="Labour" ng-click="updatePersonaFilter('Labour')"
 									value="" class="persona-check"> <i></i></label> <label
 									for="Labour" class="labour-icon">Labour</label>
 							</p>
@@ -346,7 +346,7 @@
 					<li>
 						<div class="clearfix">
 							<p class="i-checks pull-left">
-								<label> <input type="checkbox" name="P-Other"
+								<label> <input type="checkbox" name="Other" ng-click="updatePersonaFilter('P-Other')"
 									id="P-Other" value="" class="persona-check"> <i></i></label> <label
 									for="P-Other" class="otherpersona-icon">Other</label>
 							</p>
@@ -377,8 +377,8 @@
 								<div class="panel-heading">
 									<h4 class="panel-title">
 										<p class="i-checks selectall-check float_left">
-											<label for="{{hiddenAttr.id}}"> <input type="checkbox"
-												name="All-{{hiddenAttr.id}}" id="{{hiddenAttr.id}}" class="Select-all"
+											<label for="{{hiddenAttr.id}}"> <input type="checkbox" ng-click="clearSelectAllAttribute(hiddenAttr.id, hiddenCatAttr.id)"
+												name="All-{{hiddenAttr.id}}" id="{{hiddenAttr.id}}" class="Select-all all-attr"
 												value=""> <i></i></label>
 										</p>
 										<a data-toggle="collapse" data-parent="#accordion"
@@ -390,8 +390,8 @@
 									<div class="panel-body">
 										<div class="panel_category" ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList">
 											<p class="i-checks">
-												<label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"> <input type="checkbox"
-													name="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value=""
+												<label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"> <input type="checkbox" ng-click="updateAttributeFilter(hiddenAttr.id, hiddenCatAttr.id)"
+													name="{{hiddenCatAttr.displayText}}" id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value=""
 													class="sub-check"> <i></i></label> <label
 													for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>
 											</p>
