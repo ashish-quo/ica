@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -77,7 +76,7 @@ public class TrendController {
 	 * @return the attributes
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
-	public @ResponseBody Map<String,List<Attribute>> getAttributes() {
+	public @ResponseBody List<Attribute> getAttributes() {
 		return commonService.getAttributes();
 	}
 	

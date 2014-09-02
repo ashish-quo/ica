@@ -26,13 +26,12 @@ public class QueryBuilder {
 	public static String queryForAttributes() {
 		StringBuilder query = new StringBuilder();
 		query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
-				.append(" attr.type attrType,  attr.icon attrIcon, attr.view_type viewType, ")
-				.append(" attr.display_order attrDO, attrCat.category_name catName, attrCat.id catId,")
-				.append(" attrCat.icon catIcon from ")
-				.append(Relation.ATTRIBUTE).append(" attr inner join ")
+				.append(" attr.attr_ind attrInd, ")
+				.append(" attr.display_order attrDO, attrCat.categ_name catName, attrCat.categ_ind catInd")
+				.append(" from ").append(Relation.ATTRIBUTE).append(" attr inner join ")
 				.append(Relation.ATTRIBUTE_CATEGORY)
-				.append(" attrCat on attr.id = attrCat.attribute_id ")
-				.append(" order by attr.display_order, attrCat.attribute_id, attrCat.display_order");
+				.append(" attrCat on attr.attr_ind = attrCat.attr_ind ")
+				.append(" order by attr.display_order, attrCat.attr_ind, attrCat.display_order");
 		return query.toString();
 	}
 	

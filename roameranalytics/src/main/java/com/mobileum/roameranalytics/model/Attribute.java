@@ -24,14 +24,8 @@ public class Attribute {
 	/** The module id. */
 	private int moduleId;
 	
-	/** The type. */
-	private int type;
-	
-	/** The icon. */
-	private String icon;
-	
-	/** The view type. */
-	private String viewType;
+	/** The attr ind. */
+	private int attrInd;
 	
 	/** The display order. */
 	private int displayOrder;
@@ -82,48 +76,6 @@ public class Attribute {
 	}
 
 	/**
-	 * @return the type
-	 */
-	public int getType() {
-		return type;
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	/**
-	 * @return the icon
-	 */
-	public String getIcon() {
-		return icon;
-	}
-
-	/**
-	 * @param icon the icon to set
-	 */
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-
-	/**
-	 * @return the viewType
-	 */
-	public String getViewType() {
-		return viewType;
-	}
-
-	/**
-	 * @param viewType the viewType to set
-	 */
-	public void setViewType(String viewType) {
-		this.viewType = viewType;
-	}
-
-	/**
 	 * @return the displayOrder
 	 */
 	public int getDisplayOrder() {
@@ -162,13 +114,16 @@ public class Attribute {
 	}
 	
 	/**
+	 * @return the attrInd
 	 */
-	public void setDisplayText() {
-		if ("default".equalsIgnoreCase(this.viewType)) {
-			this.displayText = "All";
-		} else {
-			this.displayText = "All " + this.attributeName;
-		}
-		
+	public int getAttrInd() {
+		return attrInd;
+	}
+
+	/**
+	 * @param attrInd the attrInd to set
+	 */
+	public void setAttrInd(int attrInd) {
+		this.attrInd = attrInd;
 	}
 }

@@ -47,27 +47,23 @@ public class CommonDaoImpl implements CommonDaoI{
 		return jdbcTemplate.query(query, new ResultSetExtractor<List<Attribute>>() {
 			public List<Attribute> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
-				Map<Long,Attribute> attrMap = new LinkedHashMap<Long, Attribute>();
+				Map<Integer,Attribute> attrMap = new LinkedHashMap<Integer, Attribute>();
 				while(rs.next()) {
-					Long attrId = rs.getLong("attrId");
-					if (!attrMap.containsKey(attrId)) {
+					Integer attrInd = rs.getInt("attrInd");
+					if (!attrMap.containsKey(attrInd)) {
 						Attribute attribute = new Attribute();
-						attribute.setId(attrId);
+						attribute.setAttrInd(attrInd);
 						attribute.setAttributeName(rs.getString("attrName"));
 						attribute.setModuleId(rs.getInt("moduleId"));
-						attribute.setIcon(rs.getString("attrIcon"));
-						attribute.setType(rs.getInt("attrType"));
-						attribute.setViewType(rs.getString("viewType"));
-						attribute.setDisplayText();
-						attrMap.put(attrId, attribute);
+						attrMap.put(attrInd, attribute);
 						attribute.setAttributeCategoryList(new ArrayList<AttributeCategory>());
 					} 
 					
 					AttributeCategory attrCat = new AttributeCategory();
-					attrCat.setCategoryName(rs.getString("catName"));
-					attrCat.setIcon(rs.getString("catIcon"));
-					attrCat.setId(rs.getLong("catId"));
-					attrMap.get(attrId).getAttributeCategoryList().add(attrCat);
+					attrCat.setCategName(rs.getString("catName"));
+					attrCat.setCatInd(rs.getInt("catInd"));
+					attrCat.setAttrInd(attrInd);
+					attrMap.get(attrInd).getAttributeCategoryList().add(attrCat);
 				}
 				return new ArrayList<Attribute>(attrMap.values());
 			}

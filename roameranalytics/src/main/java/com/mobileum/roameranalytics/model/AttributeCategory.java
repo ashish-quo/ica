@@ -14,16 +14,13 @@ public class AttributeCategory {
 	private long id;
 	
 	/** The category name. */
-	private String categoryName;
-	
-	/** The display text. */
-	private String displayText;
+	private String categName;
 	
 	/** The attribute id. */
-	private long attributeId;
-	
-	/** The icon. */
-	private String icon;
+	private int attrInd;
+
+	/** The cat ind. */
+	private int catInd;
 	
 	/** The display order. */
 	private int displayOrder;
@@ -43,46 +40,31 @@ public class AttributeCategory {
 	}
 
 	/**
-	 * @return the categoryName
+	 * @return the categName
 	 */
-	public String getCategoryName() {
-		return categoryName;
+	public String getCategName() {
+		return categName;
 	}
 
 	/**
-	 * @param categoryName the categoryName to set
+	 * @param categName the categName to set
 	 */
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-		setDisplayText(categoryName);
+	public void setCategName(String categName) {
+		this.categName = categName;
 	}
 
 	/**
-	 * @return the attributeId
+	 * @return the attrInd
 	 */
-	public long getAttributeId() {
-		return attributeId;
+	public int getAttrInd() {
+		return attrInd;
 	}
 
 	/**
-	 * @param attributeId the attributeId to set
+	 * @param attrInd the attrInd to set
 	 */
-	public void setAttributeId(long attributeId) {
-		this.attributeId = attributeId;
-	}
-
-	/**
-	 * @return the icon
-	 */
-	public String getIcon() {
-		return icon;
-	}
-
-	/**
-	 * @param icon the icon to set
-	 */
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public void setAttrInd(int attrInd) {
+		this.attrInd = attrInd;
 	}
 
 	/**
@@ -100,17 +82,18 @@ public class AttributeCategory {
 	}
 
 	/**
-	 * @return the displayText
+	 * @return the catInd
 	 */
-	public String getDisplayText() {
-		return displayText;
+	public int getCatInd() {
+		return catInd;
 	}
 
 	/**
-	 * @param displayText the displayText to set
+	 * @param catInd the catInd to set
 	 */
-	public void setDisplayText(String displayText) {
-		this.displayText = displayText;
+	public void setCatInd(int catInd) {
+		this.catInd = catInd;
 	}
+
 	
 }

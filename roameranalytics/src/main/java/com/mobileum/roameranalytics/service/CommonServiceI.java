@@ -20,7 +20,7 @@ public interface CommonServiceI {
 	 *
 	 * @return the attribute list
 	 */
-	public Map<String, List<Attribute>> getAttributes();
+	public List<Attribute> getAttributes();
 	
 	/**
 	 * Gets the all countries.

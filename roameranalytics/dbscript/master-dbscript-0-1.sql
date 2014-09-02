@@ -7,11 +7,8 @@ CREATE TABLE attribute
   id SERIAL NOT NULL,
   attribute_name character varying(50),
   module_id character varying(15),
-  type integer, -- type of attributr. dropdown/checkbox/radio
-  icon character varying(20),
-  view_type character varying(10),
   display_order integer,
-  attr_ind integer, -- attribute indicator
+  attr_ind integer not null unique, -- attribute indicator
   CONSTRAINT attribute_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -19,7 +16,6 @@ WITH (
 );
 ALTER TABLE attribute
   OWNER TO postgres;
-COMMENT ON COLUMN attribute.type IS 'type of attributr. dropdown/checkbox/radio';
 
 
 -- Table: attribute_category
@@ -29,13 +25,12 @@ COMMENT ON COLUMN attribute.type IS 'type of attributr. dropdown/checkbox/radio'
 CREATE TABLE attribute_category
 (
   id SERIAL NOT NULL,
-  category_name character varying(50), -- stores the attribute details of particular attribute id
-  attribute_id integer,
-  icon character varying(20),
+  categ_name character varying(50), -- stores the attribute details of particular attribute id
   display_order integer,
-  cat_ind integer, -- category indicator
+  attr_ind integer,
+  categ_ind integer not null , -- category indicator
   CONSTRAINT attribute_category_pkey PRIMARY KEY (id),
-  CONSTRAINT attribute_category_Fkey FOREIGN KEY (attribute_id) REFERENCES ATTRIBUTE(ID)
+  CONSTRAINT attribute_category_Fkey FOREIGN KEY (attr_ind) REFERENCES ATTRIBUTE(attr_ind)
 )
 WITH (
   OIDS=FALSE
@@ -44,7 +39,7 @@ ALTER TABLE attribute_category
   OWNER TO postgres;
 COMMENT ON TABLE attribute_category
   IS 'stores attribute details as per attribute id';
-COMMENT ON COLUMN attribute_category.category_name IS 'stores the attribute details of particular attribute id';
+COMMENT ON COLUMN attribute_category.categ_name IS 'stores the attribute details of particular attribute id';
 
 
 -- Table: bookmark

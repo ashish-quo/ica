@@ -372,28 +372,28 @@
 				<li class="categoryArea">
 					<div class="panel-group" id="accordion">
 					
-						<form ng-repeat="hiddenAttr in hiddenAttributes">
+						<form ng-repeat="attr in attributes">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
 										<p class="i-checks selectall-check float_left">
-											<label for="{{hiddenAttr.id}}"> <input type="checkbox" ng-click="clearSelectAllAttribute(hiddenAttr.id, hiddenCatAttr.id)"
-												name="All-{{hiddenAttr.id}}" id="{{hiddenAttr.id}}" class="Select-all all-attr"
+											<label for="attr_{{attr.attrInd}}"> <input type="checkbox" ng-click="clearSelectAllAttribute(attr.attrInd, catAttr.catInd)"
+												name="All-{{attr.attrInd}}" id="attr_{{attr.attrInd}}" class="Select-all all-attr"
 												value=""> <i></i></label>
 										</p>
 										<a data-toggle="collapse" data-parent="#accordion"
-											href="#collapse{{$index}}">{{hiddenAttr.attributeName}} </a>
+											href="#collapse{{$index}}">{{attr.attributeName}} </a>
 										<div class="clearfix"></div>
 									</h4>
 								</div>
 								<div id="collapse{{$index}}" class="panel-collapse collapse">
 									<div class="panel-body">
-										<div class="panel_category" ng-repeat="hiddenCatAttr in hiddenAttr.attributeCategoryList">
+										<div class="panel_category" ng-repeat="catAttr in attr.attributeCategoryList">
 											<p class="i-checks">
-												<label for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}"> <input type="checkbox" ng-click="updateAttributeFilter(hiddenAttr.id, hiddenCatAttr.id)"
-													name="{{hiddenCatAttr.displayText}}" id="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}" value=""
+												<label for="{{attr.attrInd}}_{{catAttr.catInd}}"> <input type="checkbox" ng-click="updateAttributeFilter(attr.attrInd, catAttr.catInd)"
+													name="{{catAttr.categName}" id="{{attr.attrInd}}_{{catAttr.catInd}}" value=""
 													class="sub-check"> <i></i></label> <label
-													for="{{hiddenAttr.id}}_{{hiddenCatAttr.id}}">{{hiddenCatAttr.displayText}}</label>
+													for="{{attr.attrInd}}_{{catAttr.catInd}}">{{catAttr.categName}}</label>
 											</p>
 										</div>
 									</div>

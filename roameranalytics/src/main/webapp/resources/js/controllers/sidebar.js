@@ -34,8 +34,6 @@
 		
 		$http.get('getAttributes').success(function(data) {
 			$scope.attributes = data;
-			$scope.defaultAttributes = $scope.attributes['default'];
-			$scope.hiddenAttributes = $scope.attributes['hidden'];
 		}).error(function(data, status, headers, config) {
 	        //$scope.$parent.error = data.message;
 	    });
