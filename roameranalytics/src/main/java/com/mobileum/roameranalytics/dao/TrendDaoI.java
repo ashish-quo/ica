@@ -6,7 +6,6 @@ package com.mobileum.roameranalytics.dao;
 
 import java.util.List;
 
-import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
@@ -19,14 +18,6 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 public interface TrendDaoI {
 	
 	public void insertData();
-	
-
-	/**
-	 * Gets the attribute list for left panel.
-	 *
-	 * @return the attribute list
-	 */
-	public List<Attribute> getAttributeList();
 	
 	/**
 	 * Added by smruti on 2014-08-21
