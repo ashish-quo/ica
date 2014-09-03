@@ -6,7 +6,9 @@ package com.mobileum.roameranalytics.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -108,13 +110,18 @@ public class TrendDaoImpl implements TrendDaoI {
 	@Override
 	public RoamingTrend getTrendsCharts(Filter filter) {
 
-		String query = QueryBuilder.queryForTrends(filter);
-		LOGGER.info(query);
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		StringBuilder query = new StringBuilder();
+		QueryBuilder.populateQueryForTrends(filter,query,parameterMap);
+		LOGGER.info(query.toString());
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("endDate", filter.getDateTo());
-		return namedParameterJdbcTemplate.query(query,parameters, new RoamingTrendResultSetExtractor());
+		for (String key : parameterMap.keySet()) {
+			parameters.addValue(key, parameterMap.get(key));
+		}
+		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RoamingTrendResultSetExtractor());
 	}
 
 }

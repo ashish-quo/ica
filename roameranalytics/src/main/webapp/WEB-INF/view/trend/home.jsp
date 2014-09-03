@@ -1,4 +1,4 @@
-<div ng-if="isTrendTab()" ng-controller="TrendController">
+<div ng-if="isTrendTab()">
 	<div>
 		<trends />
 	</div>

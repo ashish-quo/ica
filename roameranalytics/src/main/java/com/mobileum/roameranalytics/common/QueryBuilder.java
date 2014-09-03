@@ -5,10 +5,12 @@ package com.mobileum.roameranalytics.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.mobileum.roameranalytics.dao.Criteria;
 import com.mobileum.roameranalytics.dao.SelectQuery;
 import com.mobileum.roameranalytics.dao.Table;
+import com.mobileum.roameranalytics.enums.FilterColumn;
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.model.Filter;
 
@@ -84,8 +86,8 @@ public class QueryBuilder {
 	 * @param filter - filters selected
 	 * @return query
 	 */
-	public static String queryForTrends(Filter filter) {
-		StringBuilder query = new StringBuilder();
+	public static void populateQueryForTrends(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
+		
 		query.append(" select sum(1) imsicount, sum(triptime.mocallminutes) mocallminutes, ")
 			.append(" sum(triptime.mtcallminutes) mtcallminutes, sum(triptime.mosmscount) mosmscount,")
 			.append(" sum(triptime.uplink + triptime.downlink)  datausage, ")
@@ -94,13 +96,48 @@ public class QueryBuilder {
 			.append(" trip on triptime.imsi = trip.imsi and triptime.tripstarttime = trip.starttime ")
 			.append(" where trip.starttime >= :startDate ")
 			.append(" and trip.endtime <= :endDate ");
-			
 		
+		Map<Integer, String> attributeMap = filter.getSelectedAttributes();
+		Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
+		for (Integer attrInd : attributeMap.keySet()) {
+			if (FilterColumn.ROAMING_CATEGEGORY.getInd() == attrInd) {
+				query.append(" and OVERALLTRIPCATEGORY in (:tripCategory) ");
+				parameterMap.put("tripCategory", CommonUtil.convertToList(attributeMap.get(attrInd)));
+			} else if (FilterColumn.PAYMENT_TYPE.getInd() == attrInd) {
+				int paymentType = Integer.parseInt(attributeMap.get(attrInd));
+				query.append(" and CHARGINGPLAN = :chargePlan ");
+				parameterMap.put("chargePlan", paymentType);
+			} else if (FilterColumn.DOMESTIC_ARPU.getInd() == attrInd) {
+				query.append(" and OVERALLDOMESTICCATEGORY in (:arpu) ");
+				parameterMap.put("arpu", CommonUtil.convertToList(attributeMap.get(attrInd)));
+			}
+		}
+		
+		// overriding temporary filters
+		for (Integer attrInd : tempAttributeMap.keySet()) {
+			if (FilterColumn.ROAMING_CATEGEGORY.getInd() == attrInd) {
+				if (!parameterMap.containsKey("tripCategory")) {
+					query.append(" and OVERALLTRIPCATEGORY in (:tripCategory) ");
+				}
+				parameterMap.put("tripCategory", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
+			} else if (FilterColumn.PAYMENT_TYPE.getInd() == attrInd) {
+				int paymentType = Integer.parseInt(tempAttributeMap.get(attrInd));
+				if (!parameterMap.containsKey("chargePlan")) {
+					query.append(" and CHARGINGPLAN = :chargePlan ");
+				}
+				parameterMap.put("chargePlan", paymentType);
+			} else if (FilterColumn.DOMESTIC_ARPU.getInd() == attrInd) {
+				if (!parameterMap.containsKey("arpu")) {
+					query.append(" and OVERALLDOMESTICCATEGORY in (:arpu) ");
+				}
+				parameterMap.put("arpu", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
+			}
+		}
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries)");
 		}
+		
 		query.append(" group by  triptime.usagebintime, trip.overalltripcategory ");
 		query.append("  order by triptime.usagebintime ");
-		return query.toString();
 	}
 }

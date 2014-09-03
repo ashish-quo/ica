@@ -3,6 +3,7 @@
  */
 package com.mobileum.roameranalytics.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,7 +18,10 @@ public class Filter {
 	private String selectedCountries;
 	
 	/** The selected attributes. */
-	private Map<String,String> selectedAttributes;
+	private Map<Integer,String> selectedAttributes = new HashMap<Integer, String>(1);
+	
+	/** The temp attributes. */
+	private Map<Integer,String> tempAttributes = new HashMap<Integer, String>();
 	
 	/** The date from. */
 	private long dateFrom;
@@ -42,14 +46,14 @@ public class Filter {
 	/**
 	 * @return the selectedAttributes
 	 */
-	public Map<String, String> getSelectedAttributes() {
+	public Map<Integer, String> getSelectedAttributes() {
 		return selectedAttributes;
 	}
 
 	/**
 	 * @param selectedAttributes the selectedAttributes to set
 	 */
-	public void setSelectedAttributes(Map<String, String> selectedAttributes) {
+	public void setSelectedAttributes(Map<Integer, String> selectedAttributes) {
 		this.selectedAttributes = selectedAttributes;
 	}
 
@@ -79,5 +83,19 @@ public class Filter {
 	 */
 	public void setDateTo(long dateTo) {
 		this.dateTo = dateTo;
+	}
+
+	/**
+	 * @return the tempAttributes
+	 */
+	public Map<Integer, String> getTempAttributes() {
+		return tempAttributes;
+	}
+
+	/**
+	 * @param tempAttributes the tempAttributes to set
+	 */
+	public void setTempAttributes(Map<Integer, String> tempAttributes) {
+		this.tempAttributes = tempAttributes;
 	}
 }

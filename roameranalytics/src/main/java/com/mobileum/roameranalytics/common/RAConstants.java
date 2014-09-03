@@ -15,4 +15,7 @@ public class RAConstants {
 	
 	/** The Constant COMMA. */
 	public static final String COMMA = ",";
+
+	/** The Constant HASH. */
+	public static final String HASH = "#";
 }

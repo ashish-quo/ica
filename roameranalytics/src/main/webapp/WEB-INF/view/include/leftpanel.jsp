@@ -377,7 +377,7 @@
 								<div class="panel-heading">
 									<h4 class="panel-title">
 										<p class="i-checks selectall-check float_left">
-											<label for="attr_{{attr.attrInd}}"> <input type="checkbox" ng-click="clearSelectAllAttribute(attr.attrInd, catAttr.catInd)"
+											<label for="attr_{{attr.attrInd}}"> <input type="checkbox" ng-click="clearSelectAllAttribute(attr.attrInd)"
 												name="All-{{attr.attrInd}}" id="attr_{{attr.attrInd}}" class="Select-all all-attr"
 												value=""> <i></i></label>
 										</p>
@@ -391,7 +391,7 @@
 										<div class="panel_category" ng-repeat="catAttr in attr.attributeCategoryList">
 											<p class="i-checks">
 												<label for="{{attr.attrInd}}_{{catAttr.catInd}}"> <input type="checkbox" ng-click="updateAttributeFilter(attr.attrInd, catAttr.catInd)"
-													name="{{catAttr.categName}" id="{{attr.attrInd}}_{{catAttr.catInd}}" value=""
+													name="{{catAttr.categName}}" id="{{attr.attrInd}}_{{catAttr.catInd}}" value=""
 													class="sub-check"> <i></i></label> <label
 													for="{{attr.attrInd}}_{{catAttr.catInd}}">{{catAttr.categName}}</label>
 											</p>
@@ -406,3 +406,33 @@
 			</ul></li>
 	</ul>
 </aside>
+
+<!-- Modal -->
+<div class="modal fade modal-popup" id="onload-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class="modal-body">
+      	<p>You have selected the following filters on the Home Screen:</p><br>
+        <div class="modal-filter">
+           <div class="tag-div" ng-repeat="filter in filters.countries" id='modal_{{filter.id}}'>
+				{{filter.name}} <a href ng-click='removeCounryFilter(filter.id,false)' class="delete-tag"></a>
+			</div>
+			<div class="tag-div" ng-repeat="filter in filters.personas" id='modal_{{filter.id}}'>
+				{{filter.name}} <a href ng-click='removePersonaFilter(filter.id,false)' class="delete-tag"></a>
+			</div>
+			<span ng-repeat="(key, value) in filters.attributes" >
+				<div class="tag-div" ng-repeat="filter in value" id='modal_{{key}}_{{filter.catId}}'>
+					{{filter.name}} <a href ng-click='removeAttributeFilter(key, filter.catId,false)' class="delete-tag"></a>
+				</div>
+			</span>
+        </div>
+        <p>Apply the filter for Trends?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary button-blue" data-dismiss="modal" ng-click='applyFilters()'>Apply</button>
+        <button type="button" class="btn btn-primary unactive" data-dismiss="modal" ng-click='discardAllFilters()'>Discard All</button>
+      </div>
+    </div>
+  </div>
+</div>

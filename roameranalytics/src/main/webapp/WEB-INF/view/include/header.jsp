@@ -6,31 +6,31 @@
     <div class="top-nav">
       <ul>
         <li>
-          <a ng-class="{'active': tabIndex == 0}"  href ng-click="showHome()">
+          <a ng-class="{'active': tabIndex == 0}"  href ng-click="showModal(0)">
           <i class="home-icon"></i>
           <span>Home</span>
           </a>
         </li>
         <li>
-          <a ng-class="{'active': tabIndex == 1}" href ng-click="showTrends()">
+          <a ng-class="{'active': tabIndex == 1}" href ng-click="showModal(1)">
           <i class="trends-icon"></i>
           <span><fmt:message key="header.trends"/> </span>
           </a>
         </li>
         <li>
-          <a  ng-class="{'active': tabIndex == 2}" href ng-click="showMicroSegment()">
+          <a  ng-class="{'active': tabIndex == 2}" href ng-click="showModal(2)">
           <i class="segment-icon"></i>
           <span><fmt:message key="header.microsegment"/></span>
           </a>
         </li>
         <li>
-          <a ng-class="{'active': tabIndex == 3}" href ng-click="showBeforeTravel()">
+          <a ng-class="{'active': tabIndex == 3}" href ng-click="showModal(3)">
           <i class="pretrip-icon"></i>
           <span>Before Travel</span>
           </a>
         </li>
         <li>
-          <a ng-class="{'active': tabIndex == 4}" href ng-click="showUponLanding()">
+          <a ng-class="{'active': tabIndex == 4}" href ng-click="showModal(4)">
           <i class="posttrip-icon"></i>
           <span>Upon Landing</span>
           </a>
