@@ -14,7 +14,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,9 +59,22 @@ public class TrendController {
 		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
 		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
 		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
-		return new ModelAndView("trendHome");
+		return new ModelAndView("home");
 	}
 	
+	/**
+	 * @return
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/heatMap")
+	public ModelAndView showHeatMap() {
+		System.out.println("home");
+		//tdao.insertData();
+		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
+		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
+		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
+		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
+		return new ModelAndView("heatMap");
+	}
 	/**
 	 * Renders Roaming trend header.
 	 *
