@@ -49,16 +49,16 @@
     
     
 INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LOW', 1,3,1);
+    VALUES ('LOW', 1,3,4);
 INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('MEDIUM', 2,3,2);
+    VALUES ('MEDIUM', 2,3,5);
     INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('HIGH', 3,3,3);
+    VALUES ('HIGH', 3,3,6);
     
     INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
     VALUES ('PRE PAID', 1,4,1);
 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('POST PAID', 2,4,2);
+    VALUES ('POST PAID', 2,4,0);
     
 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
     VALUES ('VALUE PHONE', 1,5,1);
