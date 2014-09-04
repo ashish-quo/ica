@@ -13,6 +13,18 @@ public class ChartSeries {
 
 	private String name;
 	private Collection<Double> data;
+	private boolean showInLegend = true;
+	
+	public boolean getShowInLegend() {
+		return showInLegend;
+	}
+	
+	/**
+	 * @param showInLegend the showInLegend to set
+	 */
+	public void setShowInLegend(boolean showInLegend) {
+		this.showInLegend = showInLegend;
+	}
 	
 	/**
 	 * @return the name

@@ -8,6 +8,9 @@
 			title: {
                 text: ''
             },
+            credits: {
+	            enabled: false
+	        },
             subtitle: {
                 text: ''
             },

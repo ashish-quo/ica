@@ -61,12 +61,15 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			
 			Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(date);
+			int calDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+			calDayOfWeek = calDayOfWeek == 1 ? 7 : calDayOfWeek - 1;
+			DayOfWeek dow =  DayOfWeek.of(calDayOfWeek);
 			dateCategory.add(date);
 			if (first) {
 				startDate = date;
 				first = false;
 			}
-			DayOfWeek dow = DayOfWeek.of(cal.get(Calendar.DAY_OF_WEEK));
+			
 			dowCategory.add(dow);
 			
 			// Roamers Count Chart
@@ -145,12 +148,16 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		List<ChartSeries> dowDataSeriesList = new ArrayList<ChartSeries>();
 		
 		ChartSeries dowSeries = new ChartSeries();
+		dowSeries.setName("SMS");
+		dowSeries.setShowInLegend(false);
 		dowSeries.setData(dowDataMap.values());
 		dowDataSeriesList.add(dowSeries);
 		
 		List<ChartSeries> perDayDataSeriesList = new ArrayList<ChartSeries>();
 		
 		PerDaySeries dateSeries = new PerDaySeries();
+		dateSeries.setName("SMS");
+		dateSeries.setShowInLegend(false);
 		dateSeries.setData(perDayDataMap.values());
 		dateSeries.setPointStart(startDate);
 		perDayDataSeriesList.add(dateSeries);
@@ -180,12 +187,16 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		List<ChartSeries> dowDataSeriesList = new ArrayList<ChartSeries>();
 		
 		ChartSeries dowSeries = new ChartSeries();
+		dowSeries.setName("Data");
+		dowSeries.setShowInLegend(false);
 		dowSeries.setData(dowDataMap.values());
 		dowDataSeriesList.add(dowSeries);
 		
 		List<ChartSeries> perDayDataSeriesList = new ArrayList<ChartSeries>();
 		
 		PerDaySeries dateSeries = new PerDaySeries();
+		dateSeries.setName("Data");
+		dateSeries.setShowInLegend(false);
 		dateSeries.setData(perDayDataMap.values());
 		dateSeries.setPointStart(startDate);
 		perDayDataSeriesList.add(dateSeries);
