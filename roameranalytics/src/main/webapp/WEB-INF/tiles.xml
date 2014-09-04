@@ -10,7 +10,7 @@
 		<put-attribute name="footer" value="/WEB-INF/view/include/footer.jsp" />
 	</definition>
 
-	<definition name="trendHome" extends="base.definition">
+	<definition name="home" extends="base.definition">
 		<put-attribute name="body" value="/WEB-INF/view/trend/home.jsp" />
 	</definition>
 	

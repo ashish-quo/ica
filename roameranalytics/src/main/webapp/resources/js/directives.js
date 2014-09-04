@@ -12,4 +12,14 @@
 	      templateUrl: 'trends',
 	    };
 	  });
+	
+	/**
+	 * Directive for HeatMap
+	 */
+	appDirectives.directive('heatMap', function() {
+	    return {
+	      restrict: 'E',
+	      templateUrl: 'heatMap',
+	    };
+	  });
 })();
