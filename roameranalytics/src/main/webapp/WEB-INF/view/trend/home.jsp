@@ -1,3 +1,4 @@
+
 <div ng-if="isHomeTab()" ng-controller="HomeController">
 	 <div>
 		<heat-map />

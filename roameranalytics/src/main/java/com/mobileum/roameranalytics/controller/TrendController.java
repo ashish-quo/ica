@@ -7,7 +7,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,20 +28,29 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.service.CommonServiceI;
 import com.mobileum.roameranalytics.service.TrendServiceI;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Quovantis_Dev
+ * The Class TrendController.
  *
+ * @author Quovantis_Dev
  */
 @Controller
 @RequestMapping("/")
 public class TrendController {
 
+	/** The common service. */
 	@Autowired
 	private CommonServiceI commonService;
 	
+	/** The trend service. */
 	@Autowired
 	private TrendServiceI trendService;
 	
+	/**
+	 * Show home.
+	 *
+	 * @return the model and view
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showHome() {
 		System.out.println("home");
@@ -52,7 +63,6 @@ public class TrendController {
 	}
 	
 	/**
-	 * 
 	 * @return
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/heatMap")
@@ -66,17 +76,20 @@ public class TrendController {
 		return new ModelAndView("heatMap");
 	}
 	/**
-	 * Renders Roaming trend header
-	 * @return
+	 * Renders Roaming trend header.
+	 *
+	 * @return the model and view
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/trendHeader")
 	public ModelAndView showTrendHeader() {
 		System.out.println("Trend header");
 		return new ModelAndView("trendHeader");
 	}
+	
 	/**
-	 * Renders roaming trends
-	 * @return
+	 * Renders roaming trends.
+	 *
+	 * @return the model and view
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/trends")
 	public ModelAndView showRoamingTrends() {
@@ -109,7 +122,7 @@ public class TrendController {
 	 *
 	 * @param req the req
 	 * @return the roaming trends data
-	 * @throws ParseException 
+	 * @throws ParseException the parse exception
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingTrendsData")
 	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) throws ParseException {
@@ -117,12 +130,35 @@ public class TrendController {
 		String endDate = req.getParameter("dateRangeTo");
 		String attributes = req.getParameter("attributes");
 		String countries = req.getParameter("countries");
+		String tempAttributes = req.getParameter("tempAttributes");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
-		//filter.setSelectedAttributes(selectedAttributes);
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(parseSelectedAttributes(attributes));
+		}
+		if (!tempAttributes.isEmpty()) {
+			filter.setTempAttributes(parseSelectedAttributes(tempAttributes));
+		}
 		return this.trendService.getTrendsCharts(filter);
+	}
+	
+	
+	/**
+	 * Parses the selected attributes. Splits by # to get selected attributes and categories
+	 *
+	 * @param attributes the attributes
+	 * @return the map
+	 */
+	private Map<Integer,String> parseSelectedAttributes(String attributes) {
+		String[] attrArray = attributes.split(RAConstants.HASH);
+		Map<Integer,String> attributeMap = new HashMap<Integer, String>();
+		for (String attrInd : attrArray) {
+			String[] currentAttribute = attrInd.split(":");
+			attributeMap.put(Integer.valueOf(currentAttribute[0].trim()), currentAttribute[1].trim());
+		}
+		return attributeMap;
 	}
 }

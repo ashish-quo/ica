@@ -72,17 +72,42 @@
 	};
 	
 	function getParamsFromFilter(filters) {
+		// transform attribute filters
 		var attrs = '';
 		for (var key in filters.attributes) {
 			  if (filters.attributes.hasOwnProperty(key)) {
-			    attrs += '' + key + ':' + filters.attributes[key].join(",")+ "#";
+			    attrs += '' + key + ':' + $j.map(filters.attributes[key], function(obj) {
+			    	return obj.catId;
+			    }).join(",")+ "#";
 			  }
 		}
 		attrs = attrs.substring(0, attrs.length - 1);
+		
+		// transform persona filter
+		var personas = $j.map(filters.personas, function(obj) {
+	    	return obj.id;
+	    }).join(",");
+		
+		// transform countries filter
+		var countries = $j.map(filters.countries, function(obj) {
+	    	return obj.id;
+	    }).join(",");
+		
+		var tempAttrs = '';
+		for (var key in filters.tempAttributes) {
+			  if (filters.tempAttributes.hasOwnProperty(key)) {
+				  tempAttrs += '' + key + ':' + filters.tempAttributes[key]+ "#";
+			  }
+		}
+		
+		
+		tempAttrs = tempAttrs.substring(0, tempAttrs.length - 1);
 		var params = { 'dateRangeFrom' : filters.dateRangeFrom,
 			'dateRangeTo': filters.dateRangeTo,
 			'attributes' : attrs,
-			'countries' : filters.countries.join(",")
+			'countries' : countries,
+			'personas': personas,
+			'tempAttributes' : tempAttrs
 		}
 		return params;
 	};
@@ -154,40 +179,58 @@
 						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.countDoW, $scope.logScale);
 					}
 				});
+				
+				// local filter functions
+				$scope.clearRoamingCategoryTempFilter = function () {
+					delete $rootScope.filters.tempAttributes["2"];
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				$scope.clearARPUTempFilter = function () {
+					delete $rootScope.filters.tempAttributes["3"];
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				$scope.clearPaymentTypeTempFilter = function () {
+					delete $rootScope.filters.tempAttributes["4"];
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				$scope.getPrepaidCustomers = function() {
+					$rootScope.filters.tempAttributes['4']='1';
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				
+				$scope.getPostpaidCustomers = function() {
+					$rootScope.filters.tempAttributes['4']='0'
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				
+				$scope.getSilentCustomers = function() {
+					$rootScope.filters.tempAttributes['2']='1'
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				
+				$scope.getValueCustomers = function() {
+					$rootScope.filters.tempAttributes['2']='2'
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				$scope.getPremiumCustomers = function() {
+					$rootScope.filters.tempAttributes['2']='3'
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+
+				//ARPU filter functions
+				$scope.getLowARPUCustomers = function() {
+					$rootScope.filters.tempAttributes['3']='4'
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				
+				$scope.getHighARPUCustomers = function() {
+					$rootScope.filters.tempAttributes['3']='6'
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
+				$scope.getMedARPUCustomers = function() {
+					$rootScope.filters.tempAttributes['3']='5'
+					$rootScope.$broadcast("refresh-roaming-trends");
+				};
 	}]);
 	
-	trends.controller('TrendController',
-			['$scope','$rootScope','$http', function($scope,$rootScope,$http) {
-		$rootScope.trendTabIndex = 0;
-		$scope.refresh = {
-				'value' : 'true'
-		};
-		$scope.showHeatMap = function() {
-			$rootScope.trendTabIndex = 0;
-		};
-		$scope.showTopTen = function() {
-			$rootScope.trendTabIndex = 1;
-		};
-		$scope.showRoamingTrend = function() {
-			$rootScope.trendTabIndex = 2;
-		};
-
-		$scope.isHeatMapSelected = function() {
-			return $rootScope.trendTabIndex == 0;
-		};
-		$scope.isTopTenSelected = function() {
-			return $rootScope.trendTabIndex == 1;
-		};
-		$scope.isRoamingTrendSelected = function() {
-			return $rootScope.trendTabIndex == 2;
-		};
-		$scope.$on('refresh', function(event, args) {
-			if ($scope.refresh == 'true') {
-				$scope.refresh = 'false';
-			} else {
-				$scope.refresh = 'true';
-			}
-			
-		});
-	}]);
 })();

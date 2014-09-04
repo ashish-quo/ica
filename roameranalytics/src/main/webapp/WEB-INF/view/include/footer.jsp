@@ -7,6 +7,7 @@
 <script src="assets/nicescroll.js"></script>
 <script src="assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="assets/migrate.js"></script>
+<script src="assets/modernizr.js"></script>
 
 
 

@@ -8,9 +8,7 @@
 				
 		$rootScope.filters = {
 				attributes : {},
-				countriesText : new Array(),
-				personasText : new Array(),
-				attributesText : new Array(),
+				tempAttributes : {},
 				personas : new Array(),
 				countries : new Array(),
 				dateRangeFrom : '',
@@ -160,7 +158,7 @@
 			$j(selectAll).closest("form").find("input.persona-check:checked").each(function () {
 				var id = $j(this).attr("id");
 				var name =  $j(this).attr("name");
-				$rootScope.filters.personas.push(id);
+				$rootScope.filters.personas.push({'id':id,'name':name});
 				$rootScope.filters.personasText.push(name);
 			});
 			if ($rootScope.tabIndex == 1) {
@@ -169,7 +167,7 @@
 		};
 		
 		$scope.clearSelectAllAttribute = function (attrId,catId) {
-			var element = $j('input#'+attrId+'_'+catId);
+			var element = $j('input#attr_'+attrId);
 			var checkboxes = $j(element).closest('form').find(':checkbox');
 			if($j(element).is(':checked')) {
 				checkboxes.attr('checked', 'checked');
@@ -189,12 +187,11 @@
 				if (attrArray == null) {
 					$rootScope.filters.attributes[attrId] = new Array();
 				}
-				$rootScope.filters.attributes[attrId].push(catId);
+				$rootScope.filters.attributes[attrId].push({'catId':catId, 'name':name });
 			});
-		}
+		};
 		$scope.updatePersonaFilter = function(id) {
 			$rootScope.filters.personas = new Array();
-			$rootScope.filters.personasText = new Array();
 			
 			var element = $j("input#"+id);
 			if($j(element).is(':checked')) {
@@ -214,8 +211,7 @@
 			$j(selectAll).closest("form").find("input.persona-check:checked").each(function () {
 				var id = $j(this).attr("id");
 				var name =  $j(this).attr("name");
-				$rootScope.filters.personas.push(id);
-				$rootScope.filters.personasText.push(name);
+				$rootScope.filters.personas.push({'id':id,'name':name});
 			});
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
@@ -224,7 +220,6 @@
 		
 		$scope.updateAttributeFilter = function(attrId,catId) {
 			$rootScope.filters.attributes = {};
-			$rootScope.filters.attributesText = new Array();
 			var element = $j('input#'+attrId+'_'+catId);
 			if($j(element).is(':checked')) {
 				$j(element).attr('checked', 'checked');
@@ -245,12 +240,11 @@
 				var name = $j(this).attr("name");
 				var attrId = id[0];
 				var catId = id[1];
-				$rootScope.filters.attributesText.push(name);
 				var attrArray = $rootScope.filters.attributes[attrId];
 				if (attrArray == null) {
 					$rootScope.filters.attributes[attrId] = new Array();
 				}
-				$rootScope.filters.attributes[attrId].push(catId);
+				$rootScope.filters.attributes[attrId].push({'catId':catId, 'name':name });
 			});
 			
 			if ($rootScope.tabIndex == 1) {
@@ -259,16 +253,94 @@
 		};
 		$scope.updateCountryFilter = function() {
 			$rootScope.filters.countries = new Array();
-			$rootScope.filters.countriesText = new Array();
 			$j("input.country-chk:checked").each(function () {
 				var id = $j(this).attr("id");
 				var name = $j(this).attr("name");
-				$rootScope.filters.countriesText.push(name);
-				$rootScope.filters.countries.push(id);
+				$rootScope.filters.countries.push({'id':id,'name':name});
 			});
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 			}
+		};
+		
+		var removeCounryFilter = function (id) {
+			$j('#'+id).removeAttr('checked');
+			$rootScope.filters.countries = $j.map($rootScope.filters.countries, function(obj) {
+				return obj.id == id ? null : obj; 
+			});
+		};
+		var removeAttributeFilter = function (attrId,catId ) {
+			$j('#'+attrId + "_"+catId).removeAttr('checked');
+			$rootScope.filters.attributes[attrId] = $j.map($rootScope.filters.attributes[attrId], function(obj) {
+				return obj.catId == catId ? null : obj; 
+			});
+			if ($rootScope.filters.attributes[attrId].length == 0) {
+				delete $rootScope.filters.attributes[attrId];
+			}
+		};
+		
+		var removePersonaFilter = function (id) {
+			$j('#'+id).removeAttr('checked');
+			$rootScope.filters.personas = $j.map($rootScope.filters.personas, function(obj) {
+				return obj.id == id ? null : obj; 
+			});
+		};
+		$rootScope.removeCounryFilter = function(id,refresh) {
+			if(refresh) {
+				removeCounryFilter(id);
+				$rootScope.$broadcast("refresh-roaming-trends");
+			} else {
+				$j('#modal_'+id).hide();
+				$rootScope.filters.removedFilters.push(function (){removeCounryFilter(id);})
+			}	
+		};
+		
+		$rootScope.removePersonaFilter = function(id,refresh) {
+			if(refresh) {
+				removePersonaFilter(id);
+				$rootScope.$broadcast("refresh-roaming-trends");
+			} else {
+				$j('#modal_'+id).hide();
+				$rootScope.filters.removedFilters.push(function (){removePersonaFilter(id);})
+			}	
+		};
+		$rootScope.removeAttributeFilter = function(attrId,catId,refresh) {
+			if(refresh) {
+				removeAttributeFilter(attrId,catId);
+				$rootScope.$broadcast("refresh-roaming-trends");
+			} else {
+				$j('#modal_'+attrId + "_"+catId).hide();
+				$rootScope.filters.removedFilters.push(function (){removeAttributeFilter(attrId,catId);})
+			}		
+		};
+		
+		$rootScope.showModal = function (tabReqested) {
+			$rootScope.filters.removedFilters = new Array();
+			if (Object.keys($rootScope.filters.attributes).length != 0 
+					|| $rootScope.filters.personas.length !=0
+					|| $rootScope.filters.countries.length !=0 ) {
+				$j('#onload-popup').modal('show');
+				$rootScope.tabRequested = tabReqested;
+			} else {
+				$rootScope.tabIndex = tabReqested;
+			}
+			
+		};
+		
+		$rootScope.applyFilters = function () {
+			while( $rootScope.filters.removedFilters.length)
+				$rootScope.filters.removedFilters.splice(0, 1)[ 0 ](); 
+			$rootScope.tabIndex = $rootScope.tabRequested;
+		};
+		
+		$rootScope.discardAllFilters = function () {
+			$rootScope.filters.attributes = {};
+			$rootScope.filters.tempAttributes = {};
+			$rootScope.filters.personas = new Array();
+			$rootScope.filters.countries = new Array();
+			$j("aside input:checked").removeAttr('checked');
+			
+			$rootScope.tabIndex = $rootScope.tabRequested;
 		};
 		
 	}]);

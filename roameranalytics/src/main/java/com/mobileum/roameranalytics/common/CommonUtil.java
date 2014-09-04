@@ -3,7 +3,8 @@
  */
 package com.mobileum.roameranalytics.common;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains common utility functions
@@ -17,8 +18,12 @@ public class CommonUtil {
 	 * @param css - comma separated string
 	 * @return object array
 	 */
-	public static Object[] convertToObjectArray(String css) {
+	public static List<Integer> convertToList(String css) {
 		String[] strArray = css.split(RAConstants.COMMA);
-		return Arrays.asList(strArray).toArray();
+		List<Integer> list = new ArrayList<Integer>(5);
+		for(String str : strArray) {
+			list.add(Integer.valueOf(str.trim()));
+		}
+		return list;
 	}
 }

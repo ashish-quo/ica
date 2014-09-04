@@ -3,15 +3,18 @@
 		<h1 class="maincontent-heading">TRENDS</h1>
 	</div>
 	<div class="col-lg-7">
-		<div class="tag-div" ng-repeat="filter in filters.countriesText">
-			{{filter}} <a href="javascript:void(0)" class="delete-tag"></a>
+		<div class="tag-div" ng-repeat="filter in filters.countries">
+			{{filter.name}} <a href ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
 		</div>
-		<div class="tag-div" ng-repeat="filter in filters.personasText">
-			{{filter}} <a href="javascript:void(0)" class="delete-tag"></a>
+		<div class="tag-div" ng-repeat="filter in filters.personas">
+			{{filter.name}} <a href ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
 		</div>
-		<div class="tag-div" ng-repeat="filter in filters.attributesText">
-			{{filter}} <a href="javascript:void(0)" class="delete-tag"></a>
-		</div>
+		<span ng-repeat="(key, value) in filters.attributes">
+			<div class="tag-div" ng-repeat="filter in value">
+			{{filter.name}} <a href ng-click='removeAttributeFilter(key, filter.catId,true)' class="delete-tag"></a>
+			</div>
+		</span>
+		
 	</div>
 	<div class="col-lg-2">
 		<div class="commentshare-icon">
@@ -161,37 +164,37 @@
 			<ul class="roamingtrends-optionlist">
 				<li>
 					<div class="btn-group arpv-btns" data-toggle="buttons">
-						<label class="btn btn-primary active"> <input type="radio"
-							name="options" id="allarpv" checked> All
-						</label> <label class="btn btn-primary"> <input type="radio"
+						<label class="btn btn-primary active" ng-click="clearRoamingCategoryTempFilter()"> <input type="radio"
+							name="options" id="allarpv" checked > All
+						</label> <label class="btn btn-primary" ng-click="getSilentCustomers()"> <input type="radio"
 							name="options" id="higharpv"> Silent
-						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="medarpv"> Value
-						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="lowarpv"> Premium
+						</label> <label class="btn btn-primary" ng-click="getValueCustomers()"> <input type="radio"
+							name="options" id="medarpv" > Value
+						</label> <label class="btn btn-primary" ng-click="getPremiumCustomers()"> <input type="radio"
+							name="options" id="lowarpv" > Premium
 						</label>
 					</div>
 				</li>
 				<li>
 					<div class="btn-group arpv-btns" data-toggle="buttons">
-						<label class="btn btn-primary active"> <input type="radio"
-							name="options" id="allarpv" checked> All
-						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="higharpv"> High ARPU
-						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="medarpv"> Med ARPU
-						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="lowarpv"> Low ARPU
+						<label class="btn btn-primary active" ng-click='clearARPUTempFilter()'> <input type="radio"
+							name="options" id="allarpv" checked > All
+						</label> <label class="btn btn-primary" ng-click="getHighARPUCustomers()"> <input type="radio"
+							name="options" id="higharpv" > High ARPU
+						</label> <label class="btn btn-primary" ng-click="getMedARPUCustomers()"> <input type="radio"
+							name="options" id="medarpv" > Med ARPU
+						</label> <label class="btn btn-primary" ng-click="getLowARPUCustomers()"> <input type="radio"
+							name="options" id="lowarpv"  > Low ARPU
 						</label>
 					</div>
 				</li>
 				<li>
 					<div class="btn-group arpv-btns" data-toggle="buttons">
-						<label class="btn btn-primary active"> <input type="radio"
-							name="options" id="allpre" checked> All
-						</label> <label class="btn btn-primary"> <input type="radio"
-							name="options" id="Prepaid"> Prepaid
-						</label> <label class="btn btn-primary"> <input type="radio"
+						<label class="btn btn-primary active" ng-click='clearPaymentTypeTempFilter()'> <input type="radio"
+							name="options" id="allpre" checked > All
+						</label> <label class="btn btn-primary" ng-click="getPrepaidCustomers()"> <input type="radio"
+							name="options" id="Prepaid" > Prepaid
+						</label> <label class="btn btn-primary" ng-click="getPostpaidCustomers()"> <input type="radio"
 							name="options" id="Postpaid"> Postpaid
 						</label>
 					</div>
