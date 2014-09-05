@@ -35,9 +35,9 @@
    
     
 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('same network group', 1,  1, 1);
+    VALUES ('Same Network', 1,  1, 1);
 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('different network group', 2, 1,2);
+    VALUES ('Different Network', 2, 1,2);
 
     
     INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)

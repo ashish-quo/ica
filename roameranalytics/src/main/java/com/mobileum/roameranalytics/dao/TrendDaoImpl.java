@@ -115,7 +115,7 @@ public class TrendDaoImpl implements TrendDaoI {
 		QueryBuilder.populateQueryForTrends(filter,query,parameterMap);
 		LOGGER.info(query.toString());
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("endDate", filter.getDateTo());
 		for (String key : parameterMap.keySet()) {
