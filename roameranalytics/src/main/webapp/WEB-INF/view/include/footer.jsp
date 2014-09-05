@@ -3,12 +3,15 @@
 <script src="assets/navgoco/navgoco.js"></script>
 <script src="js/bootstrap.js"></script>
 
+<script src="assets/jqueryUI/jqueryUI.js"></script>
+<script src="assets/jqueryuitouchpunch.js"></script>
+
 <script src="assets/bootstrap-daterangepicker/moment.js"></script>
 <script src="assets/nicescroll.js"></script>
 <script src="assets/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="assets/migrate.js"></script>
 <script src="assets/modernizr.js"></script>
-
+<script src="assets/pop/modalPopLite.min.js" type="text/javascript"></script>
 
 
 <script src="js/libs/angular.min.js"></script>

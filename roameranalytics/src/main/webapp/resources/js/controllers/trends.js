@@ -17,7 +17,7 @@
             loading: true
 	};
 	function getChart(chartData, isDoW, logScale) {
-		return {
+		return  {
 				options : {
 			        chart: {
 			        	type: isDoW == 'true' ? 'column' : "line"
@@ -120,6 +120,7 @@
 	trends.controller('RoamingTrendController',
 			['$scope','$rootScope','$http', 'util', function($scope,$rootScope,$http,util) {
 				$scope.trends = {}; 
+				$j('#roamer-ft-zoom').modalPopLite({ openButton: '.zoom-btn', closeButton: '.tre-close-btn', isModal: true });
 				
 				$scope.roamerCountChartConfig = emptyChart;
 				$scope.roamerVoiceChartConfig = emptyChart;
@@ -237,6 +238,28 @@
 					$rootScope.filters.tempAttributes['3']='5'
 					$rootScope.$broadcast("refresh-roaming-trends");
 				};
+				
+				$scope.zoom = function(data, viewZoomScale) {
+					$rootScope.zoomLogScale = $scope.logScale;
+					$rootScope.viewZoomScale = viewZoomScale;
+					dataCopy=JSON.parse(JSON.stringify(data));
+					$rootScope.$broadcast("zoom-chart",dataCopy);
+				};
+	}]);
+	
+	
+	trends.controller('ZoomController', ['$scope','$rootScope',function($scope,$rootScope) {
+		$rootScope.$on('zoom-chart', function (event, param) {
+			$scope.chartConfig = param;
+		});
+		$scope.changeLogScale = function(scale) {
+			 $rootScope.zoomLogScale = scale;
+		};
+		$rootScope.$watch("zoomLogScale", function (newValue, oldValue) {
+			if ($scope.chartConfig) {
+				$scope.chartConfig.yAxis.type = $rootScope.zoomLogScale == 'true' ? 'logarithmic' : 'linear';
+			}
+		});
 	}]);
 	
 })();
