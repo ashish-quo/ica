@@ -48,12 +48,18 @@
 			<div class="topChart-panel-tr">
 				<div class="front-top">
 					<div class="linechart-box-tr">
-						<div class="topChart-angle pull-right extrlightblue clearfix">
+						<div class="topChart-angle pull-left extrlightblue clearfix">
 							<input type="button" id="rom-opt-b" value="Log Scale" ng-model="logScale" ng-click="logScale='true'"
 								ng-class="{'active-scale' : logScale == 'true'}"
 								class="angle_btn "> <input type="button" id="rom-opt-a" ng-model="logScale" 
 								ng-click="logScale='false'" ng-class="{'active-scale': logScale == 'false'}" 
 								value="Linear Scale" class="angle_btn ">
+						</div>
+						 <div class="pull-right">
+		                    <!-- Button trigger modal -->
+		                    <div id="roamer-ft-btn" class="top10charts-zoom zoom-btn" ng-click="zoom(roamerCountChartConfig,true)">
+		                    	 <img src="images/zoom-icon.png" >
+		                    </div>
 						</div>
 						<highchart id="roamerCountChart" config="roamerCountChartConfig"
 							class="container-chart-box"></highchart>
@@ -81,6 +87,12 @@
 			<div class="topChart-panel-tr">
 				<div class="front-top">
 					<div class="linechart-box-tr">
+						<div class="pull-right">
+                    		<!-- Button trigger modal -->
+                    		<div id="voice-ft-btn" class="top10charts-zoom zoom-btn" ng-click="zoom(roamerVoiceChartConfig,false)">
+                    		 	<img src="images/zoom-icon.png" >
+                   			 </div>
+						</div>
 						<highchart id="roamerVoiceChart" config="roamerVoiceChartConfig"
 							class="container-chart-box"></highchart>
 					</div>
@@ -107,7 +119,12 @@
 			<div class="topChart-panel-tr">
 				<div class="front-top">
 					<div class="linechart-box-tr">
-
+						 <div class="pull-right">
+		                    <!-- Button trigger modal -->
+		                     <div id="data-ft-btn" class="top10charts-zoom zoom-btn" ng-click="zoom(roamerDataChartConfig,false)">
+		                     	<img src="images/zoom-icon.png" >
+		                    </div>                    
+						</div>
 						<highchart id="roamerDataChart" config="roamerDataChartConfig"
 							class="container-chart-box"></highchart>
 					</div>
@@ -135,7 +152,12 @@
 			<div class="topChart-panel-tr">
 				<div class="front-top">
 					<div class="linechart-box-tr">
-
+						<div class="pull-right">
+		                    <!-- Button trigger modal -->
+		                    <div id="sms-bk-btn" class="top10charts-zoom zoom-btn" ng-click="zoom(roamerSMSChartConfig,false)">
+		                     	<img src="images/zoom-icon.png" >
+		                    </div> 
+						</div>
 						<highchart id="roamerSMSChart" config="roamerSMSChartConfig"
 							class="container-chart-box"></highchart>
 					</div>
@@ -297,4 +319,24 @@
 	</div>
 </div>
 
-
+<div id="roamer-ft-zoom" class="charts-zoom"
+	ng-controller="ZoomController">
+	<div width="100%" height="450">
+	
+		<div class="back-top">
+			<div class="" >
+				<div class="topChart-angle pull-left extrlightblue clearfix" ng-if='viewZoomScale' >
+			      <input type="button" id="rom-opt-d" value="Log Scale" class="angle_btn " 
+			      ng-class="{'active-scale' : zoomLogScale == 'true'}" ng-click="changeLogScale('true')">
+			      <input type="button" id="rom-opt-c" value="Linear Scale" class="angle_btn"  
+			      ng-class="{'active-scale' : zoomLogScale == 'false'}" ng-click="changeLogScale('false')" >
+			    </div>
+				<highchart id="roamerChartZ" config="chartConfig" class=""></highchart>
+			</div>
+		</div>
+	</div>
+	<button type="button" id="close-btn" class="tre-close-btn"
+		data-dismiss="modal">
+		<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+	</button>
+</div>

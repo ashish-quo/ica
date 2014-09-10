@@ -38,3 +38,4 @@ $j(document).on("mouseover", "#mainContent" , function(){
     //$j("body").css("overflow", "auto");        
     $j("html").getNiceScroll().resize();
 });
+
