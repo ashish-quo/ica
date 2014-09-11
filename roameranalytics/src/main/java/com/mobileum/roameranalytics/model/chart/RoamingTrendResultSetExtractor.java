@@ -34,8 +34,8 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 	public RoamingTrend extractData(ResultSet rs) throws SQLException,
 			DataAccessException {
 
-		Map<RoamerType, Map<DayOfWeek, Double>> dowCountMap = new HashMap<RoamerType, Map<DayOfWeek, Double>>();
-		Map<RoamerType, Map<Long, Double>> perDayCountMap = new HashMap<RoamerType, Map<Long, Double>>();
+		Map<RoamerType, Map<DayOfWeek, Double>> dowCountMap = new TreeMap<RoamerType, Map<DayOfWeek, Double>>();
+		Map<RoamerType, Map<Long, Double>> perDayCountMap = new TreeMap<RoamerType, Map<Long, Double>>();
 		
 		Map<VoiceType, Map<DayOfWeek, Double>> dowCallMap = new HashMap<VoiceType, Map<DayOfWeek,Double>>();
 		Map<VoiceType, Map<Long, Double>> perDayCallMap = new HashMap<VoiceType, Map<Long, Double>>();
@@ -264,7 +264,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		List<ChartSeries> dowCountSeriesList = new ArrayList<ChartSeries>();
 		for (RoamerType roamerType : dowCountMap.keySet()) {
 			ChartSeries series = new ChartSeries();
-			series.setName(roamerType.name());
+			series.setName(roamerType.getDisplayName());
 			series.setData(dowCountMap.get(roamerType).values());
 			dowCountSeriesList.add(series);
 		}
@@ -272,7 +272,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		List<ChartSeries> perDayCountSeriesList = new ArrayList<ChartSeries>();
 		for (RoamerType roamerType : perDayCountMap.keySet()) {
 			PerDaySeries series = new PerDaySeries();
-			series.setName(roamerType.name());
+			series.setName(roamerType.getDisplayName());
 			series.setPointStart(startDate);
 			series.setData(perDayCountMap.get(roamerType).values());
 			perDayCountSeriesList.add(series);

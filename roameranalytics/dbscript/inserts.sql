@@ -35,9 +35,11 @@
    
     
 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('Same Network', 1,  1, 1);
+    VALUES ('Vodafone', 1,  1, 1);
 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('Different Network', 2, 1,2);
+    VALUES ('Idea', 2, 1,2);
+    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
+    VALUES ('Airtel', 3, 1,3);
 
     
     INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
@@ -48,9 +50,9 @@
     VALUES ('PREMIUM', 3, 2,3);
     
     
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
+	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
     VALUES ('LOW', 1,3,4);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
+	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
     VALUES ('MEDIUM', 2,3,5);
     INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
     VALUES ('HIGH', 3,3,6);

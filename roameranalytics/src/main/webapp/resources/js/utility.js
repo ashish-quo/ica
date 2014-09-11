@@ -31,6 +31,46 @@
 		    }
 		};
 		
+		utilityService.getParamsFromFilter = function (filters) {
+			// transform attribute filters
+			var attrs = '';
+			for (var key in filters.attributes) {
+				  if (filters.attributes.hasOwnProperty(key)) {
+				    attrs += '' + key + ':' + $j.map(filters.attributes[key], function(obj) {
+				    	return obj.catId;
+				    }).join(",")+ "#";
+				  }
+			}
+			attrs = attrs.substring(0, attrs.length - 1);
+			
+			// transform persona filter
+			var personas = $j.map(filters.personas, function(obj) {
+		    	return obj.id;
+		    }).join(",");
+			
+			// transform countries filter
+			var countries = $j.map(filters.countries, function(obj) {
+		    	return obj.id;
+		    }).join(",");
+			
+			var tempAttrs = '';
+			for (var key in filters.tempAttributes) {
+				  if (filters.tempAttributes.hasOwnProperty(key)) {
+					  tempAttrs += '' + key + ':' + filters.tempAttributes[key]+ "#";
+				  }
+			}
+			
+			
+			tempAttrs = tempAttrs.substring(0, tempAttrs.length - 1);
+			var params = { 'dateRangeFrom' : filters.dateRangeFrom,
+				'dateRangeTo': filters.dateRangeTo,
+				'attributes' : attrs,
+				'countries' : countries,
+				'personas': personas,
+				'tempAttributes' : tempAttrs
+			}
+			return params;
+		};
 		return utilityService;
 	}]);
 	

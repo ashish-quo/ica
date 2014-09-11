@@ -7,9 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
@@ -28,11 +27,10 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.service.CommonServiceI;
 import com.mobileum.roameranalytics.service.TrendServiceI;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TrendController.
  *
- * @author Quovantis_Dev
+ * @author sarvesh
  */
 @Controller
 @RequestMapping("/")
@@ -82,7 +80,6 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/trendHeader")
 	public ModelAndView showTrendHeader() {
-		System.out.println("Trend header");
 		return new ModelAndView("trendHeader");
 	}
 	
@@ -93,7 +90,6 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/trends")
 	public ModelAndView showRoamingTrends() {
-		System.out.println("Roaming Trends");
 		return new ModelAndView("trends");
 	}
 	
@@ -137,28 +133,11 @@ public class TrendController {
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
-			filter.setSelectedAttributes(parseSelectedAttributes(attributes));
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
 		if (!tempAttributes.isEmpty()) {
-			filter.setTempAttributes(parseSelectedAttributes(tempAttributes));
+			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
 		}
 		return this.trendService.getTrendsCharts(filter);
-	}
-	
-	
-	/**
-	 * Parses the selected attributes. Splits by # to get selected attributes and categories
-	 *
-	 * @param attributes the attributes
-	 * @return the map
-	 */
-	private Map<Integer,String> parseSelectedAttributes(String attributes) {
-		String[] attrArray = attributes.split(RAConstants.HASH);
-		Map<Integer,String> attributeMap = new HashMap<Integer, String>();
-		for (String attrInd : attrArray) {
-			String[] currentAttribute = attrInd.split(":");
-			attributeMap.put(Integer.valueOf(currentAttribute[0].trim()), currentAttribute[1].trim());
-		}
-		return attributeMap;
 	}
 }

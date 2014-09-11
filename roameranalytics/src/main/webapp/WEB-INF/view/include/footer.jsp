@@ -13,6 +13,10 @@
 <script src="assets/modernizr.js"></script>
 <script src="assets/pop/modalPopLite.min.js" type="text/javascript"></script>
 
+<script src="assets/selectric/selectric.js"></script>
+<script src="assets/morris-charts/morris.min.js"></script>
+<script src="assets/morris-charts/raphael-2.1.0.min.js"></script>
+<script src="assets/morris-charts/morrischarts.js"></script>
 
 <script src="js/libs/angular.min.js"></script>
 <script src="js/libs/highcharts.js"></script>
@@ -21,6 +25,7 @@
 <script src="js/utility.js"></script>
 <script src="js/controllers/sidebar.js"></script>
 <script src="js/controllers/trends.js"></script>
+<script src="js/controllers/microsegment.js"></script>
 <script src="js/controllers/home.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/directives.js"></script>

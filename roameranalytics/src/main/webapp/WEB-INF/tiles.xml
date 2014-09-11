@@ -26,4 +26,6 @@
 	</definition>
 	<definition name="trends" template="/WEB-INF/view/trend/trends.jsp">
 	</definition>
+	<definition name="microsegment" template="/WEB-INF/view/microsegment/microsegment.jsp">
+	</definition>
 </tiles-definitions>

@@ -26,6 +26,11 @@
 <link href="styles/responsive.css" rel="stylesheet" type="text/css">
 <link href="styles/wireframe-style.css" rel="stylesheet" type="text/css">
 <link href="assets/pop/modalPopLite.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="assets/morris-charts/morris.css">
+<link rel="stylesheet" href="assets/selectric/selectric.css">
+
+
 <body class="full-width" ng-controller="MainController">
 
 	<header class="clearfix">

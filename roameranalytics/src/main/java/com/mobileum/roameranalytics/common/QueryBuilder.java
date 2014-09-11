@@ -87,9 +87,8 @@ public class QueryBuilder {
 	 * Populates query for trends chart.
 	 *
 	 * @param filter - filters selected
-	 * @param query the query
-	 * @param parameterMap the parameter map
-	 * @return query
+	 * @param query the query to be populated 
+	 * @param parameterMap the parameter map - will have parameter and its value used in query
 	 */
 	public static void populateQueryForTrends(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
 		
@@ -118,7 +117,113 @@ public class QueryBuilder {
 		query.append("  order by triptime.usagebintime ");
 	}
 
+	/**
+	 * Populate network query.
+	 *
+	 * @param filter the filter selected
+	 * @param query the query to be populated
+	 * @param parameterMap the parameter map to be used at time of replacing named parameters
+	 */
+	public static void populateNetworkQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, trip.visitedmnc visitedmnc  from ")
+			.append(Relation.TRIP)
+			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate ");
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		query.append(" group by trip.visitedmnc ");
+	}
+	
+	
+	/**
+	 * Populate Roaming category query for microsegment.
+	 *
+	 * @param filter the filter selected
+	 * @param query the query to be populated
+	 * @param parameterMap the parameter map to be used at time of replacing named parameters
+	 */
+	public static void populateRoamerTypeQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, trip.overalltripcategory tripcategory  from ")
+			.append(Relation.TRIP)
+			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate ");
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		query.append(" group by trip.overalltripcategory ");
+	}
+	
+	/**
+	 * Populate domestic ARPU query for microsegment.
+	 *
+	 * @param filter the filter selected
+	 * @param query the query to be populated
+	 * @param parameterMap the parameter map to be used at time of replacing named parameters
+	 */
+	public static void populateARPUQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, trip.overalldomesticcategory domcategory  from ")
+			.append(Relation.TRIP)
+			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate ");
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		query.append(" group by trip.overalldomesticcategory ");
+	}
 
+	
+	/**
+	 * Populate payment type query for microsegment.
+	 *
+	 * @param filter the filter selected
+	 * @param query the query to be populated
+	 * @param parameterMap the parameter map to be used at time of replacing named parameters
+	 */
+	public static void populatePaymentTypeQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, trip.chargingplan chargingplan  from ")
+			.append(Relation.TRIP)
+			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate ");
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		query.append(" group by trip.chargingplan ");
+	}
+	
+	/**
+	 * Populate device type query for microsegment.
+	 *
+	 * @param filter the filter selected
+	 * @param query the query to be populated
+	 * @param parameterMap the parameter map to be used at time of replacing named parameters
+	 */
+	public static void populateDeviceTypeQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, trip.devicename devicetype  from ")
+			.append(Relation.TRIP)
+			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate ");
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		query.append(" group by trip.devicename ");
+	}
+	
 	/**
 	 * Append clause for temp fitlers.
 	 *
@@ -165,7 +270,7 @@ public class QueryBuilder {
 				query.append(" and OVERALLTRIPCATEGORY in (:tripCategory) ");
 				parameterMap.put("tripCategory", CommonUtil.convertToList(attributeMap.get(attrInd)));
 			} else if (FilterColumn.NETWORK.getInd() == attrInd) {
-				appendClauseForNetwork(query, attributeMap, attrInd);
+				appendClauseForNetwork(query, parameterMap, attributeMap, attrInd);
 			} else if (FilterColumn.DEVICE_TYPE.getInd() == attrInd) {
 				appendClauseForDeviceType(query, parameterMap, attributeMap,attrInd);
 			} else if (FilterColumn.PAYMENT_TYPE.getInd() == attrInd) {
@@ -190,13 +295,13 @@ public class QueryBuilder {
 	 * @param attrInd the attr ind
 	 */
 	private static void appendClauseForNetwork(StringBuilder query,
+			Map<String, Object> parameterMap,
 			Map<Integer, String> attributeMap, Integer attrInd) {
-		int networkCateg = Integer.parseInt(attributeMap.get(attrInd));
-		if (FilterColumn.NETWORK_SAME.getInd() == networkCateg) {
-			query.append(" and trip.homemnc = trip.visitedmnc ");
-		} else {
-			query.append(" and trip.homemnc != trip.visitedmnc ");
-		}
+		
+		String subCateg = attributeMap.get(attrInd);
+		List<Integer> subCategList = CommonUtil.convertToList(subCateg);
+		query.append(" and trip.visitedmnc in (:networks) ");
+		parameterMap.put("networks", subCategList);
 	}
 
 
