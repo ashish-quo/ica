@@ -49,6 +49,8 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment",'thisweek');
 			}
 		};
 		
@@ -59,6 +61,8 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment",'lastweek');
 			}
 		};
 		
@@ -72,6 +76,8 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment",'thismonth');
 			}
 		};
 		
@@ -86,6 +92,8 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment",'lastmonth');
 			}
 		};
 		
@@ -104,6 +112,8 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment",'thisquarter');
 			}
 		};
 		
@@ -127,6 +137,8 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment",'lastquarter');
 			}
 		};
 		

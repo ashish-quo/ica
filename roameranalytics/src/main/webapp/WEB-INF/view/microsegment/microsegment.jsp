@@ -155,7 +155,7 @@
 						{{title[graph]}} <a href="javascript:void(0)"
 							class="bookmark-unactive cust-tooltip" original-title="Bookmark"></a>
 					</div>
-					<donutchart class="big-donutchart" chartname="{{graph}}" />
+					<donutchart class="big-donutchart" chartname="{{graph}}" daterange='daterange'/>
 					<div id="column-chart-{{graph}}"></div>
 <!-- 					<div id="donut-chart" class="big-donutchart"></div> -->
 				</div>

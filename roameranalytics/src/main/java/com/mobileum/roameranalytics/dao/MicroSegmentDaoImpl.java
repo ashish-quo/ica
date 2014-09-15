@@ -51,6 +51,7 @@ public class MicroSegmentDaoImpl implements MicroSegmentDaoI{
 		parameters.addValue("endDate", filter.getDateTo());
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
+			System.out.println(key + parameterMap.get(key).toString());
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", "Network");
@@ -59,6 +60,7 @@ public class MicroSegmentDaoImpl implements MicroSegmentDaoI{
 			@Override
 			public DonutData mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
+				System.out.println("network data row");
 				DonutData donutData = new DonutData();
 				donutData.setLabel(Network.of(rs.getInt("visitedmnc")).name());
 				donutData.setValue(rs.getDouble("imsicount"));

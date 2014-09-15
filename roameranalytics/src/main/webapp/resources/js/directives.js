@@ -98,37 +98,47 @@
 	      replace: true,
 	        // observe and manipulate the DOM
 	      link: function($scope, element, attrs) {
-	    	  var data = {
-	    			  'params' : util.getParamsFromFilter($rootScope.filters)
-	    	  };
-	    	  data.params['chartname'] = attrs.chartname;
-	    	  $http.get("microsegment/graph/" + attrs.chartname , data).success(function(result) {
-	    		  $scope.title[attrs.chartname] = result.attrName;
-	    		  var donutData ;
-	    		  var columnData;
-	    		  if (result.data.length > 4) {
-	    			  donutData = result.data.slice(0,3);
-	    			  columnData = result.data.slice(4);
-	    			  $j('#column-chart-'+attrs.chartname).highcharts(getColumnChart(columnData.map(function(obj) {
-	    				  return obj.label;
-	    			  }), columnData.map(function(obj) {
-	    				  return obj.value;
-	    			  })));
-	    			  element.removeClass("big-donutchart").addClass("medium-donutchart")
-	    		  } else {
-	    			  donutData = result.data;
-	    		  }
-	    		  
-	    		  Morris.Donut({
-		    		  element: element,
-		    		  data:donutData,
-			          colors: ['#fbe591','#cbe8a7','#f3ba83']
+	    	  var getDataAndDraw = function()  {
+	    		  element.html('');
+	    		  $j('#column-chart-'+attrs.chartname).html('');
+	    		  var data = {
+		    			  'params' : util.getParamsFromFilter($rootScope.filters)
+		    	  };
+		    	  $http.get("microsegment/graph/" + attrs.chartname , data).success(function(result) {
+		    		  $scope.title[attrs.chartname] = result.attrName;
+		    		  var donutData ;
+		    		  var columnData;
+		    		  if (result.data.length > 4) {
+		    			  donutData = result.data.slice(0,3);
+		    			  columnData = result.data.slice(4);
+		    			  $j('#column-chart-'+attrs.chartname).highcharts(getColumnChart(columnData.map(function(obj) {
+		    				  return obj.label;
+		    			  }), columnData.map(function(obj) {
+		    				  return obj.value;
+		    			  })));
+		    			  element.removeClass("big-donutchart").addClass("medium-donutchart")
+		    		  } else {
+		    			  donutData = result.data;
+		    		  }
+		    		  
+		    		  Morris.Donut({
+			    		  element: element,
+			    		  data:donutData,
+				          colors: ['#fbe591','#cbe8a7','#f3ba83']
+			    	  });
+		    		  
+		    	  }).error(function(data, status, headers, config) {
+		    		  //$scope.$parent.error = data.message;
 		    	  });
-	    		  
-	    		  
-	    	  }).error(function(data, status, headers, config) {
-	    		  //$scope.$parent.error = data.message;
-	    	  });
+	    	  }
+	    	  
+	    	  getDataAndDraw();
+	    	  
+	    	  $scope.$watch('microsegmentdaterange', function(oldValue, newValue) {
+	    		  if (oldValue != newValue) {
+	    			  getDataAndDraw();
+	    		  } 
+	    	},true);
 	      }
 	    };
 	  }]);
