@@ -9,47 +9,20 @@ package com.mobileum.roameranalytics.model;
  *
  */
 public class Country {
-
-	/** The id. */
-	private long id;
-	
-	/** The country code. */
-	private String countryCode;
 	
 	/** The country name. */
 	private String countryName;
 	
-	/** The dial code. */
-	private int dialCode;
+	/** The bordring. */
+	private byte bordering;
 
 	/**
-	 * @return the id
+	 * @param countryName the countryName to set
 	 */
-	public long getId() {
-		return id;
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the countryCode
-	 */
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	/**
-	 * @param countryCode the countryCode to set
-	 */
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
-
+	
 	/**
 	 * @return the countryName
 	 */
@@ -58,24 +31,17 @@ public class Country {
 	}
 
 	/**
-	 * @param countryName the countryName to set
+	 * @return the bordring
 	 */
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
+	public byte getBordering() {
+		return bordering;
 	}
 
 	/**
-	 * @return the dialCode
+	 * @param bordring the bordring to set
 	 */
-	public int getDialCode() {
-		return dialCode;
-	}
-
-	/**
-	 * @param dialCode the dialCode to set
-	 */
-	public void setDialCode(int dialCode) {
-		this.dialCode = dialCode;
+	public void setBordering(byte bordring) {
+		this.bordering = bordring;
 	}
 	
 }

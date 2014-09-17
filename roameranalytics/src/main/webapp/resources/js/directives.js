@@ -100,30 +100,32 @@
 	      link: function($scope, element, attrs) {
 	    	  var getDataAndDraw = function()  {
 	    		  element.html('');
-	    		  $j('#column-chart-'+attrs.chartname).html('');
+	    		  //$j('#column-chart-'+attrs.chartname).html('');
 	    		  var data = {
 		    			  'params' : util.getParamsFromFilter($rootScope.filters)
 		    	  };
-		    	  $http.get("microsegment/graph/" + attrs.chartname , data).success(function(result) {
+	    		  var chartMetaData = attrs.chartname + "," + attrs.columnname +  "," + attrs.columntype;
+	    		  $j.extend(data.params, {'chartmetadata' :chartMetaData } );
+		    	  $http.get("microsegment/graph/" , data).success(function(result) {
 		    		  $scope.title[attrs.chartname] = result.attrName;
-		    		  var donutData ;
-		    		  var columnData;
-		    		  if (result.data.length > 4) {
-		    			  donutData = result.data.slice(0,3);
-		    			  columnData = result.data.slice(4);
-		    			  $j('#column-chart-'+attrs.chartname).highcharts(getColumnChart(columnData.map(function(obj) {
-		    				  return obj.label;
-		    			  }), columnData.map(function(obj) {
-		    				  return obj.value;
-		    			  })));
-		    			  element.removeClass("big-donutchart").addClass("medium-donutchart")
-		    		  } else {
-		    			  donutData = result.data;
-		    		  }
+//		    		  var donutData ;
+//		    		  var columnData;
+//		    		  if (result.data.length > 4) {
+//		    			  donutData = result.data.slice(0,3);
+//		    			  columnData = result.data.slice(4);
+//		    			  $j('#column-chart-'+attrs.chartname).highcharts(getColumnChart(columnData.map(function(obj) {
+//		    				  return obj.label;
+//		    			  }), columnData.map(function(obj) {
+//		    				  return obj.value;
+//		    			  })));
+//		    			  element.removeClass("big-donutchart").addClass("medium-donutchart")
+//		    		  } else {
+//		    			  donutData = result.data;
+//		    		  }
 		    		  
 		    		  Morris.Donut({
 			    		  element: element,
-			    		  data:donutData,
+			    		  data:result.data,
 				          colors: ['#fbe591','#cbe8a7','#f3ba83']
 			    	  });
 		    		  
@@ -138,7 +140,13 @@
 	    		  if (oldValue != newValue) {
 	    			  getDataAndDraw();
 	    		  } 
-	    	},true);
+	    	  },true);
+	    	  
+	    	  $scope.$watch('microsegmentrefresh', function(oldValue, newValue) {
+	    		  if (oldValue != newValue && oldValue != null) {
+	    			  getDataAndDraw();
+	    		  } 
+	    	  },true);
 	      }
 	    };
 	  }]);

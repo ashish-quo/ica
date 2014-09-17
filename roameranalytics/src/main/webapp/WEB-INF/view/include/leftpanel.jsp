@@ -258,15 +258,15 @@
 				</li>
 				<li>
 					<p class="i-checks selectall-check">
-						<label> <input type="checkbox" name="exculdeNeighbours" id="exculdeNeighbours" 
-							value=""> <i></i></label> <label for="exculdeNeighbours"><fmt:message key="exclude.neigbhours"/></label>
+						<label> <input type="checkbox" name="excludeNeighbours" id="excludeNeighbours" ng-model='exclNbrs'
+							value=""> <i></i></label> <label for="excludeNeighbours"><fmt:message key="exclude.neigbhours"/></label>
 					</p>
 				</li>
-				<li ng-repeat="country in countries | filter:countryQuery">
+				<li ng-repeat="country in countries | filter:countryQuery" ng-if='(exclNbrs && country.bordering == 0) || !exclNbrs'>
 					<p class="i-checks">
 						<label> <input type="checkbox" name="{{country.countryName}}" class="country-chk" 
-						id="{{country.countryCode}}" ng-click="updateCountryFilter()"
-							value=""> <i></i></label> <label for="{{country.countryCode}}">{{country.countryName}}</label>
+						id="{{country.countryName}}" ng-click="updateCountryFilter()"
+							value=""> <i></i></label> <label for="{{country.countryName}}">{{country.countryName}}</label>
 					</p>
 				</li>
 			</ul></li>
@@ -362,7 +362,7 @@
 			<ul class="nav-sub-child leftmenu-hover">
 				<li>
 					<div class="country-search">
-						<input type="text" name="Country Search" placeholder="Search...">
+						<input type="text" name="Attribute Search" ng-model="attributeQuery.attributeName" placeholder="Search...">
 						<a href="#" class="search-icon"></a>
 					</div>
 				</li>
@@ -372,14 +372,16 @@
 				<li class="categoryArea">
 					<div class="panel-group" id="accordion">
 					
-						<form ng-repeat="attr in attributes">
+						<form ng-repeat="attr in attributes | filter:attributeQuery ">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
 										<p class="i-checks selectall-check float_left">
-											<label for="attr_{{attr.attrInd}}"> <input type="checkbox" ng-click="clearSelectAllAttribute(attr.attrInd)"
-												name="All-{{attr.attrInd}}" id="attr_{{attr.attrInd}}" class="Select-all all-attr"
-												value=""> <i></i></label>
+											<label for="attr_{{attr.id}}"> 
+												<input type="checkbox" ng-click="clearSelectAllAttribute(attr.id)"
+												name="All-{{attr.id}}" id="attr_{{attr.id}}" class="Select-all all-attr"
+												attr-name="{{attr.attributeName}}"
+												value="" db-column="{{attr.dbColumn}}" column-type="{{attr.columnType}}"> <i></i></label>
 										</p>
 										<a data-toggle="collapse" data-parent="#accordion"
 											href="#collapse{{$index}}">{{attr.attributeName}} </a>
@@ -390,10 +392,12 @@
 									<div class="panel-body">
 										<div class="panel_category" ng-repeat="catAttr in attr.attributeCategoryList">
 											<p class="i-checks">
-												<label for="{{attr.attrInd}}_{{catAttr.catInd}}"> <input type="checkbox" ng-click="updateAttributeFilter(attr.attrInd, catAttr.catInd)"
-													name="{{catAttr.categName}}" id="{{attr.attrInd}}_{{catAttr.catInd}}" value=""
+												<label for="{{attr.id}}_{{catAttr.id}}"> 
+													<input type="checkbox" ng-click="updateAttributeFilter(attr.id, catAttr.id)"
+													name="{{catAttr.categName}}" id="{{attr.id}}_{{catAttr.id}}" value=""
+													categ-value="{{catAttr.categValue}}"
 													class="sub-check"> <i></i></label> <label
-													for="{{attr.attrInd}}_{{catAttr.catInd}}">{{catAttr.categName}}</label>
+													for="{{attr.id}}_{{catAttr.id}}">{{catAttr.categName}}</label>
 											</p>
 										</div>
 									</div>

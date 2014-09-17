@@ -18,7 +18,10 @@ public class Filter {
 	private String selectedCountries;
 	
 	/** The selected attributes. */
-	private Map<Integer,String> selectedAttributes = new HashMap<Integer, String>(1);
+	private Map<String,String> selectedAttributes = new HashMap<String, String>(1);
+	
+	/** The microsegment attributes. */
+	private Map<String, String> microsegmentAttributes = new HashMap<String,String>(1);
 	
 	/** The temp attributes. */
 	private Map<Integer,String> tempAttributes = new HashMap<Integer, String>();
@@ -46,14 +49,14 @@ public class Filter {
 	/**
 	 * @return the selectedAttributes
 	 */
-	public Map<Integer, String> getSelectedAttributes() {
+	public Map<String, String> getSelectedAttributes() {
 		return selectedAttributes;
 	}
 
 	/**
 	 * @param selectedAttributes the selectedAttributes to set
 	 */
-	public void setSelectedAttributes(Map<Integer, String> selectedAttributes) {
+	public void setSelectedAttributes(Map<String, String> selectedAttributes) {
 		this.selectedAttributes = selectedAttributes;
 	}
 
@@ -97,5 +100,19 @@ public class Filter {
 	 */
 	public void setTempAttributes(Map<Integer, String> tempAttributes) {
 		this.tempAttributes = tempAttributes;
+	}
+
+	/**
+	 * @return the microsegmentAttributes
+	 */
+	public Map<String, String> getMicrosegmentAttributes() {
+		return microsegmentAttributes;
+	}
+
+	/**
+	 * @param microsegmentAttributes the microsegmentAttributes to set
+	 */
+	public void setMicrosegmentAttributes(Map<String, String> microsegmentAttributes) {
+		this.microsegmentAttributes = microsegmentAttributes;
 	}
 }

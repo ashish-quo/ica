@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
+import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
@@ -29,7 +30,7 @@ import com.mobileum.roameranalytics.model.Country;
  *
  */
 @Repository
-public class CommonDaoImpl implements CommonDaoI{
+public class CommonDaoImpl implements CommonDaoI {
 
 	/** The jdbc template. */
 	@Autowired
@@ -49,21 +50,24 @@ public class CommonDaoImpl implements CommonDaoI{
 					DataAccessException {
 				Map<Integer,Attribute> attrMap = new LinkedHashMap<Integer, Attribute>();
 				while(rs.next()) {
-					Integer attrInd = rs.getInt("attrInd");
-					if (!attrMap.containsKey(attrInd)) {
+					Integer attrId = rs.getInt("attrId");
+					if (!attrMap.containsKey(attrId)) {
 						Attribute attribute = new Attribute();
-						attribute.setAttrInd(attrInd);
+						attribute.setId(attrId);
 						attribute.setAttributeName(rs.getString("attrName"));
 						attribute.setModuleId(rs.getInt("moduleId"));
-						attrMap.put(attrInd, attribute);
+						attribute.setDbColumn(rs.getString("db_column"));
+						attribute.setColumnType(rs.getString("column_type"));
+						attrMap.put(attrId, attribute);
 						attribute.setAttributeCategoryList(new ArrayList<AttributeCategory>());
 					} 
 					
 					AttributeCategory attrCat = new AttributeCategory();
 					attrCat.setCategName(rs.getString("catName"));
-					attrCat.setCatInd(rs.getInt("catInd"));
-					attrCat.setAttrInd(attrInd);
-					attrMap.get(attrInd).getAttributeCategoryList().add(attrCat);
+					attrCat.setAttrId(attrId);
+					attrCat.setId(rs.getLong("catId"));
+					attrCat.setCategValue(rs.getString("catValue"));
+					attrMap.get(attrId).getAttributeCategoryList().add(attrCat);
 				}
 				return new ArrayList<Attribute>(attrMap.values());
 			}
@@ -82,7 +86,7 @@ public class CommonDaoImpl implements CommonDaoI{
 			public Country mapRow(ResultSet rs, int arg1) throws SQLException {
 				Country country = new Country();
 				country.setCountryName(rs.getString("countryName"));
-				country.setCountryCode(rs.getString("countryCode"));
+				country.setBordering(rs.getByte("bordering"));
 				return country;
 			}
 		});

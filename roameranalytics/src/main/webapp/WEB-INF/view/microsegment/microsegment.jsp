@@ -1,20 +1,20 @@
-
-
-
-
-
 	<div class="row dashboard-top">
 		<div class="col-lg-3">
 			<h1 class="maincontent-heading">MICRO SEGMENT</h1>
 		</div>
 		<div class="col-lg-7">
 
-			<div class="tag-div">
-				Business <a href="javascript:void(0)" class="delete-tag"></a>
+			<div class="tag-div" ng-repeat="filter in filters.countries">
+				{{filter.name}} <a href ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
 			</div>
-			<div class="tag-div">
-				Premium Phone <a href="javascript:void(0)" class="delete-tag"></a>
+			<div class="tag-div" ng-repeat="filter in filters.personas">
+				{{filter.name}} <a href ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
 			</div>
+			<span ng-repeat="(key, value) in filters.attributes">
+				<div class="tag-div" ng-repeat="filter in value">
+					{{filter.name}} <a href ng-click='removeAttributeFilter(key, filter.catId,true)' class="delete-tag"></a>
+				</div>
+			</span>
 		</div>
 		<div class="col-lg-2">
 			<div class="commentshare-icon">
@@ -152,11 +152,11 @@
 			<div class="microchart-panel" ng-repeat="graph in graphToBeShown">
 				<div class="segment-charts">
 					<div class="microchart-heading">
-						{{title[graph]}} <a href="javascript:void(0)"
+						{{title[graph.title]}} <a href="javascript:void(0)"
 							class="bookmark-unactive cust-tooltip" original-title="Bookmark"></a>
 					</div>
-					<donutchart class="big-donutchart" chartname="{{graph}}" daterange='daterange'/>
-					<div id="column-chart-{{graph}}"></div>
+					<donutchart class="big-donutchart" columnname="{{graph.column}}" columntype="{{graph.columnType}}" chartname="{{graph.title}}" daterange='daterange'/>
+					<div id="column-chart-{{graph.title}}"></div>
 <!-- 					<div id="donut-chart" class="big-donutchart"></div> -->
 				</div>
 				<div class="bookmark-panel">

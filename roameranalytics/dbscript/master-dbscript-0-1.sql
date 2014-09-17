@@ -4,11 +4,12 @@
 
 CREATE TABLE attribute
 (
-  id SERIAL NOT NULL,
+  id integer NOT NULL,
   attribute_name character varying(50),
-  module_id character varying(15),
+  module_id character varying(15) default null,
   display_order integer,
-  attr_ind integer not null unique, -- attribute indicator
+  db_column character  varying(50),
+  column_type character varying(50),
   CONSTRAINT attribute_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -24,13 +25,13 @@ ALTER TABLE attribute
 
 CREATE TABLE attribute_category
 (
-  id SERIAL NOT NULL,
-  categ_name character varying(50), -- stores the attribute details of particular attribute id
+  id integer NOT NULL,
+  categ_name character varying(100), -- stores the attribute details of particular attribute id
   display_order integer,
-  attr_ind integer,
-  categ_ind integer not null , -- category indicator
+  attr_id integer,
+  categ_value character varying(100) not null , -- category indicator
   CONSTRAINT attribute_category_pkey PRIMARY KEY (id),
-  CONSTRAINT attribute_category_Fkey FOREIGN KEY (attr_ind) REFERENCES ATTRIBUTE(attr_ind)
+  CONSTRAINT attribute_category_Fkey FOREIGN KEY (attr_id) REFERENCES ATTRIBUTE(id)
 )
 WITH (
   OIDS=FALSE

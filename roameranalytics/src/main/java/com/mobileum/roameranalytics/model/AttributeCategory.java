@@ -17,10 +17,9 @@ public class AttributeCategory {
 	private String categName;
 	
 	/** The attribute id. */
-	private int attrInd;
-
-	/** The cat ind. */
-	private int catInd;
+	private long attrId;
+	
+	private String categValue;
 	
 	/** The display order. */
 	private int displayOrder;
@@ -54,20 +53,6 @@ public class AttributeCategory {
 	}
 
 	/**
-	 * @return the attrInd
-	 */
-	public int getAttrInd() {
-		return attrInd;
-	}
-
-	/**
-	 * @param attrInd the attrInd to set
-	 */
-	public void setAttrInd(int attrInd) {
-		this.attrInd = attrInd;
-	}
-
-	/**
 	 * @return the displayOrder
 	 */
 	public int getDisplayOrder() {
@@ -80,19 +65,33 @@ public class AttributeCategory {
 	public void setDisplayOrder(int displayOrder) {
 		this.displayOrder = displayOrder;
 	}
-
+	
 	/**
-	 * @return the catInd
+	 * @return the attrId
 	 */
-	public int getCatInd() {
-		return catInd;
+	public long getAttrId() {
+		return attrId;
 	}
 
 	/**
-	 * @param catInd the catInd to set
+	 * @param attrId the attrId to set
 	 */
-	public void setCatInd(int catInd) {
-		this.catInd = catInd;
+	public void setAttrId(long attrId) {
+		this.attrId = attrId;
+	}
+
+	/**
+	 * @return the categValue
+	 */
+	public String getCategValue() {
+		return categValue;
+	}
+
+	/**
+	 * @param categValue the categValue to set
+	 */
+	public void setCategValue(String categValue) {
+		this.categValue = categValue;
 	}
 
 	

@@ -25,6 +25,21 @@ public interface MicroSegmentDaoI {
 	 *
 	 * @return the network data
 	 */
+	Map<String, Object> getMSChartData(Filter filter, String column, String columnType,
+			Map<String,String> catNameValue);
+	
+	/**
+	 * Gets the attribute label and value.
+	 *
+	 * @return the attribute label and value
+	 */
+	Map<String,Map<String,String>> getAttributeLabelAndValue();
+	
+	/**
+	 *  Gets data required for network graph in microsegment section.
+	 *
+	 * @return the network data
+	 */
 	Map<String, Object> getRoamerTypeData(Filter filter);
 	
 	/**

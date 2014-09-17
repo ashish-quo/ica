@@ -18,18 +18,18 @@ public class Attribute {
 	/** The attribute name. */
 	private String attributeName;
 	
-	/** The all attribute label. */
-	private String displayText;
-	
 	/** The module id. */
 	private int moduleId;
-	
-	/** The attr ind. */
-	private int attrInd;
 	
 	/** The display order. */
 	private int displayOrder;
 
+	/** The db column. */
+	private String dbColumn;
+	
+	/** The column type. */
+	private String columnType;
+	
 	/** The attribute category list. */
 	private List<AttributeCategory> attributeCategoryList;
 	
@@ -107,23 +107,30 @@ public class Attribute {
 	}
 
 	/**
-	 * @return the allAttributeLabel
+	 * @return the dbColumn
 	 */
-	public String getDisplayText() {
-		return displayText;
-	}
-	
-	/**
-	 * @return the attrInd
-	 */
-	public int getAttrInd() {
-		return attrInd;
+	public String getDbColumn() {
+		return dbColumn;
 	}
 
 	/**
-	 * @param attrInd the attrInd to set
+	 * @param dbColumn the dbColumn to set
 	 */
-	public void setAttrInd(int attrInd) {
-		this.attrInd = attrInd;
+	public void setDbColumn(String dbColumn) {
+		this.dbColumn = dbColumn;
+	}
+
+	/**
+	 * @return the columnType
+	 */
+	public String getColumnType() {
+		return columnType;
+	}
+
+	/**
+	 * @param columnType the columnType to set
+	 */
+	public void setColumnType(String columnType) {
+		this.columnType = columnType;
 	}
 }

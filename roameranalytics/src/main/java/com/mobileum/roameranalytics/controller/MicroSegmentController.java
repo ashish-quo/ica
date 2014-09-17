@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.model.MSChartMetadata;
 import com.mobileum.roameranalytics.service.MicroSegmentServiceI;
 
 /**
@@ -41,11 +42,13 @@ public class MicroSegmentController {
 	}
 	
 	@RequestMapping(value="/microsegment/graphs", method = RequestMethod.GET)
-	public @ResponseBody List<String> getGraphsToBeShown(HttpServletRequest req) throws ParseException {
+	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(HttpServletRequest req) throws ParseException {
 		String startdate = req.getParameter("dateRangeFrom");
 		String endDate = req.getParameter("dateRangeTo");
 		String attributes = req.getParameter("attributes");
 		String countries = req.getParameter("countries");
+		String microSegmentCharts = req.getParameter("microsegmentcharts");
+		
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
@@ -54,14 +57,51 @@ public class MicroSegmentController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		List<String> list = new ArrayList<String>();
-		list.add("network");
-		list.add("roamingcategory");
-		list.add("arpu");
-		list.add("paymenttype");
-		list.add("devicetype");
+		
+		List<MSChartMetadata> list = new ArrayList<MSChartMetadata>(5);
+		if (!microSegmentCharts.isEmpty()) {
+			String[] chartMetadata = microSegmentCharts.split(RAConstants.COLON);
+			for (String metadata : chartMetadata) {
+				System.out.println(metadata);
+				String[] chartAttr = metadata.split(RAConstants.COMMA);
+				MSChartMetadata msChart = new MSChartMetadata();
+				msChart.setColumn(chartAttr[1]);
+				msChart.setTitle(chartAttr[0]);
+				msChart.setColumnType(chartAttr[2]);
+				list.add(msChart);
+			}
+		}
+		
 		return list;
 	}
+	
+	
+	@RequestMapping(value="/microsegment/graph", method = RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getMicroSegmentChartData(HttpServletRequest req) throws ParseException {
+		
+		String startdate = req.getParameter("dateRangeFrom");
+		String endDate = req.getParameter("dateRangeTo");
+		String attributes = req.getParameter("attributes");
+		String countries = req.getParameter("countries");
+		String chartMetaData = req.getParameter("chartmetadata");
+		Filter filter = new Filter();
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		filter.setSelectedCountries(countries);
+		
+		String chartIno[] = chartMetaData.split(RAConstants.COMMA);
+		
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+		Map<String,Map<String,String>> categNameValueMap = this.microsegmentSerice.getAttributeLabelAndValue();
+		Map<String,Object> result = microsegmentSerice.getMSChartData(filter, chartIno[1], chartIno[2],
+				categNameValueMap.get(chartIno[0]) );
+		result.put("attrName", chartIno[0]);
+		return result;
+	}
+	
 	
 	@RequestMapping(value="/microsegment/graph/network", method = RequestMethod.GET)
 	public @ResponseBody Map<String,Object> getNetworkGraph(HttpServletRequest req) throws ParseException {
@@ -153,5 +193,6 @@ public class MicroSegmentController {
 		
 		return microsegmentSerice.getDeviceTypeData(filter);
 	}
+	
 	
 }

@@ -53,10 +53,10 @@ public class TrendController {
 	public ModelAndView showHome() {
 		System.out.println("home");
 		//tdao.insertData();
-		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
-		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
-		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
-		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
+//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
+//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
+//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
+//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
 		return new ModelAndView("home");
 	}
 	
@@ -67,10 +67,10 @@ public class TrendController {
 	public ModelAndView showHeatMap() {
 		System.out.println("home");
 		//tdao.insertData();
-		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
-		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
-		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
-		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
+//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
+//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
+//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
+//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
 		return new ModelAndView("heatMap");
 	}
 	/**
@@ -124,20 +124,23 @@ public class TrendController {
 	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) throws ParseException {
 		String startdate = req.getParameter("dateRangeFrom");
 		String endDate = req.getParameter("dateRangeTo");
+		
 		String attributes = req.getParameter("attributes");
 		String countries = req.getParameter("countries");
 		String tempAttributes = req.getParameter("tempAttributes");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
-		filter.setDateFrom(dateFormat.parse(startdate).getTime());
-		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		filter.setDateFrom(dateFormat.parse(startdate).getTime()/1000);
+		filter.setDateTo(dateFormat.parse(endDate).getTime()/1000);
+		System.out.println("start date : " + filter.getDateFrom());
+		System.out.println("end date : " + filter.getDateTo());
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		if (!tempAttributes.isEmpty()) {
-			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
-		}
+//		if (!tempAttributes.isEmpty()) {
+//			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
+//		}
 		return this.trendService.getTrendsCharts(filter);
 	}
 }

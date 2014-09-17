@@ -16,7 +16,7 @@ public enum Relation {
 	ATTRIBUTE_CATEGORY("ATTRIBUTE_CATEGORY"),
 	
 	/** The country. */
-	COUNTRY("COUNTRY"),
+	COUNTRY("COUNTRY_IB"),
 	
 	/** The trip time. */
 	TRIP_TIME("TRIPTIME"),

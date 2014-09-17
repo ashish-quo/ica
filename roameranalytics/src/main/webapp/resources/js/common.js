@@ -13,7 +13,7 @@ Date.prototype.getWeek = function() {
 }
 $j( document ).ready(function() {
 	// Main Nav
-	$j("#demo1").navgoco({accordion: false});
+	$j("#demo1").navgoco({accordion: true});
 	
 	// Scroll
 	$j("html").niceScroll();

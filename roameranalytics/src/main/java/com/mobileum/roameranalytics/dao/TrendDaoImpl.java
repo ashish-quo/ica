@@ -5,7 +5,6 @@ package com.mobileum.roameranalytics.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
-import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
@@ -113,6 +111,7 @@ public class TrendDaoImpl implements TrendDaoI {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
 		QueryBuilder.populateQueryForTrends(filter,query,parameterMap);
+		
 		LOGGER.info(query.toString());
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));

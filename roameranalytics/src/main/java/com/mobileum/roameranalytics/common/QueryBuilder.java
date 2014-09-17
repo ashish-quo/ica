@@ -11,7 +11,6 @@ import java.util.Map;
 import com.mobileum.roameranalytics.dao.Criteria;
 import com.mobileum.roameranalytics.dao.SelectQuery;
 import com.mobileum.roameranalytics.dao.Table;
-import com.mobileum.roameranalytics.enums.DeviceType;
 import com.mobileum.roameranalytics.enums.FilterColumn;
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.model.Filter;
@@ -30,12 +29,12 @@ public class QueryBuilder {
 	public static String queryForAttributes() {
 		StringBuilder query = new StringBuilder();
 		query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
-				.append(" attr.attr_ind attrInd, ")
-				.append(" attr.display_order attrDO, attrCat.categ_name catName, attrCat.categ_ind catInd")
+				.append(" attr.db_column db_column,  attr.column_type column_type, ")
+				.append(" attrCat.categ_name catName, attrCat.categ_value catValue, attrCat.id catId ")
 				.append(" from ").append(Relation.ATTRIBUTE).append(" attr inner join ")
 				.append(Relation.ATTRIBUTE_CATEGORY)
-				.append(" attrCat on attr.attr_ind = attrCat.attr_ind ")
-				.append(" order by attr.display_order, attrCat.attr_ind, attrCat.display_order");
+				.append(" attrCat on attr.id = attrCat.attr_id ")
+				.append(" order by attr.display_order, attrCat.display_order");
 		return query.toString();
 	}
 	
@@ -78,8 +77,9 @@ public class QueryBuilder {
 	 */
 	public static String queryForAllCountries() {
 		StringBuilder query = new StringBuilder();
-		query.append(" select country_name countryName, country_code countryCode from ")
-			.append(Relation.COUNTRY).append(" order by country_name");
+		query.append(" select visitedcountry countryName, ")
+			.append(" case when bordering = 'Distant' then 0 else 1 end bordering from ")
+			.append(Relation.COUNTRY).append(" order by visitedcountry");
 		return query.toString();
 	}
 	
@@ -89,8 +89,9 @@ public class QueryBuilder {
 	 * @param filter - filters selected
 	 * @param query the query to be populated 
 	 * @param parameterMap the parameter map - will have parameter and its value used in query
+	 * @throws ClassNotFoundException 
 	 */
-	public static void populateQueryForTrends(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
+	public static void populateQueryForTrends(Filter filter, StringBuilder query, Map<String, Object> parameterMap)  {
 		
 		query.append(" select sum(1) imsicount, sum(triptime.mocallminutes) mocallminutes, ")
 			.append(" sum(triptime.mtcallminutes) mtcallminutes, sum(triptime.mosmscount) mosmscount,")
@@ -101,7 +102,7 @@ public class QueryBuilder {
 			.append(" where trip.starttime >= :startDate ")
 			.append(" and trip.endtime <= :endDate ");
 		
-		Map<Integer, String> attributeMap = filter.getSelectedAttributes();
+		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		// overriding temporary filters
@@ -138,6 +139,42 @@ public class QueryBuilder {
 		query.append(" group by trip.visitedmnc ");
 	}
 	
+	
+	public static void populateQueryForMicrosegmentChart(Filter filter, StringBuilder query, 
+			String column, String columnType,  Map<String, Object> parameterMap) {
+		query.append(" select sum(1) ").append(" imsicount ").append(", trip.").append(column).append(" catValue from ")
+			.append(Relation.TRIP)
+			.append(" trip where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate ");
+
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries) ");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		Map<String,String> filterParameters = filter.getSelectedAttributes();
+		for (String columnName : filterParameters.keySet()) {
+			String value = filterParameters.get(columnName);
+			String[] valueArr = value.split(RAConstants.COLON);
+			String type = valueArr[0];
+			String values = valueArr[1];
+			List<Object> parameterList = CommonUtil.convertToList(values, type);
+			query.append(" and trip.").append(columnName).append(" in (:").append(columnName).append(") ");
+			parameterMap.put(columnName,parameterList );
+		}
+
+		query.append(" group by trip.").append(column);
+	}
+	
+	
+	public static String queryForLabelVsValue() {
+		StringBuilder query = new StringBuilder();
+		query.append("select attr.attribute_name attrName, cat.categ_name catName, cat.categ_value catValue from ")
+			.append(Relation.ATTRIBUTE)
+			.append(" attr inner join ").append(Relation.ATTRIBUTE_CATEGORY).append(" cat  on ")
+			.append(" attr.id = cat.attr_id ");
+		return query.toString();
+	}
 	
 	/**
 	 * Populate Roaming category query for microsegment.
@@ -239,7 +276,7 @@ public class QueryBuilder {
 				if (!parameterMap.containsKey("tripCategory")) {
 					query.append(" and OVERALLTRIPCATEGORY in (:tripCategory) ");
 				}
-				parameterMap.put("tripCategory", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
+				//parameterMap.put("tripCategory", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
 			} else if (FilterColumn.PAYMENT_TYPE.getInd() == attrInd) {
 				int paymentType = Integer.parseInt(tempAttributeMap.get(attrInd));
 				if (!parameterMap.containsKey("chargePlan")) {
@@ -250,7 +287,7 @@ public class QueryBuilder {
 				if (!parameterMap.containsKey("arpu")) {
 					query.append(" and OVERALLDOMESTICCATEGORY in (:arpu) ");
 				}
-				parameterMap.put("arpu", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
+				//parameterMap.put("arpu", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
 			}
 		}
 	}
@@ -262,108 +299,18 @@ public class QueryBuilder {
 	 * @param query the query
 	 * @param parameterMap the parameter map
 	 * @param attributeMap the attribute map
+	 * @throws ClassNotFoundException 
 	 */
 	private static void appendClauseForAttributes(StringBuilder query,
-			Map<String, Object> parameterMap, Map<Integer, String> attributeMap) {
-		for (Integer attrInd : attributeMap.keySet()) {
-			if (FilterColumn.ROAMING_CATEGEGORY.getInd() == attrInd) {
-				query.append(" and OVERALLTRIPCATEGORY in (:tripCategory) ");
-				parameterMap.put("tripCategory", CommonUtil.convertToList(attributeMap.get(attrInd)));
-			} else if (FilterColumn.NETWORK.getInd() == attrInd) {
-				appendClauseForNetwork(query, parameterMap, attributeMap, attrInd);
-			} else if (FilterColumn.DEVICE_TYPE.getInd() == attrInd) {
-				appendClauseForDeviceType(query, parameterMap, attributeMap,attrInd);
-			} else if (FilterColumn.PAYMENT_TYPE.getInd() == attrInd) {
-				int paymentType = Integer.parseInt(attributeMap.get(attrInd));
-				query.append(" and CHARGINGPLAN = :chargePlan ");
-				parameterMap.put("chargePlan", paymentType);
-			} else if (FilterColumn.DOMESTIC_ARPU.getInd() == attrInd) {
-				query.append(" and OVERALLDOMESTICCATEGORY in (:arpu) ");
-				parameterMap.put("arpu", CommonUtil.convertToList(attributeMap.get(attrInd)));
-			} else if (FilterColumn.TRAVEL_DURATION.getInd() == attrInd) {
-				appendClauseForTravelDuration(query, attributeMap, attrInd);
-			}
+			Map<String, Object> parameterMap, Map<String, String> attributeMap) {
+		for (String key : attributeMap.keySet()) {
+			String[] valueArr = attributeMap.get(key).split(RAConstants.COLON);
+			String valueType = valueArr[0];
+			String values = valueArr[1];
+			query.append(" and trip.").append(key).append(" in (:").append(key).append( ")");
+			parameterMap.put(key, CommonUtil.convertToList(values,valueType));
 		}
 	}
 
 
-	/**
-	 * Append clause for network.
-	 *
-	 * @param query the query
-	 * @param attributeMap the attribute map
-	 * @param attrInd the attr ind
-	 */
-	private static void appendClauseForNetwork(StringBuilder query,
-			Map<String, Object> parameterMap,
-			Map<Integer, String> attributeMap, Integer attrInd) {
-		
-		String subCateg = attributeMap.get(attrInd);
-		List<Integer> subCategList = CommonUtil.convertToList(subCateg);
-		query.append(" and trip.visitedmnc in (:networks) ");
-		parameterMap.put("networks", subCategList);
-	}
-
-
-	/**
-	 * Append clause for device type.
-	 *
-	 * @param query the query
-	 * @param parameterMap the parameter map
-	 * @param attributeMap the attribute map
-	 * @param attrInd the attr ind
-	 */
-	private static void appendClauseForDeviceType(StringBuilder query,
-			Map<String, Object> parameterMap,
-			Map<Integer, String> attributeMap, Integer attrInd) {
-		String dtCateg = attributeMap.get(attrInd);
-		List<Integer> subCategList = CommonUtil.convertToList(dtCateg);
-		List<String> deviceTypes = new ArrayList<String>(6);
-		for (Integer subCateg : subCategList) {
-			deviceTypes.add(DeviceType.of(subCateg).getName());
-		}
-		query.append(" and trip.devicename in (:deviceTypes) ");
-		parameterMap.put("deviceTypes", deviceTypes);
-	}
-
-
-	/**
-	 * Append clause for travel duration.
-	 *
-	 * @param query the query
-	 * @param attributeMap the attribute map
-	 * @param attrInd the attr ind
-	 */
-	private static void appendClauseForTravelDuration(StringBuilder query,
-			Map<Integer, String> attributeMap, Integer attrInd) {
-		String tdCateg = attributeMap.get(attrInd);
-		List<Integer> subCategList = CommonUtil.convertToList(tdCateg);
-		query.append(" and ( ");
-		boolean first = true;
-		for (Integer cat : subCategList) {
-			if (!first) {
-				query.append(" or ");
-			} else {
-				first = false;
-			}
-			if (FilterColumn.TRAVEL_DURATION_WEEKDAY.getInd() == cat) {
-				query.append(" ((to_timestamp(trip.endtime/1000)::date - ")
-					.append(" to_timestamp(trip.starttime/1000)::date)  < 5 ")
-					.append(" and (EXTRACT(DOW FROM to_timestamp(trip.starttime/1000)) between 1 and 5) ")
-					.append(" and (EXTRACT(DOW FROM to_timestamp(trip.endtime/1000)) between 1 and 5) )");
-			} else if (FilterColumn.TRAVEL_DURATION_WEEKEND.getInd() == cat) {
-				query.append(" ((to_timestamp(trip.endtime/1000)::date -  ")
-					.append(" to_timestamp(trip.starttime/1000)::date)  < 2 ")
-					.append(" and EXTRACT(DOW FROM to_timestamp(trip.starttime/1000)) in (0,6) ")
-					.append(" and EXTRACT(DOW FROM to_timestamp(trip.endtime/1000)) in (0,6)) ");
-			} else if (FilterColumn.TRAVEL_DURATION_WEEKDAY_WEEKEND.getInd() == cat) {
-				query.append(" ((to_timestamp(trip.endtime/1000)::date -  ")
-					.append(" to_timestamp(trip.starttime/1000)::date)  between 5 and 12 )");
-			} else if (FilterColumn.TRAVEL_DURATION_TWO_WEEKS_PLUS.getInd() == cat) {
-				query.append(" ((to_timestamp(trip.endtime/1000)::date -  ")
-				.append(" to_timestamp(trip.starttime/1000)::date) > 12 )");
-			}
-		}
-		query.append(" ) ");
-	}
 }

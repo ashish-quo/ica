@@ -1,5 +1,9 @@
 (function(){
 	var utillity = angular.module("app.utility",[]);
+	
+	/**
+	 * Utility service. Contains some utility methods that can be used in any controller
+	 */
 	utillity.factory("util", [function () {
 		utilityService = {};
 		
@@ -9,11 +13,13 @@
 			} else 
 				return ""+num;
 		};
+		
 		utilityService.getDateString = function (day, month, year) {
 			return utilityService.normalizeDate(day) + "/" 
 			+ utilityService.normalizeDate(month) + "/" 
 			+ ("" + year).slice(2);
 		};
+		
 		// gives date range start and end of the week by week number
 		utilityService.getDateRangeOfWeek = function getDateRangeOfWeek(weekNo){
 		    var d1 = new Date();
@@ -31,13 +37,16 @@
 		    }
 		};
 		
+		/**
+		 * Transforms filters so that they are ready to be sent in requrest
+		 */
 		utilityService.getParamsFromFilter = function (filters) {
 			// transform attribute filters
 			var attrs = '';
 			for (var key in filters.attributes) {
 				  if (filters.attributes.hasOwnProperty(key)) {
 				    attrs += '' + key + ':' + $j.map(filters.attributes[key], function(obj) {
-				    	return obj.catId;
+				    	return obj.value;
 				    }).join(",")+ "#";
 				  }
 			}
@@ -59,7 +68,6 @@
 					  tempAttrs += '' + key + ':' + filters.tempAttributes[key]+ "#";
 				  }
 			}
-			
 			
 			tempAttrs = tempAttrs.substring(0, tempAttrs.length - 1);
 			var params = { 'dateRangeFrom' : filters.dateRangeFrom,

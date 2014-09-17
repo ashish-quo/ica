@@ -12,6 +12,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -202,6 +204,67 @@ public class MicroSegmentDaoImpl implements MicroSegmentDaoI{
 		
 		result.put("data", dataList);
 		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.dao.MicroSegmentDaoI#getMSChartData(com.mobileum.roameranalytics.model.Filter)
+	 */
+	@Override
+	public Map<String, Object> getMSChartData(Filter filter, String column, String columnType, Map<String,String> catNameValue) {
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		StringBuilder query = new StringBuilder();
+		QueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, columnType, parameterMap);
+		LOGGER.info(query.toString());
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("endDate", filter.getDateTo());
+		for (String key : parameterMap.keySet()) {
+			parameters.addValue(key, parameterMap.get(key));
+		}
+		System.out.println(catNameValue);
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<DonutData> dataList = this.namedParameterJdbcTemplate.query(query.toString(), parameters,
+				new RowMapper<DonutData>() {
+			@Override
+			public DonutData mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				DonutData donutData = new DonutData();
+				
+				donutData.setLabel(catNameValue.get(rs.getString("catValue")));
+				donutData.setValue(rs.getDouble("imsicount"));
+				return donutData;
+			}
+		});
+		
+		result.put("data", dataList);
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.dao.MicroSegmentDaoI#getAttributeLabelAndValue()
+	 */
+	@Override
+	public Map<String, Map<String, String>> getAttributeLabelAndValue() {
+		String query = QueryBuilder.queryForLabelVsValue();
+		return this.namedParameterJdbcTemplate.query(query, new ResultSetExtractor<Map<String, Map<String, String>>>() {
+			@Override
+			public Map<String, Map<String, String>> extractData(ResultSet rs)
+					throws SQLException, DataAccessException {
+				Map<String, Map<String, String>> result = new HashMap<String, Map<String,String>>();
+				while(rs.next()) {
+					String attrName = rs.getString("attrName");
+					String catName = rs.getString("catName");
+					String catValue = rs.getString("catValue");
+					Map<String,String> catValueMap = result.get(attrName);
+					if (catValueMap == null) {
+						catValueMap = new HashMap<String, String>(3);
+						result.put(attrName, catValueMap);
+					} 
+					catValueMap.put(catValue, catName);
+				}
+				return result;
+			}
+		});
 	}
 
 }

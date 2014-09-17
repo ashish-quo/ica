@@ -20,11 +20,14 @@ public class CommonUtil {
 	 * @param css - comma separated string
 	 * @return object array
 	 */
-	public static List<Integer> convertToList(String css) {
-		String[] strArray = css.split(RAConstants.COMMA);
-		List<Integer> list = new ArrayList<Integer>(5);
+	public static <T> List<Object> convertToList(String css, String type ) {
+		String[] strArray =  css.split(RAConstants.COMMA);
+		List<Object> list = new ArrayList<Object>(5);
 		for(String str : strArray) {
-			list.add(Integer.valueOf(str.trim()));
+			if (Integer.class.getName().equalsIgnoreCase(type))
+				list.add(Integer.valueOf(str));
+			else 
+				list.add(str);
 		}
 		return list;
 	}
@@ -36,12 +39,15 @@ public class CommonUtil {
 	 * @param attributes the attributes
 	 * @return the map <attribute indicator, comma separated string of sub attribute indicators>
 	 */
-	public static  Map<Integer,String> parseSelectedAttributes(String attributes) {
+	public static  Map<String,String> parseSelectedAttributes(String attributes) {
 		String[] attrArray = attributes.split(RAConstants.HASH);
-		Map<Integer,String> attributeMap = new HashMap<Integer, String>();
+		Map<String,String> attributeMap = new HashMap<String, String>();
 		for (String attrInd : attrArray) {
 			String[] currentAttribute = attrInd.split(":");
-			attributeMap.put(Integer.valueOf(currentAttribute[0].trim()), currentAttribute[1].trim());
+			String attributeKey[] =  currentAttribute[0].trim().split(",");
+			String key = attributeKey[1];
+			String value = attributeKey[2] + ":" + currentAttribute[1].trim();
+			attributeMap.put(key,value );
 		}
 		return attributeMap;
 	}

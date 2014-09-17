@@ -48,4 +48,16 @@ public class MicroSegmentServiceImpl implements MicroSegmentServiceI {
 	public Map<String, Object> getARPUData(Filter filter) {
 		return microsegmentDao.getARPUData(filter);
 	}
+
+
+	@Override
+	public Map<String, Object> getMSChartData(Filter filter, String column, String columnType,
+			Map<String,String> catNameValue) {
+		return microsegmentDao.getMSChartData(filter, column, columnType, catNameValue);
+	}
+
+	@Override
+	public Map<String, Map<String, String>> getAttributeLabelAndValue() {
+		return microsegmentDao.getAttributeLabelAndValue();
+	}
 }
