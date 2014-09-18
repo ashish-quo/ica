@@ -13,7 +13,7 @@ import com.mobileum.roameranalytics.model.Country;
  * @author Quovantis_Dev
  *
  */
-public interface CommonServiceI {
+public interface MetaDataService {
 
 	/**
 	 * Gets the attribute list for left panel.

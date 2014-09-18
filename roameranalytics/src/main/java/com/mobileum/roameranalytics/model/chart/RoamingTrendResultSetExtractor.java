@@ -51,7 +51,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		long startDate = System.currentTimeMillis();
 		boolean first = true;
 		while (rs.next()) {
-			Long date = rs.getLong("usagebintime");
+			Long date = rs.getLong("usagebintime") * 1000;
 			Double count = rs.getDouble("imsicount");
 			Integer tripCategory = rs.getInt("overalltripcategory");
 			Double mt = rs.getDouble("mtcallminutes");

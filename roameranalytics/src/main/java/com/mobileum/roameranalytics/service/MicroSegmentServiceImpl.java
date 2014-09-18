@@ -8,18 +8,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mobileum.roameranalytics.dao.MicroSegmentDaoI;
 import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.repository.MicroSegmentRepository;
 
 /**
  * @author sarvesh
  *
  */
 @Service
-public class MicroSegmentServiceImpl implements MicroSegmentServiceI {
+public class MicroSegmentServiceImpl implements MicroSegmentService {
 
 	@Autowired
-	private MicroSegmentDaoI microsegmentDao;
+	private MicroSegmentRepository microsegmentDao;
 	
 	@Override
 	public Map<String, Object> getNetworkData(Filter filter) {

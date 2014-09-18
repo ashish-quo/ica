@@ -6,8 +6,8 @@ package com.mobileum.roameranalytics.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,8 +24,8 @@ import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
-import com.mobileum.roameranalytics.service.CommonServiceI;
-import com.mobileum.roameranalytics.service.TrendServiceI;
+import com.mobileum.roameranalytics.service.MetaDataService;
+import com.mobileum.roameranalytics.service.TrendService;
 
 /**
  * The Class TrendController.
@@ -38,11 +38,11 @@ public class TrendController {
 
 	/** The common service. */
 	@Autowired
-	private CommonServiceI commonService;
+	private MetaDataService commonService;
 	
 	/** The trend service. */
 	@Autowired
-	private TrendServiceI trendService;
+	private TrendService trendService;
 	
 	/**
 	 * Show home.
@@ -130,8 +130,9 @@ public class TrendController {
 		String tempAttributes = req.getParameter("tempAttributes");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
-		filter.setDateFrom(dateFormat.parse(startdate).getTime()/1000);
-		filter.setDateTo(dateFormat.parse(endDate).getTime()/1000);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		System.out.println("start date : " + filter.getDateFrom());
 		System.out.println("end date : " + filter.getDateTo());
 		filter.setSelectedCountries(countries);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.dao;
+package com.mobileum.roameranalytics.repository;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import com.mobileum.roameranalytics.model.Country;
  * @author sarvesh
  *
  */
-public interface CommonDaoI {
+public interface MetaDataRepository {
 
 	/**
 	 * Gets the attribute list for left panel.

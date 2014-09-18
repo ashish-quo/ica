@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.dao;
+package com.mobileum.roameranalytics.repository;
 
 
 import java.util.List;
@@ -15,7 +15,7 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
  * @author smruti
  *
  */
-public interface TrendDaoI {
+public interface TrendRepository {
 	
 	public void insertData();
 	

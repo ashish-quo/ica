@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.dao;
+package com.mobileum.roameranalytics.repository;
 
 /**
  * @author smruti

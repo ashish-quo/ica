@@ -16,7 +16,7 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
  * @author sarvesh
  *
  */
-public interface TrendServiceI {
+public interface TrendService {
 
 	public void printQuery();
 	

@@ -23,7 +23,7 @@ import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.MSChartMetadata;
-import com.mobileum.roameranalytics.service.MicroSegmentServiceI;
+import com.mobileum.roameranalytics.service.MicroSegmentService;
 
 /**
  * @author sarvesh
@@ -34,7 +34,7 @@ import com.mobileum.roameranalytics.service.MicroSegmentServiceI;
 public class MicroSegmentController {
 
 	@Autowired
-	private MicroSegmentServiceI microsegmentSerice;
+	private MicroSegmentService microsegmentSerice;
 	
 	@RequestMapping(value="/microsegment", method = RequestMethod.GET)
 	public ModelAndView showMicroSegment() {

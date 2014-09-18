@@ -11,7 +11,7 @@ import com.mobileum.roameranalytics.model.Filter;
  * @author sarvesh
  *
  */
-public interface MicroSegmentServiceI {
+public interface MicroSegmentService {
 
 	/**
 	 *  Gets data required for network graph in microsegment section.

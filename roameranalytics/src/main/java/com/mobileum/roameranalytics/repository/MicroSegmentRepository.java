@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.dao;
+package com.mobileum.roameranalytics.repository;
 
 import java.util.Map;
 
@@ -11,7 +11,7 @@ import com.mobileum.roameranalytics.model.Filter;
  * @author sarvesh
  *
  */
-public interface MicroSegmentDaoI {
+public interface MicroSegmentRepository {
 
 	/**
 	 *  Gets data required for network graph in microsegment section.

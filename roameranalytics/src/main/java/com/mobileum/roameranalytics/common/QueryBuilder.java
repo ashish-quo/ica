@@ -8,12 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.mobileum.roameranalytics.dao.Criteria;
-import com.mobileum.roameranalytics.dao.SelectQuery;
-import com.mobileum.roameranalytics.dao.Table;
 import com.mobileum.roameranalytics.enums.FilterColumn;
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.repository.Criteria;
+import com.mobileum.roameranalytics.repository.SelectQuery;
+import com.mobileum.roameranalytics.repository.Table;
 
 /**
  * The Class QueryBuilder. Creates dynamic queries.
@@ -100,7 +100,7 @@ public class QueryBuilder {
 			.append(Relation.TRIP_TIME).append(" triptime inner join ").append(Relation.TRIP)
 			.append(" trip on triptime.imsi = trip.imsi and triptime.tripstarttime = trip.starttime ")
 			.append(" where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate ");
+			.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
 		
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);

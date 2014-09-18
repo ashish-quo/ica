@@ -8,39 +8,39 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
-import com.mobileum.roameranalytics.dao.Criteria;
-import com.mobileum.roameranalytics.dao.SelectQuery;
-import com.mobileum.roameranalytics.dao.Table;
-import com.mobileum.roameranalytics.dao.TrendDaoI;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.HeatMap;
 import com.mobileum.roameranalytics.model.RoamingStats;
 import com.mobileum.roameranalytics.model.TopCountry;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
+import com.mobileum.roameranalytics.repository.Criteria;
+import com.mobileum.roameranalytics.repository.SelectQuery;
+import com.mobileum.roameranalytics.repository.Table;
+import com.mobileum.roameranalytics.repository.TrendRepository;
 
 /**
  * @author Quovantis_Dev
  *
  */
 @Service
-public class TrendServiceImpl implements TrendServiceI{
+public class TrendServiceImpl implements TrendService{
 
 	/** The common service. */
 	@Autowired
-	private CommonServiceI commonService;
+	private MetaDataService commonService;
 
 	/** The trend dao. */
 	@Autowired
-	private TrendDaoI trendDao;
+	private TrendRepository trendDao;
 	
 	/** The logger. */
-	private static Logger LOGGER = LoggerFactory.getLogger("TrendServiceImpl");
+	private static Logger LOGGER = LogManager.getLogger("FilterDaoImpl");
 
 	public void printQuery()
 	{
@@ -190,6 +190,7 @@ public class TrendServiceImpl implements TrendServiceI{
 	 */
 	@Override
 	public RoamingTrend getTrendsCharts(Filter filter) {
+		LOGGER.trace("Getting trend chart's data - Roamer Count, MT & MO, SMS and Data");
 		return this.trendDao.getTrendsCharts(filter);
 	}
 

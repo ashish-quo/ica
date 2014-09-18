@@ -20,7 +20,7 @@ public class PerDaySeries extends ChartSeries {
 	 * @param pointStart the pointStart to set
 	 */
 	public void setPointStart(long pointStart) {
-		this.pointStart = pointStart;
+		this.pointStart =  pointStart;
 	}
 	/**
 	 * @return the pointinterval

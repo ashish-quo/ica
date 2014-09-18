@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.dao;
+package com.mobileum.roameranalytics.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +33,7 @@ import com.mobileum.roameranalytics.model.chart.DonutData;
  *
  */
 @Repository
-public class MicroSegmentDaoImpl implements MicroSegmentDaoI{
+public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 
 	/** The logger. */
 	private static Logger LOGGER = LoggerFactory.getLogger("MicroSegmentDaoImpl");

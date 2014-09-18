@@ -133,4 +133,14 @@ public class Attribute {
 	public void setColumnType(String columnType) {
 		this.columnType = columnType;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Attribute [id=" + id + ", attributeName=" + attributeName
+				+ ", moduleId=" + moduleId + ", displayOrder=" + displayOrder
+				+ ", dbColumn=" + dbColumn + ", columnType=" + columnType + "]";
+	}
 }

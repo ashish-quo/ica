@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.dao;
+package com.mobileum.roameranalytics.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +32,7 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrendResultSetExtractor;
  *
  */
 @Repository
-public class TrendDaoImpl implements TrendDaoI {
+public class TrendRepositoryImpl implements TrendRepository {
 
 	@Autowired
 	DataSource dataSource;

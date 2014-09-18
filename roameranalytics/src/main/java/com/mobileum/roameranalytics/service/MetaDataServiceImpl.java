@@ -9,28 +9,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mobileum.roameranalytics.dao.CommonDaoI;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
+import com.mobileum.roameranalytics.repository.MetaDataRepository;
 
 /**
  * @author sarvesh
  *
  */
 @Service
-public class CommonServiceImpl implements CommonServiceI{
+public class MetaDataServiceImpl implements MetaDataService{
 
 	/** The common dao. */
 	@Autowired
-	private CommonDaoI commonDao;
+	private MetaDataRepository commonDao;
 	
 	/** The logger. */
-	private static Logger LOGGER = LoggerFactory.getLogger("CommonServiceImpl");
+	private static Logger LOGGER = LogManager.getLogger("FilterDaoImpl");
 	
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.TrendServiceI#getAttributes()
@@ -64,7 +64,7 @@ public class CommonServiceImpl implements CommonServiceI{
 
 		} catch (ParseException e)
 		{
-			LOGGER.info("Parsing exception in dateToTimestamp for date:"+str_date);
+			LOGGER.error("Parsing exception in dateToTimestamp for date:"+str_date);
 
 		}
 		return 0;

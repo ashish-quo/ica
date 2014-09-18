@@ -71,7 +71,7 @@ public class Filter {
 	 * @param dateFrom the dateFrom to set
 	 */
 	public void setDateFrom(long dateFrom) {
-		this.dateFrom = dateFrom;
+		this.dateFrom = dateFrom/1000;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class Filter {
 	 * @param dateTo the dateTo to set
 	 */
 	public void setDateTo(long dateTo) {
-		this.dateTo = dateTo;
+		this.dateTo = dateTo/1000;
 	}
 
 	/**

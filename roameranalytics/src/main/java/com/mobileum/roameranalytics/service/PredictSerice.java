@@ -7,6 +7,6 @@ package com.mobileum.roameranalytics.service;
  * @author Quovantis_Dev
  *
  */
-public interface PredictSericeI {
+public interface PredictSerice {
 
 }
