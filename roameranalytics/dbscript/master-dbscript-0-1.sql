@@ -6,10 +6,11 @@ CREATE TABLE attribute
 (
   id integer NOT NULL,
   attribute_name character varying(50),
-  module_id character varying(15) default null,
+  module_id character varying(15) DEFAULT NULL::character varying,
   display_order integer,
-  db_column character  varying(50),
+  db_column character varying(50),
   column_type character varying(50),
+  chart_type smallint, -- Column for Chart type in microsegment
   CONSTRAINT attribute_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -17,6 +18,9 @@ WITH (
 );
 ALTER TABLE attribute
   OWNER TO postgres;
+COMMENT ON COLUMN attribute.chart_type IS 'Column for Chart type in microsegment';
+
+
 
 
 -- Table: attribute_category
@@ -29,9 +33,11 @@ CREATE TABLE attribute_category
   categ_name character varying(100), -- stores the attribute details of particular attribute id
   display_order integer,
   attr_id integer,
-  categ_value character varying(100) not null , -- category indicator
+  categ_value character varying(5000) NOT NULL,
   CONSTRAINT attribute_category_pkey PRIMARY KEY (id),
-  CONSTRAINT attribute_category_Fkey FOREIGN KEY (attr_id) REFERENCES ATTRIBUTE(id)
+  CONSTRAINT attribute_category_fkey FOREIGN KEY (attr_id)
+      REFERENCES attribute (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
   OIDS=FALSE
@@ -154,23 +160,49 @@ WITH (
 ALTER TABLE comment_list
   OWNER TO postgres;
 
--- Table: country
+-- Table: country_ib
 
--- DROP TABLE country;
+-- DROP TABLE country_ib;
 
-CREATE TABLE country
+CREATE TABLE country_ib
 (
-  id integer NOT NULL,
-  country_code character varying(3),
-  country_name character varying(30),
-  dial_code integer,
-  CONSTRAINT country_pkey PRIMARY KEY (id)
+  id serial NOT NULL,
+  homeid smallint,
+  homecountry character varying(100),
+  visitedcountry character varying(100),
+  visitorid smallint,
+  bordering character varying(20),
+  samecontinent smallint,
+  CONSTRAINT country_ib_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE country
+ALTER TABLE country_ib
   OWNER TO postgres;
+
+  
+  -- Table: country2countrymap
+
+-- DROP TABLE country2countrymap;
+
+CREATE TABLE country2countrymap
+(
+  id serial NOT NULL,
+  homeid smallint,
+  homecountry character varying(100),
+  visitorid smallint,
+  visitedcountry character varying(100),
+  isbordering boolean,
+  issamecontinent boolean,
+  CONSTRAINT country2countrymap_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE country2countrymap
+  OWNER TO postgres;
+
 
 -- Table: "group"
 
@@ -288,7 +320,7 @@ ALTER TABLE user_roles
   
  -- Table trip added by smruti on 22-08-2014
  
-  -- Table: trip
+-- Table: trip
 
 -- DROP TABLE trip;
 
@@ -360,12 +392,12 @@ CREATE TABLE trip
   chargingplanapproximity smallint,
   starttimestring character varying(20),
   endtimestring character varying(20),
-  visitedcountryname character varying(30),
-  visitednetworkname character varying(30),
-  homecountryname character varying(30),
-  homenetworkname character varying(30),
-  devicename character varying(30),
-  devicemanufacturer character varying(20),
+  visitedcountryname character varying(100),
+  visitednetworkname character varying(100),
+  homecountryname character varying(100),
+  homenetworkname character varying(100),
+  devicename character varying(1000),
+  devicemanufacturer character varying(1000),
   CONSTRAINT trip_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -374,15 +406,40 @@ WITH (
 ALTER TABLE trip
   OWNER TO postgres;
 
- -- Table triptime added by smruti on 22-08-2014
-  
-  -- Table: triptime
+-- Index: trip_endtime
+
+-- DROP INDEX trip_endtime;
+
+CREATE INDEX trip_endtime
+  ON trip
+  USING btree
+  (endtime);
+
+-- Index: trip_starttime
+
+-- DROP INDEX trip_starttime;
+
+CREATE INDEX trip_starttime
+  ON trip
+  USING btree
+  (starttime);
+
+-- Index: trip_time_range
+
+-- DROP INDEX trip_time_range;
+
+CREATE INDEX trip_time_range
+  ON trip
+  USING btree
+  (starttime, endtime);
+
+
+ --- Table: triptime
 
 -- DROP TABLE triptime;
 
 CREATE TABLE triptime
 (
-  id bigserial NOT NULL,
   opcoid character varying(20),
   roamtype character varying(5),
   homemcc integer,
@@ -393,7 +450,6 @@ CREATE TABLE triptime
   tripstarttime bigint,
   tripendtime bigint,
   usagebintime bigint,
-  priceplan character varying(20),
   mocallcount bigint,
   mocallminutes bigint,
   mtcallcount bigint,
@@ -422,10 +478,11 @@ CREATE TABLE triptime
   mtsmscountothers bigint,
   tripstarttimestring character varying(20),
   tripendtimestring character varying(20),
-  visitedcountryname character varying(30),
-  visitednetworkname character varying(30),
-  homecountryname character varying(30),
-  homenetworkname character varying(30),
+  visitedcountryname character varying(100),
+  visitednetworkname character varying(100),
+  homecountryname character varying(100),
+  homenetworkname character varying(100),
+  id bigserial NOT NULL,
   CONSTRAINT triptime_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -434,3 +491,52 @@ WITH (
 ALTER TABLE triptime
   OWNER TO postgres;
 
+-- Index: triptime_imsi
+
+-- DROP INDEX triptime_imsi;
+
+CREATE INDEX triptime_imsi
+  ON triptime
+  USING btree
+  (imsi);
+
+-- Index: triptime_tripstarttime
+
+-- DROP INDEX triptime_tripstarttime;
+
+CREATE INDEX triptime_tripstarttime
+  ON triptime
+  USING btree
+  (tripstarttime);
+
+-- Index: triptime_usagebintime
+
+-- DROP INDEX triptime_usagebintime;
+
+CREATE INDEX triptime_usagebintime
+  ON triptime
+  USING btree
+  (usagebintime);
+
+
+
+  -- Table: tadignetwork
+
+-- DROP TABLE tadignetwork;
+
+CREATE TABLE tadignetwork
+(
+  id serial NOT NULL,
+  network_id integer,
+  tadig character varying(10),
+  mcc integer,
+  mnc integer,
+  network_name character varying(100),
+  network_group character varying(50),
+  CONSTRAINT tadignetwork_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE tadignetwork
+  OWNER TO postgres;

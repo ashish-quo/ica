@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.model.HeatMap;
-import com.mobileum.roameranalytics.model.RoamingStats;
-import com.mobileum.roameranalytics.model.TopCountry;
+import com.mobileum.roameranalytics.model.CountryUsageStatistics;
+import com.mobileum.roameranalytics.model.RoamingStatistics;
+import com.mobileum.roameranalytics.model.AggregatedCountryStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 
 /**
@@ -27,7 +27,7 @@ public interface TrendService {
 	 * @param country
 	 * @return
 	 */
-	public  Map<String,HeatMap> getHeatMap(String startDate, String endDate, List<String> country);
+	public  Map<String,CountryUsageStatistics> getHeatMap(String startDate, String endDate, List<String> country);
 	
 	/**
 	 * @Authr Smruti
@@ -35,7 +35,7 @@ public interface TrendService {
 	 * @param endDate
 	 * @return
 	 */
-	public  TopCountry getTopCountry(String startDate, String endDate);
+	public  AggregatedCountryStatistics getTopCountry(String startDate, String endDate);
 	
 	/**
 	 *  @Authr Smruti
@@ -45,7 +45,7 @@ public interface TrendService {
 	 * @param groupBy
 	 * @return
 	 */
-	public List<RoamingStats> getTopRoamer(String startDate, String endDate,  String orderBy);
+	public List<RoamingStatistics> getTopRoamer(String startDate, String endDate,  String orderBy);
 		
 
 	/**

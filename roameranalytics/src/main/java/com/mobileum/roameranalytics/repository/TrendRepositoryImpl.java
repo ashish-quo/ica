@@ -22,8 +22,8 @@ import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.model.HeatMap;
-import com.mobileum.roameranalytics.model.RoamingStats;
+import com.mobileum.roameranalytics.model.CountryUsageStatistics;
+import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.model.chart.RoamingTrendResultSetExtractor;
 
@@ -59,11 +59,11 @@ public class TrendRepositoryImpl implements TrendRepository {
 	}
 
 	@Override
-	public List<HeatMap> getHeatMapList(String query, Object criteria[]) {
+	public List<CountryUsageStatistics> getHeatMapList(String query, Object criteria[]) {
 
-		return jdbcTemplate.query(query, criteria, new RowMapper<HeatMap>() {
-			public HeatMap mapRow(ResultSet rs, int rowNum) throws SQLException {
-				HeatMap hm = new HeatMap();
+		return jdbcTemplate.query(query, criteria, new RowMapper<CountryUsageStatistics>() {
+			public CountryUsageStatistics mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CountryUsageStatistics hm = new CountryUsageStatistics();
 				hm.setCountryCode(rs.getString("visitedcountryname"));
 				hm.setDataUsage(rs.getLong("modatacount"));
 				hm.setMoUsage(rs.getLong("mocallcount"));
@@ -77,13 +77,13 @@ public class TrendRepositoryImpl implements TrendRepository {
 
 	}
 	@Override
-	public List<RoamingStats> getTopRoamerDao(String query, Object criteria[]) {
+	public List<RoamingStatistics> getTopRoamerDao(String query, Object criteria[]) {
 
 		return jdbcTemplate.query(query, criteria,
-				new RowMapper<RoamingStats>() {
-					public RoamingStats mapRow(ResultSet rs, int rowNum)
+				new RowMapper<RoamingStatistics>() {
+					public RoamingStatistics mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
-						RoamingStats roamingStat = new RoamingStats();
+						RoamingStatistics roamingStat = new RoamingStatistics();
 						roamingStat.setCountryCode(rs
 								.getString("visitedcountryname"));
 						roamingStat.setMoTotal(rs.getLong("mocallcount"));

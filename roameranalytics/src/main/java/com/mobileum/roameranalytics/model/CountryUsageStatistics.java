@@ -7,7 +7,7 @@ package com.mobileum.roameranalytics.model;
  * @author smruti
  *
  */
-public class HeatMap {
+public class CountryUsageStatistics {
 	
 	String countryCode;
 	long moUsage;

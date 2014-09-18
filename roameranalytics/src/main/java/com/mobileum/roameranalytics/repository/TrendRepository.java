@@ -7,8 +7,8 @@ package com.mobileum.roameranalytics.repository;
 import java.util.List;
 
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.model.HeatMap;
-import com.mobileum.roameranalytics.model.RoamingStats;
+import com.mobileum.roameranalytics.model.CountryUsageStatistics;
+import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 
 /**
@@ -24,14 +24,14 @@ public interface TrendRepository {
 	 * @param query
 	 * @return
 	 */
-	public List<HeatMap> getHeatMapList(String query,Object criteria[]);	
+	public List<CountryUsageStatistics> getHeatMapList(String query,Object criteria[]);	
 	
 	/**
 	 * Added by smruti on 2014-08-21
 	 * @param query
 	 * @return
 	 */
-	public List<RoamingStats> getTopRoamerDao(String query,Object criteria[]);
+	public List<RoamingStatistics> getTopRoamerDao(String query,Object criteria[]);
 	
 
 	/**

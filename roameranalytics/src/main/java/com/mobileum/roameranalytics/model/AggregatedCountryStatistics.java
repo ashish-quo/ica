@@ -9,85 +9,85 @@ import java.util.List;
  * @author smruti
  *
  */
-public class TopCountry {
+public class AggregatedCountryStatistics {
 
-	List<RoamingStats>	topRoamer;
+	List<RoamingStatistics>	topRoamer;
 
-	List<RoamingStats>	topMo;
+	List<RoamingStatistics>	topMo;
 
-	List<RoamingStats>	topMt;
+	List<RoamingStatistics>	topMt;
 
-	List<RoamingStats>	topData;
+	List<RoamingStatistics>	topData;
 	
-	List<RoamingStats> topSms;
+	List<RoamingStatistics> topSms;
 
 	/**
 	 * @return the topRoamer
 	 */
-	public List<RoamingStats> getTopRoamer() {
+	public List<RoamingStatistics> getTopRoamer() {
 		return topRoamer;
 	}
 
 	/**
 	 * @param topRoamer the topRoamer to set
 	 */
-	public void setTopRoamer(List<RoamingStats> topRoamer) {
+	public void setTopRoamer(List<RoamingStatistics> topRoamer) {
 		this.topRoamer = topRoamer;
 	}
 
 	/**
 	 * @return the topMo
 	 */
-	public List<RoamingStats> getTopMo() {
+	public List<RoamingStatistics> getTopMo() {
 		return topMo;
 	}
 
 	/**
 	 * @param topMo the topMo to set
 	 */
-	public void setTopMo(List<RoamingStats> topMo) {
+	public void setTopMo(List<RoamingStatistics> topMo) {
 		this.topMo = topMo;
 	}
 
 	/**
 	 * @return the topMt
 	 */
-	public List<RoamingStats> getTopMt() {
+	public List<RoamingStatistics> getTopMt() {
 		return topMt;
 	}
 
 	/**
 	 * @param topMt the topMt to set
 	 */
-	public void setTopMt(List<RoamingStats> topMt) {
+	public void setTopMt(List<RoamingStatistics> topMt) {
 		this.topMt = topMt;
 	}
 
 	/**
 	 * @return the topData
 	 */
-	public List<RoamingStats> getTopData() {
+	public List<RoamingStatistics> getTopData() {
 		return topData;
 	}
 
 	/**
 	 * @param topData the topData to set
 	 */
-	public void setTopData(List<RoamingStats> topData) {
+	public void setTopData(List<RoamingStatistics> topData) {
 		this.topData = topData;
 	}
 
 	/**
 	 * @return the topSms
 	 */
-	public List<RoamingStats> getTopSms() {
+	public List<RoamingStatistics> getTopSms() {
 		return topSms;
 	}
 
 	/**
 	 * @param topSms the topSms to set
 	 */
-	public void setTopSms(List<RoamingStats> topSms) {
+	public void setTopSms(List<RoamingStatistics> topSms) {
 		this.topSms = topSms;
 	}
 	

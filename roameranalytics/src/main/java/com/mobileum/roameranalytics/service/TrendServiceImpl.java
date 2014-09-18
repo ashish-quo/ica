@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.model.HeatMap;
-import com.mobileum.roameranalytics.model.RoamingStats;
-import com.mobileum.roameranalytics.model.TopCountry;
+import com.mobileum.roameranalytics.model.CountryUsageStatistics;
+import com.mobileum.roameranalytics.model.RoamingStatistics;
+import com.mobileum.roameranalytics.model.AggregatedCountryStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.repository.Criteria;
 import com.mobileum.roameranalytics.repository.SelectQuery;
@@ -47,8 +47,8 @@ public class TrendServiceImpl implements TrendService{
 		System.out.println("hii"+QueryBuilder.queryForHeatMap());
 	}
 	
-	public  Map<String,HeatMap> getHeatMap(String startDate, String endDate, List<String> country){
-		Map<String,HeatMap> mapHeatMap =new LinkedHashMap<String,HeatMap>();
+	public  Map<String,CountryUsageStatistics> getHeatMap(String startDate, String endDate, List<String> country){
+		Map<String,CountryUsageStatistics> mapHeatMap =new LinkedHashMap<String,CountryUsageStatistics>();
 		Table table1=new Table("trip","tp");
 		table1.addGroupFunctions("sum(mocallcount) mocallcount");
 		table1.addGroupFunctions("sum(mtcallcount) mtcallcount");
@@ -80,14 +80,14 @@ public class TrendServiceImpl implements TrendService{
 		Object[] whereCriteria = commonService.listToObjectArray(listCriteria);
 		
 		
-		List<HeatMap> listHeatMap=new ArrayList<HeatMap>();
+		List<CountryUsageStatistics> listHeatMap=new ArrayList<CountryUsageStatistics>();
 		
 		listHeatMap=trendDao.getHeatMapList(sql.toString(),whereCriteria);
 
 		
 		if(!listHeatMap.isEmpty()) {
 			
-			for (HeatMap heatMap : listHeatMap)
+			for (CountryUsageStatistics heatMap : listHeatMap)
 			{
 				mapHeatMap.put(heatMap.getCountryCode(), heatMap);
 
@@ -104,7 +104,7 @@ public class TrendServiceImpl implements TrendService{
 	}
 	
 	
-	public List<RoamingStats> getTopRoamer(String startDate, String endDate, String orderBy){
+	public List<RoamingStatistics> getTopRoamer(String startDate, String endDate, String orderBy){
 		
 		
 		Table table1=new Table("trip","tp");
@@ -134,8 +134,8 @@ public class TrendServiceImpl implements TrendService{
 	}
 	
 	
-	public  TopCountry getTopCountry(String startDate, String endDate){
-		TopCountry topCountry =new TopCountry();
+	public  AggregatedCountryStatistics getTopCountry(String startDate, String endDate){
+		AggregatedCountryStatistics topCountry =new AggregatedCountryStatistics();
 
 		/**	Get Top 10 Country List **/
 		

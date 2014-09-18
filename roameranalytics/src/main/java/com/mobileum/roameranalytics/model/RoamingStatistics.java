@@ -7,7 +7,7 @@ package com.mobileum.roameranalytics.model;
  * @author smruti
  *
  */
-public class RoamingStats {
+public class RoamingStatistics {
 	
 	/**
 	 * Contry Code
