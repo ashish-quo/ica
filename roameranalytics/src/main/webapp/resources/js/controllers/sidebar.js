@@ -23,10 +23,16 @@
 			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			$rootScope.$apply();
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			} else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'custom');
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		});
 		
@@ -58,8 +64,13 @@
 			$rootScope.filters.dateRangeFrom = dateRange.from;
 			$rootScope.filters.dateRangeTo = dateRange.to;
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			} else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'thisweek');
 			}
@@ -73,9 +84,14 @@
 			$rootScope.filters.dateRangeFrom = dateRange.from;
 			$rootScope.filters.dateRangeTo = dateRange.to;
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'lastweek');
 			}
 		};
@@ -91,8 +107,13 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(now.getDate(),now.getMonth()+1,now.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			} else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'thismonth');
 			}
@@ -110,9 +131,14 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'lastmonth');
 			}
 		};
@@ -133,9 +159,14 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'thisquarter');
 			}
 		};
@@ -161,9 +192,14 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'lastquarter');
 			}
 		};
@@ -203,8 +239,13 @@
 				var name =  $j(this).attr("name");
 				$rootScope.filters.personas.push({'id':id,'name':name});
 			});
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}
 		};
 		
@@ -265,9 +306,14 @@
 				var name =  $j(this).attr("name");
 				$rootScope.filters.personas.push({'id':id,'name':name});
 			});
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-			}
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			} 
 		};
 		
 		/**
@@ -310,9 +356,14 @@
 				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name, 'value':value });
 			});
 			
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-attribute");
 			}
 		};
@@ -327,9 +378,14 @@
 				var name = $j(this).attr("name");
 				$rootScope.filters.countries.push({'id':id,'name':name});
 			});
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-country");
 			}
 		};
@@ -374,8 +430,13 @@
 		$rootScope.removeCounryFilter = function(id,refresh) {
 			if(refresh) {
 				removeCounryFilter(id);
-				if ($rootScope.tabIndex == 1) {
+				if ($rootScope.tabIndex == 0) {
+					$rootScope.$broadcast("refresh-heatmap-home");
+					$rootScope.$broadcast("refresh-bubblechart-home");
+					$rootScope.$broadcast("refresh-roaming-statistics-home");
+				}else if ($rootScope.tabIndex == 1) {
 					$rootScope.$broadcast("refresh-roaming-trends");
+					$rootScope.$broadcast("refresh-roaming-statistics-trends");
 				} else if ($rootScope.tabIndex == 2) {
 					$rootScope.$broadcast("refresh-microsegment-country");
 				}

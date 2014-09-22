@@ -1,15 +1,21 @@
 <div class="row dashboard-top">
       <div class="col-lg-3">
-        <h1 class="maincontent-heading">Home</h1>        
+        <h1 class="maincontent-heading">Home</h1>
       </div>
       <div class="col-lg-7">
-        <div class="tag-div">Nigeria <a href="javascript:void(0)" class="delete-tag"></a>
-        </div>
-        <div class="tag-div">Business <a href="javascript:void(0)" class="delete-tag"></a>
-        </div>
-        <div class="tag-div">Premium Phone <a href="javascript:void(0)" class="delete-tag"></a>
-        </div>
-      </div>
+		<div class="tag-div" ng-repeat="filter in filters.countries">
+			{{filter.name}} <a href ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
+		</div>
+		<div class="tag-div" ng-repeat="filter in filters.personas">
+			{{filter.name}} <a href ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
+		</div>
+		<span ng-repeat="(key, value) in filters.attributes">
+			<div class="tag-div" ng-repeat="filter in value">
+			{{filter.name}} <a href ng-click='removeAttributeFilter(key, filter.catId,true)' class="delete-tag"></a>
+			</div>
+		</span>
+		
+	</div>
       <div class="col-lg-2">
         <div class="commentshare-icon">
           <span class="dropdown">
@@ -32,9 +38,9 @@
         </div>
       </div>
     </div>
-    <div class="row map-view">
-      <div class="col-lg-12">
-        <div class="map-content">         
+    <div class="row map-view clearfix">
+      <div class="col-lg-12 clearfix">
+        <div class="map-content clearfix">
           <ul class="map-tabs">
             <li>
               <p class="i-checks">
@@ -47,7 +53,7 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="roamers" value="">
+                  <input type="radio" name="project" id="roamers" class="all-blue-map" value="">
                   <i></i></label>
                 <label for="roamers">roamers</label>
               </p>
@@ -55,7 +61,7 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="mt" value="">
+                  <input type="radio" name="project" id="mt" class="all-blue-map" value="">
                   <i></i></label>
                 <label for="mt">mt (min)</label>
               </p>
@@ -63,7 +69,7 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="mo" value="">
+                  <input type="radio" name="project" id="mo" class="all-blue-map" value="">
                   <i></i></label>
                 <label for="mo">mo (min)</label>
               </p>
@@ -71,21 +77,30 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="data" value="">
+                  <input type="radio" name="project" id="data" class="all-blue-map" value="">
                   <i></i></label>
                 <label for="data">data (mb)</label>
               </p>
             </li>
-            <strong></strong>
+            
           </ul>
           
-<div id="map-container">
+          <div class="map-container">
+          <div id="map-container" class="clearfix">
             <div class="map-loading">
               <i class="icon-spinner icon-spin icon-large"></i> Loading data from Google Spreadsheets... </div>
           </div>
+          
+          <div id="map-container-roamer" class="clearfix">
+            <div class="map-loading">
+              <i class="icon-spinner icon-spin icon-large"></i> Loading data from Google Spreadsheets... </div>
+          </div>
+          </div>
+          
         </div>
       </div>
     </div>
+    <div ng-controller="RoamingStatisticsController">
     <div class="row dashboard-statics">
       <div class="col-lg-6">
         <section class="panel">
@@ -94,19 +109,19 @@
             <p>Roamers</p>
           </div>
           <div class="value">
-            <p class="statics-num lightblue-text">425</p>
+            <p class="statics-num lightblue-text">{{totalRoamer}}</p>
             <ul class="statics-subnum">
               <li class="cust-tooltip-dn" original-title="Projected: 350">
                 <p class="subnum-text">Silent</p>
-                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png" ></span>300</p>
+                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png" ></span>{{silentRoamer}}</p>
               </li>
               <li>
                 <p class="subnum-text">Value</p>
-                <p class="subnum-number">75</p>
+                <p class="subnum-number">{{valueRoamer}}</p>
               </li>
               <li>
                 <p class="subnum-text">Premium</p>
-                <p class="subnum-number">50</p>
+                <p class="subnum-number">{{premiumRoamer}}</p>
               </li>
             </ul>
           </div>
@@ -119,19 +134,19 @@
             <p>MO(min)</p>
           </div>
           <div class="value">
-            <p class="statics-num purple-text">425</p>
+            <p class="statics-num purple-text">{{totalMo}}</p>
             <ul class="statics-subnum">
               <li class="cust-tooltip-dn" original-title="Projected: 81">
                 <p class="subnum-text">Home</p>
-                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>50</p>
+                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>{{homeMo}}</p>
               </li>
               <li>
                 <p class="subnum-text">Local</p>
-                <p class="subnum-number">350</p>
+                <p class="subnum-number">{{localMo}}</p>
               </li>
               <li>
-                <p class="subnum-text">Intl.</p>
-                <p class="subnum-number"><span class="arr-space"><img src="images/up-icon.png"></span>25</p>
+                <p class="subnum-text">Intl</p>
+                <p class="subnum-number"><span class="arr-space"><img src="images/up-icon.png"></span>{{intlMo}}</p>
               </li>
             </ul>
           </div>
@@ -146,7 +161,7 @@
             <p>MT(Min)</p>
           </div>
           <div class="value">
-            <p class="statics-num light-green-text">987</p>
+            <p class="statics-num light-green-text">{{totalMt}}</p>
           </div>
         </section>
       </div>
@@ -157,7 +172,7 @@
             <p>Data(MB)</p>
           </div>
           <div class="value">
-            <p class="statics-num light-orange-text">1095</p>
+            <p class="statics-num light-orange-text">{{totalData}}</p>
           </div>
         </section>
       </div>
@@ -168,11 +183,12 @@
             <p>SMS</p>
           </div>
           <div class="value">
-            <p class="statics-num yellow-text">317</p>
+            <p class="statics-num yellow-text">{{totalSms}}</p>
           </div>
         </section>
       </div>
     </div>
+   </div> <!-- End of RoamingStatisticsController  -->
     <div class="top10chart-view-home">
       <div class="row">
         <div class="col-lg-3">
@@ -180,14 +196,22 @@
             <div class="card">
               <div class="face front">
                 <div class="top10chart-panel">
-                <div class="bubble-label-chart">
-                  <div class="visfront"><div id="vis"></div></div>
-                  <div class="visback"><div id="vis1"></div></div>
-                  <div class="pull-right top10-chart-btn extrlightblue clearfix">
-                    <button class="show-hea-hitter angle_btn active-scale">Show Heavy Hitter</button>
-                    <button class="remove-hea-hitter angle_btn">Remove Heavy Hitter</button>
+                  <div class="bubble-label-chart">
+                    <div class="visfront">
+                      <div id="vis"></div>
                     </div>
+                    <div class="visback">
+                      <div id="vis1"></div>
                     </div>
+                    <div class="top10-chart-btn lightblue-checked clearfix">
+                      <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="bubble-chart1" id="bubble-chart1" value="" class="heavy-hitter-opt">
+                        <i></i></label>
+                        <label for="bubble-chart1" class="">Remove Heavy Hitter</label>
+                        </p>
+                    </div>
+                  </div>
                   <div class="top10chart-footer lightblue clearfix">
                     <p class="chart-name pull-left">Roamers</p>
                     <a href="javascript:void(0)" class="viewtrend-link darkblue pull-right"><img src="images/rm-chart.png" ></a>
@@ -198,9 +222,13 @@
                 <div class="top10chart-panel">
                   <div class="linechart-box">
                     <div id="container"></div>
-                    <div class="pull-right top10-chart-btn extrlightblue">
-					<button id="b2" class="angle_btn active-scale">Show Heavy Hitter</button>                    
-                    <button id="b1" class="angle_btn">Remove Heavy Hitter</button>
+                    <div class="top10-chart-btn lightblue-checked">
+                       <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="roamer-chart" id="roamer-chart" value="" class="roamer-chart">
+                        <i></i></label>
+                        <label for="roamer-chart" class="">Remove Heavy Hitter</label>
+                        </p>
                     </div>
                   </div>
                   <div class="top10chart-footer lightblue clearfix">
@@ -212,21 +240,27 @@
             </div>
           </div>
         </div>
-        
         <div class="col-lg-3">
           <div class="flip">
             <div class="card">
               <div class="face front">
                 <div class="top10chart-panel">
                   <div class="bubble-label-chart">
-                  <div class="visfront"><div id="vis2"></div></div>
-                  <div class="visback"><div id="vis2n"></div></div>
-                  <div class="pull-right top10-chart-btn purple clearfix">
-                    <button class="show-hea-hitter angle_btn active-scale">Show Heavy Hitter</button>
-                    <button class="remove-hea-hitter angle_btn">Remove Heavy Hitter</button>
+                    <div class="visfront">
+                      <div id="vis2"></div>
                     </div>
-                    
+                    <div class="visback">
+                      <div id="vis2n"></div>
                     </div>
+                    <div class="top10-chart-btn purple-checked clearfix">
+                         <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="bubble-chart2" id="bubble-chart2" value="" class="heavy-hitter-opt" >
+                        <i></i></label>
+                        <label for="bubble-chart2" class="">Remove Heavy Hitter</label>
+                        </p>
+                    </div>
+                  </div>
                   <div class="top10chart-footer purple clearfix">
                     <p class="chart-name pull-left">MO(Min)</p>
                     <a href="javascript:void(0)" class="viewtrend-link purple-dark pull-right"><img src="images/rm-chart.png" ></a>
@@ -237,9 +271,13 @@
                 <div class="top10chart-panel">
                   <div class="linechart-box">
                     <div id="container3"></div>
-                    <div class="pull-right top10-chart-btn purple">
-					<button id="b6" class="angle_btn active-scale">Show Heavy Hitter</button>
-                    <button id="b5" class="angle_btn">Remove Heavy Hitter</button>
+                    <div class="top10-chart-btn purple-checked">
+                      <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="mo-chart" id="mo-chart" value="" class="mo-chart">
+                        <i></i></label>
+                        <label for="mo-chart" class="">Remove Heavy Hitter</label>
+                        </p>
                     </div>
                   </div>
                   <div class="top10chart-footer purple clearfix">
@@ -257,14 +295,21 @@
               <div class="face front">
                 <div class="top10chart-panel">
                   <div class="bubble-label-chart">
-                  <div class="visfront"><div id="vis3"></div></div>
-                  <div class="visback"><div id="vis3n"></div></div>
-                  <div class="pull-right top10-chart-btn light-green clearfix">
-                    <button class="show-hea-hitter angle_btn active-scale">Show Heavy Hitter</button>
-                    <button class="remove-hea-hitter angle_btn">Remove Heavy Hitter</button>
+                    <div class="visfront">
+                      <div id="vis3"></div>
                     </div>
-                    
+                    <div class="visback">
+                      <div id="vis3n"></div>
                     </div>
+                    <div class="top10-chart-btn light-green-checked clearfix">
+                       <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="bubble-chart3" id="bubble-chart3" value="" class="heavy-hitter-opt">
+                        <i></i></label>
+                        <label for="bubble-chart3" class="">Remove Heavy Hitter</label>
+                        </p>
+                    </div>
+                  </div>
                   <div class="top10chart-footer light-green clearfix">
                     <p class="chart-name pull-left">MT(Min)</p>
                     <a href="javascript:void(0)" class="viewtrend-link dark-green pull-right"><img src="images/rm-chart.png" ></a>
@@ -275,9 +320,13 @@
                 <div class="top10chart-panel">
                   <div class="linechart-box">
                     <div id="container2"></div>
-                     <div class="pull-right top10-chart-btn light-green"> 
-					<button id="b4" class="angle_btn active-scale">Show Heavy Hitter</button>                   
-                    <button id="b3" class="angle_btn">Remove Heavy Hitter</button>
+                    <div class="top10-chart-btn light-green-checked">
+                     <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="mt-chart" id="mt-chart" value="" class="mt-chart">
+                        <i></i></label>
+                        <label for="mt-chart" class="">Remove Heavy Hitter</label>
+                        </p>
                     </div>
                   </div>
                   <div class="top10chart-footer light-green clearfix">
@@ -295,14 +344,21 @@
               <div class="face front">
                 <div class="top10chart-panel">
                   <div class="bubble-label-chart">
-                  <div class="visfront"><div id="vis4"></div></div>
-                  <div class="visback"><div id="vis4n"></div></div>
-                  <div class="pull-right top10-chart-btn light-orange clearfix">
-                    <button class="show-hea-hitter angle_btn active-scale">Show Heavy Hitter</button>
-                    <button class="remove-hea-hitter angle_btn">Remove Heavy Hitter</button>
+                    <div class="visfront">
+                      <div id="vis4"></div>
                     </div>
-                    
+                    <div class="visback">
+                      <div id="vis4n"></div>
                     </div>
+                    <div class="top10-chart-btn light-orange-checked clearfix">
+                       <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="bubble-chart4" id="bubble-chart4" value="" class="heavy-hitter-opt" >
+                        <i></i></label>
+                        <label for="bubble-chart4" class="">Remove Heavy Hitter</label>
+                        </p>
+                    </div>
+                  </div>
                   <div class="top10chart-footer light-orange clearfix">
                     <p class="chart-name pull-left">Data(MB)</p>
                     <a href="javascript:void(0)" class="viewtrend-link dark-orange-mr pull-right"><img src="images/rm-chart.png" ></a>
@@ -313,9 +369,13 @@
                 <div class="top10chart-panel">
                   <div class="linechart-box">
                     <div id="container4"></div>
-                    <div class="pull-right top10-chart-btn light-orange">    
-					<button id="b8" class="angle_btn active-scale">Show Heavy Hitter</button>                
-                    <button id="b7" class="angle_btn">Remove Heavy Hitter</button>
+                    <div class="top10-chart-btn light-orange-checked">
+                      <p class="i-checks">
+                        <label>
+                        <input type="checkbox" name="data-chart" id="data-chart" value="" class="data-chart">
+                        <i></i></label>
+                        <label for="data-chart" class="">Remove Heavy Hitter</label>
+                        </p>
                     </div>
                   </div>
                   <div class="top10chart-footer light-orange clearfix">
@@ -328,11 +388,11 @@
           </div>
         </div>
       </div>
-      
-      <div class="row"><div class="col-lg-12"><a href="javascript:void(0)" class="top-table-btn-link"><span><i class="top-table-icon"></i></span>Top 10 Table</a></div>
+      <div class="row">
+        <div class="col-lg-12"><a href="javascript:void(0)" class="top-table-btn-link"><span><i class="top-table-icon"></i></span>Top 10 Table</a>
+        </div>
+      </div>
     </div>
-    </div>
-    
     <div class="row">
       <div class="col-lg-6">
         <div class="panel">
@@ -409,4 +469,3 @@
         </div>
       </div>
     </div>
-  </div>

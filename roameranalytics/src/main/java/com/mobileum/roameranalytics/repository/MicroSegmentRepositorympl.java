@@ -21,7 +21,6 @@ import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.enums.ARPU;
-import com.mobileum.roameranalytics.enums.DeviceType;
 import com.mobileum.roameranalytics.enums.Network;
 import com.mobileum.roameranalytics.enums.PaymentType;
 import com.mobileum.roameranalytics.enums.RoamerType;

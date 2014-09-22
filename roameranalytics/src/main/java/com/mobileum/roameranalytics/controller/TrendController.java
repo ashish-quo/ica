@@ -6,6 +6,7 @@ package com.mobileum.roameranalytics.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -20,9 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.RAConstants;
+import com.mobileum.roameranalytics.model.AggregatedCountryStatistics;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
 import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.service.MetaDataService;
 import com.mobileum.roameranalytics.service.TrendService;
@@ -124,10 +127,45 @@ public class TrendController {
 	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) throws ParseException {
 		String startdate = req.getParameter("dateRangeFrom");
 		String endDate = req.getParameter("dateRangeTo");
-		
 		String attributes = req.getParameter("attributes");
 		String countries = req.getParameter("countries");
 		String tempAttributes = req.getParameter("tempAttributes");
+		Filter filter = new Filter();
+		
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		
+		System.out.println("start date : " + filter.getDateFrom());
+		System.out.println("end date : " + filter.getDateTo());
+		
+		filter.setSelectedCountries(countries);
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+//		if (!tempAttributes.isEmpty()) {
+//			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
+//		}
+		return this.trendService.getTrendsCharts(filter);
+	}
+	
+
+	/**
+	 * Gets the To 10 Bubble charts data.
+	 *
+	 * @param request the req
+	 * @return the roaming trends data
+	 * @throws ParseException the parse exception
+	 */
+	@RequestMapping(method=RequestMethod.GET, value = "/getHeatMap")
+	public @ResponseBody List<RoamingStatistics> getHeatMapData(HttpServletRequest request) throws ParseException {
+		String startdate = request.getParameter("dateRangeFrom");
+		String endDate = request.getParameter("dateRangeTo");
+		
+		String attributes = request.getParameter("attributes");
+		String countries = request.getParameter("countries");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -139,9 +177,66 @@ public class TrendController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-//		if (!tempAttributes.isEmpty()) {
-//			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
-//		}
-		return this.trendService.getTrendsCharts(filter);
+
+		return this.trendService.getHeatMap(filter);
 	}
+	
+	/**
+	 * Gets the roaming trends data.
+	 *
+	 * @param request the req
+	 * @return the roaming trends data
+	 * @throws ParseException the parse exception
+	 */
+	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingStatistics")
+	public @ResponseBody HashMap<String,Long> getRoamingstatisticsData(HttpServletRequest request) throws ParseException {
+		String startdate = request.getParameter("dateRangeFrom");
+		String endDate = request.getParameter("dateRangeTo");
+		
+		String attributes = request.getParameter("attributes");
+		String countries = request.getParameter("countries");
+		Filter filter = new Filter();
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		System.out.println("start date : " + filter.getDateFrom());
+		System.out.println("end date : " + filter.getDateTo());
+		filter.setSelectedCountries(countries);
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+
+		return this.trendService.getRoamingStatistics(filter);
+	}
+	
+	/**
+	 * Gets the To 10 Bubble charts data.
+	 *
+	 * @param request the req
+	 * @return the roaming trends data
+	 * @throws ParseException the parse exception
+	 */
+	@RequestMapping(method=RequestMethod.GET, value = "/getBubbleChart")
+	public @ResponseBody AggregatedCountryStatistics getBubbleChartData(HttpServletRequest request) throws ParseException {
+		String startdate = request.getParameter("dateRangeFrom");
+		String endDate = request.getParameter("dateRangeTo");
+		
+		String attributes = request.getParameter("attributes");
+		String countries = request.getParameter("countries");
+		Filter filter = new Filter();
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		System.out.println("start date : " + filter.getDateFrom());
+		System.out.println("end date : " + filter.getDateTo());
+		filter.setSelectedCountries(countries);
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+
+		return this.trendService.getTopCountry(filter);
+	}
+	
 }
