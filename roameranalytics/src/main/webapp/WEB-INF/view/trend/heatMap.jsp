@@ -86,7 +86,7 @@
           </ul>
           
           <div class="map-container">
-          <div id="map-container" class="clearfix">
+          <div id="map-container">
             <div class="map-loading">
               <i class="icon-spinner icon-spin icon-large"></i> Loading data from Google Spreadsheets... </div>
           </div>
@@ -100,7 +100,7 @@
         </div>
       </div>
     </div>
-    <div ng-controller="RoamingStatisticsController">
+    <div ng-controller="RoamingStatisticsControllerHome">
     <div class="row dashboard-statics">
       <div class="col-lg-6">
         <section class="panel">

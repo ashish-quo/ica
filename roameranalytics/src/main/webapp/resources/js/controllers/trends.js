@@ -82,7 +82,7 @@
 			['$scope','$rootScope','$http', 'util', function($scope,$rootScope,$http,util) {
 				$scope.trends = {}; 
 				$j('#roamer-ft-zoom').modalPopLite({ openButton: '.zoom-btn', closeButton: '.tre-close-btn', isModal: true });
-				
+				console.log("Call inside3");
 				$scope.roamerCountChartConfig = emptyChart;
 				$scope.roamerVoiceChartConfig = emptyChart;
 				$scope.roamerDataChartConfig = emptyChart;
@@ -224,9 +224,9 @@
 	}]);
 	
 	
-	trends.controller('RoamingStatisticsController',
+	trends.controller('RoamingStatisticsControllerTrend',
 			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
-		
+				console.log("Call inside2");
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
 				$scope.valueRoamer = 0;

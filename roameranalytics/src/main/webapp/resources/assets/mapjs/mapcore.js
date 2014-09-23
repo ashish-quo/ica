@@ -6,7 +6,7 @@ $j(function () {
         // custom handler when the spreadsheet is parsed
             // Read the columns into the data array
         
-            var data = [{ 'code': 'mt', value: 48 },
+            var dataMap = [{ 'code': 'mt', value: 48 },
                     { 'code': 'kz', value: 49 },
                     { 'code': 'mn', value: 50 },
                     { 'code': 'sr', value: 51 },
@@ -159,6 +159,8 @@ $j(function () {
                     { 'code': 'pg', value: 198 },
                     { 'code': 'cu', value: 199 }];
             // Initiate the chart
+            function intiateMap(data)
+            {
             $j('#map-container').highcharts('Map', {
                 chart : {
                     borderWidth : 0
@@ -235,5 +237,6 @@ $j(function () {
                     }
                 }]
             });
-    
+console.log("Inside mapcore");
+            }
 });

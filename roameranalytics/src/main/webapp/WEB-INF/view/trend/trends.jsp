@@ -225,7 +225,7 @@
 		</div>
 	</div>
 </div>
- <div ng-controller="RoamingStatisticsController">
+ <div ng-controller="RoamingStatisticsControllerTrend">
     <div class="row dashboard-statics">
       <div class="col-lg-6">
         <section class="panel">
