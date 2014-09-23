@@ -1,5 +1,5 @@
 
-<div ng-if="isHomeTab()" ng-controller="HomeController">
+<div ng-if="isHomeTab()">
 	 <div>
 		<heat-map />
 	</div> 

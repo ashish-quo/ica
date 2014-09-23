@@ -1,4 +1,4 @@
-$(function () {
+$j(function () {
     var point = {
     x: null,
     y: null
@@ -26,7 +26,7 @@ var chart = new Highcharts.Chart({
 		color: '#51bfe3',
     }]
 });
-$('#b1').click(function () {
+$j('#b1').click(function () {
     var no = 2; //third element
     // removed march, hoping we'd only show 11 months...
     chart.xAxis[0].setCategories(['Jan', 'Feb', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], false);
@@ -44,7 +44,7 @@ $('#b1').click(function () {
     chart.series[0].setData(data);
 });
 
-$('#b2').click(function () {
+$j('#b2').click(function () {
     var no = 2; //third element
     var data = [];
     for (i = 0; i < chart.series[0].data.length; i++) {
@@ -92,7 +92,7 @@ var chart2 = new Highcharts.Chart({
 		color: '#41cac0',
     }]
 });
-$('#b3').click(function () {
+$j('#b3').click(function () {
     var no = 2; //third element
     // removed march, hoping we'd only show 11 months...
     chart2.xAxis[0].setCategories(['Jan', 'Feb', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], false);
@@ -160,7 +160,7 @@ var chart3 = new Highcharts.Chart({
 		color: '#8075c4',
     }]
 });
-$('#b5').click(function () {
+$j('#b5').click(function () {
     var no = 2; //third element
     // removed march, hoping we'd only show 11 months...
     chart3.xAxis[0].setCategories(['Jan', 'Feb', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], false);
@@ -178,7 +178,7 @@ $('#b5').click(function () {
     chart3.series[0].setData(data);
 });
 
-$('#b6').click(function () {
+$j('#b6').click(function () {
     var no = 2; //third element
     var data = [];
     for (i = 0; i < chart3.series[0].data.length; i++) {
@@ -228,7 +228,7 @@ var chart4 = new Highcharts.Chart({
 		color: '#fc983f',
     }]
 });
-$('#b7').click(function () {
+$j('#b7').click(function () {
     var no = 2; //third element
     // removed march, hoping we'd only show 11 months...
     chart4.xAxis[0].setCategories(['Jan', 'Feb', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], false);
@@ -246,7 +246,7 @@ $('#b7').click(function () {
     chart4.series[0].setData(data);
 });
 
-$('#b8').click(function () {
+$j('#b8').click(function () {
     var no = 2; //third element
     var data = [];
     for (i = 0; i < chart4.series[0].data.length; i++) {

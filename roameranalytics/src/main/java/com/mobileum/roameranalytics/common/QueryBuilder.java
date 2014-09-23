@@ -338,6 +338,61 @@ public class QueryBuilder {
 			parameterMap.put(key, CommonUtil.convertToList(values,valueType));
 		}
 	}
+	
+	
+	/**
+	 * Populates query for trends chart.
+	 *
+	 * @param filter - filters selected
+	 * @param query the query to be populated 
+	 * @param parameterMap the parameter map - will have parameter and its value used in query
+	 * @throws ClassNotFoundException 
+	 */
+	public static void populateQueryForRoamingStatistics(Filter filter, StringBuilder query, Map<String, Object> parameterMap)  {
+		
+		query.append(" select visitedcountryname,sum(1) roamercount, sum(mocallminutes) mocallminutes, ")
+			.append(" sum(mtcallminutes) mtcallminutes, sum(mosmscount) mosmscount,")
+			.append(" sum(uplink + downlink)  datausage, ")
+			.append(" sum(mocallminuteslocal) mocallminuteslocal, sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ")
+			.append(Relation.TRIP)
+			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
+		
+		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		appendClauseForAttributes(query, parameterMap, attributeMap);
+		
+		// overriding temporary filters
+		Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
+		appendClauseForTempFitlers(query, parameterMap, tempAttributeMap);
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		query.append(" group by  visitedcountryname ");
+		
+	}
+	public static void populateQueryForRoamingCategoryCount(Filter filter, StringBuilder query, Map<String, Object> parameterMap)  {
+		query.append(" select overalltripcategory as roamingcategory,count(imsi) roamercount  from ")
+		.append(Relation.TRIP)
+		.append(" where trip.starttime >= :startDate ")
+		.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
+		
+	Map<String, String> attributeMap = filter.getSelectedAttributes();
+	appendClauseForAttributes(query, parameterMap, attributeMap);
+	
+	// overriding temporary filters
+	Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
+	appendClauseForTempFitlers(query, parameterMap, tempAttributeMap);
+	
+	if (!filter.getSelectedCountries().isEmpty()) {
+		query.append(" and trip.visitedcountryname in (:countries)");
+		parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+	}
+	
+	query.append(" group by  overalltripcategory ");
+	}
 
 
 	

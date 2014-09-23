@@ -42,6 +42,7 @@ public class CommonUtil {
 	public static  Map<String,String> parseSelectedAttributes(String attributes) {
 		String[] attrArray = attributes.split(RAConstants.HASH);
 		Map<String,String> attributeMap = new HashMap<String, String>();
+		
 		for (String attrInd : attrArray) {
 			String[] currentAttribute = attrInd.split(":");
 			String attributeKey[] =  currentAttribute[0].trim().split(",");

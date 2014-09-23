@@ -22,9 +22,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
-import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.enums.Network;
 import com.mobileum.roameranalytics.model.CountryUsageStatistics;
+import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.model.RoamingCategory;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
+import com.mobileum.roameranalytics.model.chart.DonutData;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.model.chart.RoamingTrendResultSetExtractor;
 
@@ -115,5 +118,87 @@ public class TrendRepositoryImpl implements TrendRepository {
 		}
 		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RoamingTrendResultSetExtractor());
 	}
+	
+	@Override
+	public List<RoamingStatistics> getRoamingStatisticsRepository(Filter filter) {
+		
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		StringBuilder query = new StringBuilder();
+		QueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap);
+		
+		LOGGER.info(query.toString());
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("endDate", filter.getDateTo());
+		for (String key : parameterMap.keySet()) {
+			parameters.addValue(key, parameterMap.get(key));
+		}
+		System.out.println(query.toString());
+		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingStatistics>() {
+			@Override
+			public RoamingStatistics mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				System.out.println("network data row");
+				RoamingStatistics roamingStatistics = new RoamingStatistics();
+				roamingStatistics.setCountryCode(rs.getString("visitedcountryname"));
+				roamingStatistics.setRoamerTotal(rs.getLong("roamercount"));
+				roamingStatistics.setMoTotal(rs.getLong("mocallminutes"));
+				roamingStatistics.setMoLocal(rs.getLong("mocallminuteslocal"));
+				roamingStatistics.setMoHome(rs.getLong("mocallminuteshome"));
+				roamingStatistics.setMoIntl(rs.getLong("mocallminutesother"));
+				roamingStatistics.setDataUsage(rs.getLong("datausage"));
+				roamingStatistics.setMt(rs.getLong("mtcallminutes"));
+				roamingStatistics.setSmsUsage(rs.getLong("mosmscount"));
+				return roamingStatistics;
+			}
+		});
 
+		
+	}
+
+	@Override
+	public List<RoamingCategory> getRoamingCategoryRepository(Filter filter) {
+		
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		StringBuilder query = new StringBuilder();
+		QueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap);
+		
+		LOGGER.info(query.toString());
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("endDate", filter.getDateTo());
+		for (String key : parameterMap.keySet()) {
+			parameters.addValue(key, parameterMap.get(key));
+		}
+		System.out.println(query.toString());
+		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingCategory>() {
+			@Override
+			public RoamingCategory mapRow(ResultSet rs, int rowNum)
+					throws SQLException {
+				System.out.println("Roaming Category");
+				
+				RoamingCategory roamingCategory = new RoamingCategory();
+				
+				if(rs.getInt("roamingcategory")==1)
+				{
+					roamingCategory.setCategory("silentRoamer");
+					roamingCategory.setCount(rs.getLong("roamercount"));
+				}else if(rs.getInt("roamingcategory")==2)
+				{
+					roamingCategory.setCategory("valueRoamer");
+					roamingCategory.setCount(rs.getLong("roamercount"));
+				}else if(rs.getInt("roamingcategory")==3)
+				{
+					roamingCategory.setCategory("premiumRoamer");
+					roamingCategory.setCount(rs.getLong("roamercount"));
+				}
+				
+				return roamingCategory;
+			}
+		});
+
+		
+	}
 }

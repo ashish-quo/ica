@@ -225,100 +225,96 @@
 		</div>
 	</div>
 </div>
-<div class="row dashboard-statics">
-	<div class="col-lg-6 col-md-6">
-		<section class="panel">
-			<div class="symbol lightblue">
-				<i class="roamers-icon"></i>
-				<p>Roamers</p>
-			</div>
-			<div class="value">
-				<p class="statics-num lightblue-text">425</p>
-				<ul class="statics-subnum">
-					<li class="cust-tooltip-dn" original-title="Projected: 350">
-						<p class="subnum-text">Silent</p>
-						<p class="subnum-number">
-							<span class="arr-space"><img src="images/down-icon.png"></span>300
-						</p>
-					</li>
-					<li>
-						<p class="subnum-text">Value</p>
-						<p class="subnum-number">75</p>
-					</li>
-					<li>
-						<p class="subnum-text">Premium</p>
-						<p class="subnum-number">50</p>
-					</li>
-				</ul>
-			</div>
-		</section>
-	</div>
-	<div class="col-lg-6 col-md-6">
-		<section class="panel">
-			<div class="symbol purple">
-				<i class="mo-icon"></i>
-				<p>MO(min)</p>
-			</div>
-			<div class="value">
-				<p class="statics-num purple-text">425</p>
-				<ul class="statics-subnum">
-					<li class="cust-tooltip-dn" original-title="Projected: 81">
-						<p class="subnum-text">Home</p>
-						<p class="subnum-number">
-							<span class="arr-space"><img src="images/down-icon.png"></span>50
-						</p>
-					</li>
-					<li>
-						<p class="subnum-text">Local</p>
-						<p class="subnum-number">350</p>
-					</li>
-					<li>
-						<p class="subnum-text">Intl.</p>
-						<p class="subnum-number">
-							<span class="arr-space"><img src="images/up-icon.png"></span>25
-						</p>
-					</li>
-				</ul>
-			</div>
-		</section>
-	</div>
-</div>
-<div class="row dashboard-statics">
-	<div class="col-lg-3">
-		<section class="panel">
-			<div class="symbol light-green">
-				<i class="mt-icon"></i>
-				<p>MT(Min)</p>
-			</div>
-			<div class="value">
-				<p class="statics-num light-green-text">987</p>
-			</div>
-		</section>
-	</div>
-	<div class="col-lg-3">
-		<section class="panel">
-			<div class="symbol light-orange">
-				<i class="data-icon"></i>
-				<p>Data(MB)</p>
-			</div>
-			<div class="value">
-				<p class="statics-num light-orange-text">1095</p>
-			</div>
-		</section>
-	</div>
-	<div class="col-lg-3">
-		<section class="panel">
-			<div class="symbol yellow">
-				<i class="sms-icon"></i>
-				<p>SMS</p>
-			</div>
-			<div class="value">
-				<p class="statics-num yellow-text">317</p>
-			</div>
-		</section>
-	</div>
-</div>
-
+ <div ng-controller="RoamingStatisticsControllerTrend">
+    <div class="row dashboard-statics">
+      <div class="col-lg-6">
+        <section class="panel">
+          <div class="symbol lightblue">
+            <i class="roamers-icon"></i>
+            <p>Roamers</p>
+          </div>
+          <div class="value">
+            <p class="statics-num lightblue-text">{{totalRoamer}}</p>
+            <ul class="statics-subnum">
+              <li class="cust-tooltip-dn" original-title="Projected: 350">
+                <p class="subnum-text">Silent</p>
+                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png" ></span>{{silentRoamer}}</p>
+              </li>
+              <li>
+                <p class="subnum-text">Value</p>
+                <p class="subnum-number">{{valueRoamer}}</p>
+              </li>
+              <li>
+                <p class="subnum-text">Premium</p>
+                <p class="subnum-number">{{premiumRoamer}}</p>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <div class="col-lg-6">
+        <section class="panel">
+          <div class="symbol purple">
+            <i class="mo-icon"></i>
+            <p>MO(min)</p>
+          </div>
+          <div class="value">
+            <p class="statics-num purple-text">{{totalMo}}</p>
+            <ul class="statics-subnum">
+              <li class="cust-tooltip-dn" original-title="Projected: 81">
+                <p class="subnum-text">Home</p>
+                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>{{homeMo}}</p>
+              </li>
+              <li>
+                <p class="subnum-text">Local</p>
+                <p class="subnum-number">{{localMo}}</p>
+              </li>
+              <li>
+                <p class="subnum-text">Intl</p>
+                <p class="subnum-number"><span class="arr-space"><img src="images/up-icon.png"></span>{{intlMo}}</p>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="row dashboard-statics">
+      <div class="col-lg-3">
+        <section class="panel">
+          <div class="symbol light-green">
+            <i class="mt-icon"></i>
+            <p>MT(Min)</p>
+          </div>
+          <div class="value">
+            <p class="statics-num light-green-text">{{totalMt}}</p>
+          </div>
+        </section>
+      </div>
+      <div class="col-lg-3">
+        <section class="panel">
+          <div class="symbol light-orange">
+            <i class="data-icon"></i>
+            <p>Data(MB)</p>
+          </div>
+          <div class="value">
+            <p class="statics-num light-orange-text">{{totalData}}</p>
+          </div>
+        </section>
+      </div>
+      <div class="col-lg-3">
+        <section class="panel">
+          <div class="symbol yellow">
+            <i class="sms-icon"></i>
+            <p>SMS</p>
+          </div>
+          <div class="value">
+            <p class="statics-num yellow-text">{{totalSms}}</p>
+          </div>
+        </section>
+      </div>
+    </div>
+   </div> <!-- End of RoamingStatisticsController  -->
+   
 <div id="roamer-ft-zoom" class="charts-zoom"
 	ng-controller="ZoomController">
 	<div width="100%" height="450">
