@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,10 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 	/** The named parameter jdbc template. */
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	/** The application configuration. */
+	@Autowired
+	private Properties applicationConfiguration;
 	
 	@Override
 	public Map<String, Object> getNetworkData(Filter filter) {
@@ -218,6 +223,8 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("endDate", filter.getDateTo());
+		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
+		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
 		}
@@ -259,6 +266,7 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 					if (catValueMap == null) {
 						catValueMap = new HashMap<String, String>(3);
 						result.put(attrName, catValueMap);
+						catValueMap.put("-1", "Unknown");
 					} 
 					catValueMap.put(catValue, catName);
 				}

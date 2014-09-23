@@ -18,7 +18,7 @@ public enum VoiceType {
 	public static VoiceType of(int type) {
 		if (type < 1 || type > 2) {
 			throw new ApplicationException("Invalid value for roamer type: "
-					+ type);
+					+ type, new IllegalArgumentException());
 		}
 		return ENUMS[type - 1];
 	}

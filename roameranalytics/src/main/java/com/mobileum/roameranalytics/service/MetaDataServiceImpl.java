@@ -14,6 +14,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mobileum.roameranalytics.common.RAConstants;
+import com.mobileum.roameranalytics.exception.ApplicationException;
+import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.Country;
 import com.mobileum.roameranalytics.repository.MetaDataRepository;
@@ -23,29 +26,47 @@ import com.mobileum.roameranalytics.repository.MetaDataRepository;
  *
  */
 @Service
-public class MetaDataServiceImpl implements MetaDataService{
+public class MetaDataServiceImpl implements MetaDataService {
 
 	/** The common dao. */
 	@Autowired
 	private MetaDataRepository commonDao;
 	
 	/** The logger. */
-	private static Logger LOGGER = LogManager.getLogger("FilterDaoImpl");
+	private static Logger LOGGER = LogManager.getLogger(MetaDataServiceImpl.class.getName());
 	
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.TrendServiceI#getAttributes()
 	 */
 	public List<Attribute> getAttributes() {
-		LOGGER.info("Getting all attributes");
-		return this.commonDao.getAttributeList();
+		List<Attribute> commonAttributes = null;
+		try {
+			commonAttributes = this.commonDao.getAttributeList();
+			for (Attribute attribute : commonAttributes) {
+				if (RAConstants.ATTR_NETWORK.equalsIgnoreCase(attribute.getAttributeName())) {
+					attribute.setAttributeCategoryList(this.commonDao.getAllNetworks(attribute.getId()));
+				} else if (RAConstants.ATTR_NETWORK_GROUP.equalsIgnoreCase(attribute.getAttributeName())) {
+					attribute.setAttributeCategoryList(this.commonDao.getNetworkGroups(attribute.getId()));
+				}
+			}
+		} catch (RADataAccessException dae) {
+			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
+		}
+		return commonAttributes;
+		
 	}
 
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.CommonServiceI#getAllCountries()
 	 */
 	public List<Country> getAllCountries() {
-		LOGGER.info("Getting all countries");
-		return this.commonDao.getAllCountries();
+		List<Country> countries = null;
+		try {
+			countries = this.commonDao.getAllCountries();
+		} catch (RADataAccessException dae) {
+			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
+		}
+		return countries;
 	}
 	
 	/**
@@ -76,4 +97,5 @@ public class MetaDataServiceImpl implements MetaDataService{
 		whereCriteria = list.toArray(whereCriteria);
 		return whereCriteria;
 	}
+
 }

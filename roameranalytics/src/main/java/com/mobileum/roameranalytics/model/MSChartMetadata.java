@@ -11,6 +11,8 @@ public class MSChartMetadata {
 	private String title;
 	private String column;
 	private String columnType;
+	private byte chartType;
+	
 	/**
 	 * @return the title
 	 */
@@ -46,5 +48,17 @@ public class MSChartMetadata {
 	 */
 	public void setColumnType(String columnType) {
 		this.columnType = columnType;
+	}
+	/**
+	 * @return the chartType
+	 */
+	public byte getChartType() {
+		return chartType;
+	}
+	/**
+	 * @param chartType the chartType to set
+	 */
+	public void setChartType(byte chartType) {
+		this.chartType = chartType;
 	}
 }

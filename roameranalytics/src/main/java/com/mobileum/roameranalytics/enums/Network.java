@@ -23,7 +23,8 @@ public enum Network {
      */
     public static Network of(int type) {
         if (type < 1 || type > 3) {
-            throw new ApplicationException("Invalid value for network type: " + type);
+            throw new ApplicationException("Invalid value for network type: " + type, new IllegalAccessException());
+            
         }
         return ENUMS[type - 1];
     }

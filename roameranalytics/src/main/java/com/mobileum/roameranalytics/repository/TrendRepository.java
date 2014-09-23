@@ -17,8 +17,6 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
  */
 public interface TrendRepository {
 	
-	public void insertData();
-	
 	/**
 	 * Added by smruti on 2014-08-21
 	 * @param query

@@ -53,7 +53,7 @@
 	        				type: 'datetime',
 	        				labels: {
 	        		            formatter: function() {
-	        		                return Highcharts.dateFormat('%d-%m-%y', this.value);
+	        		                return Highcharts.dateFormat('%d %b', this.value);
 	        		            }
 	        		        }
 		        		}

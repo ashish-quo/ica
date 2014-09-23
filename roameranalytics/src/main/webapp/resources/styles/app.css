@@ -8,3 +8,24 @@
 	text-align: center;
 	color: red;
 }
+
+.donut.loading {
+  background-image: url(../images/loader.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.donut.no-data-found:before {
+	content: 'No data found';
+}
+
+.donut.no-data-found {
+	text-align: center;
+	vertical-align: middle;
+}
+
+
+.donut.internal-error:before {
+	text-align: center;
+	content: 'Internal server error';
+}

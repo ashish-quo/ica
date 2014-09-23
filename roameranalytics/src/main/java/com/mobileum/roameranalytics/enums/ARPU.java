@@ -34,7 +34,7 @@ public enum ARPU {
 	public static ARPU of(int type) {
 		if (type < 4 || type > 6) {
 			throw new ApplicationException("Invalid value for ARPU type: "
-					+ type);
+					+ type, new IllegalArgumentException());
 		}
 		return ENUMS[type - 4];
 	}

@@ -43,5 +43,14 @@ public class Country {
 	public void setBordering(byte bordring) {
 		this.bordering = bordring;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Country [countryName=" + countryName + ", bordering="
+				+ bordering + "]";
+	}
 	
 }

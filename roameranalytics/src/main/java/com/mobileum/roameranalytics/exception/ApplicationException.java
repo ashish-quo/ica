@@ -18,8 +18,8 @@ public class ApplicationException extends RuntimeException {
 	 *
 	 * @param message the message
 	 */
-	public ApplicationException(String message) {
-		super(message);
+	public ApplicationException(String message, Throwable throwable) {
+		super(message, throwable);
 	}
 
 }

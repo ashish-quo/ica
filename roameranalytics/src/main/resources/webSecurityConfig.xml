@@ -25,8 +25,6 @@
 
 	<beans:bean name="customLogoutSuccessHandler"
 		class="com.mobileum.roameranalytics.security.CustomLogoutSuccessHandler" />
-
-	
 	
 	<!-- Select users and user_roles from database -->
 	<authentication-manager>

@@ -2627,9 +2627,9 @@ button.btn-primary.unactive:hover
 }
 .medium-donutchart
 {
-	height: 150px;
-	margin: 0 auto;
-	width: 150px;
+	height: 150px !important;
+	margin: 0 auto !important;
+	width: 150px !important;
 }
 .big-donutchart svg text
 {

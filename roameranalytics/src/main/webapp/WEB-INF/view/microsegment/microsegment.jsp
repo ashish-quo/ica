@@ -4,18 +4,22 @@
 		</div>
 		<div class="col-lg-7">
 
-			<div class="tag-div" ng-repeat="filter in filters.countries">
-				{{filter.name}} <a href ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
-			</div>
-			<div class="tag-div" ng-repeat="filter in filters.personas">
-				{{filter.name}} <a href ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
-			</div>
-			<span ng-repeat="(key, value) in filters.attributes">
-				<div class="tag-div" ng-repeat="filter in value">
-					{{filter.name}} <a href ng-click='removeAttributeFilter(key, filter.catId,true)' class="delete-tag"></a>
-				</div>
-			</span>
+		<div class="tag-div" ng-repeat="filter in filters.countries">
+			{{filter.name}} <a href
+				ng-click='removeCounryFilter(filter.name,true)' class="delete-tag"></a>
 		</div>
+		<div class="tag-div" ng-repeat="filter in filters.personas">
+			{{filter.name}} <a href
+				ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
+		</div>
+		<span ng-repeat="(key, value) in filters.attributes">
+			<div class="tag-div" ng-repeat="filter in value">
+				{{filter.name}} <a href
+					ng-click='removeAttributeFilter(key,filter.attrId, filter.catId,true)'
+					class="delete-tag"></a>
+			</div>
+		</span>
+	</div>
 		<div class="col-lg-2">
 			<div class="commentshare-icon">
 				<span class="dropdown"> <a href="javascript:void(0)"
@@ -155,9 +159,9 @@
 						{{title[graph.title]}} <a href="javascript:void(0)"
 							class="bookmark-unactive cust-tooltip" original-title="Bookmark"></a>
 					</div>
-					<donutchart class="big-donutchart" columnname="{{graph.column}}" columntype="{{graph.columnType}}" chartname="{{graph.title}}" daterange='daterange'/>
+					<div id="bar-chart-{{graph.title}}"></div>
+					<donutchart class="big-donutchart" columnname="{{graph.column}}" columntype="{{graph.columnType}}" charttype='{{graph.chartType}}' chartname="{{graph.title}}" daterange='daterange'/>
 					<div id="column-chart-{{graph.title}}"></div>
-<!-- 					<div id="donut-chart" class="big-donutchart"></div> -->
 				</div>
 				<div class="bookmark-panel">
 					<a href="javascript:void(0)" class="close-bookmark"><i

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
 
 /**

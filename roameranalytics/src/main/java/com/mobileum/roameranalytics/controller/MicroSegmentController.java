@@ -68,6 +68,7 @@ public class MicroSegmentController {
 				msChart.setColumn(chartAttr[1]);
 				msChart.setTitle(chartAttr[0]);
 				msChart.setColumnType(chartAttr[2]);
+				msChart.setChartType(Byte.parseByte(chartAttr[3]));
 				list.add(msChart);
 			}
 		}
@@ -90,15 +91,16 @@ public class MicroSegmentController {
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
 		
-		String chartIno[] = chartMetaData.split(RAConstants.COMMA);
+		String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
 		
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		Map<String,Map<String,String>> categNameValueMap = this.microsegmentSerice.getAttributeLabelAndValue();
-		Map<String,Object> result = microsegmentSerice.getMSChartData(filter, chartIno[1], chartIno[2],
-				categNameValueMap.get(chartIno[0]) );
-		result.put("attrName", chartIno[0]);
+		//Map<String,Map<String,String>> categNameValueMap = this.microsegmentSerice.getAttributeLabelAndValue();
+		
+		Map<String,Object> result = microsegmentSerice.getMSChartData(filter, chartInfo[1], chartInfo[2],
+				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+		result.put("attrName", chartInfo[0]);
 		return result;
 	}
 	

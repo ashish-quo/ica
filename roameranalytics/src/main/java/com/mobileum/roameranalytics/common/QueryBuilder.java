@@ -29,9 +29,9 @@ public class QueryBuilder {
 	public static String queryForAttributes() {
 		StringBuilder query = new StringBuilder();
 		query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
-				.append(" attr.db_column db_column,  attr.column_type column_type, ")
+				.append(" attr.db_column db_column,  attr.column_type column_type, attr.chart_type chart_type, ")
 				.append(" attrCat.categ_name catName, attrCat.categ_value catValue, attrCat.id catId ")
-				.append(" from ").append(Relation.ATTRIBUTE).append(" attr inner join ")
+				.append(" from ").append(Relation.ATTRIBUTE).append(" attr left join ")
 				.append(Relation.ATTRIBUTE_CATEGORY)
 				.append(" attrCat on attr.id = attrCat.attr_id ")
 				.append(" order by attr.display_order, attrCat.display_order");
@@ -99,8 +99,8 @@ public class QueryBuilder {
 			.append(" triptime.usagebintime usagebintime,trip.overalltripcategory overalltripcategory from ")
 			.append(Relation.TRIP_TIME).append(" triptime inner join ").append(Relation.TRIP)
 			.append(" trip on triptime.imsi = trip.imsi and triptime.tripstarttime = trip.starttime ")
-			.append(" where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
+			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
+			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
 		
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
@@ -127,9 +127,9 @@ public class QueryBuilder {
 	 */
 	public static void populateNetworkQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, trip.visitedmnc visitedmnc  from ")
-			.append(Relation.TRIP)
-			.append(" where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate ");
+			.append(Relation.TRIP).append(" trip ")
+			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
+			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries)");
@@ -143,9 +143,9 @@ public class QueryBuilder {
 	public static void populateQueryForMicrosegmentChart(Filter filter, StringBuilder query, 
 			String column, String columnType,  Map<String, Object> parameterMap) {
 		query.append(" select sum(1) ").append(" imsicount ").append(", trip.").append(column).append(" catValue from ")
-			.append(Relation.TRIP)
-			.append(" trip where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate ");
+			.append(Relation.TRIP).append(" trip ")
+			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
+			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
 
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries) ");
@@ -164,6 +164,7 @@ public class QueryBuilder {
 		}
 
 		query.append(" group by trip.").append(column);
+		query.append(" order by imsicount desc ");
 	}
 	
 	
@@ -261,6 +262,32 @@ public class QueryBuilder {
 		query.append(" group by trip.devicename ");
 	}
 	
+	
+	/**
+	 * Query for distinct networks.
+	 *
+	 * @return the string
+	 */
+	public static String queryForDistinctNetworks() {
+		StringBuilder query = new StringBuilder();
+		query.append("select distinct visitednetworkname from ").append(Relation.TRIP).append(" trip where ")
+			.append(" trip.homecountryname = :homeCountry and trip.roamtype = :roamType order by visitednetworkname ");
+		return query.toString();
+	}
+	
+	/**
+	 * Query for distinct networks.
+	 *
+	 * @return the string
+	 */
+	public static String queryForDistinctNetworkGroups() {
+		StringBuilder query = new StringBuilder();
+		query.append("select distinct network_name , network_group from ").append(Relation.TADIGNETWORK)
+			.append(" tadignetwork where network_name in (:networks) order by network_group");
+		return query.toString();
+	}
+	
+	
 	/**
 	 * Append clause for temp fitlers.
 	 *
@@ -313,4 +340,5 @@ public class QueryBuilder {
 	}
 
 
+	
 }

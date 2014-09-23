@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -34,29 +35,20 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrendResultSetExtractor;
 @Repository
 public class TrendRepositoryImpl implements TrendRepository {
 
-	@Autowired
-	DataSource dataSource;
-
 	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	/** The application configuration. */
+	@Autowired
+	private Properties applicationConfiguration;
 	
 	/** The named parameter jdbc template. */
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	/** The logger. */
-	private static Logger LOGGER = LoggerFactory.getLogger("TrendDaoImpl");
-
-	public void insertData() {
-
-		String sql = "INSERT INTO country(id,country_code) VALUES(?, ?)";
-
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-		jdbcTemplate.update(sql, new Object[] { 2, "df", });
-
-	}
+	private static Logger LOGGER = LoggerFactory.getLogger("TrendRepositoryImpl");
 
 	@Override
 	public List<CountryUsageStatistics> getHeatMapList(String query, Object criteria[]) {
@@ -111,12 +103,13 @@ public class TrendRepositoryImpl implements TrendRepository {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
 		QueryBuilder.populateQueryForTrends(filter,query,parameterMap);
-		
+		System.out.println(query.toString());
 		LOGGER.info(query.toString());
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("endDate", filter.getDateTo());
+		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
+		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
 		}

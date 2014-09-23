@@ -23,7 +23,7 @@ public enum PaymentType {
      */
     public static PaymentType of(int type) {
         if (type < 0 || type > 1) {
-            throw new ApplicationException("Invalid value for payment type: " + type);
+            throw new ApplicationException("Invalid value for payment type: " + type,new IllegalAccessException());
         }
         return ENUMS[type];
     }

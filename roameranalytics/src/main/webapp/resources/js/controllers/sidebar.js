@@ -209,7 +209,7 @@
 		};
 		
 		/**
-		 * Actions for select all checkbox of attributes
+		 * Actions for select/de-select all checkbox of attributes
 		 */
 		$scope.clearSelectAllAttribute = function (attrId) {
 			var element = $j('input#attr_'+attrId);
@@ -235,8 +235,12 @@
 				if (attrArray == null) {
 					$rootScope.filters.attributes[key] = new Array();
 				}
-				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name,'value':value });
+				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name,'value':value, 'attrId':attrId });
 			});
+			
+			if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment-attribute");
+			}
 		};
 		
 		/**
@@ -307,7 +311,7 @@
 				if (attrArray == null) {
 					$rootScope.filters.attributes[key] = new Array();
 				}
-				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name, 'value':value });
+				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name, 'value':value, 'attrId' : attrId });
 			});
 			
 			if ($rootScope.tabIndex == 1) {
@@ -347,13 +351,13 @@
 		/**
 		 * This function removes attribute filter from filter area on each screen
 		 */
-		var removeAttributeFilter = function (attrId,catId ) {
+		var removeAttributeFilter = function (key,attrId,catId ) {
 			$j('#'+attrId + "_"+catId).removeAttr('checked');
-			$rootScope.filters.attributes[attrId] = $j.map($rootScope.filters.attributes[attrId], function(obj) {
+			$rootScope.filters.attributes[key] = $j.map($rootScope.filters.attributes[key], function(obj) {
 				return obj.catId == catId ? null : obj; 
 			});
-			if ($rootScope.filters.attributes[attrId].length == 0) {
-				delete $rootScope.filters.attributes[attrId];
+			if ($rootScope.filters.attributes[key].length == 0) {
+				delete $rootScope.filters.attributes[key];
 			}
 		};
 		
@@ -401,10 +405,14 @@
 		/**
 		 * Refreshes charts and data when an attribute filter is removed from filter area
 		 */
-		$rootScope.removeAttributeFilter = function(attrId,catId,refresh) {
+		$rootScope.removeAttributeFilter = function(key,attrId,catId,refresh) {
 			if(refresh) {
-				removeAttributeFilter(attrId,catId);
-				$rootScope.$broadcast("refresh-roaming-trends");
+				removeAttributeFilter(key,attrId,catId);
+				if ($rootScope.tabIndex == 1) {
+					$rootScope.$broadcast("refresh-roaming-trends");
+				} else if ($rootScope.tabIndex == 2) {
+					$rootScope.$broadcast("refresh-microsegment-attribute");
+				}
 			} else {
 				$j('#modal_'+attrId + "_"+catId).hide();
 				$rootScope.filters.removedFilters.push(function (){removeAttributeFilter(attrId,catId);})

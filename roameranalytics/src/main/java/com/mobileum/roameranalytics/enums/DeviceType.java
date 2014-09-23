@@ -20,7 +20,7 @@ public enum DeviceType {
 	public static DeviceType of(int type) {
 		if (type < 1 || type > 7) {
 			throw new ApplicationException("Invalid value for device type: "
-					+ type);
+					+ type, new IllegalAccessException());
 		}
 		return ENUMS[type - 1];
 	}

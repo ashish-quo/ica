@@ -94,5 +94,15 @@ public class AttributeCategory {
 		this.categValue = categValue;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "AttributeCategory [id=" + id + ", categName=" + categName
+				+ ", attrId=" + attrId + ", categValue=" + categValue
+				+ ", displayOrder=" + displayOrder + "]";
+	}
+
 	
 }

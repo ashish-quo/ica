@@ -3,9 +3,11 @@
  */
 package com.mobileum.roameranalytics.enums;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author sarvesh
+ * The Enum Relation.
  *
+ * @author sarvesh
  */
 public enum Relation {
 	
@@ -20,6 +22,9 @@ public enum Relation {
 	
 	/** The trip time. */
 	TRIP_TIME("TRIPTIME"),
+	
+	/** The tadignetwork. */
+	TADIGNETWORK("TADIGNETWORK"),
 	
 	/** The trip. */
 	TRIP("TRIP");
@@ -37,6 +42,8 @@ public enum Relation {
 	}
 	
 	/**
+	 * Gets the table name.
+	 *
 	 * @return the tableName
 	 */
 	public String getTableName() {

@@ -30,6 +30,9 @@ public class Attribute {
 	/** The column type. */
 	private String columnType;
 	
+	/** The chart type. */
+	private byte chartType;
+	
 	/** The attribute category list. */
 	private List<AttributeCategory> attributeCategoryList;
 	
@@ -142,5 +145,19 @@ public class Attribute {
 		return "Attribute [id=" + id + ", attributeName=" + attributeName
 				+ ", moduleId=" + moduleId + ", displayOrder=" + displayOrder
 				+ ", dbColumn=" + dbColumn + ", columnType=" + columnType + "]";
+	}
+
+	/**
+	 * @return the chartType
+	 */
+	public byte getChartType() {
+		return chartType;
+	}
+
+	/**
+	 * @param chartType the chartType to set
+	 */
+	public void setChartType(byte chartType) {
+		this.chartType = chartType;
 	}
 }

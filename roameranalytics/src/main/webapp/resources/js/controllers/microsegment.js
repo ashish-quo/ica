@@ -19,8 +19,9 @@
 					var element = $j(this).find("input.all-attr");
 					var columnName = $j(element[0]).attr("db-column");
 					var columnType = $j(element[0]).attr("column-type");
+					var chartType = $j(element[0]).attr("chart-type");
 					var elementName = $j(element[0]).attr("attr-name");
-					cahrtArray.push(elementName + "," + columnName + "," + columnType);
+					cahrtArray.push(elementName + "," + columnName + "," + columnType + "," + chartType);
 				}
 			});
 			data.params.microsegmentcharts = cahrtArray.join(":");	
@@ -32,14 +33,11 @@
 		};
 		
 		getMircosegmentCharts();
-		$rootScope.$on("refresh-microsegment-daterange", function(event, daterange) {
-			if (daterange != null ) {
-				$scope.microsegmentdaterange = daterange;
-			} else {
-				getMircosegmentCharts();
-			}
-		});
 		$scope.microsegmentrefresh = true;
+		$rootScope.$on("refresh-microsegment-daterange", function(event) {
+			$scope.microsegmentrefresh = !$scope.microsegmentrefresh ;
+		});
+		
 		$rootScope.$on("refresh-microsegment-country", function(event) {
 			$scope.microsegmentrefresh = !$scope.microsegmentrefresh ;
 		});

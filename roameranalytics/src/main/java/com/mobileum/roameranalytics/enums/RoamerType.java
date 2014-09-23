@@ -35,7 +35,7 @@ public enum RoamerType {
      */
     public static RoamerType of(int type) {
         if (type < 1 || type > 3) {
-            throw new ApplicationException("Invalid value for roamer type: " + type);
+            throw new ApplicationException("Invalid value for roamer type: " + type, new IllegalArgumentException());
         }
         return ENUMS[type - 1];
     }

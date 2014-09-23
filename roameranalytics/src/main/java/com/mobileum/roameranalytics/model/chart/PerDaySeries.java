@@ -26,7 +26,7 @@ public class PerDaySeries extends ChartSeries {
 	 * @return the pointinterval
 	 */
 	public  long getPointInterval() {
-		return 24 * 3600 * 1000;
+		return pointInterval;
 	}
 	
 	/**
