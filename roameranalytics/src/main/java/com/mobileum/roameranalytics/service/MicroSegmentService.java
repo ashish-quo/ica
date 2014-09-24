@@ -26,7 +26,20 @@ public interface MicroSegmentService {
 	 *
 	 * @return the network data
 	 */
-	Map<String, Object> getMSChartData(Filter filter, String column, String columnType, Map<String,String> catNameValue);
+	Map<String, Object> getMSChartData(Filter filter, String attributeName, String column, String columnType,
+			Map<String,String> catNameValue);
+	
+	/**
+	 * Gets the network group data.
+	 *
+	 * @param filter the filter
+	 * @param column the column
+	 * @param columnType the column type
+	 * @param catNameValue the cat name value
+	 * @return the network data
+	 */
+	Map<String, Object> getNetworkGroupData(Filter filter, String column, String columnType,
+			Map<String,String> catNameValue);
 	
 	/**
 	 * Gets the attribute label and value.

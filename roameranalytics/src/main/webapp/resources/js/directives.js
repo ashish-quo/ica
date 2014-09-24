@@ -193,7 +193,14 @@
 		    	  };
 	    		  var chartMetaData = attrs.chartname + "," + attrs.columnname +  "," + attrs.columntype + "," + attrs.charttype;
 	    		  $j.extend(data.params, {'chartmetadata' :chartMetaData } );
-		    	  $http.get("microsegment/graph/" , data).success(function(result) {
+	    		  
+	    		  var url = '';
+	    		  if (attrs.chartname == 'Network Group') {
+	    			  url = 'microsegment/networkgroup/'
+	    		  } else {
+	    			  url = 'microsegment/graph/';
+	    		  }
+		    	  $http.get(url , data).success(function(result) {
 		    		  element.removeClass("loading");
 		    		  $scope.title[attrs.chartname] = result.attrName;
 		    		  var verticalChart = $j('#column-chart-'+attrs.chartname.replace(/ /g,''));
@@ -217,14 +224,17 @@
 				    		  var columnData;
 			    			  donutData = result.data.slice(0,3);
 			    			  columnData = result.data.slice(4);
-			    			  element.removeClass("big-donutchart").addClass("medium-donutchart")
-			    			  drawVerticalBarChart(verticalChart,columnData);
+			    			  if (columnData.length > 0) {
+			    				  element.removeClass("big-donutchart").addClass("medium-donutchart");
+			    				  drawVerticalBarChart(verticalChart,columnData);
+			    			  }
 				    		  drawMorrisChart(element,donutData);
 			    		  }
 		    		  } else {
 		    			  element.addClass("no-data-found")
 		    		  }
 		    	  }).error(function(data, status, headers, config) {
+		    		  element.removeClass("loading");
 		    		  element.addClass("internal-error")
 		    	  });
 	    	  }

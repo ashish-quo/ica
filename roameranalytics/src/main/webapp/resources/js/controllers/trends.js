@@ -147,65 +147,6 @@
 						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.countDoW, $scope.logScale);
 					}
 				});
-				
-				// local filter functions
-				$scope.clearRoamingCategoryTempFilter = function () {
-					delete $rootScope.filters.tempAttributes["2"];
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.clearARPUTempFilter = function () {
-					delete $rootScope.filters.tempAttributes["3"];
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.clearPaymentTypeTempFilter = function () {
-					delete $rootScope.filters.tempAttributes["4"];
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.getPrepaidCustomers = function() {
-					$rootScope.filters.tempAttributes['4']='1';
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getPostpaidCustomers = function() {
-					$rootScope.filters.tempAttributes['4']='0'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getSilentCustomers = function() {
-					$rootScope.filters.tempAttributes['2']='1'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getValueCustomers = function() {
-					$rootScope.filters.tempAttributes['2']='2'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.getPremiumCustomers = function() {
-					$rootScope.filters.tempAttributes['2']='3'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-
-				//ARPU filter functions
-				$scope.getLowARPUCustomers = function() {
-					$rootScope.filters.tempAttributes['3']='4'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getHighARPUCustomers = function() {
-					$rootScope.filters.tempAttributes['3']='6'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.getMedARPUCustomers = function() {
-					$rootScope.filters.tempAttributes['3']='5'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.zoom = function(data, viewZoomScale) {
-					$rootScope.zoomLogScale = $scope.logScale;
-					$rootScope.viewZoomScale = viewZoomScale;
-					dataCopy=JSON.parse(JSON.stringify(data));
-					$rootScope.$broadcast("zoom-chart",dataCopy);
-				};
 	}]);
 	
 	

@@ -22,7 +22,52 @@
 	</div>
 		<div class="col-lg-2">
 			<div class="commentshare-icon">
-				<span class="dropdown"> <a href="javascript:void(0)"
+			<span class="dropdown micro-setting-area"> <a
+				href="javascript:void(0)" class="micro-setting-icon cust-tooltip"
+				data-toggle="dropdown" original-title="Settings"></a>
+				<div
+					class="dropdown-menu pull-right comment-dropdown popover bottom stay-dd">
+					<div class="arrow"></div>
+					<div class="commentdd-content">
+						<p class="trackdd-title">Attribute measure</p>
+						<ul class="micro-map-setting">
+							<li>
+								<p class="i-checks">
+									<label> <input type="radio" name="project" id="roamers"
+										class="all-blue-map" value=""> <i></i></label> <label
+										for="roamers">roamers</label>
+								</p>
+							</li>
+							<li>
+								<p class="i-checks">
+									<label> <input type="radio" name="project" id="mo"
+										value="" checked> <i></i></label> <label for="mo">MO
+										(Min)</label>
+								</p>
+							</li>
+							<li>
+								<p class="i-checks">
+									<label> <input type="radio" name="project" id="mt"
+										class="all-blue-map" value=""> <i></i></label> <label for="mt">MT
+										(Min)</label>
+								</p>
+							</li>
+							<li>
+								<p class="i-checks">
+									<label> <input type="radio" name="project" id="Data"
+										class="all-blue-map" value=""> <i></i></label> <label
+										for="Data">Data</label>
+								</p>
+							</li>
+
+							<div class="compare_btn clearfix">
+								<button type="button" class="btn btn-primary pull-left">Apply</button>
+							</div>
+						</ul>
+					</div>
+
+				</div>
+			</span> <span class="dropdown"> <a href="javascript:void(0)"
 					class="greycomment-icon cust-tooltip" data-toggle="dropdown"
 					original-title="Comment"></a>
 					<div

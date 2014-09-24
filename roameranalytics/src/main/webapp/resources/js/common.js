@@ -39,3 +39,7 @@ $j(document).on("mouseover", "#mainContent" , function(){
     $j("html").getNiceScroll().resize();
 });
 
+//dropdown stay for writing    
+$j(document).on("click", ".stay-dd", function(e) {
+       e.stopPropagation();
+});

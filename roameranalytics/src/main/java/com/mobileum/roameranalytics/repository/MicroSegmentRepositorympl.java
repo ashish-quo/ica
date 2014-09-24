@@ -5,6 +5,7 @@ package com.mobileum.roameranalytics.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import com.mobileum.roameranalytics.enums.ARPU;
 import com.mobileum.roameranalytics.enums.Network;
 import com.mobileum.roameranalytics.enums.PaymentType;
 import com.mobileum.roameranalytics.enums.RoamerType;
+import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.chart.DonutData;
 
@@ -210,15 +212,16 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.mobileum.roameranalytics.dao.MicroSegmentDaoI#getMSChartData(com.mobileum.roameranalytics.model.Filter)
-	 */
 	@Override
-	public Map<String, Object> getMSChartData(Filter filter, String column, String columnType, Map<String,String> catNameValue) {
+	public Map<String, Object> getMSChartData(Filter filter,String attributeName, String column,  
+			Map<String,String> catNameValue) throws RADataAccessException {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
-		QueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, columnType, parameterMap);
-		LOGGER.info(query.toString());
+		QueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, parameterMap);
+		
+		LOGGER.debug("Getting microsegment chart data for attribute : " + attributeName);
+		LOGGER.debug(attributeName + " query : " + query.toString());
+		
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("endDate", filter.getDateTo());
@@ -227,24 +230,82 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
 		}
-		System.out.println(catNameValue);
+		
+		LOGGER.debug(attributeName + " query Parameters : " + parameters);
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-		List<DonutData> dataList = this.namedParameterJdbcTemplate.query(query.toString(), parameters,
-				new RowMapper<DonutData>() {
-			@Override
-			public DonutData mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
-				DonutData donutData = new DonutData();
-				
-				donutData.setLabel(catNameValue.get(rs.getString("catValue")));
-				donutData.setValue(rs.getDouble("imsicount"));
-				return donutData;
-			}
-		});
+		List<DonutData> dataList = new ArrayList<DonutData>(10);
+		try {
+			dataList = this.namedParameterJdbcTemplate.query(query.toString(), parameters,
+					new RowMapper<DonutData>() {
+				@Override
+				public DonutData mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					DonutData donutData = new DonutData();
+					
+					donutData.setLabel(catNameValue.get(rs.getString("categoryValue")));
+					donutData.setValue(rs.getDouble("imsicount"));
+					return donutData;
+				}
+			});
+		} catch (DataAccessException dae) {
+			LOGGER.error("Exception While getting "+ attributeName + " chart's data : ", dae);
+			throw new RADataAccessException(dae);
+		}
+		LOGGER.trace("Microsegment chart data list: " + dataList);
+		result.put("data", dataList);
+		return result;
+	}
+	
+
+	@Override
+	public Map<String, Object> getNetworkGroupData(Filter filter,
+			String column, String columnType, Map<String, String> catNameValue)
+			throws RADataAccessException {
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		
+		StringBuilder query = new StringBuilder();
+		QueryBuilder.populateQueryForNetworkGroupChart(filter, query,parameterMap);
+		
+		LOGGER.debug("Getting microsegment chart data for attribute : Network Group");
+		LOGGER.debug(" Network Group query : " + query.toString());
+		
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("endDate", filter.getDateTo());
+		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
+		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
+		
+		for (String key : parameterMap.keySet()) {
+			parameters.addValue(key, parameterMap.get(key));
+		}
+		
+		LOGGER.debug("Network Group query Parameters : " + parameters);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<DonutData> dataList = new ArrayList<DonutData>(10);
+		try {
+			dataList = this.namedParameterJdbcTemplate.query(query.toString(), parameters,
+					new RowMapper<DonutData>() {
+				@Override
+				public DonutData mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					DonutData donutData = new DonutData();
+					
+					donutData.setLabel(rs.getString("networkGroup"));
+					donutData.setValue(rs.getDouble("imsicount"));
+					return donutData;
+				}
+			});
+		} catch (DataAccessException dae) {
+			LOGGER.error("Exception While getting network group data in microsegment : ", dae);
+			throw new RADataAccessException(dae);
+		}
 		
 		result.put("data", dataList);
 		return result;
 	}
+
 
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.dao.MicroSegmentDaoI#getAttributeLabelAndValue()
