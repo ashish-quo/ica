@@ -225,6 +225,52 @@
     </display>  
   </class>  
   <association id="22">    
+<<<<<<< HEAD
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="23" name="metaDataRepository"/>      
+      <multiplicity id="24" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="25">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="26" name="topData"/>      
+      <multiplicity id="27" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="29" name="trendDao"/>      
+      <multiplicity id="30" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="32" name="topRoamer"/>      
+      <multiplicity id="33" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="34">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <association id="35">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="36" name="topSms"/>      
+      <multiplicity id="37" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="38">    
+=======
     <end type="SOURCE" refId="5" navigable="false">      
       <attribute id="23" name="microsegmentDao"/>      
       <multiplicity id="24" minimum="0" maximum="1"/>    
@@ -237,13 +283,58 @@
     <end type="TARGET" refId="6"/>  
   </realization>  
   <association id="26">    
+>>>>>>> branch 'master' of git@github.com:tarunkohli/mobileum.git
     <end type="SOURCE" refId="1" navigable="false">      
+<<<<<<< HEAD
+      <attribute id="39" name="trendService"/>      
+      <multiplicity id="40" minimum="0" maximum="1"/>    
+=======
       <attribute id="27" name="trendService"/>      
       <multiplicity id="28" minimum="0" maximum="1"/>    
+>>>>>>> branch 'master' of git@github.com:tarunkohli/mobileum.git
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+<<<<<<< HEAD
+  <realization id="41">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <association id="42">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="43" name="metaDataService"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="46" name="topMo"/>      
+      <multiplicity id="47" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="48">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <realization id="49">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <association id="50">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="51" name="microsegmentDao"/>      
+      <multiplicity id="52" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="53">    
+=======
   <association id="29">    
     <end type="SOURCE" refId="15" navigable="false">      
       <attribute id="30" name="attributeCategoryList"/>      
@@ -285,13 +376,51 @@
     <end type="TARGET" refId="9"/>  
   </realization>  
   <association id="43">    
+>>>>>>> branch 'master' of git@github.com:tarunkohli/mobileum.git
     <end type="SOURCE" refId="13" navigable="false">      
+<<<<<<< HEAD
+      <attribute id="54" name="microsegmentSerice"/>      
+      <multiplicity id="55" minimum="0" maximum="1"/>    
+=======
       <attribute id="44" name="microsegmentSerice"/>      
       <multiplicity id="45" minimum="0" maximum="1"/>    
+>>>>>>> branch 'master' of git@github.com:tarunkohli/mobileum.git
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+<<<<<<< HEAD
+  <association id="56">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="57" name="topMt"/>      
+      <multiplicity id="58" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="59">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="9"/>  
+  </realization>  
+  <realization id="60">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="11"/>  
+  </realization>  
+  <association id="61">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="62" name="commonService"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="64">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="65" name="attributeCategoryList"/>      
+      <multiplicity id="66" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+=======
   <association id="46">    
     <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="47" name="commonDao"/>      
@@ -350,6 +479,7 @@
       <multiplicity id="66" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="20" navigable="true"/>    
+>>>>>>> branch 'master' of git@github.com:tarunkohli/mobileum.git
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

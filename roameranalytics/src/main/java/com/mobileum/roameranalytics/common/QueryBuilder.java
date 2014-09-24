@@ -28,6 +28,7 @@ public class QueryBuilder {
 	 */
 	public static String queryForAttributes() {
 		StringBuilder query = new StringBuilder();
+		
 		query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
 				.append(" attr.db_column db_column,  attr.column_type column_type, attr.chart_type chart_type, ")
 				.append(" attrCat.categ_name catName, attrCat.categ_value catValue, attrCat.id catId ")
@@ -35,6 +36,7 @@ public class QueryBuilder {
 				.append(Relation.ATTRIBUTE_CATEGORY)
 				.append(" attrCat on attr.id = attrCat.attr_id ")
 				.append(" order by attr.display_order, attrCat.display_order");
+		
 		return query.toString();
 	}
 	
@@ -439,19 +441,19 @@ public class QueryBuilder {
 		.append(" where trip.starttime >= :startDate ")
 		.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
 		
-	Map<String, String> attributeMap = filter.getSelectedAttributes();
-	appendClauseForAttributes(query, parameterMap, attributeMap);
-	
-	// overriding temporary filters
-	Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
-	appendClauseForTempFitlers(query, parameterMap, tempAttributeMap);
-	
-	if (!filter.getSelectedCountries().isEmpty()) {
-		query.append(" and trip.visitedcountryname in (:countries)");
-		parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-	}
-	
-	query.append(" group by  overalltripcategory ");
+		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		appendClauseForAttributes(query, parameterMap, attributeMap);
+		
+		// overriding temporary filters
+		Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
+		appendClauseForTempFitlers(query, parameterMap, tempAttributeMap);
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		query.append(" group by  overalltripcategory ");
 	}
 
 

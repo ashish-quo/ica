@@ -47,7 +47,9 @@ public class TrendController {
 	
 	/** The common service. */
 	@Autowired
-	private MetaDataService metadataService;
+
+	private MetaDataService metaDataService;
+
 	
 	/** The trend service. */
 	@Autowired
@@ -62,12 +64,6 @@ public class TrendController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showHome() {
-		System.out.println("home");
-		//tdao.insertData();
-//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
-//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
-//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
-//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
 		return new ModelAndView("home");
 	}
 	
@@ -76,12 +72,6 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/heatMap")
 	public ModelAndView showHeatMap() {
-		System.out.println("home");
-		//tdao.insertData();
-//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>() {{ add("NIGERIA"); }} ) );
-//		System.out.println(trendService.getHeatMap("2014-01-11", "2014-011-17", new ArrayList<String>()));
-//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopData());
-//		System.out.println(trendService.getTopCountry("2014-01-11", "2014-011-17").getTopMo());
 		return new ModelAndView("heatMap");
 	}
 	/**
@@ -111,7 +101,9 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
 	public @ResponseBody List<Attribute> getAttributes() {
-		return metadataService.getAttributes();
+
+		return metaDataService.getAttributes();
+
 	}
 	
 	/**
@@ -121,7 +113,9 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getCountries")
 	public @ResponseBody List<Country> getCountries() {
-		return metadataService.getAllCountries();
+
+		return metaDataService.getAllCountries();
+
 	}
 	
 	/**
@@ -172,16 +166,19 @@ public class TrendController {
 	public @ResponseBody List<RoamingStatistics> getHeatMapData(HttpServletRequest request) throws ParseException {
 		String startdate = request.getParameter("dateRangeFrom");
 		String endDate = request.getParameter("dateRangeTo");
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
 		String attributes = request.getParameter("attributes");
 		String countries = request.getParameter("countries");
+		
 		Filter filter = new Filter();
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
-		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		
 		System.out.println("start date : " + filter.getDateFrom());
 		System.out.println("end date : " + filter.getDateTo());
+		
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
@@ -209,8 +206,7 @@ public class TrendController {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		System.out.println("start date : " + filter.getDateFrom());
-		System.out.println("end date : " + filter.getDateTo());
+		
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
@@ -238,8 +234,7 @@ public class TrendController {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		System.out.println("start date : " + filter.getDateFrom());
-		System.out.println("end date : " + filter.getDateTo());
+		
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));

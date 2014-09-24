@@ -64,38 +64,44 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		List<Attribute> attributeList = new ArrayList<Attribute>(10);
 		try {
 			attributeList = jdbcTemplate.query(query, new ResultSetExtractor<List<Attribute>>() {
+				
 				public List<Attribute> extractData(ResultSet rs) throws SQLException,
 						DataAccessException {
-					Map<Integer,Attribute> attrMap = new LinkedHashMap<Integer, Attribute>();
+					
+					Map<Integer,Attribute> attributeMap = new LinkedHashMap<Integer, Attribute>();
 					Map<String,String> nameValueMap = null;
+					
 					while(rs.next()) {
 						Integer attrId = rs.getInt("attrId");
 						String attrName = rs.getString("attrName");
-						if (!attrMap.containsKey(attrId)) {
+						if (!attributeMap.containsKey(attrId)) {
 							Attribute attribute = new Attribute();
+							
 							attribute.setId(attrId);
 							attribute.setAttributeName(attrName);
 							attribute.setModuleId(0);
 							attribute.setDbColumn(rs.getString("db_column"));
 							attribute.setColumnType(rs.getString("column_type"));
 							attribute.setChartType(rs.getByte("chart_type"));
-							attrMap.put(attrId, attribute);
+							
+							attributeMap.put(attrId, attribute);
 							attribute.setAttributeCategoryList(new ArrayList<AttributeCategory>());
 							nameValueMap = new HashMap<String,String>();
 							nameValueMap.put("-1", "Unknown");
 							RAConstants.attributeNameValueCache.put(attribute.getAttributeName(),nameValueMap);
 						} 
 						
-						AttributeCategory attrCat = new AttributeCategory();
-						attrCat.setCategName(rs.getString("catName"));
-						attrCat.setAttrId(attrId);
-						attrCat.setId(rs.getLong("catId"));
-						attrCat.setCategValue(rs.getString("catValue"));
-						attrMap.get(attrId).getAttributeCategoryList().add(attrCat);
-						RAConstants.attributeNameValueCache.get(attrName).put(attrCat.getCategValue(),
-								attrCat.getCategName());
+						AttributeCategory attributeCategory = new AttributeCategory();
+						attributeCategory.setCategName(rs.getString("catName"));
+						attributeCategory.setAttrId(attrId);
+						attributeCategory.setId(rs.getLong("catId"));
+						attributeCategory.setCategValue(rs.getString("catValue"));
+						
+						attributeMap.get(attrId).getAttributeCategoryList().add(attributeCategory);
+						RAConstants.attributeNameValueCache.get(attrName).put(attributeCategory.getCategValue(),
+								attributeCategory.getCategName());
 					}
-					return new ArrayList<Attribute>(attrMap.values());
+					return new ArrayList<Attribute>(attributeMap.values());
 				}
 	
 			});
@@ -106,6 +112,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		
 		LOGGER.debug("Attributes found : " + attributeList.size());
 		LOGGER.trace("Attributes details : " + attributeList);
+		
 		return attributeList;
 	}
 
@@ -115,12 +122,15 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	
 	public List<Country> getAllCountries() throws RADataAccessException {
 		String query = QueryBuilder.queryForAllCountries();
+		
 		LOGGER.debug("Getting all countries ");
 		LOGGER.debug(query);
-		List<Country> countries = new ArrayList<Country>(170);
+
+		List<Country> countries = new ArrayList<Country>(200);
+
 		try {
 			countries = jdbcTemplate.query(query, new RowMapper<Country>(){
-				public Country mapRow(ResultSet rs, int arg1) throws SQLException {
+				public Country mapRow(ResultSet rs, int rowNumber) throws SQLException {
 					Country country = new Country();
 					country.setCountryName(rs.getString("countryName"));
 					country.setBordering(rs.getByte("bordering"));
@@ -131,8 +141,10 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 			LOGGER.error("Error occurred while getting all countries: ", dae);
 			throw new RADataAccessException(dae);
 		}
+		
 		LOGGER.debug("Countries found : " + countries.size());
 		LOGGER.trace("Country details : " + countries);
+		
 		return countries;
 	}
 
@@ -155,14 +167,14 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 				@Override
 				public AttributeCategory mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
-					AttributeCategory attrCat = new AttributeCategory();
-					attrCat.setCategName(rs.getString("visitednetworkname"));
-					attrCat.setAttrId(networkAttrId);
-					attrCat.setId(rowNum);
-					attrCat.setCategValue(attrCat.getCategName());
-					RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).put(attrCat.getCategValue(),
-							attrCat.getCategName());
-					return attrCat;
+					AttributeCategory attributeCategory = new AttributeCategory();
+					attributeCategory.setCategName(rs.getString("visitednetworkname"));
+					attributeCategory.setAttrId(networkAttrId);
+					attributeCategory.setId(rowNum);
+					attributeCategory.setCategValue(attributeCategory.getCategName());
+					RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).put(attributeCategory.getCategValue(),
+							attributeCategory.getCategName());
+					return attributeCategory;
 				}
 			});
 		} catch (DataAccessException dae) {
@@ -183,11 +195,12 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		String query = QueryBuilder.queryForDistinctNetworkGroups();
 		LOGGER.debug("Getting all networks groups ");
 		LOGGER.debug(query);
-		
+
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("networks", RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).keySet());
 		List<AttributeCategory> attributeCategories = new ArrayList<AttributeCategory>(50);
 		Map<String,StringBuilder> attrCategoryMap = new TreeMap<String, StringBuilder>();
+		
 		try {
 			namedParameterJdbcTemplate.query(query,parameters, new RowMapper<AttributeCategory>() {
 				@Override
