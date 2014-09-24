@@ -115,4 +115,16 @@ public class Filter {
 	public void setMicrosegmentAttributes(Map<String, String> microsegmentAttributes) {
 		this.microsegmentAttributes = microsegmentAttributes;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Filter [selectedCountries=" + selectedCountries
+				+ ", selectedAttributes=" + selectedAttributes
+				+ ", microsegmentAttributes=" + microsegmentAttributes
+				+ ", tempAttributes=" + tempAttributes + ", dateFrom="
+				+ dateFrom + ", dateTo=" + dateTo + "]";
+	}
 }

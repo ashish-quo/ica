@@ -73,7 +73,6 @@
 				text: ''
 			},
 			xAxis: {
-
 				categories: categ,
 				title: {
 					text: null
@@ -197,8 +196,8 @@
 		    	  $http.get("microsegment/graph/" , data).success(function(result) {
 		    		  element.removeClass("loading");
 		    		  $scope.title[attrs.chartname] = result.attrName;
-		    		  var verticalChart = $j('#column-chart-'+attrs.chartname);
-		    		  var horizontalChart = $j('#bar-chart-'+attrs.chartname);
+		    		  var verticalChart = $j('#column-chart-'+attrs.chartname.replace(/ /g,''));
+		    		  var horizontalChart = $j('#bar-chart-'+attrs.chartname.replace(/ /g,''));
 		    		  verticalChart.html('');
 		    		  horizontalChart.html('');
 		    		  if (result.data.length > 0) {

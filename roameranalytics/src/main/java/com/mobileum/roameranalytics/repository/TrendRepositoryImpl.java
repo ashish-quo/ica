@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,12 +20,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
-import com.mobileum.roameranalytics.enums.Network;
 import com.mobileum.roameranalytics.model.CountryUsageStatistics;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.RoamingCategory;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
-import com.mobileum.roameranalytics.model.chart.DonutData;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.model.chart.RoamingTrendResultSetExtractor;
 
@@ -51,7 +47,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	/** The logger. */
-	private static Logger LOGGER = LoggerFactory.getLogger("TrendRepositoryImpl");
+	private static Logger LOGGER = LogManager.getLogger(TrendRepositoryImpl.class.getName());
 
 	@Override
 	public List<CountryUsageStatistics> getHeatMapList(String query, Object criteria[]) {
@@ -105,15 +101,20 @@ public class TrendRepositoryImpl implements TrendRepository {
 
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
-		QueryBuilder.populateQueryForTrends(filter,query,parameterMap);
-		System.out.println(query.toString());
-		LOGGER.info(query.toString());
 		
+		QueryBuilder.populateQueryForTrends(filter,query,parameterMap);
+
+		
+		LOGGER.debug("Roaming Trends query : " + query.toString());
+
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("endDate", filter.getDateTo());
 		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
 		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
+		
+		LOGGER.debug("Query parameters : " + parameterMap);
+		
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
 		}

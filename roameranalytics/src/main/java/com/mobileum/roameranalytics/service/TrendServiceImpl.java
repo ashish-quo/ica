@@ -44,7 +44,7 @@ public class TrendServiceImpl implements TrendService{
 	private TrendRepository trendDao;
 	
 	/** The logger. */
-	private static Logger LOGGER = LogManager.getLogger("FilterDaoImpl");
+	private static Logger LOGGER = LogManager.getLogger(TrendServiceImpl.class.getName());
 
 	public void printQuery()
 	{

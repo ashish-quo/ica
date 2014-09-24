@@ -27,6 +27,10 @@
 			data.params.microsegmentcharts = cahrtArray.join(":");	
 			$http.get("microsegment/graphs", data).success(function(result) {
 				$scope.graphToBeShown = result;
+				$scope.graphToBeShown = $scope.graphToBeShown.map(function (obj) {
+					obj.id = obj.title.replace(/ /g,'');
+					return obj;
+				});
 			}).error(function(data, status, headers, config) {
 		        //$scope.$parent.error = data.message;
 		    });

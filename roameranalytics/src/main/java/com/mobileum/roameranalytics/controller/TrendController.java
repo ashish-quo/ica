@@ -12,6 +12,8 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,7 @@ import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.service.MetaDataService;
 import com.mobileum.roameranalytics.service.TrendService;
+import com.mobileum.roameranalytics.service.TrendServiceImpl;
 
 /**
  * The Class TrendController.
@@ -38,14 +41,21 @@ import com.mobileum.roameranalytics.service.TrendService;
 @Controller
 @RequestMapping("/")
 public class TrendController {
-
+	
+	/** The logger. */
+	private static Logger LOGGER = LogManager.getLogger(TrendServiceImpl.class.getName());
+	
 	/** The common service. */
 	@Autowired
+
 	private MetaDataService metaDataService;
+
 	
 	/** The trend service. */
 	@Autowired
 	private TrendService trendService;
+	
+	
 	
 	/**
 	 * Show home.
@@ -91,7 +101,9 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
 	public @ResponseBody List<Attribute> getAttributes() {
+
 		return metaDataService.getAttributes();
+
 	}
 	
 	/**
@@ -101,7 +113,9 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getCountries")
 	public @ResponseBody List<Country> getCountries() {
+
 		return metaDataService.getAllCountries();
+
 	}
 	
 	/**
@@ -113,26 +127,30 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingTrendsData")
 	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) throws ParseException {
+		
+		LOGGER.info("Getting Roaming Trends");
+		
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
 		String startdate = req.getParameter("dateRangeFrom");
 		String endDate = req.getParameter("dateRangeTo");
 		String attributes = req.getParameter("attributes");
 		String countries = req.getParameter("countries");
 		String tempAttributes = req.getParameter("tempAttributes");
+		
 		Filter filter = new Filter();
-		
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
-		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		
+
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-//		if (!tempAttributes.isEmpty()) {
-//			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
-//		}
+		/*		if (!tempAttributes.isEmpty()) {
+			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
+		}*/
+		LOGGER.debug("Filter for roaming trends :  " + filter);
 		return this.trendService.getTrendsCharts(filter);
 	}
 	

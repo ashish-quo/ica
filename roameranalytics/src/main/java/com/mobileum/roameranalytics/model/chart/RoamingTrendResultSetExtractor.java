@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -27,6 +29,10 @@ import com.mobileum.roameranalytics.enums.VoiceType;
  */
 public class RoamingTrendResultSetExtractor implements ResultSetExtractor<RoamingTrend> {
 
+	
+	/** The logger. */
+	private static Logger LOGGER = LogManager.getLogger(RoamingTrendResultSetExtractor.class.getName());
+	
 	/* (non-Javadoc)
 	 * @see org.springframework.jdbc.core.ResultSetExtractor#extractData(java.sql.ResultSet)
 	 */
@@ -95,6 +101,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		populateRoamingTrend(dowCountMap, perDayCountMap, dowCallMap, perDayCallMap, 
 				dowDataMap, perDayDataMap,dowSMSMap,perDaySMSMap, dowCategory, dateCategory, roamingTrend, startDate);
 		
+		LOGGER.trace("Roaming trends result : " + roamingTrend);
 		return roamingTrend;
 	}
 

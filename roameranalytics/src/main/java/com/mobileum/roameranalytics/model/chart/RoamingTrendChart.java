@@ -79,4 +79,15 @@ public class RoamingTrendChart {
 		this.dowCategoryList = dowCategoryList;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "RoamingTrendChart [perDaySeriesList=" + perDaySeriesList
+				+ ", dowSeriesList=" + dowSeriesList + ", perDayCategoryList="
+				+ perDayCategoryList + ", dowCategoryList=" + dowCategoryList
+				+ "]";
+	}
+
 }
