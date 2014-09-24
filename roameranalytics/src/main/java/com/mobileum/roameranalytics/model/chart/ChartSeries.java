@@ -50,5 +50,14 @@ public class ChartSeries {
 	public void setData(Collection<Double> data) {
 		this.data = data;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ChartSeries [name=" + name + ", data=" + data
+				+ ", showInLegend=" + showInLegend + "]";
+	}
 	
 }

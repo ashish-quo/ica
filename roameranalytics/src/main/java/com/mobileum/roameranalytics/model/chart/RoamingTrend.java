@@ -83,4 +83,14 @@ public class RoamingTrend {
 	public void setRoamersDataChart(RoamingTrendChart roamersDataChart) {
 		this.roamersDataChart = roamersDataChart;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "RoamingTrend [roamersCountChart=" + roamersCountChart
+				+ ", roamersMTMOChart=" + roamersMTMOChart
+				+ ", roamersSMSChart=" + roamersSMSChart
+				+ ", roamersDataChart=" + roamersDataChart + "]";
+	}
 }
