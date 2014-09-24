@@ -30,7 +30,7 @@ public class MetaDataServiceImpl implements MetaDataService {
 
 	/** The common dao. */
 	@Autowired
-	private MetaDataRepository commonDao;
+	private MetaDataRepository metaDataRepository;
 	
 	/** The logger. */
 	private static Logger LOGGER = LogManager.getLogger(MetaDataServiceImpl.class.getName());
@@ -41,12 +41,13 @@ public class MetaDataServiceImpl implements MetaDataService {
 	public List<Attribute> getAttributes() {
 		List<Attribute> commonAttributes = null;
 		try {
-			commonAttributes = this.commonDao.getAttributeList();
+			commonAttributes = this.metaDataRepository.getAttributeList();
+			
 			for (Attribute attribute : commonAttributes) {
 				if (RAConstants.ATTR_NETWORK.equalsIgnoreCase(attribute.getAttributeName())) {
-					attribute.setAttributeCategoryList(this.commonDao.getAllNetworks(attribute.getId()));
+					attribute.setAttributeCategoryList(this.metaDataRepository.getAllNetworks(attribute.getId()));
 				} else if (RAConstants.ATTR_NETWORK_GROUP.equalsIgnoreCase(attribute.getAttributeName())) {
-					attribute.setAttributeCategoryList(this.commonDao.getNetworkGroups(attribute.getId()));
+					attribute.setAttributeCategoryList(this.metaDataRepository.getNetworkGroups(attribute.getId()));
 				}
 			}
 		} catch (RADataAccessException dae) {
@@ -60,13 +61,11 @@ public class MetaDataServiceImpl implements MetaDataService {
 	 * @see com.mobileum.roameranalytics.service.CommonServiceI#getAllCountries()
 	 */
 	public List<Country> getAllCountries() {
-		List<Country> countries = null;
 		try {
-			countries = this.commonDao.getAllCountries();
+			return this.metaDataRepository.getAllCountries();
 		} catch (RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
-		return countries;
 	}
 	
 	/**
