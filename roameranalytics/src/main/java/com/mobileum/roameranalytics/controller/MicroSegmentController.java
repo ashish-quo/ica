@@ -43,20 +43,8 @@ public class MicroSegmentController {
 	
 	@RequestMapping(value="/microsegment/graphs", method = RequestMethod.GET)
 	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(HttpServletRequest req) throws ParseException {
-		String startdate = req.getParameter("dateRangeFrom");
-		String endDate = req.getParameter("dateRangeTo");
-		String attributes = req.getParameter("attributes");
-		String countries = req.getParameter("countries");
+
 		String microSegmentCharts = req.getParameter("microsegmentcharts");
-		
-		Filter filter = new Filter();
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
-		filter.setDateFrom(dateFormat.parse(startdate).getTime());
-		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		filter.setSelectedCountries(countries);
-		if (!attributes.isEmpty()) {
-			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
-		}
 		
 		List<MSChartMetadata> list = new ArrayList<MSChartMetadata>(5);
 		if (!microSegmentCharts.isEmpty()) {
@@ -96,9 +84,33 @@ public class MicroSegmentController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		//Map<String,Map<String,String>> categNameValueMap = this.microsegmentSerice.getAttributeLabelAndValue();
+		Map<String,Object> result = microsegmentSerice.getMSChartData(filter,chartInfo[0], chartInfo[1], chartInfo[2],
+				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+		result.put("attrName", chartInfo[0]);
+		return result;
+	}
+	
+	@RequestMapping(value="/microsegment/networkgroup", method = RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getNetworkGroupChartData(HttpServletRequest req) throws ParseException {
 		
-		Map<String,Object> result = microsegmentSerice.getMSChartData(filter, chartInfo[1], chartInfo[2],
+		String startdate = req.getParameter("dateRangeFrom");
+		String endDate = req.getParameter("dateRangeTo");
+		String attributes = req.getParameter("attributes");
+		String countries = req.getParameter("countries");
+		String chartMetaData = req.getParameter("chartmetadata");
+		Filter filter = new Filter();
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		filter.setSelectedCountries(countries);
+		
+		String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
+		
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+		
+		Map<String,Object> result = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
 				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
 		result.put("attrName", chartInfo[0]);
 		return result;

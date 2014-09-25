@@ -59,7 +59,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	public List<Attribute> getAttributeList() throws RADataAccessException {
 		String query = QueryBuilder.queryForAttributes();
 		LOGGER.debug("Getting all attributes");
-		LOGGER.trace(query);
+		LOGGER.debug(query);
 		
 		List<Attribute> attributeList = new ArrayList<Attribute>(10);
 		try {
@@ -124,9 +124,10 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		String query = QueryBuilder.queryForAllCountries();
 		
 		LOGGER.debug("Getting all countries ");
-		LOGGER.trace(query);
-		
+		LOGGER.debug(query);
+
 		List<Country> countries = new ArrayList<Country>(200);
+
 		try {
 			countries = jdbcTemplate.query(query, new RowMapper<Country>(){
 				public Country mapRow(ResultSet rs, int rowNumber) throws SQLException {
@@ -154,7 +155,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	public List<AttributeCategory> getAllNetworks(long networkAttrId) throws RADataAccessException {
 		String query = QueryBuilder.queryForDistinctNetworks();
 		LOGGER.debug("Getting all network names ");
-		LOGGER.trace(query);
+		LOGGER.debug(query);
 		
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
@@ -193,8 +194,8 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	public List<AttributeCategory> getNetworkGroups(long attributeId) throws RADataAccessException {
 		String query = QueryBuilder.queryForDistinctNetworkGroups();
 		LOGGER.debug("Getting all networks groups ");
-		LOGGER.trace(query);
-		
+		LOGGER.debug(query);
+
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("networks", RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).keySet());
 		List<AttributeCategory> attributeCategories = new ArrayList<AttributeCategory>(50);

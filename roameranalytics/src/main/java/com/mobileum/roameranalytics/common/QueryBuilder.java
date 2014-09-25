@@ -141,10 +141,22 @@ public class QueryBuilder {
 		query.append(" group by trip.visitedmnc ");
 	}
 	
-	
+	/**
+	 * Populate query for microsegment chart.
+	 *
+	 * @param filter the filter
+	 * @param query the query
+	 * @param column the column
+	 * @param columnType the column type
+	 * @param parameterMap the parameter map
+	 */
 	public static void populateQueryForMicrosegmentChart(Filter filter, StringBuilder query, 
-			String column, String columnType,  Map<String, Object> parameterMap) {
-		query.append(" select sum(1) ").append(" imsicount ").append(", trip.").append(column).append(" catValue from ")
+			String column,  Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
+			.append(" sum(trip.mtcallminutes) mtcallminutes, sum(trip.mosmscount) mosmscount,")
+			.append(" sum(trip.uplink + trip.downlink)  datausage, ");
+		
+		query.append(" trip.").append(column).append(" categoryValue from ")
 			.append(Relation.TRIP).append(" trip ")
 			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
 			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
@@ -167,6 +179,54 @@ public class QueryBuilder {
 
 		query.append(" group by trip.").append(column);
 		query.append(" order by imsicount desc ");
+	}
+	
+	/**
+	 * Populate query for network group chart.
+	 *
+	 * @param filter the filter
+	 * @param query the query
+	 * @param column the column
+	 * @param columnType the column type
+	 * @param parameterMap the parameter map
+	 */
+	public static void populateQueryForNetworkGroupChart(Filter filter, StringBuilder query, 
+			Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
+			.append(" sum(trip.mtcallminutes) mtcallminutes, sum(trip.mosmscount) mosmscount,")
+			.append(" sum(trip.uplink + trip.downlink)  datausage, ")
+			.append(" network.network_group networkGroup from ")
+			.append(Relation.TRIP).append(" trip ").append(" inner join ")
+			.append(Relation.TADIGNETWORK).append(" network ")
+			.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
+			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
+			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType ");
+
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname in (:countries) ");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		
+		Map<String,String> filterParameters = filter.getSelectedAttributes();
+		for (String columnName : filterParameters.keySet()) {
+			String value = filterParameters.get(columnName);
+			String[] valueArr = value.split(RAConstants.COLON);
+			String type = valueArr[0];
+			String values = valueArr[1];
+			List<Object> parameterList = CommonUtil.convertToList(values, type);
+			if ("networkgroup".equals(columnName)) {
+				query.append(" and trip.").append(columnName).append(" in (:").append(columnName).append(") ");
+				parameterMap.put(columnName,parameterList);
+			} else {
+				query.append(" and network.network_name in (:networknames) ");
+				parameterMap.put("networknames",parameterList);
+			}
+			
+		}
+
+		query.append(" group by network.network_group ");
+		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
+			.append(" mosmscount desc, datausage desc ");
 	}
 	
 	

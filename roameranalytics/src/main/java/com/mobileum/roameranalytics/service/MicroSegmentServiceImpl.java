@@ -8,6 +8,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mobileum.roameranalytics.common.RAConstants;
+import com.mobileum.roameranalytics.exception.ApplicationException;
+import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.repository.MicroSegmentRepository;
 
@@ -51,13 +54,27 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 
 
 	@Override
-	public Map<String, Object> getMSChartData(Filter filter, String column, String columnType,
+	public Map<String, Object> getMSChartData(Filter filter, String attributeName, String column, String columnType,
 			Map<String,String> catNameValue) {
-		return microsegmentDao.getMSChartData(filter, column, columnType, catNameValue);
+		try {
+			return microsegmentDao.getMSChartData(filter, attributeName, column, catNameValue);
+		} catch (RADataAccessException dae) {
+			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
+		}
 	}
 
 	@Override
 	public Map<String, Map<String, String>> getAttributeLabelAndValue() {
 		return microsegmentDao.getAttributeLabelAndValue();
+	}
+
+	@Override
+	public Map<String, Object> getNetworkGroupData(Filter filter,
+			String column, String columnType, Map<String, String> catNameValue) {
+		try {
+			return microsegmentDao.getNetworkGroupData(filter, column, columnType, catNameValue);
+		} catch (RADataAccessException dae) {
+			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
+		}
 	}
 }

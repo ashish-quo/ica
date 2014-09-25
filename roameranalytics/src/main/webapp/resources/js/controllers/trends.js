@@ -82,26 +82,24 @@
 			['$scope','$rootScope','$http', 'util', function($scope,$rootScope,$http,util) {
 				$scope.trends = {}; 
 				$j('#roamer-ft-zoom').modalPopLite({ openButton: '.zoom-btn', closeButton: '.tre-close-btn', isModal: true });
-				console.log("Call inside3");
 				$scope.roamerCountChartConfig = emptyChart;
 				$scope.roamerVoiceChartConfig = emptyChart;
 				$scope.roamerDataChartConfig = emptyChart;
 				$scope.roamerSMSChartConfig = emptyChart;
 				
-				$scope.countDoW = 'true';
-				$scope.voiceDoW = 'true';
-				$scope.dataDoW = 'true';
-				$scope.smsDoW = 'true';
+				$scope.dow = 'true';
+				
 				$scope.logScale = 'true';
+				
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				$http.get("getRoamingTrendsData", data).success(function(result) {
 					$scope.trends = result;
-					$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.countDoW, $scope.logScale);
-					$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.voiceDoW, 'false');
-					$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dataDoW, 'false');
-					$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.smsDoW, 'false');
+					$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
+					$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
+					$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dow, 'false');
+					$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.dow, 'false');
 				});
 				
 				$rootScope.$on('refresh-roaming-trends', function (event) {
@@ -114,91 +112,37 @@
 					};
 					$http.get("getRoamingTrendsData", latestData).success(function(result) {
 						$scope.trends = result;
-						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.countDoW, $scope.logScale);
-						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.voiceDoW, 'false');
-						$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dataDoW, 'false');
-						$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.smsDoW, 'false');
+						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
+						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
+						$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dow, 'false');
+						$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.dow, 'false');
 					});
 				});
 				
-				$scope.$watch("countDoW", function (newValue, oldValue) {
+				$scope.$watch("dow", function (newValue, oldValue) {
 					if ($scope.trends.roamersCountChart) {
-						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.countDoW, $scope.logScale);
+						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
 					}
-				});
-				$scope.$watch("voiceDoW", function (newValue, oldValue) {
-					if ($scope.trends.roamersCountChart) {
-						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.voiceDoW, 'false');
+					
+					if ($scope.trends.roamerVoiceChartConfig) {
+						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
 					}
-				});
-				$scope.$watch("dataDoW", function (newValue, oldValue) {
-					if ($scope.trends.roamersCountChart) {
-						$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dataDoW, 'false');
+					
+					if ($scope.trends.roamerDataChartConfig) {
+						$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dow, 'false');
 					}
-				});
-				$scope.$watch("smsDoW", function (newValue, oldValue) {
-					if ($scope.trends.roamersCountChart) {
-						$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.smsDoW, 'false');
+					
+					if ($scope.trends.roamerSMSChartConfig) {
+						$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.dow, 'false');
 					}
+					
 				});
 				
 				$scope.$watch("logScale", function (newValue, oldValue) {
 					if ($scope.trends.roamersCountChart) {
-						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.countDoW, $scope.logScale);
+						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
 					}
 				});
-				
-				// local filter functions
-				$scope.clearRoamingCategoryTempFilter = function () {
-					delete $rootScope.filters.tempAttributes["2"];
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.clearARPUTempFilter = function () {
-					delete $rootScope.filters.tempAttributes["3"];
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.clearPaymentTypeTempFilter = function () {
-					delete $rootScope.filters.tempAttributes["4"];
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.getPrepaidCustomers = function() {
-					$rootScope.filters.tempAttributes['4']='1';
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getPostpaidCustomers = function() {
-					$rootScope.filters.tempAttributes['4']='0'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getSilentCustomers = function() {
-					$rootScope.filters.tempAttributes['2']='1'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getValueCustomers = function() {
-					$rootScope.filters.tempAttributes['2']='2'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.getPremiumCustomers = function() {
-					$rootScope.filters.tempAttributes['2']='3'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-
-				//ARPU filter functions
-				$scope.getLowARPUCustomers = function() {
-					$rootScope.filters.tempAttributes['3']='4'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				
-				$scope.getHighARPUCustomers = function() {
-					$rootScope.filters.tempAttributes['3']='6'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
-				$scope.getMedARPUCustomers = function() {
-					$rootScope.filters.tempAttributes['3']='5'
-					$rootScope.$broadcast("refresh-roaming-trends");
-				};
 				
 				$scope.zoom = function(data, viewZoomScale) {
 					$rootScope.zoomLogScale = $scope.logScale;
