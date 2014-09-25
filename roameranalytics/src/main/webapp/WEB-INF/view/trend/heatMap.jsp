@@ -38,14 +38,17 @@
         </div>
       </div>
     </div>
+    
+     <div ng-controller="HeatMapControllerHome">
     <div class="row map-view clearfix">
       <div class="col-lg-12 clearfix">
+     
         <div class="map-content clearfix">
           <ul class="map-tabs">
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="usage" value="" checked>
+                  <input type="radio" name="project" id="usage" value="usage" ng-model="mapUnit" checked>
                   <i></i></label>
                 <label for="usage">Expected Usage</label>
               </p>
@@ -53,7 +56,7 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="roamers" class="all-blue-map" value="">
+                  <input type="radio" name="project" id="roamers" class="all-blue-map" value="roamers" ng-model="mapUnit">
                   <i></i></label>
                 <label for="roamers">roamers</label>
               </p>
@@ -61,7 +64,7 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="mt" class="all-blue-map" value="">
+                  <input type="radio" name="project" id="mt" class="all-blue-map" value="mt" ng-model="mapUnit">
                   <i></i></label>
                 <label for="mt">mt (min)</label>
               </p>
@@ -69,7 +72,7 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="mo" class="all-blue-map" value="">
+                  <input type="radio" name="project" id="mo" class="all-blue-map" value="mo" ng-model="mapUnit">
                   <i></i></label>
                 <label for="mo">mo (min)</label>
               </p>
@@ -77,7 +80,7 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="data" class="all-blue-map" value="">
+                  <input type="radio" name="project" id="data" class="all-blue-map" value="data" ng-model="mapUnit" ng-model="mapUnit">
                   <i></i></label>
                 <label for="data">data (mb)</label>
               </p>
@@ -85,6 +88,7 @@
             
           </ul>
           
+         
           <div class="map-container">
           <div id="map-container">
             <div class="map-loading">
@@ -96,11 +100,13 @@
               <i class="icon-spinner icon-spin icon-large"></i> Loading data from Google Spreadsheets... </div>
           </div>
           </div>
+          </div>
           
+        
         </div>
       </div>
-    </div>
-    <div ng-controller="RoamingStatisticsControllerHome">
+   
+    
     <div class="row dashboard-statics">
       <div class="col-lg-6">
         <section class="panel">
@@ -153,6 +159,7 @@
         </section>
       </div>
     </div>
+    
     <div class="row dashboard-statics">
       <div class="col-lg-3">
         <section class="panel">
@@ -188,7 +195,7 @@
         </section>
       </div>
     </div>
-   </div> <!-- End of RoamingStatisticsController  -->
+
     <div class="top10chart-view-home">
       <div class="row">
         <div class="col-lg-3">
@@ -393,6 +400,8 @@
         </div>
       </div>
     </div>
+    </div><!-- heatmapcontroller ends -->
+    
     <div class="row">
       <div class="col-lg-6">
         <div class="panel">

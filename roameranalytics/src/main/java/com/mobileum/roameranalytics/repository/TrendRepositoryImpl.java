@@ -132,6 +132,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
 		parameters.addValue("endDate", filter.getDateTo());
 		
 		for (String key : parameterMap.keySet()) {
@@ -169,34 +170,36 @@ public class TrendRepositoryImpl implements TrendRepository {
 		QueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap);
 		
 		LOGGER.info(query.toString());
+		
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
 		parameters.addValue("endDate", filter.getDateTo());
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
 		}
-		System.out.println(query.toString());
+		
 		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingCategory>() {
 			@Override
-			public RoamingCategory mapRow(ResultSet rs, int rowNum)
+			public RoamingCategory mapRow(ResultSet resultSet, int rowNum)
 					throws SQLException {
-				System.out.println("Roaming Category");
 				
 				RoamingCategory roamingCategory = new RoamingCategory();
+				roamingCategory.setVisitedCountryName(resultSet.getString("visitedcountryname"));
 				
-				if(rs.getInt("roamingcategory")==1)
+				if(resultSet.getInt("roamingcategory")==1)
 				{
 					roamingCategory.setCategory("silentRoamer");
-					roamingCategory.setCount(rs.getLong("roamercount"));
-				}else if(rs.getInt("roamingcategory")==2)
+					roamingCategory.setCount(resultSet.getLong("roamercount"));
+				}else if(resultSet.getInt("roamingcategory")==2)
 				{
 					roamingCategory.setCategory("valueRoamer");
-					roamingCategory.setCount(rs.getLong("roamercount"));
-				}else if(rs.getInt("roamingcategory")==3)
+					roamingCategory.setCount(resultSet.getLong("roamercount"));
+				}else if(resultSet.getInt("roamingcategory")==3)
 				{
 					roamingCategory.setCategory("premiumRoamer");
-					roamingCategory.setCount(rs.getLong("roamercount"));
+					roamingCategory.setCount(resultSet.getLong("roamercount"));
 				}
 				
 				return roamingCategory;

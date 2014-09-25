@@ -358,6 +358,7 @@ public class QueryBuilder {
 			.append(" sum(mocallminuteslocal) mocallminuteslocal, sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ")
 			.append(Relation.TRIP)
 			.append(" where trip.starttime >= :startDate ")
+			.append(" and trip.homecountryname = :homeCountry")
 			.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
 		
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
@@ -376,9 +377,10 @@ public class QueryBuilder {
 		
 	}
 	public static void populateQueryForRoamingCategoryCount(Filter filter, StringBuilder query, Map<String, Object> parameterMap)  {
-		query.append(" select overalltripcategory as roamingcategory,count(imsi) roamercount  from ")
+		query.append(" select visitedcountryname, overalltripcategory as roamingcategory,count(imsi) roamercount  from ")
 		.append(Relation.TRIP)
 		.append(" where trip.starttime >= :startDate ")
+		.append(" and trip.homecountryname = :homeCountry")
 		.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
 		
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
@@ -393,7 +395,9 @@ public class QueryBuilder {
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		}
 		
-		query.append(" group by  overalltripcategory ");
+		query.append(" group by  overalltripcategory,visitedcountryname");
+		
+		query.append(" order by visitedcountryname,roamingcategory");
 	}
 
 

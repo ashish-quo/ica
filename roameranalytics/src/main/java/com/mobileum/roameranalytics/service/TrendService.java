@@ -25,15 +25,6 @@ public interface TrendService {
 	 * @Authr Smruti
 	 * @param startDate
 	 * @param endDate
-	 * @param country
-	 * @return
-	 */
-	public  Map<String,CountryUsageStatistics> getHeatMap(String startDate, String endDate, List<String> country);
-	
-	/**
-	 * @Authr Smruti
-	 * @param startDate
-	 * @param endDate
 	 * @return
 	 */
 	public  AggregatedCountryStatistics getTopCountry(Filter filter);

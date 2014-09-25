@@ -9,6 +9,8 @@ package com.mobileum.roameranalytics.model;
  */
 public class RoamingCategory {
 	
+	String visitedCountryName;
+	
 	String category;
 	
 	Long count;
@@ -36,6 +38,18 @@ public class RoamingCategory {
 	 */
 	public void setCount(Long count) {
 		this.count = count;
+	}
+	/**
+	 * @return the countryName
+	 */
+	public String getVisitedCountryName() {
+		return visitedCountryName;
+	}
+	/**
+	 * @param countryName the countryName to set
+	 */
+	public void setVisitedCountryName(String visitedCountryName) {
+		this.visitedCountryName = visitedCountryName;
 	}
 	
 }
