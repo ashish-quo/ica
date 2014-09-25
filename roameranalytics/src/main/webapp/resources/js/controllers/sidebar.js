@@ -17,6 +17,10 @@
 				dateRangeTo : ''
 		};
 		
+		
+		$rootScope.attributeQuery = {};
+		$rootScope.countryQuery = {};
+		
 		//Custom Date range selector
 		$j('#date-range').daterangepicker(null, function(start, end, label) {
 			$rootScope.filters.dateRangeFrom = start.format('DD/MM/YY');
@@ -327,11 +331,6 @@
 			$rootScope.filters.attributes = {};
 			var element = $j('input#'+attrId+'_'+catId);
 			
-			var parentElement = $j('input#attr_'+attrId);
-			var columnName = parentElement.attr("db-column");
-			var columnType = parentElement.attr("column-type");
-			var elementName = parentElement.attr("attr-name");
-			
 			if($j(element).is(':checked')) {
 				$j(element).attr('checked', 'checked');
 			} else {
@@ -350,14 +349,18 @@
 				var id = $j(this).attr("id").split("_");
 				var name = $j(this).attr("name");
 				var value = $j(this).attr("categ-value");
-				var attrId = id[0];
+				var attributeId = id[0];
 				var catId = id[1];
+				var parentElement = $j('input#attr_'+attributeId);
+				var columnName = parentElement.attr("db-column");
+				var columnType = parentElement.attr("column-type");
+				var elementName = parentElement.attr("attr-name");
 				var key = elementName + "," + columnName + "," + columnType;
 				var attrArray = $rootScope.filters.attributes[key];
 				if (attrArray == null) {
 					$rootScope.filters.attributes[key] = new Array();
 				}
-				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name, 'value':value, 'attrId' : attrId });
+				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name, 'value':value, 'attrId' : attributeId });
 			});
 			
 			if ($rootScope.tabIndex == 0) {
@@ -380,7 +383,8 @@
 			$j("input.country-chk:checked").each(function () {
 				var id = $j(this).attr("id");
 				var name = $j(this).attr("name");
-				$rootScope.filters.countries.push({'id':id,'name':name});
+				var brodering = $j(this).attr('bordering')
+				$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering});
 			});
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
@@ -432,91 +436,45 @@
 		 * Refreshes charts and data when a country filter is removed from filter area
 		 */
 		$rootScope.removeCounryFilter = function(id,refresh) {
-			if(refresh) {
-				removeCounryFilter(id);
-				if ($rootScope.tabIndex == 0) {
-					$rootScope.$broadcast("refresh-heatmap-home");
-					$rootScope.$broadcast("refresh-bubblechart-home");
-					$rootScope.$broadcast("refresh-roaming-statistics-home");
-				}else if ($rootScope.tabIndex == 1) {
-					$rootScope.$broadcast("refresh-roaming-trends");
-					$rootScope.$broadcast("refresh-roaming-statistics-trends");
-				} else if ($rootScope.tabIndex == 2) {
-					$rootScope.$broadcast("refresh-microsegment-country");
-				}
-			} else {
-				$j('#modal_'+id).hide();
-				$rootScope.filters.removedFilters.push(function (){removeCounryFilter(id);})
-			}	
+			removeCounryFilter(id);
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment-country");
+			}
 		};
 		
 		/**
 		 * Refreshes charts and data when a persona filter is removed from filter area
 		 */
 		$rootScope.removePersonaFilter = function(id,refresh) {
-			if(refresh) {
-				removePersonaFilter(id);
-				$rootScope.$broadcast("refresh-roaming-trends");
-			} else {
-				$j('#modal_'+id).hide();
-				$rootScope.filters.removedFilters.push(function (){removePersonaFilter(id);})
-			}	
+			removePersonaFilter(id);
+			$rootScope.$broadcast("refresh-roaming-trends");
 		};
 		
 		/**
 		 * Refreshes charts and data when an attribute filter is removed from filter area
 		 */
 		$rootScope.removeAttributeFilter = function(key,attrId,catId,refresh) {
-			if(refresh) {
-				removeAttributeFilter(key,attrId,catId);
-				if ($rootScope.tabIndex == 1) {
-					$rootScope.$broadcast("refresh-roaming-trends");
-				} else if ($rootScope.tabIndex == 2) {
-					$rootScope.$broadcast("refresh-microsegment-attribute");
-				}
-			} else {
-				$j('#modal_'+attrId + "_"+catId).hide();
-				$rootScope.filters.removedFilters.push(function (){removeAttributeFilter(attrId,catId);})
-			}		
+			removeAttributeFilter(key,attrId,catId);
+			if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment-attribute");
+			}	
 		};
 		
 		/**
-		 * Shows filter dialog box when navigating to other screen
+		 * Call when exclude neighbors is checked
 		 */
-		$rootScope.showModal = function (tabReqested) {
-			$rootScope.filters.removedFilters = new Array();
-			if (Object.keys($rootScope.filters.attributes).length != 0 
-					|| $rootScope.filters.personas.length !=0
-					|| $rootScope.filters.countries.length !=0 ) {
-				$j('#onload-popup').modal('show');
-				$rootScope.tabRequested = tabReqested;
-			} else {
-				$rootScope.tabIndex = tabReqested;
-			}
-			
-		};
-		
-		/**
-		 * Apply remaining filters on click of apply filters button in popup
-		 */
-		$rootScope.applyFilters = function () {
-			while( $rootScope.filters.removedFilters.length)
-				$rootScope.filters.removedFilters.splice(0, 1)[ 0 ](); 
-			$rootScope.tabIndex = $rootScope.tabRequested;
-		};
-		
-		/**
-		 * Discard app filters action
-		 */
-		$rootScope.discardAllFilters = function () {
-			$rootScope.filters.attributes = {};
-			$rootScope.filters.tempAttributes = {};
-			$rootScope.filters.personas = new Array();
-			$rootScope.filters.countries = new Array();
-			$j("aside input:checked").removeAttr('checked');
-			
-			$rootScope.tabIndex = $rootScope.tabRequested;
-		};
+		$scope.$watch('excludeNbrs', function () {
+			$scope.updateCountryFilter();
+		});
 		
 	}]);
 })();

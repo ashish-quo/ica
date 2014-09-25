@@ -258,14 +258,17 @@
 				</li>
 				<li>
 					<p class="i-checks selectall-check">
-						<label> <input type="checkbox" name="excludeNeighbours" id="excludeNeighbours" ng-model='exclNbrs'
-							value=""> <i></i></label> <label for="excludeNeighbours"><fmt:message key="exclude.neigbhours"/></label>
+						<label> <input type="checkbox" name="excludeNeighbours" id="excludeNeighbours" ng-model-onblur 
+						ng-model='excludeNbrs' value=""> <i></i></label> <label for="excludeNeighbours"><fmt:message key="exclude.neigbhours"/></label>
 					</p>
 				</li>
-				<li ng-repeat="country in countries | filter:countryQuery" ng-if='(exclNbrs && country.bordering == 0) || !exclNbrs'>
+				<li ng-repeat="country in countries" ng-if='(excludeNbrs && country.bordering == 0) || !excludeNbrs'
+					ng-show="countryQuery.countryName == null || countryQuery.countryName == '' 
+					|| country.countryName.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1" >
+				
 					<p class="i-checks">
 						<label> <input type="checkbox" name="{{country.countryName}}" class="country-chk" 
-						id="{{country.countryName}}" ng-click="updateCountryFilter()"
+						id="{{country.countryName}}" ng-click="updateCountryFilter()" bordering='{{country.bordering}}'
 							value=""> <i></i></label> <label for="{{country.countryName}}">{{country.countryName}}</label>
 					</p>
 				</li>
@@ -372,7 +375,8 @@
 				<li class="categoryArea">
 					<div class="panel-group" id="accordion">
 					
-						<form ng-repeat="attr in attributes | filter:attributeQuery ">
+						<form ng-repeat="attr in attributes" 
+							ng-show="attributeQuery.attributeName == null || attributeQuery.attributeName == '' || attr.attributeName.toLowerCase().indexOf(attributeQuery.attributeName.toLowerCase()) != -1">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
@@ -410,33 +414,3 @@
 			</ul></li>
 	</ul>
 </aside>
-
-<!-- Modal -->
-<div class="modal fade modal-popup" id="onload-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
-      <div class="modal-body">
-      	<p>You have selected the following filters on the Home Screen:</p><br>
-        <div class="modal-filter">
-           <div class="tag-div" ng-repeat="filter in filters.countries" id='modal_{{filter.id}}'>
-				{{filter.name}} <a href ng-click='removeCounryFilter(filter.id,false)' class="delete-tag"></a>
-			</div>
-			<div class="tag-div" ng-repeat="filter in filters.personas" id='modal_{{filter.id}}'>
-				{{filter.name}} <a href ng-click='removePersonaFilter(filter.id,false)' class="delete-tag"></a>
-			</div>
-			<span ng-repeat="(key, value) in filters.attributes" >
-				<div class="tag-div" ng-repeat="filter in value" id='modal_{{key}}_{{filter.catId}}'>
-					{{filter.name}} <a href ng-click='removeAttributeFilter(key, filter.catId,false)' class="delete-tag"></a>
-				</div>
-			</span>
-        </div>
-        <p>Apply the filter for Trends?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary button-blue" data-dismiss="modal" ng-click='applyFilters()'>Apply</button>
-        <button type="button" class="btn btn-primary unactive" data-dismiss="modal" ng-click='discardAllFilters()'>Discard All</button>
-      </div>
-    </div>
-  </div>
-</div>

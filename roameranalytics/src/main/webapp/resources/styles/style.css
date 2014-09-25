@@ -724,7 +724,7 @@ div.panel-collapse .panel-body {
 	border-radius: 100%;
 }
 .i-checks input[type="checkbox"]:checked + i:before {
-	content: "";
+	content: "\f00c";
 	color: #aeb2b7;
 }
 .i-checks input[type="radio"]:checked + i:before {
