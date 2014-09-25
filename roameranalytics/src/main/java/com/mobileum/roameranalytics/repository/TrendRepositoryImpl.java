@@ -139,12 +139,12 @@ public class TrendRepositoryImpl implements TrendRepository {
 			parameters.addValue(key, parameterMap.get(key));
 		}
 		
-		System.out.println(query.toString());
+		
 		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingStatistics>() {
 			@Override
 			public RoamingStatistics mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
-				System.out.println("network data row");
+				
 				RoamingStatistics roamingStatistics = new RoamingStatistics();
 				roamingStatistics.setCountryCode(rs.getString("visitedcountryname"));
 				roamingStatistics.setRoamerTotal(rs.getLong("roamercount"));

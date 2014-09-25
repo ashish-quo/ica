@@ -68,7 +68,7 @@ public class QueryBuilder {
 		selectQuery.addGroupByColumn(table, "roamer_type");
 		
 		
-		System.out.println(selectQuery.toString());
+		
 		 return selectQuery.toString();
 	}	
 

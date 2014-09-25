@@ -48,7 +48,7 @@ public class TrendServiceImpl implements TrendService{
 
 	public void printQuery()
 	{
-		System.out.println("hii"+QueryBuilder.queryForHeatMap());
+		
 	}
 	
 	
