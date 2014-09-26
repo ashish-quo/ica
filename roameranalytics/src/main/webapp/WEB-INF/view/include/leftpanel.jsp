@@ -384,7 +384,7 @@
 											<label for="attr_{{attr.id}}"> 
 												<input type="checkbox" ng-click="clearSelectAllAttribute(attr.id)"
 												name="All-{{attr.id}}" id="attr_{{attr.id}}" class="Select-all all-attr"
-												attr-name="{{attr.attributeName}}"
+												attr-name="{{attr.attributeName}}" attr-id='{{attr.id}}'
 												value="" chart-type='{{attr.chartType}}' db-column="{{attr.dbColumn}}" column-type="{{attr.columnType}}"> <i></i></label>
 										</p>
 										<a data-toggle="collapse" data-parent="#accordion"

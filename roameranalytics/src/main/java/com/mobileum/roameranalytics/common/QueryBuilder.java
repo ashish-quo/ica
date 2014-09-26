@@ -201,7 +201,7 @@ public class QueryBuilder {
 			.append(Relation.TADIGNETWORK).append(" network ")
 			.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
 			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
-			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType ");
+			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType "); 
 
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries) ");
@@ -216,11 +216,11 @@ public class QueryBuilder {
 			String values = valueArr[1];
 			List<Object> parameterList = CommonUtil.convertToList(values, type);
 			if ("networkgroup".equals(columnName)) {
-				query.append(" and trip.").append(columnName).append(" in (:").append(columnName).append(") ");
-				parameterMap.put(columnName,parameterList);
-			} else {
 				query.append(" and network.network_name in (:networknames) ");
 				parameterMap.put("networknames",parameterList);
+			} else {
+				query.append(" and trip.").append(columnName).append(" in (:").append(columnName).append(") ");
+				parameterMap.put(columnName,parameterList);
 			}
 			
 		}

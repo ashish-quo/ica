@@ -14,11 +14,36 @@
 	    	  
 	    	  // draws donut chart
 	    	  var drawMorrisChart = function(element, data) {
-	    		  Morris.Donut({
-		    		  element: element,
-		    		  data:data,
-			          colors: ['#fbe591','#cbe8a7','#f3ba83']
-		    	  });
+	    		  var c3Columns = data.map(function(obj) {
+	    			  var column = new Array();
+	    			  column.push(obj.label);
+	    			  column.push(obj.value);
+	    			  return column;
+	    		  });
+	    		  if (c3Columns.length > 10) {
+	    			  c3Columns = c3Columns.slice(0,4);
+	    		  }
+	    		  if (c3Columns.length > 0) {
+		    		  c3.generate({
+		    			  bindto: '#'+element.attr('id'),
+		    	        data: {
+		    	          columns: c3Columns,
+		    	          type : 'donut',
+		    	          onclick: function (d, i) {
+		    	        	  var target = $j( "input[name='" + d.id + "']")[0];
+		    	        	  var filterId = $j(target).attr("id").split('_');
+		    	        	  $j(target).attr('checked', 'checked');
+		    	        	  var filter = {'attributeId':filterId[0],'categoryId':filterId[1]};
+		    	        	  $rootScope.$broadcast('add-filter-from-microsegment',filter);
+		    	          },
+		    	        },
+		    	        donut: {
+		    	          title: "",
+		    	          width:50
+		    	        }
+		    	      });
+	    		  }
+
 	    	  };
 	    	  
 	    	  // draws column chart
@@ -106,9 +131,10 @@
 	    		  
 		    	  $http.get(url , data).success(function(result) {
 		    		  $scope.msdata = result.data;
-		    		  element.removeClass("loading");
+		    		  
 		    		  $scope.title[attrs.chartname] = result.attrName;
 		    		  changeAttributeMeasure(result.data,'roamers');
+		    		  element.removeClass("loading");
 		    	  }).error(function(data, status, headers, config) {
 		    		  element.removeClass("loading");
 		    		  element.addClass("internal-error")

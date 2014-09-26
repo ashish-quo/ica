@@ -13,6 +13,8 @@ public class DonutData {
 	/** The label. */
 	private String label;
 	
+	private int categoryId;
+	
 	/** The value. */
 	private double value;
 	
@@ -94,5 +96,17 @@ public class DonutData {
 	 */
 	public void setData(double data) {
 		this.data = data;
+	}
+	/**
+	 * @return the categoryId
+	 */
+	public int getCategoryId() {
+		return categoryId;
+	}
+	/**
+	 * @param categoryId the categoryId to set
+	 */
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 }

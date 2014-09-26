@@ -57,6 +57,7 @@ public class MicroSegmentController {
 				msChart.setTitle(chartAttr[0]);
 				msChart.setColumnType(chartAttr[2]);
 				msChart.setChartType(Byte.parseByte(chartAttr[3]));
+				msChart.setAttributeId(Integer.parseInt(chartAttr[4]));
 				list.add(msChart);
 			}
 		}
