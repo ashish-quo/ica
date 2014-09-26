@@ -109,7 +109,6 @@ public class MicroSegmentController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		
 		Map<String,Object> result = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
 				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
 		result.put("attrName", chartInfo[0]);

@@ -79,6 +79,132 @@
 			}
 			return params;
 		};
+		
+		/**
+		 * Returns json data for bar charts in microsegment
+		 */
+		utilityService.getMSBarChart = function (categories, data) {
+			return {
+				chart : {
+					type : 'bar',
+					height : 150,
+				},
+				title : {
+					text : ''
+				},
+				subtitle : {
+					text : ''
+				},
+				xAxis : {
+					categories : categories,
+					title : {
+						text : null
+					}
+				},
+				yAxis : {
+
+					min : 0,
+					gridLineWidth : 0,
+					minorGridLineWidth : 0,
+					title : {
+						text : '',
+						align : 'high'
+					},
+					labels : {
+						overflow : 'justify'
+					}
+				},
+				tooltip : {
+					shared : false,
+					useHTML : true,
+					headerFormat : '<span style="font-size:10px">{point.key}</span><table>',
+					pointFormat : '<tr><td style="color:{series.color};padding:0">Value: </td>'
+							+ '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+					footerFormat : '</table>'
+				},
+				plotOptions : {
+					bar : {
+						colorByPoint : true,
+						dataLabels : {
+							enabled : true
+						}
+					}
+
+				},
+				credits : {
+					enabled : false
+				},
+				series : [ {
+					showInLegend : false,
+					data : data,
+
+				} ],
+				colors : [ '#5dadb2', '#ee9d4e' ]
+			};
+		};
+		
+		/**
+		 * Returns json data for column charts in microsegment
+		 */
+		utilityService.getMSColumnChart = function (categories, data) {
+			return {
+				chart : {
+					type : 'column',
+					height : 170,
+				},
+				title : {
+					text : ''
+				},
+				subtitle : {
+					text : ''
+				},
+				xAxis : {
+					categories : categories,
+					title : {
+						text : null
+					}
+				},
+				yAxis : {
+
+					min : 0,
+					gridLineWidth : 0,
+					minorGridLineWidth : 0,
+					title : {
+						text : '',
+						align : 'high'
+					},
+					labels : {
+						overflow : 'justify'
+					}
+				},
+				plotOptions : {
+					bar : {
+						dataLabels : {
+							enabled : true
+						}
+					}
+
+				},
+				tooltip : {
+					shared : false,
+					useHTML : true,
+					headerFormat : '<span style="font-size:10px">{point.key}</span><table>',
+					pointFormat : '<tr><td style="color:{series.color};padding:0">Value: </td>'
+							+ '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+					footerFormat : '</table>'
+				},
+				credits : {
+					enabled : false
+				},
+				series : [ {
+					showInLegend : false,
+					data : data,
+
+				} ],
+				colors : [ '#5dadb2' ]
+			};
+		};
+		
 		return utilityService;
 	}]);
 	

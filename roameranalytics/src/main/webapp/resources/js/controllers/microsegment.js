@@ -3,6 +3,17 @@
 	microsegment.controller('MicroSegmentController', [ '$scope', '$rootScope',
 			'$http', 'util', function($scope, $rootScope, $http, util) {
 		
+		$scope.microsegmentrefresh = true;
+		$rootScope.attributemeasure = 'roamers';
+		$rootScope.microsegmentSetting = 'roamers';
+		$rootScope.changeMSAttributeMeasure =  function (value) {
+			$rootScope.microsegmentSetting = value;
+		};
+		$rootScope.applyMicrosegmentSettings = function() {
+			$j('span.dropdown.micro-setting-area').removeClass('open');
+			$rootScope.attributemeasure = $rootScope.microsegmentSetting;
+		}
+		
 		function getMircosegmentCharts() {
 			$scope.graphToBeShown = {};
 			$scope.title = {};
@@ -37,7 +48,7 @@
 		};
 		
 		getMircosegmentCharts();
-		$scope.microsegmentrefresh = true;
+		
 		$rootScope.$on("refresh-microsegment-daterange", function(event) {
 			$scope.microsegmentrefresh = !$scope.microsegmentrefresh ;
 		});
