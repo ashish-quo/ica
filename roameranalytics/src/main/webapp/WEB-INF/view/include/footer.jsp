@@ -60,7 +60,7 @@
 <script src="js/controllers/microsegment.js"></script>
 <script src="js/controllers.js"></script>
 <script src="js/directives.js"></script>
-
+<script src="js/directives/msdirective.js"></script>
 <script src="js/app.js"></script>
 
 <!-- Don't Remove this -->

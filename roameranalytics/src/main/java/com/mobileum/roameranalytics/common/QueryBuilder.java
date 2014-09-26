@@ -153,7 +153,7 @@ public class QueryBuilder {
 	public static void populateQueryForMicrosegmentChart(Filter filter, StringBuilder query, 
 			String column,  Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
-			.append(" sum(trip.mtcallminutes) mtcallminutes, sum(trip.mosmscount) mosmscount,")
+			.append(" sum(trip.mtcallminutes) mtcallminutes,")
 			.append(" sum(trip.uplink + trip.downlink)  datausage, ");
 		
 		query.append(" trip.").append(column).append(" categoryValue from ")
@@ -178,7 +178,8 @@ public class QueryBuilder {
 		}
 
 		query.append(" group by trip.").append(column);
-		query.append(" order by imsicount desc ");
+		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
+		.append(" datausage desc ");
 	}
 	
 	/**
@@ -193,7 +194,7 @@ public class QueryBuilder {
 	public static void populateQueryForNetworkGroupChart(Filter filter, StringBuilder query, 
 			Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
-			.append(" sum(trip.mtcallminutes) mtcallminutes, sum(trip.mosmscount) mosmscount,")
+			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
 			.append(" sum(trip.uplink + trip.downlink)  datausage, ")
 			.append(" network.network_group networkGroup from ")
 			.append(Relation.TRIP).append(" trip ").append(" inner join ")
@@ -226,7 +227,7 @@ public class QueryBuilder {
 
 		query.append(" group by network.network_group ");
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
-			.append(" mosmscount desc, datausage desc ");
+			.append("  datausage desc ");
 	}
 	
 	

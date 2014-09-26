@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn" name="MyApp" packages="com.mobileum">
   <Appenders>
-    <File name="main" fileName="/home/smruti/RAlogs/application.log">
+
+     <RollingFile name="RollingFile" fileName="/home/smruti/RAlogs/application.log" filePattern="/home/sarvesh/RAlogs/application-%d{MM-dd-yyyy}.log"
+                 ignoreExceptions="false">
+
       <PatternLayout>
         <Pattern>%d %p %c{1.} %m%n</Pattern>
       </PatternLayout>
-    </File>
-    <Async name="Async">
-      <AppenderRef ref="main"/>
+      <TimeBasedTriggeringPolicy />
+    </RollingFile>
+    
+    <Async name="rollingFileAppender">
+      <AppenderRef ref="RollingFile"/>
     </Async>
   </Appenders>
   <Loggers>
     <Root level="trace">
-      <AppenderRef ref="Async"/>
+      <AppenderRef ref="rollingFileAppender"/>
     </Root>
   </Loggers>
 </Configuration>

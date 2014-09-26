@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -38,7 +38,7 @@ import com.mobileum.roameranalytics.model.chart.DonutData;
 public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 
 	/** The logger. */
-	private static Logger LOGGER = LoggerFactory.getLogger("MicroSegmentDaoImpl");
+	private static Logger LOGGER = LogManager.getLogger(MicroSegmentRepositorympl.class.getName());
 	
 	/** The named parameter jdbc template. */
 	@Autowired
@@ -229,7 +229,7 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 			parameters.addValue(key, parameterMap.get(key));
 		}
 		
-		LOGGER.debug(attributeName + " query Parameters : " + parameters);
+		LOGGER.debug(attributeName + " query parameters : " + parameters.getValues());
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<DonutData> dataList = new ArrayList<DonutData>(10);
@@ -243,6 +243,11 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 					
 					donutData.setLabel(catNameValue.get(rs.getString("categoryValue")));
 					donutData.setValue(rs.getDouble("imsicount"));
+					
+					donutData.setRoamers(rs.getDouble("imsicount"));
+					donutData.setMo(rs.getDouble("mocallminutes"));
+					donutData.setMt(rs.getDouble("mtcallminutes"));
+					donutData.setData(rs.getDouble("datausage"));
 					return donutData;
 				}
 			});
@@ -250,7 +255,8 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 			LOGGER.error("Exception While getting "+ attributeName + " chart's data : ", dae);
 			throw new RADataAccessException(dae);
 		}
-		LOGGER.trace("Microsegment chart data list: " + dataList);
+		LOGGER.debug(attributeName + " chart data found :" + dataList.size());
+		LOGGER.trace( attributeName + " chart data list: " + dataList);
 		result.put("data", dataList);
 		return result;
 	}
@@ -278,7 +284,7 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 			parameters.addValue(key, parameterMap.get(key));
 		}
 		
-		LOGGER.debug("Network Group query Parameters : " + parameters);
+		LOGGER.debug("Network Group query Parameters : " + parameters.getValues());
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<DonutData> dataList = new ArrayList<DonutData>(10);
@@ -292,6 +298,11 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 					
 					donutData.setLabel(rs.getString("networkGroup"));
 					donutData.setValue(rs.getDouble("imsicount"));
+					
+					donutData.setRoamers(rs.getDouble("imsicount"));
+					donutData.setMo(rs.getDouble("mocallminutes"));
+					donutData.setMt(rs.getDouble("mtcallminutes"));
+					donutData.setData(rs.getDouble("datausage"));
 					return donutData;
 				}
 			});
@@ -300,6 +311,8 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 			throw new RADataAccessException(dae);
 		}
 		
+		LOGGER.debug("Network Group data found :" + dataList.size());
+		LOGGER.trace("Network Group data :" + dataList);
 		result.put("data", dataList);
 		return result;
 	}

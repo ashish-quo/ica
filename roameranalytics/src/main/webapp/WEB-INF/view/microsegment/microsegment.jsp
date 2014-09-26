@@ -3,23 +3,23 @@
 			<h1 class="maincontent-heading">MICRO SEGMENT</h1>
 		</div>
 		<div class="col-lg-7">
-
-		<div class="tag-div" ng-repeat="filter in filters.countries">
-			{{filter.name}} <a href
-				ng-click='removeCounryFilter(filter.name,true)' class="delete-tag"></a>
-		</div>
-		<div class="tag-div" ng-repeat="filter in filters.personas">
-			{{filter.name}} <a href
-				ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
-		</div>
-		<span ng-repeat="(key, value) in filters.attributes">
-			<div class="tag-div" ng-repeat="filter in value">
+	
+			<div class="tag-div" ng-repeat="filter in filters.countries">
 				{{filter.name}} <a href
-					ng-click='removeAttributeFilter(key,filter.attrId, filter.catId,true)'
-					class="delete-tag"></a>
+					ng-click='removeCounryFilter(filter.name,true)' class="delete-tag"></a>
 			</div>
-		</span>
-	</div>
+			<div class="tag-div" ng-repeat="filter in filters.personas">
+				{{filter.name}} <a href
+					ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
+			</div>
+			<span ng-repeat="(key, value) in filters.attributes">
+				<div class="tag-div" ng-repeat="filter in value">
+					{{filter.name}} <a href
+						ng-click='removeAttributeFilter(key,filter.attrId, filter.catId,true)'
+						class="delete-tag"></a>
+				</div>
+			</span>
+		</div>
 		<div class="col-lg-2">
 			<div class="commentshare-icon">
 			<span class="dropdown micro-setting-area"> <a
@@ -33,35 +33,35 @@
 						<ul class="micro-map-setting">
 							<li>
 								<p class="i-checks">
-									<label> <input type="radio" name="project" id="roamers"
-										class="all-blue-map" value=""> <i></i></label> <label
+									<label> <input type="radio" name="project" id="roamers" ng-click="changeMSAttributeMeasure('roamers')"
+										class="all-blue-map" value="" checked> <i></i></label> <label
 										for="roamers">roamers</label>
 								</p>
 							</li>
-							<li>
-								<p class="i-checks">
-									<label> <input type="radio" name="project" id="mo"
-										value="" checked> <i></i></label> <label for="mo">MO
+							<li >
+								<p class="i-checks" >
+									<label > <input type="radio" name="project" id="mo"  ng-click="changeMSAttributeMeasure('mo')"
+										value="mo" > <i></i></label> <label for="mo">MO
 										(Min)</label>
 								</p>
 							</li>
 							<li>
 								<p class="i-checks">
-									<label> <input type="radio" name="project" id="mt"
-										class="all-blue-map" value=""> <i></i></label> <label for="mt">MT
+									<label> <input type="radio" name="project" id="mt" ng-click="changeMSAttributeMeasure('mt')"
+										class="all-blue-map" value="mt"> <i></i></label> <label for="mt">MT
 										(Min)</label>
 								</p>
 							</li>
 							<li>
 								<p class="i-checks">
-									<label> <input type="radio" name="project" id="Data"
-										class="all-blue-map" value=""> <i></i></label> <label
+									<label> <input type="radio" name="project" id="Data" ng-click="changeMSAttributeMeasure('data')"
+										class="all-blue-map" value="data"> <i></i></label> <label
 										for="Data">Data</label>
 								</p>
 							</li>
 
 							<div class="compare_btn clearfix">
-								<button type="button" class="btn btn-primary pull-left">Apply</button>
+								<button type="button" class="btn btn-primary pull-left" ng-click='applyMicrosegmentSettings()'>Apply</button>
 							</div>
 						</ul>
 					</div>
