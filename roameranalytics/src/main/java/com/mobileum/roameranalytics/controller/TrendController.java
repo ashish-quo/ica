@@ -3,6 +3,8 @@
  */
 package com.mobileum.roameranalytics.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -240,6 +244,22 @@ public class TrendController {
 		}
 
 		return this.trendService.getTopCountry(filter);
+	}
+	
+	@RequestMapping(value = "/getTop10CSV", method = RequestMethod.POST)
+	public void getNameAsXML(HttpServletRequest httpRequest,HttpServletResponse response, @RequestParam("top10csvtext") String csvText)
+	{
+		
+		response.setHeader("Content-Disposition", "attachment; filename=top10roamer.csv");
+		response.setContentType("text/csv");
+		try{
+			PrintWriter out = response.getWriter();  
+			out.print(csvText);
+		}catch(IOException ioException)
+		{
+			
+		}
+		
 	}
 	
 }
