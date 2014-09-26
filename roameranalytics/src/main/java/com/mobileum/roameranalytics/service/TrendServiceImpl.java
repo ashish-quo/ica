@@ -48,69 +48,40 @@ public class TrendServiceImpl implements TrendService{
 
 	public void printQuery()
 	{
-		System.out.println("hii"+QueryBuilder.queryForHeatMap());
+		
 	}
 	
-	public  Map<String,CountryUsageStatistics> getHeatMap(String startDate, String endDate, List<String> country){
-		Map<String,CountryUsageStatistics> mapHeatMap =new LinkedHashMap<String,CountryUsageStatistics>();
-		Table table1=new Table("trip","tp");
-		table1.addGroupFunctions("sum(mocallcount) mocallcount");
-		table1.addGroupFunctions("sum(mtcallcount) mtcallcount");
-		table1.addGroupFunctions("sum(mosmscount) mosmscount");
-		table1.addGroupFunctions("sum(uplink+downlink) modatacount");
-		table1.addGroupFunctions("visitedcountryname");
-
-		SelectQuery sql=new SelectQuery();
-		sql.addTable(table1);
-		List<Object> listCriteria=new ArrayList<Object>();
-		if(!country.isEmpty())
-		{
-			for (String row : country) {
-				sql.addCriteria(table1, "visitedcountryname",Criteria.EQUALS, "?");
-				listCriteria.add(row);
-				
-				}
-		}
-		sql.addCriteria(table1, "starttime",Criteria.GREATEREQUAL, "?");
-		sql.addCriteria(table1, "endtime", Criteria.LESSEQUAL, "?");
-		sql.addGroupByColumn(table1, "visitedcountryname");
-		//sql.addOrderByColumn(table1, "visitedcountryname");
-		try
-		{
-		LOGGER.info(sql.toString()+" "+commonService.dateToTimestamp(startDate)+" "+commonService.dateToTimestamp(endDate));
-		listCriteria.add(commonService.dateToTimestamp(startDate));
-		listCriteria.add(commonService.dateToTimestamp(endDate));
-		
-		Object[] whereCriteria = commonService.listToObjectArray(listCriteria);
-		
-		
-		List<CountryUsageStatistics> listHeatMap=new ArrayList<CountryUsageStatistics>();
-		
-		listHeatMap=trendDao.getHeatMapList(sql.toString(),whereCriteria);
-
-		
-		if(!listHeatMap.isEmpty()) {
-			
-			for (CountryUsageStatistics heatMap : listHeatMap)
-			{
-				mapHeatMap.put(heatMap.getCountryCode(), heatMap);
-
-			}
-		}else
-			LOGGER.info(" No Result found");
-		}catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-
-
-		return mapHeatMap;
-	}
 	
 	
 	public List<RoamingStatistics> getHeatMap(Filter filter){
 				
-		return trendDao.getRoamingStatisticsRepository(filter);
+		List<RoamingStatistics> roamingStatisticsList=trendDao.getRoamingStatisticsRepository(filter);
+		
+		List<RoamingCategory> roamingCategoryList= trendDao.getRoamingCategoryRepository(filter);
+		for(RoamingCategory roamingCategory : roamingCategoryList ){
+			LOGGER.info(roamingCategory.getCategory()+roamingCategory.getVisitedCountryName()+roamingCategory.getCount());
+			for(RoamingStatistics roamingStatistics : roamingStatisticsList){
+				
+				if(roamingCategory.getCategory().equals("silentRoamer") && roamingCategory.getVisitedCountryName().equals(roamingStatistics.getCountryCode())){
+					
+					roamingStatistics.setRoamerSilent(roamingCategory.getCount());
+					
+				}else if(roamingCategory.getCategory().equals("valueRoamer") && roamingCategory.getVisitedCountryName().equals(roamingStatistics.getCountryCode())){
+					
+					roamingStatistics.setRoamerValue(roamingCategory.getCount());
+					
+				}else if(roamingCategory.getCategory().equals("premiumRoamer") && roamingCategory.getVisitedCountryName().equals(roamingStatistics.getCountryCode())){
+					
+					roamingStatistics.setRoamerPremium(roamingCategory.getCount());
+					
+				}
+				
+			}
+			
+			
+		}
+		
+		return roamingStatisticsList;
 		
 				
 	}

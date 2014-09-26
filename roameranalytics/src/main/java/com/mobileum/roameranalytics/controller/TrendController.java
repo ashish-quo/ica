@@ -176,8 +176,7 @@ public class TrendController {
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		
-		System.out.println("start date : " + filter.getDateFrom());
-		System.out.println("end date : " + filter.getDateTo());
+		
 		
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {

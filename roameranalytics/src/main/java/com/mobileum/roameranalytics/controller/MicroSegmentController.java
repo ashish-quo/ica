@@ -50,7 +50,7 @@ public class MicroSegmentController {
 		if (!microSegmentCharts.isEmpty()) {
 			String[] chartMetadata = microSegmentCharts.split(RAConstants.COLON);
 			for (String metadata : chartMetadata) {
-				System.out.println(metadata);
+				
 				String[] chartAttr = metadata.split(RAConstants.COMMA);
 				MSChartMetadata msChart = new MSChartMetadata();
 				msChart.setColumn(chartAttr[1]);
