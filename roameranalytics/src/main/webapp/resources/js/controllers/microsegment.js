@@ -32,7 +32,8 @@
 					var columnType = $j(element[0]).attr("column-type");
 					var chartType = $j(element[0]).attr("chart-type");
 					var elementName = $j(element[0]).attr("attr-name");
-					cahrtArray.push(elementName + "," + columnName + "," + columnType + "," + chartType);
+					var attributeId = $j(element[0]).attr("attr-id");
+					cahrtArray.push(elementName + "," + columnName + "," + columnType + "," + chartType + "," + attributeId);
 				}
 			});
 			data.params.microsegmentcharts = cahrtArray.join(":");	

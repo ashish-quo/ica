@@ -248,6 +248,7 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 					donutData.setMo(rs.getDouble("mocallminutes"));
 					donutData.setMt(rs.getDouble("mtcallminutes"));
 					donutData.setData(rs.getDouble("datausage"));
+					donutData.setCategoryId(rowNum);
 					return donutData;
 				}
 			});

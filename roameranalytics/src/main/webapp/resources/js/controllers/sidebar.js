@@ -476,5 +476,9 @@
 			$scope.updateCountryFilter();
 		});
 		
+		$rootScope.$on("add-filter-from-microsegment", function (data, event) {
+			$scope.updateAttributeFilter(data.attributeId, data.categoryId);
+		});
+		
 	}]);
 })();

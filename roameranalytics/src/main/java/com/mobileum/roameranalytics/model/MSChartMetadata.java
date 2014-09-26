@@ -12,6 +12,7 @@ public class MSChartMetadata {
 	private String column;
 	private String columnType;
 	private byte chartType;
+	private int attributeId;
 	
 	/**
 	 * @return the title
@@ -60,5 +61,17 @@ public class MSChartMetadata {
 	 */
 	public void setChartType(byte chartType) {
 		this.chartType = chartType;
+	}
+	/**
+	 * @return the attributeId
+	 */
+	public int getAttributeId() {
+		return attributeId;
+	}
+	/**
+	 * @param attributeId the attributeId to set
+	 */
+	public void setAttributeId(int attributeId) {
+		this.attributeId = attributeId;
 	}
 }

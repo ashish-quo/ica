@@ -49,6 +49,8 @@
 <script src="assets/morris-charts/morris.min.js"></script>
 <script src="assets/morris-charts/raphael-2.1.0.min.js"></script>
 <script src="assets/morris-charts/morrischarts.js"></script>
+<script src="assets/morris-charts/dount/d3.v3.min.js" charset="utf-8"></script>
+<script src="assets/morris-charts/dount/c3.js"></script> 
 
 <script src="js/libs/angular.min.js"></script>
 <script src="js/libs/highcharts-ng.min.js"></script>
