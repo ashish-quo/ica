@@ -140,7 +140,7 @@ console.log("Inside mapcore");
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				console.log("datamap"+$scope.totalRoamer);
+				
 				intiateTop10Bubble();
 				intiateTop10Bar();
 				$http.get("getRoamingStatistics", data).success(function(result) {
@@ -164,7 +164,7 @@ console.log("Inside mapcore");
 				
 				$rootScope.$on('refresh-roaming-statistics', function (event) {
 					
-					console.log($rootScope.tabIndex);
+					
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -245,7 +245,7 @@ console.log("Inside mapcore");
 					}
 					
 					$scope.top10CsvText=header;
-					console.log(header);
+					
 					
 				}
 				
@@ -346,7 +346,7 @@ console.log("Inside mapcore");
 						 unique[top10CSVobjectsTemp[i].countryCode] = '';
 						}
 						
-						console.log(JSON.stringify(top10CSVobjects));
+						
 						if(top10CSVobjects.length>0)	
 							setTop10CSVData(top10CSVobjects);
 						
