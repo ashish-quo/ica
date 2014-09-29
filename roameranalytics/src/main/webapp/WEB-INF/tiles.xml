@@ -15,7 +15,7 @@
 	</definition>
 	
 	<definition name="login" extends="base.definition">
-	<put-attribute name="header" value="" />
+	<put-attribute name="header" value=""/>
 		<put-attribute name="leftpanel" value="" />
 
 		<put-attribute name="footer" value="" />

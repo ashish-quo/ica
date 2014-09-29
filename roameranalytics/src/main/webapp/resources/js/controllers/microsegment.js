@@ -67,7 +67,7 @@
 	/** Added By smruti for roamingStatistics 
 	 * 
 	 */
-	microsegment.controller('RoamingStatisticsController',
+	microsegment.controller('RoamingStatisticsControllerMicrosegment',
 			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
 		
 				$scope.totalRoamer = 0;
