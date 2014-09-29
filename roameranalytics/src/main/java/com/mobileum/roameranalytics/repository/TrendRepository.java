@@ -19,19 +19,6 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
  */
 public interface TrendRepository {
 	
-	/**
-	 * Added by smruti on 2014-08-21
-	 * @param query
-	 * @return
-	 */
-	public List<CountryUsageStatistics> getHeatMapList(String query,Object criteria[]);	
-	
-	/**
-	 * Added by smruti on 2014-08-21
-	 * @param query
-	 * @return
-	 */
-	public List<RoamingStatistics> getTopRoamerDao(String query,Object criteria[]);
 	
 
 	/**

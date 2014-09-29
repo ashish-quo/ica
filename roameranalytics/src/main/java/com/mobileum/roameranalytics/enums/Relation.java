@@ -21,13 +21,13 @@ public enum Relation {
 	COUNTRY("COUNTRY_IB"),
 	
 	/** The trip time. */
-	TRIP_TIME("TRIPTIME"),
+	TRIP_TIME("triptime"),
 	
 	/** The tadignetwork. */
 	TADIGNETWORK("TADIGNETWORK"),
 	
 	/** The trip. */
-	TRIP("TRIP");
+	TRIP("trip");
 	
 	/** The table name. */
 	private String tableName;
