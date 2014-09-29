@@ -62,20 +62,11 @@
 		    	return obj.id;
 		    }).join(",");
 			
-			var tempAttrs = '';
-			for (var key in filters.tempAttributes) {
-				  if (filters.tempAttributes.hasOwnProperty(key)) {
-					  tempAttrs += '' + key + ':' + filters.tempAttributes[key]+ "#";
-				  }
-			}
-			
-			tempAttrs = tempAttrs.substring(0, tempAttrs.length - 1);
 			var params = { 'dateRangeFrom' : filters.dateRangeFrom,
 				'dateRangeTo': filters.dateRangeTo,
 				'attributes' : attrs,
 				'countries' : countries,
-				'personas': personas,
-				'tempAttributes' : tempAttrs
+				'personas': personas
 			}
 			return params;
 		};

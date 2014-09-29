@@ -10,9 +10,9 @@
 		// filters object, it will contain the information of selected attributes, countries 
 		$rootScope.filters = {
 				attributes : {},
-				tempAttributes : {},
 				personas : new Array(),
 				countries : new Array(),
+				otherCountriesTravelled : new Array(),
 				dateRangeFrom : '',
 				dateRangeTo : ''
 		};

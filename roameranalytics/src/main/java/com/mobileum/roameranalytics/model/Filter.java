@@ -23,9 +23,6 @@ public class Filter {
 	/** The microsegment attributes. */
 	private Map<String, String> microsegmentAttributes = new HashMap<String,String>(1);
 	
-	/** The temp attributes. */
-	private Map<Integer,String> tempAttributes = new HashMap<Integer, String>();
-	
 	/** The date from. */
 	private long dateFrom;
 	
@@ -89,20 +86,6 @@ public class Filter {
 	}
 
 	/**
-	 * @return the tempAttributes
-	 */
-	public Map<Integer, String> getTempAttributes() {
-		return tempAttributes;
-	}
-
-	/**
-	 * @param tempAttributes the tempAttributes to set
-	 */
-	public void setTempAttributes(Map<Integer, String> tempAttributes) {
-		this.tempAttributes = tempAttributes;
-	}
-
-	/**
 	 * @return the microsegmentAttributes
 	 */
 	public Map<String, String> getMicrosegmentAttributes() {
@@ -124,7 +107,6 @@ public class Filter {
 		return "Filter [selectedCountries=" + selectedCountries
 				+ ", selectedAttributes=" + selectedAttributes
 				+ ", microsegmentAttributes=" + microsegmentAttributes
-				+ ", tempAttributes=" + tempAttributes + ", dateFrom="
-				+ dateFrom + ", dateTo=" + dateTo + "]";
+				+ ", dateFrom=" + dateFrom + ", dateTo=" + dateTo + "]";
 	}
 }

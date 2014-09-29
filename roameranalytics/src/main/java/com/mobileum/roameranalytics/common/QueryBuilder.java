@@ -3,7 +3,6 @@
  */
 package com.mobileum.roameranalytics.common;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -75,10 +74,6 @@ public class QueryBuilder {
 		
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
-		
-		// overriding temporary filters
-		Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
-		appendClauseForTempFitlers(query, parameterMap, tempAttributeMap);
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries)");
@@ -394,9 +389,6 @@ public class QueryBuilder {
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
-		// overriding temporary filters
-		Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
-		appendClauseForTempFitlers(query, parameterMap, tempAttributeMap);
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries)");
@@ -415,10 +407,6 @@ public class QueryBuilder {
 		
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
-		
-		// overriding temporary filters
-		Map<Integer, String> tempAttributeMap = filter.getTempAttributes();
-		appendClauseForTempFitlers(query, parameterMap, tempAttributeMap);
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries)");
