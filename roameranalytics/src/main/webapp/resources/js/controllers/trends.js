@@ -1,5 +1,5 @@
 (function(){
-	var trends = angular.module("app.trends",[]);
+	var trends = angular.module("app.trends",['highcharts-ng']);
 	
 	/**
 	 * Controller for trend actions
