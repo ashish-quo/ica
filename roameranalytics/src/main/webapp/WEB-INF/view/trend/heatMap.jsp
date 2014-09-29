@@ -396,7 +396,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-12"><a href="javascript:void(0)" class="top-table-btn-link"><span><i class="top-table-icon"></i></span>Top 10 Table</a>
+        <div class="col-lg-12">
+        	<form id="top10csvform" action="./getTop10CSV" method="post">
+        		<a href="javascript:document.getElementById('top10csvform').submit();" class="top-table-btn-link"><span><i class="top-table-icon"></i></span>Top 10 Table</a>
+        		<input type="hidden" value="{{top10CsvText}}" name="top10csvtext"/>
+        	</form>
         </div>
       </div>
     </div>

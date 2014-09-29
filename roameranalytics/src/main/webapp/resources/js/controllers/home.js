@@ -140,7 +140,7 @@ console.log("Inside mapcore");
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				console.log("datamap"+$scope.totalRoamer);
+				
 				intiateTop10Bubble();
 				intiateTop10Bar();
 				$http.get("getRoamingStatistics", data).success(function(result) {
@@ -164,7 +164,7 @@ console.log("Inside mapcore");
 				
 				$rootScope.$on('refresh-roaming-statistics', function (event) {
 					
-					console.log($rootScope.tabIndex);
+					
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -229,10 +229,29 @@ console.log("Inside mapcore");
 				$scope.totalMt = 0;
 				$scope.totalData=0;
 				$scope.totalSms=0;
-			
+				
+				$scope.top10CsvText='';
+				
+				function setTop10CSVData(countryData)
+				{
+					var header='Country,Total Roamer,Silent Roamer,Value Roamer,Premium Roamer,Total MO,Local MO,Home MO,Intl Mo,MT,Data Usage,Sms\r\n';
+					for(var i=0;i<countryData.length;i++) {
+						
+						header=header+''+countryData[i].countryCode+','+countryData[i].roamerTotal
+						+','+countryData[i].roamerSilent+','+countryData[i].roamerValue+','
+						+countryData[i].roamerPremium+','+countryData[i].moTotal+','
+						+countryData[i].moLocal+','+countryData[i].moHome+','+countryData[i].moIntl+','
+						+countryData[i].mt+','+countryData[i].dataUsage+','+countryData[i].smsUsage+'\r\n';
+					}
+					
+					$scope.top10CsvText=header;
+					
+					
+				}
 				
 				function setHeatMapJson(result)
 				{
+					
 					roamerJsonMap=[];	
 					moJsonMap=[];
 					mtJsonMap=[];
@@ -243,6 +262,8 @@ console.log("Inside mapcore");
 					 var sortedMt =[];
 					 var sortedData =[];
 					 var sortedSms =[];
+					 var top10CSVobjectsTemp=[];
+					 var top10CSVobjects=[];
 					
 					angular.forEach(result, function(countryData) {
 						
@@ -312,6 +333,23 @@ console.log("Inside mapcore");
 						top10MtJson=JSON.stringify(sortedMt.slice(0, 10));
 						top10DataJson=JSON.stringify(sortedData.slice(0, 10));
 						top10SmsJson=JSON.stringify(sortedSms.slice(0, 10));
+						
+						top10CSVobjectsTemp=sortedRoamer.slice(0, 10).concat(sortedMo.slice(0, 10),sortedMt.slice(0, 10),sortedData.slice(0, 10));
+						
+						/* get unique set of top 10 objects */
+						var unique = {};
+						var distinct = [];
+						for( var i in top10CSVobjectsTemp ){
+						 if( typeof(unique[top10CSVobjectsTemp[i].countryCode]) == "undefined"){
+							 top10CSVobjects.push(top10CSVobjectsTemp[i]);
+						 }
+						 unique[top10CSVobjectsTemp[i].countryCode] = '';
+						}
+						
+						
+						if(top10CSVobjects.length>0)	
+							setTop10CSVData(top10CSVobjects);
+						
 						
 						sortedRoamer =[];
 						 sortedMo=[];
