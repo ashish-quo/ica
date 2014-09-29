@@ -28,6 +28,14 @@
 	    	        donut: {
 	    	          title: "",
 	    	          width:50
+	    	        },
+	    	        tooltip: {
+	    	            format: {
+	    	                value: function (value, ratio, id) {
+	    	                    var format = d3.format(',');
+	    	                    return format(value);
+	    	                }
+	    	            }
 	    	        }
 	    	      });
     		  }

@@ -141,7 +141,6 @@ public class TrendController {
 		String endDate = req.getParameter("dateRangeTo");
 		String attributes = req.getParameter("attributes");
 		String countries = req.getParameter("countries");
-		String tempAttributes = req.getParameter("tempAttributes");
 		
 		Filter filter = new Filter();
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
@@ -151,9 +150,7 @@ public class TrendController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		/*		if (!tempAttributes.isEmpty()) {
-			filter.setTempAttributes(CommonUtil.parseSelectedAttributes(tempAttributes));
-		}*/
+
 		LOGGER.debug("Filter for roaming trends :  " + filter);
 		return this.trendService.getTrendsCharts(filter);
 	}
