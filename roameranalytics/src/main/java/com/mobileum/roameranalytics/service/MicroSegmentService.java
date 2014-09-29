@@ -3,6 +3,7 @@
  */
 package com.mobileum.roameranalytics.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.mobileum.roameranalytics.model.Filter;
@@ -26,7 +27,7 @@ public interface MicroSegmentService {
 	 *
 	 * @return the network data
 	 */
-	Map<String, Object> getMSChartData(Filter filter, String attributeName, String column, String columnType,
+	Map<String, List<Object[]>> getMSChartData(Filter filter, String attributeName, String column, String columnType,
 			Map<String,String> catNameValue);
 	
 	/**
@@ -38,7 +39,7 @@ public interface MicroSegmentService {
 	 * @param catNameValue the cat name value
 	 * @return the network data
 	 */
-	Map<String, Object> getNetworkGroupData(Filter filter, String column, String columnType,
+	Map<String, List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
 			Map<String,String> catNameValue);
 	
 	/**

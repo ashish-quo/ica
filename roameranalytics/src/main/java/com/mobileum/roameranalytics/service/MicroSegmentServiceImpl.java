@@ -3,6 +3,7 @@
  */
 package com.mobileum.roameranalytics.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 
 
 	@Override
-	public Map<String, Object> getMSChartData(Filter filter, String attributeName, String column, String columnType,
+	public Map<String, List<Object[]>> getMSChartData(Filter filter, String attributeName, String column, String columnType,
 			Map<String,String> catNameValue) {
 		try {
 			return microsegmentDao.getMSChartData(filter, attributeName, column, catNameValue);
@@ -69,7 +70,7 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	}
 
 	@Override
-	public Map<String, Object> getNetworkGroupData(Filter filter,
+	public Map<String, List<Object[]>> getNetworkGroupData(Filter filter,
 			String column, String columnType, Map<String, String> catNameValue) {
 		try {
 			return microsegmentDao.getNetworkGroupData(filter, column, columnType, catNameValue);

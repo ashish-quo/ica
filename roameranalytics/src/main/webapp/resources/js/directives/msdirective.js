@@ -11,17 +11,13 @@
 	      replace: true,
 	        // observe and manipulate the DOM
 	      link: function($scope, element, attrs) {
-	    	  
 	    	  // draws donut chart
 	    	  var drawMorrisChart = function(element, data) {
-	    		  var c3Columns = data.map(function(obj) {
-	    			  var column = new Array();
-	    			  column.push(obj.label);
-	    			  column.push(obj.value);
-	    			  return column;
-	    		  });
+	    		  var c3Columns = data;
+	    		  
+	    		  // for more than 3 chart will be distorted
 	    		  if (c3Columns.length > 10) {
-	    			  c3Columns = c3Columns.slice(0,4);
+	    			  c3Columns = c3Columns.slice(0,3);
 	    		  }
 	    		  if (c3Columns.length > 0) {
 		    		  c3.generate({
@@ -48,58 +44,48 @@
 	    	  
 	    	  // draws column chart
 	    	  var drawVerticalBarChart = function (element, data) {
-	    		  element.highcharts(util.getMSColumnChart(data.map(function(obj) {
-    				  return obj.label;
+	    		  chart2 =  element.highcharts(util.getMSColumnChart(data.map(function(obj) {
+    				  return obj[0];
     			  }), data.map(function(obj) {
-    				  return obj.value;
+    				  return obj[1];
     			  })));
 	    	  };
 	    	  
 	    	  // draws bar chart
 	    	  var drawHorizontalBarChart = function (element, data) {
-	    		  element.highcharts(util.getMSBarChart(data.map(function(obj) {
-    				  return obj.label;
+	    		  chart1 = element.highcharts(util.getMSBarChart(data.map(function(obj) {
+    				  return obj[0];
     			  }), data.map(function(obj) {
-    				  return obj.value;
+    				  return obj[1];
     			  })));
 	    	  };
 	    	  
 	    	  // refreshes chart when microsegment measure is changed
 	    	  var changeAttributeMeasure = function(data, measure) {
-	    		  
+	    		  var dataToPlot = data[measure];
 	    		  var verticalChart = $j('#column-chart-'+attrs.chartname.replace(/ /g,''));
 	    		  var horizontalChart = $j('#bar-chart-'+attrs.chartname.replace(/ /g,''));
 	    		  verticalChart.html('');
 	    		  horizontalChart.html('');
-	    		  if (data != null && data.length > 0) {
-	    			  
-	    			  // change value to measure 
-	    			  data = data.map(function (obj) {
-	 	    			 obj.value = obj[measure];
-	 	    			 return obj;
-	 	    		  });
-	    			  
-	    			  // sort data by value
-	    			  data = data.sort(function (a, b){
-	    				  return b.value - a.value;
-	    			  });
-	    			  
+	    		  
+	    		  if (dataToPlot != null && dataToPlot.length > 0) {
+	    			 
 	    			  element.removeClass("no-data-found")
 		    		  if (attrs.charttype == '1') {
-		    			  drawMorrisChart(element,data);
+		    			  drawMorrisChart(element,dataToPlot);
 		    		  } else if (attrs.charttype == '2') {
 		    			  var donutData ;
 			    		  var columnData;
-			    		  columnData = data.slice(0,2);
-			    		  donutData = data.slice(3);
+			    		  columnData = dataToPlot.slice(0,2);
+			    		  donutData = dataToPlot.slice(3);
 			    		  element.removeClass("big-donutchart").addClass("medium-donutchart")
 			    		  drawHorizontalBarChart(horizontalChart,columnData);
 			    		  drawMorrisChart(element,donutData);
 		    		  } else if (attrs.charttype == '3') {
 			    		  var donutData ;
 			    		  var columnData;
-		    			  donutData = data.slice(0,3);
-		    			  columnData = data.slice(4);
+		    			  donutData = dataToPlot.slice(0,3);
+		    			  columnData = dataToPlot.slice(4);
 		    			  if (columnData.length > 0) {
 		    				  element.removeClass("big-donutchart").addClass("medium-donutchart");
 		    				  drawVerticalBarChart(verticalChart,columnData);
@@ -107,7 +93,7 @@
 			    		  drawMorrisChart(element,donutData);
 		    		  }
 	    		  } else {
-	    			  element.addClass("no-data-found")
+	    			  element.addClass("no-data-found");
 	    		  }
 	    	  };
 	    	  
@@ -133,7 +119,8 @@
 		    		  $scope.msdata = result.data;
 		    		  
 		    		  $scope.title[attrs.chartname] = result.attrName;
-		    		  changeAttributeMeasure(result.data,'roamers');
+		    		 
+		    		  changeAttributeMeasure(result.data,$rootScope.attributemeasure);
 		    		  element.removeClass("loading");
 		    	  }).error(function(data, status, headers, config) {
 		    		  element.removeClass("loading");
@@ -156,7 +143,9 @@
 	    	  },true);
 	    	  
 	    	  $rootScope.$watch("attributemeasure", function (newValue) {
-	  			changeAttributeMeasure($scope.msdata,newValue);
+	    		  if (newValue != null && $scope.msdata != null && $scope.msdata[newValue] != null) {
+	    			  changeAttributeMeasure($scope.msdata,newValue);
+	    		  }
 	  		});
 	      }
 	    };
