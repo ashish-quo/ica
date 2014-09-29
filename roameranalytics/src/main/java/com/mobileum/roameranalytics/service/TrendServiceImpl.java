@@ -23,9 +23,6 @@ import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.RoamingCategory;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
-import com.mobileum.roameranalytics.repository.Criteria;
-import com.mobileum.roameranalytics.repository.SelectQuery;
-import com.mobileum.roameranalytics.repository.Table;
 import com.mobileum.roameranalytics.repository.TrendRepository;
 
 /**

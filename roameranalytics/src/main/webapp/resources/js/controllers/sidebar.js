@@ -77,6 +77,8 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			} else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'thisweek');
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+				
 			}
 		};
 		
@@ -97,6 +99,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'lastweek');
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -120,6 +123,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			} else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'thismonth');
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -144,6 +148,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'lastmonth');
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -172,6 +177,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'thisquarter');
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -205,6 +211,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-daterange",'lastquarter');
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -372,6 +379,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-attribute");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -395,6 +403,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}  else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-country");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -446,6 +455,7 @@
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			} else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-country");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
 		};
 		
@@ -462,10 +472,16 @@
 		 */
 		$rootScope.removeAttributeFilter = function(key,attrId,catId,refresh) {
 			removeAttributeFilter(key,attrId,catId);
-			if ($rootScope.tabIndex == 1) {
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			} else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			} else if ($rootScope.tabIndex == 2) {
 				$rootScope.$broadcast("refresh-microsegment-attribute");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}	
 		};
 		

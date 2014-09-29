@@ -86,7 +86,7 @@
           <ul class="dropdown-menu notify-dropdown popover bottom">
             <div class="arrow"></div>
             <li><a href="">Profile</a></li>
-       		<li><a href="">Logout</a></li>
+       		<li><a href="./perform_logout">Logout</a></li>
           </ul>
         </li>
         

@@ -1,0 +1,36 @@
+* { margin:0px; padding:0px; }
+h1  {/* background: rgba(255, 255, 255, 0.5);*/ width:100%; height:100px;}
+h1 img { margin:16px 35px 0 0;}
+input[type='password'] {background: url(/roameranalytics/images/login-images/password.png) no-repeat 18px 11px rgba(255, 255, 255, 0.5);border-radius:10px; font-size:24px; text-indent:50px; color:#333333; font-weight:normal; font-family:Helvetica CE;border:0;padding: 12px 12px;}
+input[type="text"] {background: url(/roameranalytics/images/login-images/username.png) no-repeat 18px 11px rgba(255, 255, 255, 0.5);
+border-radius:10px; font-size:24px; text-indent:50px; color:#333333; font-weight:normal; font-family:Helvetica CE;border:0;padding: 12px 12px;
+}
+input:focus { border:0 none; outline:0 none; }
+input:active { border:0 none; }
+.btn { background:#faa61a; text-align:center; color:#FFFFFF; font-family:Helvetica CE; font-size:20px; letter-spacing:2px;border:0;border-radius:10px; padding: 15px 12px;-moz-border-radius: 10px; -webkit-border-radius: 10px; -khtml-border-radius: 10px;}
+.checkbox {line-height: 22px;font-family:Helvetica CE; font-size:14px; color:#6b6b6b; font-weight:normal;}
+.checkbox  a {line-height: 22px; text-decoration:none; font-family:Helvetica CE; font-size:14px; color:#f26c4f; font-weight:normal; }
+.checkbox  a:hover { text-decoration:underline; font-weight:bold;}
+.form-control{height:auto;}
+h2{margin-top:105px;}
+::-webkit-input-placeholder {
+   color:#333333;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color:#333333;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color:#333333;
+}
+
+:-ms-input-placeholder {  
+   color:#333333;
+}
+.col-md-offset-1{ margin-left:152px;}
+.col-md-3{width:337px;}
+@media (min-width: 320px) and (max-width: 767px) {
+.col-md-offset-1{ margin-left:0;}
+.col-md-3{width:auto;}
+}

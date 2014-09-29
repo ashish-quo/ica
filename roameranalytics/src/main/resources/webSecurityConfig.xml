@@ -10,7 +10,11 @@
 	<http use-expressions="true">
 	<access-denied-handler error-page="/login" />
 		<intercept-url pattern="/anonymous*" access="isAnonymous()" />
+		 <intercept-url pattern="/css/**" access="permitAll" />
+	<intercept-url pattern="/js/**" access="permitAll" />
+	<intercept-url pattern="/images/**" access="permitAll" />
 		<intercept-url pattern="/login*" access="permitAll" />
+		 <intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 
 		<form-login login-page='/login' login-processing-url="/perform_login" 

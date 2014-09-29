@@ -11,9 +11,7 @@ import java.util.Map;
 import com.mobileum.roameranalytics.enums.FilterColumn;
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.repository.Criteria;
-import com.mobileum.roameranalytics.repository.SelectQuery;
-import com.mobileum.roameranalytics.repository.Table;
+
 
 /**
  * The Class QueryBuilder. Creates dynamic queries.
@@ -41,36 +39,7 @@ public class QueryBuilder {
 	}
 	
 
-	public static String queryForHeatMap() {
-				
-		SelectQuery selectQuery=new SelectQuery();
-		Table table=new Table("roaming_usage","ru");
-		table.addColumnsToSelect("mo_local");
-		table.addColumnsToSelect("mo_out");
-		table.addGroupFunctions("sum(mo_local) mo_local");
-		
-		Table table1=new Table("trip","tp");
-		table1.addColumnsToSelect("stayduration");
 	
-		
-		selectQuery.addTable(table);
-		selectQuery.addTable(table1);
-		
-		selectQuery.addCriteria(table, "visited_country", Criteria.EQUALS, "NG");
-		selectQuery.addJoin(table,"visited_country", table1, "visited_country");
-		List<String> roamertype=new ArrayList();
-		
-		roamertype.add("silent");
-		roamertype.add("premium");
-		
-		selectQuery.addCriteria(table, "roamer_type", Criteria.IN, roamertype);
-		selectQuery.addGroupByColumn(table, "country");
-		selectQuery.addGroupByColumn(table, "roamer_type");
-		
-		
-		
-		 return selectQuery.toString();
-	}	
 
 	/**
 	 * Query for all countries.

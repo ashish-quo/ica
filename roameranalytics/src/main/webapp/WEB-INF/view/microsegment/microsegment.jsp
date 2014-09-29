@@ -234,5 +234,303 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="col-lg-3 dashboard-statics microsegment-statics">
+		
+		<div ng-controller="RoamingStatisticsControllerMicrosegment">
+		
+        <section class="panel">
+
+          <div class="symbol lightblue">
+
+            <i class="seg-roamers-icon"></i>
+
+            <p>Roamers</p>
+
+          </div>
+
+          <div class="value mt6">
+
+            <ul class="statics-subnum">
+
+              <li>
+
+                <p class="subnum-text">Silent</p>
+
+                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>{{silentRoamer}}</p>
+
+              </li>
+
+              <li>
+
+                <p class="subnum-text">Value</p>
+
+                <p class="subnum-number">{{valueRoamer}}</p>
+
+              </li>
+
+              <li>
+
+                <p class="subnum-text">Premium</p>
+
+                <p class="subnum-number">{{premiumRoamer}}</p>
+
+              </li>
+
+            </ul>
+
+            <p class="statics-num lightblue-text">{{totalRoamer}}</p>
+
+          </div>
+
+        </section>
+
+        <section class="panel">
+
+          <div class="symbol purple pt6">
+
+            <i class="seg-mo-icon"></i>
+
+            <p>MO <br>
+
+              (Min)</p>
+
+          </div>
+
+          <div class="value mt6">
+
+          <ul class="statics-subnum">
+
+              <li>
+
+                <p class="subnum-text">Home</p>
+
+                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>{{homeMo}}</p>
+
+              </li>
+
+              <li>
+
+                <p class="subnum-text">Local</p>
+
+                <p class="subnum-number">{{localMo}}</p>
+
+              </li>
+
+              <li>
+
+                <p class="subnum-text">Intl</p>
+
+                <p class="subnum-number"><span class="arr-space"><img src="images/up-icon.png"></span>{{intlMo}}</p>
+
+              </li>
+
+            </ul>
+
+            <p class="statics-num purple-text">{{totalMo}}</p>
+
+          </div>
+
+        </section>
+
+         <section class="panel">
+
+          <div class="symbol light-green pt6">
+
+            <i class="seg-mt-icon"></i>
+
+            <p>MT <br>
+
+              (Min)</p>
+
+          </div>
+
+          <div class="value">
+
+            <p class="statics-num light-green-text">{{totalMt}}</p>
+
+          </div>
+
+        </section>
+
+        <section class="panel">
+
+          <div class="symbol light-orange">
+
+            <i class="data-icon"></i>
+
+            <p>Data (MB)</p>
+
+          </div>
+
+          <div class="value">
+
+            <p class="statics-num light-orange-text">{{totalData}}</p>
+
+          </div>
+
+        </section>
+
+        <section class="panel">
+
+          <div class="symbol yellow">
+
+            <i class="sms-icon"></i>
+
+            <p>SMS</p>
+
+          </div>
+
+          <div class="value">
+
+            <p class="statics-num yellow-text">{{totalSms}}</p>
+
+          </div>
+
+        </section>
+     </div><!-- end of  RoamingStatisticsControllerTrend -->
+
+        <div class="panel space-blank">
+
+       
+
+          <div id="accordion-comm" class="panel-group">
+
+            <div class="panel accor-color panel-default mt20">
+
+              <div class="comment-panel greenpanel-head clearfix">
+
+                <div class="pull-left comment-title-panel left_space_blank">
+
+                  <span><i class="comment-icon"></i></span>
+
+                  <ul class="commentpanel-title">
+
+                    <li class="panel-text mt10">Comments 2 (1)</li>
+
+                  </ul>
+
+                </div>
+
+                <div class="pull-right right_space_blank">
+
+                  <div class="pull-right">
+
+                    <span><a href="#uponCollapseTwo" data-toggle="collapse" data-target="#uponCollapseTwo" class="collapsed"><i class="collapse-icon"></i></a>
+
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div id="uponCollapseTwo" class="panel-collapse collapse">
+
+                <table class="comment-list comment-pagelist">
+
+                  <tr>
+
+                    <td><img src="images/user-img1.png" alt="" /></td>
+
+                    <td><div class="clearfix">
+
+                        <p class="comment-name">Sangeeta Sharma</p>
+
+                        <i class="comment-date">Jun 25, 2014 </i>
+
+                      </div>
+
+                      <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed deius</p></td>
+
+                    <td><i class="public-icon cust-tooltip" original-title="Public"></i>
+
+                      <span class="dropdown"><a href="javascript:void(0)" class="more-icon cust-tooltip" data-toggle="dropdown" original-title="More"></a>
+
+                      <ul class="dropdown-menu popover left pull-right more-dd" role="menu" aria-labelledby="dLabel">
+
+                        <div class="arrow"></div>
+
+                        <li><a href="#">Reply</a>
+
+                        </li>
+
+                        <li><a href="#">Mark as important</a>
+
+                        </li>
+
+                        <li><a href="#">Delete</a>
+
+                        </li>
+
+                      </ul>
+
+                      </span></td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td><img src="images/user-img1.png" alt="" /></td>
+
+                    <td><div class="clearfix">
+
+                        <p class="comment-name">Sangeeta Sharma</p>
+
+                        <i class="comment-date">Jun 25, 2014 </i>
+
+                      </div>
+
+                      <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed deius</p></td>
+
+                    <td><i class="public-icon cust-tooltip" original-title="Public"></i>
+
+                      <span class="dropdown"><a href="javascript:void(0)" class="more-icon cust-tooltip" data-toggle="dropdown" original-title="More"></a>
+
+                      <ul class="dropdown-menu popover left pull-right more-dd" role="menu" aria-labelledby="dLabel">
+
+                        <div class="arrow"></div>
+
+                        <li><a href="#">Reply</a>
+
+                        </li>
+
+                        <li><a href="#">Mark as important</a>
+
+                        </li>
+
+                        <li><a href="#">Delete</a>
+
+                        </li>
+
+                      </ul>
+
+                      </span></td>
+
+                  </tr>
+
+                  <tr class="comment-add-area" style="display: table-row;">
+
+                  		<td colspan="4"><div class="comm-text-area"><textarea placeholder="Add your comments here" class="track-textarea"></textarea> <br> <button type="button" class="btn btn-primary-comm pull-right clearfix">Submit</button></div></td>
+
+                  </tr>
+
+                </table>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        
+
+        </div>
+
+      </div><!-- end of  col-lg-3 dashboard-statics microsegment-statics -->
+		
+		
+		
 	</div>
 
