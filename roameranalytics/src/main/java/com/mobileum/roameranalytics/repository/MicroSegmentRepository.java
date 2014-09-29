@@ -3,6 +3,7 @@
  */
 package com.mobileum.roameranalytics.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import com.mobileum.roameranalytics.exception.RADataAccessException;
@@ -27,7 +28,7 @@ public interface MicroSegmentRepository {
 	 * @return the network data
 	 * @throws RADataAccessException 
 	 */
-	Map<String, Object> getMSChartData(Filter filter,String attributeName, String column,
+	Map<String,List<Object[]>> getMSChartData(Filter filter,String attributeName, String column,
 			Map<String,String> catNameValue) throws RADataAccessException;
 	
 	/**
@@ -36,7 +37,7 @@ public interface MicroSegmentRepository {
 	 * @return the network data
 	 * @throws RADataAccessException 
 	 */
-	Map<String, Object> getNetworkGroupData(Filter filter, String column, String columnType,
+	Map<String,List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
 			Map<String,String> catNameValue) throws RADataAccessException;
 	/**
 	 * Gets the attribute label and value.

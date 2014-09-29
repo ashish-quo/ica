@@ -6,6 +6,8 @@ package com.mobileum.roameranalytics.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +46,14 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	private static Comparator<Object[]> COUNT_SORT_DESC = new Comparator<Object[]> () {
+
+		@Override
+		public int compare(Object[] o1, Object[] o2) {
+			return ((Double)o2[1]).compareTo((Double)o1[1]);
+		}
+		
+	};
 	/** The application configuration. */
 	@Autowired
 	private Properties applicationConfiguration;
@@ -211,7 +221,7 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 	}
 
 	@Override
-	public Map<String, Object> getMSChartData(Filter filter,String attributeName, String column,  
+	public Map<String,List<Object[]>> getMSChartData(Filter filter,String attributeName, String column,  
 			Map<String,String> catNameValue) throws RADataAccessException {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
@@ -231,40 +241,68 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 		
 		LOGGER.debug(attributeName + " query parameters : " + parameters.getValues());
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		List<DonutData> dataList = new ArrayList<DonutData>(10);
+		Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
+		dataMap.put("roamers",new ArrayList<Object[]>());
+		dataMap.put("mt",new ArrayList<Object[]>());
+		dataMap.put("mo",new ArrayList<Object[]>());
+		dataMap.put("data",new ArrayList<Object[]>());
+		
 		try {
-			dataList = this.namedParameterJdbcTemplate.query(query.toString(), parameters,
+			this.namedParameterJdbcTemplate.query(query.toString(), parameters,
 					new RowMapper<DonutData>() {
+				String categoryValue = null;
 				@Override
 				public DonutData mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
-					DonutData donutData = new DonutData();
+
+					categoryValue = catNameValue.get(rs.getString("categoryValue"));
 					
-					donutData.setLabel(catNameValue.get(rs.getString("categoryValue")));
-					donutData.setValue(rs.getDouble("imsicount"));
+					Object[] roamersObject = new Object[2];
+					roamersObject[0] = categoryValue;
+					roamersObject[1] = rs.getDouble("imsicount");
 					
-					donutData.setRoamers(rs.getDouble("imsicount"));
-					donutData.setMo(rs.getDouble("mocallminutes"));
-					donutData.setMt(rs.getDouble("mtcallminutes"));
-					donutData.setData(rs.getDouble("datausage"));
-					donutData.setCategoryId(rowNum);
-					return donutData;
+					Object[] moObject = new Object[2];
+					moObject[0] = categoryValue;
+					moObject[1] = rs.getDouble("mocallminutes");
+				
+					
+					Object[] mtObject = new Object[2];
+					mtObject[0] = categoryValue;
+					mtObject[1] = rs.getDouble("mtcallminutes");
+					
+					
+					Object[] dataObject = new Object[2];
+					dataObject[0] = categoryValue;
+					dataObject[1] = rs.getDouble("datausage");
+					
+					
+					dataMap.get("mt").add(mtObject);
+					dataMap.get("mo").add(moObject);
+					dataMap.get("roamers").add(roamersObject);
+					dataMap.get("data").add(dataObject);
+					
+					return null;
 				}
 			});
 		} catch (DataAccessException dae) {
 			LOGGER.error("Exception While getting "+ attributeName + " chart's data : ", dae);
 			throw new RADataAccessException(dae);
 		}
-		LOGGER.debug(attributeName + " chart data found :" + dataList.size());
-		LOGGER.trace( attributeName + " chart data list: " + dataList);
-		result.put("data", dataList);
-		return result;
+		
+		Collections.sort(dataMap.get("mo"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("mt"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("data"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("roamers"),COUNT_SORT_DESC);
+		
+		
+		LOGGER.debug(attributeName + " chart data found :" + dataMap.size());
+		LOGGER.trace( attributeName + " chart data list: " + dataMap);
+		return dataMap;
 	}
 	
 
 	@Override
-	public Map<String, Object> getNetworkGroupData(Filter filter,
+	public Map<String,List<Object[]>> getNetworkGroupData(Filter filter,
 			String column, String columnType, Map<String, String> catNameValue)
 			throws RADataAccessException {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
@@ -287,24 +325,46 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 		
 		LOGGER.debug("Network Group query Parameters : " + parameters.getValues());
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		List<DonutData> dataList = new ArrayList<DonutData>(10);
+		Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
+		dataMap.put("roamers",new ArrayList<Object[]>());
+		dataMap.put("mt",new ArrayList<Object[]>());
+		dataMap.put("mo",new ArrayList<Object[]>());
+		dataMap.put("data",new ArrayList<Object[]>());
 		try {
-			dataList = this.namedParameterJdbcTemplate.query(query.toString(), parameters,
+			this.namedParameterJdbcTemplate.query(query.toString(), parameters,
 					new RowMapper<DonutData>() {
+				String networkGroup = null;
 				@Override
 				public DonutData mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
-					DonutData donutData = new DonutData();
 					
-					donutData.setLabel(rs.getString("networkGroup"));
-					donutData.setValue(rs.getDouble("imsicount"));
+					networkGroup = rs.getString("networkGroup");
 					
-					donutData.setRoamers(rs.getDouble("imsicount"));
-					donutData.setMo(rs.getDouble("mocallminutes"));
-					donutData.setMt(rs.getDouble("mtcallminutes"));
-					donutData.setData(rs.getDouble("datausage"));
-					return donutData;
+					Object[] roamersObject = new Object[2];
+					roamersObject[0] = networkGroup;
+					roamersObject[1] = rs.getDouble("imsicount");
+					
+					Object[] moObject = new Object[2];
+					moObject[0] = networkGroup;
+					moObject[1] = rs.getDouble("mocallminutes");
+				
+					
+					Object[] mtObject = new Object[2];
+					mtObject[0] = networkGroup;
+					mtObject[1] = rs.getDouble("mtcallminutes");
+					
+					
+					Object[] dataObject = new Object[2];
+					dataObject[0] = networkGroup;
+					dataObject[1] = rs.getDouble("datausage");
+					
+					
+					dataMap.get("mt").add(mtObject);
+					dataMap.get("mo").add(moObject);
+					dataMap.get("roamers").add(roamersObject);
+					dataMap.get("data").add(dataObject);
+					
+					return null;
 				}
 			});
 		} catch (DataAccessException dae) {
@@ -312,10 +372,15 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 			throw new RADataAccessException(dae);
 		}
 		
-		LOGGER.debug("Network Group data found :" + dataList.size());
-		LOGGER.trace("Network Group data :" + dataList);
-		result.put("data", dataList);
-		return result;
+		Collections.sort(dataMap.get("mo"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("mt"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("data"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("roamers"),COUNT_SORT_DESC);
+			
+		
+		LOGGER.debug("Network Group data found :" + dataMap.size());
+		LOGGER.trace("Network Group data :" + dataMap);
+		return dataMap;
 	}
 
 

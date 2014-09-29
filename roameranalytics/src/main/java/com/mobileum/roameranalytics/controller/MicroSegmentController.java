@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,9 +86,11 @@ public class MicroSegmentController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		Map<String,Object> result = microsegmentSerice.getMSChartData(filter,chartInfo[0], chartInfo[1], chartInfo[2],
+		Map<String, List<Object[]>> data = microsegmentSerice.getMSChartData(filter,chartInfo[0], chartInfo[1], chartInfo[2],
 				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
+		result.put("data", data);
 		return result;
 	}
 	
@@ -110,9 +113,11 @@ public class MicroSegmentController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		Map<String,Object> result = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
+		Map<String, List<Object[]>> data = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
 				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
+		result.put("data", data);
 		return result;
 	}
 	
