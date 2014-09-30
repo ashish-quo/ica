@@ -409,7 +409,7 @@ texts = [
 # ---
 # jQuery document ready.
 # ---
-$ ->
+$j ->
   # create a new Bubbles chart
   plot = Bubbles()
 
@@ -430,7 +430,7 @@ $ ->
     text = texts[0]
 
   # select the current text in the drop-down
-  $("#text-select").val(key)
+  $j("#text-select").val(key)
 
   # bind change in jitter range slider
   # to update the plot's jitter
@@ -442,7 +442,7 @@ $ ->
   # search url and reset the hash url
   d3.select("#text-select")
     .on "change", (e) ->
-      key = $(this).val()
+      key = $j(this).val()
       location.replace("#")
       location.search = encodeURIComponent(key)
 

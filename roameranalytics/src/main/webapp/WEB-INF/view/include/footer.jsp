@@ -1,7 +1,6 @@
 <!-- Common Js -->
 <script src="js/libs/jquery-1.11.1.min.js"></script>
-<script src="js/libs/highcharts.js"></script>
-<script src="assets/mapjs/map.js"></script>
+
 
 
 <script defer src="assets/bubble-chart/js/plugins.js"></script>
@@ -16,7 +15,11 @@
 <script type="text/coffeescript" src="assets/bubble-chart/coffee/vis4.coffee"></script>
 <script type="text/coffeescript" src="assets/bubble-chart/coffee/vis4n.coffee"></script>
 
+<script type="text/coffeescript" src="assets/bubble-chart/js/top10charts.js"></script>
 
+<script src="js/libs/highcharts.js"></script>
+<script src="assets/mapjs/map.js"></script>
+<!-- <script src="assets/highchart/top10charts.js"></script> -->
 
 <script src="js/common.js"></script>
 <script src="assets/mapjs/mapcore.js"></script>

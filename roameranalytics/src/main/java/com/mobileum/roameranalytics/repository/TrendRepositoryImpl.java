@@ -46,48 +46,14 @@ public class TrendRepositoryImpl implements TrendRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	/** The named parameter jdbc template. */
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate2;
+	
 	/** The logger. */
 	private static Logger LOGGER = LogManager.getLogger(TrendRepositoryImpl.class.getName());
 
-	@Override
-	public List<CountryUsageStatistics> getHeatMapList(String query, Object criteria[]) {
-
-		return jdbcTemplate.query(query, criteria, new RowMapper<CountryUsageStatistics>() {
-			public CountryUsageStatistics mapRow(ResultSet rs, int rowNum) throws SQLException {
-				CountryUsageStatistics hm = new CountryUsageStatistics();
-				hm.setCountryCode(rs.getString("visitedcountryname"));
-				hm.setDataUsage(rs.getLong("modatacount"));
-				hm.setMoUsage(rs.getLong("mocallcount"));
-				hm.setMtUsage(rs.getLong("mtcallcount"));
-				hm.setSmsUsage(rs.getLong("mosmscount"));
-				// rstats.setFirstName(rs.getString("first_name"));
-				// rstats.setLastName(rs.getString("last_name"));
-				return hm;
-			}
-		});
-
-	}
-	@Override
-	public List<RoamingStatistics> getTopRoamerDao(String query, Object criteria[]) {
-
-		return jdbcTemplate.query(query, criteria,
-				new RowMapper<RoamingStatistics>() {
-					public RoamingStatistics mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						RoamingStatistics roamingStat = new RoamingStatistics();
-						roamingStat.setCountryCode(rs
-								.getString("visitedcountryname"));
-						roamingStat.setMoTotal(rs.getLong("mocallcount"));
-						roamingStat.setMt(rs.getLong("mtcallcount"));
-						roamingStat.setSmsUsage(rs.getLong("mosmscount"));
-						roamingStat.setDataUsage(rs.getLong("modatacount"));
-						// rstats.setFirstName(rs.getString("first_name"));
-						// rstats.setLastName(rs.getString("last_name"));
-						return roamingStat;
-					}
-				});
-
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -140,7 +106,8 @@ public class TrendRepositoryImpl implements TrendRepository {
 		}
 		
 		LOGGER.debug(" Roaming statistics parameters : " + parameters.getValues());
-		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingStatistics>() {
+		return namedParameterJdbcTemplate2.query(query.toString(),parameters, new RowMapper<RoamingStatistics>() {
+
 			@Override
 			public RoamingStatistics mapRow(ResultSet rs, int rowNum)
 					throws SQLException {
@@ -180,7 +147,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 			parameters.addValue(key, parameterMap.get(key));
 		}
 		
-		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingCategory>() {
+		return namedParameterJdbcTemplate2.query(query.toString(),parameters, new RowMapper<RoamingCategory>() {
 			@Override
 			public RoamingCategory mapRow(ResultSet resultSet, int rowNum)
 					throws SQLException {
