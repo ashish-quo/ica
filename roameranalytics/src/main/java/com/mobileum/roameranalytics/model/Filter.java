@@ -23,6 +23,10 @@ public class Filter {
 	/** The microsegment attributes. */
 	private Map<String, String> microsegmentAttributes = new HashMap<String,String>(1);
 	
+	
+	/** The other countries travelled. */
+	private String otherCountriesTravelled;
+	
 	/** The date from. */
 	private long dateFrom;
 	
@@ -108,5 +112,19 @@ public class Filter {
 				+ ", selectedAttributes=" + selectedAttributes
 				+ ", microsegmentAttributes=" + microsegmentAttributes
 				+ ", dateFrom=" + dateFrom + ", dateTo=" + dateTo + "]";
+	}
+
+	/**
+	 * @return the otherCountriesTravelled
+	 */
+	public String getOtherCountriesTravelled() {
+		return otherCountriesTravelled;
+	}
+
+	/**
+	 * @param otherCountriesTravelled the otherCountriesTravelled to set
+	 */
+	public void setOtherCountriesTravelled(String otherCountriesTravelled) {
+		this.otherCountriesTravelled = otherCountriesTravelled;
 	}
 }

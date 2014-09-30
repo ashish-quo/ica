@@ -8,6 +8,7 @@ import java.util.List;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
+import com.mobileum.roameranalytics.model.Filter;
 
 /**
  * @author Quovantis_Dev
@@ -28,6 +29,14 @@ public interface MetaDataService {
 	 * @return the all countries
 	 */
 	public List<Country> getAllCountries();
+	
+	/**
+	 * Gets the other countries traveled.
+	 *
+	 * @param filter the filter
+	 * @return the other countries traveled
+	 */
+	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter);
 	
 	/**
 	 * Added by smruti on 2014-07-21

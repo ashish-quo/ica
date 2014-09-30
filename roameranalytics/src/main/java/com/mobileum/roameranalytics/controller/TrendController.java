@@ -29,6 +29,7 @@ import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.AggregatedCountryStatistics;
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
@@ -105,9 +106,7 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
 	public @ResponseBody List<Attribute> getAttributes() {
-
 		return metaDataService.getAttributes();
-
 	}
 	
 	/**
@@ -117,30 +116,58 @@ public class TrendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getCountries")
 	public @ResponseBody List<Country> getCountries() {
-
 		return metaDataService.getAllCountries();
-
 	}
+	
+	
+	/**
+	 * Gets the attributes.
+	 *
+	 * @return the attributes
+	 * @throws ParseException 
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/getOtherCountriesTraveled")
+	public @ResponseBody List<AttributeCategory> getOtherCountriesTraveled(HttpServletRequest request) 
+			throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
+		String startdate = request.getParameter("dateRangeFrom");
+		String endDate = request.getParameter("dateRangeTo");
+		String attributes = request.getParameter("attributes");
+		String countries = request.getParameter("countries");
+		
+		Filter filter = new Filter();
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+
+		filter.setSelectedCountries(countries);
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+		return metaDataService.getOtherCountriesTraveled(filter);
+	}
+	
 	
 	/**
 	 * Gets the roaming trends data.
 	 *
-	 * @param req the req
+	 * @param request the req
 	 * @return the roaming trends data
 	 * @throws ParseException the parse exception
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingTrendsData")
-	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest req) throws ParseException {
+	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest request) throws ParseException {
 		
 		LOGGER.info("Getting Roaming Trends");
 		
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
-		String startdate = req.getParameter("dateRangeFrom");
-		String endDate = req.getParameter("dateRangeTo");
-		String attributes = req.getParameter("attributes");
-		String countries = req.getParameter("countries");
+		String startdate = request.getParameter("dateRangeFrom");
+		String endDate = request.getParameter("dateRangeTo");
+		String attributes = request.getParameter("attributes");
+		String countries = request.getParameter("countries");
 		
 		Filter filter = new Filter();
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());

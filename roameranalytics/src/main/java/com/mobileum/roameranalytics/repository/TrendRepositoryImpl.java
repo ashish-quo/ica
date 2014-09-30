@@ -128,7 +128,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 		StringBuilder query = new StringBuilder();
 		QueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap);
 		
-		LOGGER.info(query.toString());
+		LOGGER.debug(query.toString());
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
@@ -139,7 +139,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 			parameters.addValue(key, parameterMap.get(key));
 		}
 		
-		
+		LOGGER.debug(" Roaming statistics parameters : " + parameters.getValues());
 		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingStatistics>() {
 			@Override
 			public RoamingStatistics mapRow(ResultSet rs, int rowNum)

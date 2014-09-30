@@ -59,7 +59,7 @@
 			
 			// transform countries filter
 			var countries = $j.map(filters.countries, function(obj) {
-		    	return obj.id;
+		    	return obj.name;
 		    }).join(",");
 			
 			var params = { 'dateRangeFrom' : filters.dateRangeFrom,

@@ -9,6 +9,7 @@ import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
+import com.mobileum.roameranalytics.model.Filter;
 
 /**
  * @author sarvesh
@@ -45,4 +46,12 @@ public interface MetaDataRepository {
 	 * @return the all countries
 	 */
 	public List<Country> getAllCountries() throws RADataAccessException;
+	
+	/**
+	 * Gets the other countries traveled.
+	 *
+	 * @param filter the filter
+	 * @return the other countries traveled
+	 */
+	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter) throws RADataAccessException;
 }

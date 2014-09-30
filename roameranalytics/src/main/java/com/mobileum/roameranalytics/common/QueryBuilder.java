@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.mobileum.roameranalytics.enums.FilterColumn;
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.model.Filter;
 
@@ -36,9 +35,6 @@ public class QueryBuilder {
 		
 		return query.toString();
 	}
-	
-
-	
 
 	/**
 	 * Query for all countries.
@@ -53,6 +49,29 @@ public class QueryBuilder {
 		return query.toString();
 	}
 	
+	
+	/**
+	 * Populate query for other countries traveled.
+	 *
+	 * @param filter the filter
+	 * @param query the query
+	 * @param parameterMap the parameter map
+	 */
+	public static void populateQueryForOtherCountriesTraveled(Filter filter, StringBuilder query,
+			Map<String, Object> parameterMap) {
+		query.append(" select distinct trip.visitedcountryname othercountry from ")
+			.append(Relation.TRIP).append(" trip ")
+			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
+			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname not in (:countries)");
+			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		}
+		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		appendClauseForAttributes(query, parameterMap, attributeMap);
+		
+	}
 	/**
 	 * Populates query for trends chart.
 	 *
@@ -76,7 +95,8 @@ public class QueryBuilder {
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname in (:countries)");
+			query.append(" and trip.visitedcountryname in (:countries) ")
+				.append(" and triptime.visitedcountryname in (:countries)");
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		}
 		
@@ -84,27 +104,6 @@ public class QueryBuilder {
 		query.append("  order by triptime.usagebintime ");
 	}
 
-	/**
-	 * Populate network query.
-	 *
-	 * @param filter the filter selected
-	 * @param query the query to be populated
-	 * @param parameterMap the parameter map to be used at time of replacing named parameters
-	 */
-	public static void populateNetworkQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
-		query.append(" select sum(1) imsicount, trip.visitedmnc visitedmnc  from ")
-			.append(Relation.TRIP).append(" trip ")
-			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
-			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
-		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname in (:countries)");
-			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		}
-		
-		query.append(" group by trip.visitedmnc ");
-	}
-	
 	/**
 	 * Populate query for microsegment chart.
 	 *
@@ -131,15 +130,7 @@ public class QueryBuilder {
 		}
 		
 		Map<String,String> filterParameters = filter.getSelectedAttributes();
-		for (String columnName : filterParameters.keySet()) {
-			String value = filterParameters.get(columnName);
-			String[] valueArr = value.split(RAConstants.COLON);
-			String type = valueArr[0];
-			String values = valueArr[1];
-			List<Object> parameterList = CommonUtil.convertToList(values, type);
-			query.append(" and trip.").append(columnName).append(" in (:").append(columnName).append(") ");
-			parameterMap.put(columnName,parameterList );
-		}
+		appendClauseForAttributes(query, parameterMap, filterParameters);
 
 		query.append(" group by trip.").append(column);
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
@@ -173,22 +164,8 @@ public class QueryBuilder {
 		}
 		
 		Map<String,String> filterParameters = filter.getSelectedAttributes();
-		for (String columnName : filterParameters.keySet()) {
-			String value = filterParameters.get(columnName);
-			String[] valueArr = value.split(RAConstants.COLON);
-			String type = valueArr[0];
-			String values = valueArr[1];
-			List<Object> parameterList = CommonUtil.convertToList(values, type);
-			if ("networkgroup".equals(columnName)) {
-				query.append(" and network.network_name in (:networknames) ");
-				parameterMap.put("networknames",parameterList);
-			} else {
-				query.append(" and trip.").append(columnName).append(" in (:").append(columnName).append(") ");
-				parameterMap.put(columnName,parameterList);
-			}
-			
-		}
-
+		appendClauseForAttributes(query, parameterMap, filterParameters);
+		
 		query.append(" group by network.network_group ");
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
@@ -203,92 +180,6 @@ public class QueryBuilder {
 			.append(" attr.id = cat.attr_id ");
 		return query.toString();
 	}
-	
-	/**
-	 * Populate Roaming category query for microsegment.
-	 *
-	 * @param filter the filter selected
-	 * @param query the query to be populated
-	 * @param parameterMap the parameter map to be used at time of replacing named parameters
-	 */
-	public static void populateRoamerTypeQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
-		query.append(" select sum(1) imsicount, trip.overalltripcategory tripcategory  from ")
-			.append(Relation.TRIP)
-			.append(" where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate ");
-		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname in (:countries)");
-			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		}
-		
-		query.append(" group by trip.overalltripcategory ");
-	}
-	
-	/**
-	 * Populate domestic ARPU query for microsegment.
-	 *
-	 * @param filter the filter selected
-	 * @param query the query to be populated
-	 * @param parameterMap the parameter map to be used at time of replacing named parameters
-	 */
-	public static void populateARPUQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
-		query.append(" select sum(1) imsicount, trip.overalldomesticcategory domcategory  from ")
-			.append(Relation.TRIP)
-			.append(" where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate ");
-		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname in (:countries)");
-			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		}
-		
-		query.append(" group by trip.overalldomesticcategory ");
-	}
-
-	
-	/**
-	 * Populate payment type query for microsegment.
-	 *
-	 * @param filter the filter selected
-	 * @param query the query to be populated
-	 * @param parameterMap the parameter map to be used at time of replacing named parameters
-	 */
-	public static void populatePaymentTypeQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
-		query.append(" select sum(1) imsicount, trip.chargingplan chargingplan  from ")
-			.append(Relation.TRIP)
-			.append(" where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate ");
-		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname in (:countries)");
-			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		}
-		
-		query.append(" group by trip.chargingplan ");
-	}
-	
-	/**
-	 * Populate device type query for microsegment.
-	 *
-	 * @param filter the filter selected
-	 * @param query the query to be populated
-	 * @param parameterMap the parameter map to be used at time of replacing named parameters
-	 */
-	public static void populateDeviceTypeQuery(Filter filter, StringBuilder query, Map<String, Object> parameterMap) {
-		query.append(" select sum(1) imsicount, trip.devicename devicetype  from ")
-			.append(Relation.TRIP)
-			.append(" where trip.starttime >= :startDate ")
-			.append(" and trip.endtime <= :endDate ");
-		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname in (:countries)");
-			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		}
-		
-		query.append(" group by trip.devicename ");
-	}
-	
 	
 	/**
 	 * Query for distinct networks.
@@ -316,38 +207,6 @@ public class QueryBuilder {
 	
 	
 	/**
-	 * Append clause for temp fitlers.
-	 *
-	 * @param query the query
-	 * @param parameterMap the parameter map
-	 * @param tempAttributeMap the temp attribute map
-	 */
-	private static void appendClauseForTempFitlers(StringBuilder query,
-			Map<String, Object> parameterMap,
-			Map<Integer, String> tempAttributeMap) {
-		for (Integer attrInd : tempAttributeMap.keySet()) {
-			if (FilterColumn.ROAMING_CATEGEGORY.getInd() == attrInd) {
-				if (!parameterMap.containsKey("tripCategory")) {
-					query.append(" and OVERALLTRIPCATEGORY in (:tripCategory) ");
-				}
-				//parameterMap.put("tripCategory", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
-			} else if (FilterColumn.PAYMENT_TYPE.getInd() == attrInd) {
-				int paymentType = Integer.parseInt(tempAttributeMap.get(attrInd));
-				if (!parameterMap.containsKey("chargePlan")) {
-					query.append(" and CHARGINGPLAN = :chargePlan ");
-				}
-				parameterMap.put("chargePlan", paymentType);
-			} else if (FilterColumn.DOMESTIC_ARPU.getInd() == attrInd) {
-				if (!parameterMap.containsKey("arpu")) {
-					query.append(" and OVERALLDOMESTICCATEGORY in (:arpu) ");
-				}
-				//parameterMap.put("arpu", CommonUtil.convertToList(tempAttributeMap.get(attrInd)));
-			}
-		}
-	}
-
-
-	/**
 	 * Append clause for attributes.
 	 *
 	 * @param query the query
@@ -357,12 +216,32 @@ public class QueryBuilder {
 	 */
 	private static void appendClauseForAttributes(StringBuilder query,
 			Map<String, Object> parameterMap, Map<String, String> attributeMap) {
-		for (String key : attributeMap.keySet()) {
-			String[] valueArr = attributeMap.get(key).split(RAConstants.COLON);
-			String valueType = valueArr[0];
+		int index = 0;
+		for (String columnName : attributeMap.keySet()) {
+			String value = attributeMap.get(columnName);
+			String[] valueArr = value.split(RAConstants.COLON);
+			String type = valueArr[0];
 			String values = valueArr[1];
-			query.append(" and trip.").append(key).append(" in (:").append(key).append( ")");
-			parameterMap.put(key, CommonUtil.convertToList(values,valueType));
+			List<Object> parameterList = CommonUtil.convertToList(values, type);
+			if ("networkgroup".equals(columnName)) {
+				query.append(" and network.network_name in (:networknames) ");
+				parameterMap.put("networknames",parameterList);
+			} else if ("visitedcountryname".equalsIgnoreCase(columnName)) {
+				List<Object> countries = (List<Object>)parameterMap.get("countries"); 
+				if (countries == null) {
+					parameterMap.put("countries",parameterList);
+				} else {
+					parameterList.addAll(countries);
+					parameterMap.put("countries", parameterList);
+				}
+				
+			} else {
+				query.append(" and trip.").append(columnName).append(" in (:")
+					.append(columnName + "" + index).append(") ");
+				parameterMap.put(columnName + "" + index,parameterList);
+				index++;
+			}
+			
 		}
 	}
 	
@@ -386,14 +265,13 @@ public class QueryBuilder {
 			.append(" and trip.homecountryname = :homeCountry")
 			.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
 		
-		Map<String, String> attributeMap = filter.getSelectedAttributes();
-		appendClauseForAttributes(query, parameterMap, attributeMap);
-		
-		
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries)");
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		}
+		
+		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		query.append(" group by  visitedcountryname ");
 		

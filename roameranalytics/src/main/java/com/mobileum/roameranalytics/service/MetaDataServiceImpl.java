@@ -18,7 +18,9 @@ import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.exception.ApplicationException;
 import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Attribute;
+import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
+import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.repository.MetaDataRepository;
 
 /**
@@ -68,6 +70,15 @@ public class MetaDataServiceImpl implements MetaDataService {
 		}
 	}
 	
+	@Override
+	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter) {
+		try {
+			return this.metaDataRepository.getOtherCountriesTraveled(filter);
+		} catch (RADataAccessException dae) {
+			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
+		}
+	}
+	
 	/**
 	 * Added by smruti on 2014-07-21
 	 * @param str_date
@@ -96,5 +107,6 @@ public class MetaDataServiceImpl implements MetaDataService {
 		whereCriteria = list.toArray(whereCriteria);
 		return whereCriteria;
 	}
+
 
 }

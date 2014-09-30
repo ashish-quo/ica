@@ -268,7 +268,7 @@
 				
 					<p class="i-checks">
 						<label> <input type="checkbox" name="{{country.countryName}}" class="country-chk" 
-						id="{{country.countryName}}" ng-click="updateCountryFilter()" bordering='{{country.bordering}}'
+						id="country_{{$index}}" ng-click="updateCountryFilter()" bordering='{{country.bordering}}'
 							value=""> <i></i></label> <label for="{{country.countryName}}">{{country.countryName}}</label>
 					</p>
 				</li>
@@ -366,7 +366,6 @@
 				<li>
 					<div class="country-search">
 						<input type="text" name="Attribute Search" ng-model="attributeQuery.attributeName" placeholder="Search...">
-						<a href="#" class="search-icon"></a>
 					</div>
 				</li>
 				<li>
@@ -392,9 +391,24 @@
 										<div class="clearfix"></div>
 									</h4>
 								</div>
-								<div id="collapse{{$index}}" class="panel-collapse collapse">
+								<div id="collapse{{$index}}" class="panel-collapse collapse" ng-if="attr.attributeName != 'Other Countries Traveled'">
 									<div class="panel-body">
 										<div class="panel_category" ng-repeat="catAttr in attr.attributeCategoryList">
+											<p class="i-checks">
+												<label for="{{attr.id}}_{{catAttr.id}}"> 
+													<input type="checkbox" ng-click="updateAttributeFilter(attr.id, catAttr.id)"
+													name="{{catAttr.categName}}" id="{{attr.id}}_{{catAttr.id}}" value=""
+													categ-value="{{catAttr.categValue}}"
+													class="sub-check"> <i></i></label> <label
+													for="{{attr.id}}_{{catAttr.id}}">{{catAttr.categName}}</label>
+											</p>
+										</div>
+									</div>
+								</div>
+								
+								<div id="collapse{{$index}}" class="panel-collapse collapse" ng-if="attr.attributeName == 'Other Countries Traveled'">
+									<div class="panel-body">
+										<div class="panel_category" ng-repeat="catAttr in otherCountriesTraveled">
 											<p class="i-checks">
 												<label for="{{attr.id}}_{{catAttr.id}}"> 
 													<input type="checkbox" ng-click="updateAttributeFilter(attr.id, catAttr.id)"

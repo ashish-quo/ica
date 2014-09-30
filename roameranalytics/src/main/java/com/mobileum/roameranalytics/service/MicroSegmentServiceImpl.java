@@ -26,35 +26,6 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	private MicroSegmentRepository microsegmentDao;
 	
 	@Override
-	public Map<String, Object> getNetworkData(Filter filter) {
-		return microsegmentDao.getNetworkData(filter);
-	}
-
-	@Override
-	public Map<String, Object> getRoamerTypeData(Filter filter) {
-		return microsegmentDao.getRoamerTypeData(filter);
-	}
-
-
-	@Override
-	public Map<String, Object> getPaymentTypeData(Filter filter) {
-		return microsegmentDao.getPaymentTypeData(filter);
-	}
-
-
-	@Override
-	public Map<String, Object> getDeviceTypeData(Filter filter) {
-		return microsegmentDao.getDeviceTypeData(filter);
-	}
-
-
-	@Override
-	public Map<String, Object> getARPUData(Filter filter) {
-		return microsegmentDao.getARPUData(filter);
-	}
-
-
-	@Override
 	public Map<String, List<Object[]>> getMSChartData(Filter filter, String attributeName, String column, String columnType,
 			Map<String,String> catNameValue) {
 		try {

@@ -12,11 +12,12 @@
 				attributes : {},
 				personas : new Array(),
 				countries : new Array(),
-				otherCountriesTravelled : new Array(),
 				dateRangeFrom : '',
 				dateRangeTo : ''
 		};
 		
+		// initialize other countries traveled
+		$rootScope.otherCountriesTraveled = {};
 		
 		$rootScope.attributeQuery = {};
 		$rootScope.countryQuery = {};
@@ -50,14 +51,14 @@
 		$http.get('getAttributes').success(function(data) {
 			$scope.attributes = data;
 		}).error(function(data, status, headers, config) {
-	        //$scope.$parent.error = data.message;
+	        $rootScope.error = data.message;
 	    });
 		
 		// Getl all the countries to be shown in left panel
 		$http.get("getCountries").success(function (data) {
 			$scope.countries = data;
 		}).error(function(data, status, headers, config) {
-	        //$scope.$parent.error = data.message;
+			 $rootScope.error = data.message;
 	    });
 		
 		/**
@@ -388,12 +389,32 @@
 		 */
 		$scope.updateCountryFilter = function() {
 			$rootScope.filters.countries = new Array();
+			var countryChecked = false;
 			$j("input.country-chk:checked").each(function () {
+				countryChecked = true;
 				var id = $j(this).attr("id");
 				var name = $j(this).attr("name");
 				var brodering = $j(this).attr('bordering')
 				$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering});
 			});
+			
+			if (countryChecked) {
+				var latestData = {
+						'params' : util.getParamsFromFilter($rootScope.filters)
+				};
+				$rootScope.otherCountriesTraveled = {};
+				// Getl all the countries to be shown in left panel
+				$http.get("getOtherCountriesTraveled", latestData).success(function (data) {
+					$rootScope.otherCountriesTraveled = data;
+				}).error(function(data, status, headers, config) {
+					 $rootScope.error = data.message;
+			    });
+			} else {
+				$rootScope.otherCountriesTraveled = {};
+			}
+			
+			var key = 'Other Countries Traveled,visitedcountryname,java.lang.String';
+			delete $rootScope.filters.attributes[key];
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
 				$rootScope.$broadcast("refresh-bubblechart-home");
@@ -415,6 +436,23 @@
 			$rootScope.filters.countries = $j.map($rootScope.filters.countries, function(obj) {
 				return obj.id == id ? null : obj; 
 			});
+			
+			if ($rootScope.filters.countries.length == 0) {
+				$rootScope.otherCountriesTraveled = {};
+			} else {
+				var latestData = {
+						'params' : util.getParamsFromFilter($rootScope.filters)
+				};
+				$rootScope.otherCountriesTraveled = {};
+				// Getl all the countries to be shown in left panel
+				$http.get("getOtherCountriesTraveled", latestData).success(function (data) {
+					$rootScope.otherCountriesTraveled = data;
+				}).error(function(data, status, headers, config) {
+					 $rootScope.error = data.message;
+			    });
+			}
+			var key = 'Other Countries Traveled,visitedcountryname,java.lang.String';
+			delete $rootScope.filters.attributes[key];
 		};
 		
 		/**

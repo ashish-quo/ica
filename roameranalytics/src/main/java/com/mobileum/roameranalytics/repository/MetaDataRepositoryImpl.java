@@ -30,6 +30,7 @@ import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
+import com.mobileum.roameranalytics.model.Filter;
 
 /**
  * @author sarvesh
@@ -70,7 +71,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 					
 					Map<Integer,Attribute> attributeMap = new LinkedHashMap<Integer, Attribute>();
 					Map<String,String> nameValueMap = null;
-					
+					Integer otherCountriesTravelledAttrId = null;
 					while(rs.next()) {
 						Integer attrId = rs.getInt("attrId");
 						String attrName = rs.getString("attrName");
@@ -89,6 +90,11 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 							nameValueMap = new HashMap<String,String>();
 							nameValueMap.put("-1", "Unknown");
 							RAConstants.attributeNameValueCache.put(attribute.getAttributeName(),nameValueMap);
+							
+							if (otherCountriesTravelledAttrId != null && 
+									RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED.equalsIgnoreCase(attrName)) {
+								otherCountriesTravelledAttrId = attrId;
+							}
 						} 
 						
 						AttributeCategory attributeCategory = new AttributeCategory();
@@ -100,6 +106,10 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 						attributeMap.get(attrId).getAttributeCategoryList().add(attributeCategory);
 						RAConstants.attributeNameValueCache.get(attrName).put(attributeCategory.getCategValue(),
 								attributeCategory.getCategName());
+					}
+					if (otherCountriesTravelledAttrId != null) {
+						attributeMap.get(otherCountriesTravelledAttrId).setAttributeCategoryList(null);
+						RAConstants.attributeNameValueCache.remove(RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED);
 					}
 					return new ArrayList<Attribute>(attributeMap.values());
 				}
@@ -251,4 +261,49 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		return attributeCategories;
 	}
 
+	@Override
+	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter) throws RADataAccessException {
+		StringBuilder query = new StringBuilder();
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		QueryBuilder.populateQueryForOtherCountriesTraveled(filter, query, parameterMap );
+		LOGGER.debug("Getting other countries traveled ");
+		LOGGER.debug(query.toString());
+		
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("endDate", filter.getDateTo());
+		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
+		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
+		
+		for (String key : parameterMap.keySet()) {
+			parameters.addValue(key, parameterMap.get(key));
+		}
+		LOGGER.debug("Parameter values for other countries traveled : " + parameters.getValues());
+		List<AttributeCategory> otherCountries = new ArrayList<AttributeCategory>(10);
+		try{
+			otherCountries = namedParameterJdbcTemplate.query(query.toString(),parameters, 
+					new RowMapper<AttributeCategory>() {
+				@Override
+				public AttributeCategory mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					AttributeCategory attributeCategory = new AttributeCategory();
+					attributeCategory.setCategName(rs.getString("othercountry"));
+					attributeCategory.setId(rowNum);
+					attributeCategory.setCategValue(attributeCategory.getCategName());
+					RAConstants.attributeNameValueCache.get(RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED).put(
+							attributeCategory.getCategValue(), attributeCategory.getCategName());
+					return attributeCategory;
+				}
+			});
+		} catch (DataAccessException dae) {
+			LOGGER.error("Error occurred while getting other countries traveled: ", dae);
+			throw new RADataAccessException(dae);
+		}
+		LOGGER.debug("Other countries traveled found : " +
+				RAConstants.attributeNameValueCache.get(RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED).keySet().size());
+		LOGGER.trace("Other countries traveled names : " + RAConstants.attributeNameValueCache.get(
+				RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED).keySet());
+		return otherCountries;
+	}
+	
 }

@@ -6,7 +6,7 @@
 	
 			<div class="tag-div" ng-repeat="filter in filters.countries">
 				{{filter.name}} <a href
-					ng-click='removeCounryFilter(filter.name,true)' class="delete-tag"></a>
+					ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
 			</div>
 			<div class="tag-div" ng-repeat="filter in filters.personas">
 				{{filter.name}} <a href
