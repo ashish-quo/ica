@@ -24,7 +24,7 @@ public enum Relation {
 	TRIP_TIME("triptime"),
 	
 	/** The tadignetwork. */
-	TADIGNETWORK("TADIGNETWORK"),
+	TADIGNETWORK("tadignetwork"),
 	
 	/** The trip. */
 	TRIP("trip");

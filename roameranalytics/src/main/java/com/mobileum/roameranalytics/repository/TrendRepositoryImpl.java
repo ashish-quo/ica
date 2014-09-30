@@ -146,7 +146,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 			parameters.addValue(key, parameterMap.get(key));
 		}
 		
-		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RowMapper<RoamingCategory>() {
+		return namedParameterJdbcTemplate2.query(query.toString(),parameters, new RowMapper<RoamingCategory>() {
 			@Override
 			public RoamingCategory mapRow(ResultSet resultSet, int rowNum)
 					throws SQLException {

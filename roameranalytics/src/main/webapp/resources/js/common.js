@@ -43,3 +43,25 @@ $j(document).on("mouseover", "#mainContent" , function(){
 $j(document).on("click", ".stay-dd", function(e) {
        e.stopPropagation();
 });
+
+//Home page show, hide script 
+
+$j(document).ready(function(){
+       $j('.heavy-hitter-opt').live('click',function() 
+       {
+           if ($j(this).is(':checked')) {
+               $j(this).closest('.bubble-label-chart').find('.visback ').addClass("top-active");
+				$j(this).closest('.bubble-label-chart').find('.visfront').hide();
+           } else {
+               $j(this).closest('.bubble-label-chart').find('.visfront').show();
+				$j(this).closest('.bubble-label-chart').find('.visback').removeClass("top-active");
+           } 
+       });
+       
+       $j(".viewtrend-link").click(function(){
+    	   $j(this).parents().closest(".card").toggleClass("flipped");
+    	   return false;
+    	 });
+   });
+
+
