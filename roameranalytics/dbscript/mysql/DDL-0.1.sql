@@ -10,6 +10,31 @@ CREATE TABLE `tadignetwork` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1875 DEFAULT CHARSET=latin1;
 
 
+CREATE TABLE country2countrymap
+(
+  id int(11) NOT NULL AUTO_INCREMENT,
+  homeid smallint,
+  homecountry character(100),
+  visitorid smallint,
+  visitedcountry character (100),
+  isbordering boolean,
+  issamecontinent boolean,
+  CONSTRAINT country2countrymap_pkey PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE country_ib
+(
+  id int(11) NOT NULL AUTO_INCREMENT,
+  homeid smallint,
+  homecountry character(100),
+  visitedcountry character(100),
+  visitorid smallint,
+  bordering character(20),
+  samecontinent smallint,
+  CONSTRAINT country_ib_pkey PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `trip` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `opcoid` varchar(20) DEFAULT NULL,

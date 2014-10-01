@@ -84,7 +84,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
 		}
-		return namedParameterJdbcTemplate.query(query.toString(),parameters, new RoamingTrendResultSetExtractor());
+		return namedParameterJdbcTemplate2.query(query.toString(),parameters, new RoamingTrendResultSetExtractor());
 	}
 	
 	@Override

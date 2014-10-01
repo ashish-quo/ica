@@ -47,6 +47,10 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	/** The named parameter jdbc template. */
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate2;
+	
 	/** The application configuration. */
 	@Autowired
 	private Properties applicationConfiguration;
@@ -139,7 +143,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		List<Country> countries = new ArrayList<Country>(200);
 
 		try {
-			countries = jdbcTemplate.query(query, new RowMapper<Country>(){
+			countries = namedParameterJdbcTemplate2.query(query, new RowMapper<Country>(){
 				public Country mapRow(ResultSet rs, int rowNumber) throws SQLException {
 					Country country = new Country();
 					country.setCountryName(rs.getString("countryName"));
@@ -173,7 +177,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		
 		List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
 		try{
-			networkCategories = namedParameterJdbcTemplate.query(query,parameters, new RowMapper<AttributeCategory>() {
+			networkCategories = namedParameterJdbcTemplate2.query(query,parameters, new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
@@ -212,7 +216,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		Map<String,StringBuilder> attrCategoryMap = new TreeMap<String, StringBuilder>();
 		
 		try {
-			namedParameterJdbcTemplate.query(query,parameters, new RowMapper<AttributeCategory>() {
+			namedParameterJdbcTemplate2.query(query,parameters, new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
@@ -281,7 +285,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		LOGGER.debug("Parameter values for other countries traveled : " + parameters.getValues());
 		List<AttributeCategory> otherCountries = new ArrayList<AttributeCategory>(10);
 		try{
-			otherCountries = namedParameterJdbcTemplate.query(query.toString(),parameters, 
+			otherCountries = namedParameterJdbcTemplate2.query(query.toString(),parameters, 
 					new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(ResultSet rs, int rowNum)

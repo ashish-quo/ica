@@ -37,15 +37,20 @@ import com.mobileum.roameranalytics.model.chart.DonutData;
  *
  */
 @Repository
-public class MicroSegmentRepositorympl implements MicroSegmentRepository{
+public class MicroSegmentRepositoryImpl implements MicroSegmentRepository{
 
 	/** The logger. */
-	private static Logger LOGGER = LogManager.getLogger(MicroSegmentRepositorympl.class.getName());
+	private static Logger LOGGER = LogManager.getLogger(MicroSegmentRepositoryImpl.class.getName());
 	
 	/** The named parameter jdbc template. */
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	/** The named parameter jdbc template. */
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate2;
+	
+	/** The count sort desc. */
 	private static Comparator<Object[]> COUNT_SORT_DESC = new Comparator<Object[]> () {
 
 		@Override
@@ -86,7 +91,7 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 		dataMap.put("data",new ArrayList<Object[]>());
 		
 		try {
-			this.namedParameterJdbcTemplate.query(query.toString(), parameters,
+			this.namedParameterJdbcTemplate2.query(query.toString(), parameters,
 					new RowMapper<DonutData>() {
 				String categoryValue = null;
 				@Override
@@ -169,7 +174,7 @@ public class MicroSegmentRepositorympl implements MicroSegmentRepository{
 		dataMap.put("mo",new ArrayList<Object[]>());
 		dataMap.put("data",new ArrayList<Object[]>());
 		try {
-			this.namedParameterJdbcTemplate.query(query.toString(), parameters,
+			this.namedParameterJdbcTemplate2.query(query.toString(), parameters,
 					new RowMapper<DonutData>() {
 				String networkGroup = null;
 				@Override
