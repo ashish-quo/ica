@@ -124,15 +124,15 @@
 						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
 					}
 					
-					if ($scope.trends.roamerVoiceChartConfig) {
+					if ($scope.trends.roamersCountChart) {
 						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
 					}
 					
-					if ($scope.trends.roamerDataChartConfig) {
+					if ($scope.trends.roamersCountChart) {
 						$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dow, 'false');
 					}
 					
-					if ($scope.trends.roamerSMSChartConfig) {
+					if ($scope.trends.roamersCountChart) {
 						$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.dow, 'false');
 					}
 					
