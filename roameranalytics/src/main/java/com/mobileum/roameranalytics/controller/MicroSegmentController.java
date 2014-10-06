@@ -47,14 +47,12 @@ public class MicroSegmentController {
 
 		String microSegmentCharts = request.getParameter("microsegmentcharts");
 		String countries = request.getParameter("countries");
-		System.out.println(countries);
 		List<MSChartMetadata> list = new ArrayList<MSChartMetadata>(5);
 		if (!microSegmentCharts.isEmpty()) {
 			String[] chartMetadata = microSegmentCharts.split(RAConstants.COLON);
 			for (String metadata : chartMetadata) {
 				
 				String[] chartAttr = metadata.split(RAConstants.COMMA);
-				System.out.println(chartAttr[0]);
 				if (countries.isEmpty() 
 						&& RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED.equalsIgnoreCase(chartAttr[0]))
 					continue;

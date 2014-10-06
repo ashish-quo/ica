@@ -291,9 +291,7 @@
 				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name,'value':value, 'attrId':attrId });
 			});
 			
-			if ($rootScope.tabIndex == 2) {
-				$rootScope.$broadcast("refresh-microsegment-attribute");
-			}
+			
 		};
 		
 		/**
