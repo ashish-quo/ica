@@ -44,7 +44,7 @@
 					return obj;
 				});
 			}).error(function(data, status, headers, config) {
-		        //$scope.$parent.error = data.message;
+		        $rootScope.error = 'Internal server error';
 		    });
 		};
 		
@@ -55,7 +55,7 @@
 		});
 		
 		$rootScope.$on("refresh-microsegment-country", function(event) {
-			$scope.microsegmentrefresh = !$scope.microsegmentrefresh ;
+			getMircosegmentCharts();
 		});
 		
 		$rootScope.$on("refresh-microsegment-attribute", function(event) {

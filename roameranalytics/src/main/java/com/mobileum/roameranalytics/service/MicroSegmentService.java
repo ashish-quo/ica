@@ -6,6 +6,7 @@ package com.mobileum.roameranalytics.service;
 import java.util.List;
 import java.util.Map;
 
+import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Filter;
 
 /**
@@ -32,6 +33,16 @@ public interface MicroSegmentService {
 	 * @return the network data
 	 */
 	Map<String, List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
+			Map<String,String> catNameValue);
+	
+	
+	/**
+	 *  Gets data required for other countries traveled in microsegment section.
+	 *
+	 * @return the network data
+	 * @throws RADataAccessException 
+	 */
+	Map<String, List<Object[]>> getOtherCountriesTraveledData(Filter filter, String column, String columnType,
 			Map<String,String> catNameValue);
 	
 	/**

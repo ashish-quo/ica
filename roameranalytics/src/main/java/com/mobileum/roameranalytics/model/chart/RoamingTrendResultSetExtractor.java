@@ -5,7 +5,6 @@ package com.mobileum.roameranalytics.model.chart;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
+import com.mobileum.roameranalytics.enums.DayOfWeek;
 import com.mobileum.roameranalytics.enums.RoamerType;
 import com.mobileum.roameranalytics.enums.VoiceType;
 

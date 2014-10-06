@@ -17,7 +17,7 @@ public class RAConstants {
 	public static final String DEFAULT_DATE_FORMAT = "dd/MM/yy";
 	
 	/** The Constant APPLICATION_EXCEPTION_STRING. */
-	public static final String APPLICATION_EXCEPTION_STRING = "Application Exception : ";
+	public static final String APPLICATION_EXCEPTION_STRING = "Internal server error.";
 	
 	/** The Constant COMMA. */
 	public static final String COMMA = ",";

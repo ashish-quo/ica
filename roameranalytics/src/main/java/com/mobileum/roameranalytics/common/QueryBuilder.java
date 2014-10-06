@@ -172,6 +172,33 @@ public class QueryBuilder {
 	}
 	
 	
+	/**
+	 * Populate query for network group chart.
+	 *
+	 * @param filter the filter
+	 * @param query the query
+	 * @param column the column
+	 * @param columnType the column type
+	 * @param parameterMap the parameter map
+	 */
+	public static void populateQueryForOtherCountriesTraveledChart(Filter filter, StringBuilder query, 
+			Map<String, Object> parameterMap) {
+		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
+			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
+			.append(" sum(trip.uplink + trip.downlink)  datausage, ")
+			.append(" trip.visitedcountryname country from ")
+			.append(Relation.TRIP).append(" trip ")
+			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
+			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType "); 
+
+		
+		Map<String,String> filterParameters = filter.getSelectedAttributes();
+		appendClauseForAttributes(query, parameterMap, filterParameters);
+		
+		query.append(" group by trip.visitedcountryname ");
+		query.append(" order by imsicount desc, mocallminutes , mtcallminutes , datausage");
+	}
+	
 	public static String queryForLabelVsValue() {
 		StringBuilder query = new StringBuilder();
 		query.append("select attr.attribute_name attrName, cat.categ_name catName, cat.categ_value catValue from ")
@@ -232,7 +259,6 @@ public class QueryBuilder {
 					parameterMap.put("countries",parameterList);
 				} else {
 					parameterList.addAll(countries);
-					parameterMap.put("countries", parameterList);
 				}
 				
 			} else {

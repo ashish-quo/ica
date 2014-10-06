@@ -32,6 +32,17 @@ public interface MicroSegmentRepository {
 	 */
 	Map<String,List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
 			Map<String,String> catNameValue) throws RADataAccessException;
+	
+	
+	/**
+	 *  Gets data required for other countries traveled in microsegment section.
+	 *
+	 * @return the network data
+	 * @throws RADataAccessException 
+	 */
+	Map<String,List<Object[]>> getOtherCountriesTraveledData(Filter filter, String column, String columnType,
+			Map<String,String> catNameValue) throws RADataAccessException;
+	
 	/**
 	 * Gets the attribute label and value.
 	 *

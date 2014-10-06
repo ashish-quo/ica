@@ -166,7 +166,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getAllNetworks()
 	 */
 	@Override
-	public List<AttributeCategory> getAllNetworks(long networkAttrId) throws RADataAccessException {
+	public List<AttributeCategory> getAllNetworks(final long networkAttrId) throws RADataAccessException {
 		String query = QueryBuilder.queryForDistinctNetworks();
 		LOGGER.debug("Getting all network names ");
 		LOGGER.debug(query);
@@ -213,7 +213,7 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("networks", RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).keySet());
 		List<AttributeCategory> attributeCategories = new ArrayList<AttributeCategory>(50);
-		Map<String,StringBuilder> attrCategoryMap = new TreeMap<String, StringBuilder>();
+		final Map<String,StringBuilder> attrCategoryMap = new TreeMap<String, StringBuilder>();
 		
 		try {
 			namedParameterJdbcTemplate2.query(query,parameters, new RowMapper<AttributeCategory>() {
