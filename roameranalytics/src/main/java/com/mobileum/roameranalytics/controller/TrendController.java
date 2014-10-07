@@ -286,4 +286,19 @@ public class TrendController {
 		
 	}
 	
+	/**
+	 * Gets the To 10 Bubble charts data.
+	 *
+	 * @param request the req
+	 * @return the roaming trends data
+	 * @throws ParseException the parse exception
+	 */
+	@RequestMapping(method=RequestMethod.GET, value = "/getBubbleChartJson")
+	public @ResponseBody String getBubbleChartJson(HttpServletRequest request) throws ParseException {
+		String jsonData = request.getParameter("data");
+		
+
+		return jsonData;
+	}
+	
 }
