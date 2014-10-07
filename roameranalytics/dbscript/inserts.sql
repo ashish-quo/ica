@@ -1,237 +1,37 @@
     
-	INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('NETWORK', 1, 1, 1);
+Insert into attribute values (1,'Network','',1,'visitednetworkname','java.lang.String',2);
+Insert into attribute values (2,'Roaming Category','',3,'overalltripcategory','java.lang.Integer',1);
+Insert into attribute values (3,'Domestic ARPU','',8,'overalldomesticcategory','java.lang.Integer',1);
+Insert into attribute values (4,'Payment Type','',9,'chargingplan','java.lang.Integer',1);
+Insert into attribute values (5,'Other Countries Traveled','',10,'visitedcountryname','java.lang.String',2);
+Insert into attribute values (6,'Roaming MO','',4,'mocallminutesquadroam','java.lang.Integer',1);
+Insert into attribute values (7,'Roaming MT','',5,'mtcallminutesquadroam','java.lang.Integer',1);
+Insert into attribute values (8,'Roaming Data','',6,'tonnagequadroam','java.lang.Integer',1);
+Insert into attribute values (9,'Roaming SMS ','',7,'mosmscountquadroam','java.lang.Integer',1);
+Insert into attribute values (10,'Network Group','',2,'visitednetworkname','java.lang.String',3);
     
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('ROAMING CATEGORY', 1, 2,2);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('DOMESTIC ARPU', 1, 3,3);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('PAYMENT TYPE', 1, 4,4);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('DEVICE TYPE', 1, 5,5);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('TRAFFIC PATTERN', 1, 6,6);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('TRAVEL DURATION', 1, 7,7);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('OTHER COUNTRIES TRAVELLED', 1, 8,8);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('DOMESTIC LOCATION', 1, 9,9);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('DOMESTIC DATA PROFILE', 1, 10,10);
-    
-    INSERT INTO attribute(attribute_name, module_id, display_order, attr_ind)
-    VALUES ('ROAMING DATA PROFILE', 1, 11,11);
-    
-   
-    
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('Vodafone', 1,  1, 1);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('Idea', 2, 1,2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('Airtel', 3, 1,3);
 
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SILENT', 1,  2, 1);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('VALUE', 2, 2,2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('PREMIUM', 3, 2,3);
-    
-    
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LOW', 1,3,4);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('MEDIUM', 2,3,5);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('HIGH', 3,3,6);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('PRE PAID', 1,4,1);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('POST PAID', 2,4,0);
-    
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('VALUE PHONE', 1,5,1);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('FEATURE PHONE', 2,5,2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SMART PHONE', 3,5,3);
- 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('PREMIUM PHONE', 4,5,4);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('TABLET', 5,5,5);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('DONGLE', 6,5,6);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('M2M', 7,5,7);
-    
-    -- TRAFFIC PATTERN
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('MT ARBITRAGE', 1,6,1);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('TRAVEL SIM', 2,6,2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('DUAL SIM', 3,6,3);
- 	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('VOIP', 4,6,4);
-	INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SEAMLESS CALL BACK',5,6, 5);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('AUDIO CONFERENCE', 6,6,6);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('INTERNATIONAL BUSINESS', 7,6, 7);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('M2M', 8,6, 8);
-    
-    --TRAVEL DURATION
-    
-        INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('WEEKDAY ONLY', 1,7,1);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('WEEKEND ONLY', 2,7,2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('WEEKDAY PLUS WEEKEND', 3,7,3);
- INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('TWO WEEKS PLUS', 4,7,4);
-    
-    -- OTHER COUNTRIES TRAVELLED 
-            INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('NEIGHBORING', 1,8,1);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LEISURE', 2,8,2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LEISURE PREMIUM', 3,8,3);
- INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('BUSINESS', 4,8,4);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LOW GDP', 5,8,5);
-    
-    -- DOMESTIC LOCATION
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('HOME', 1,9,1);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('WORK', 2,9, 2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LEISURE', 3,9, 3);
-    
-    
-        -- DOMESTIC DATA PROFILE
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('ARTS & ENTERTAINMENT', 1, 10, 1);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('AUTO & VEHICLES', 2, 10, 2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('BEAUTY & FITNESS', 3, 10, 3);
- INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('BUSINESS', 4, 10, 4);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('TECHNOLOGY & COMPUTING', 5, 10, 5);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('PERSONAL FINANCE', 6, 10, 6);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('FOOD & DRINK', 7, 10, 7);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('HOBBIES & INTEREST',8, 10, 8);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('FAMILY & PARENTING', 9, 10, 9);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('HOME & GARDEN', 10, 10, 10);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LAW & GOVERNMENT', 11, 10, 11);
-    
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('NEWS', 12, 10, 12);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('ONLINE COMMUNITY', 13, 10, 13);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SOCIETY', 14, 10, 14);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('PETS', 15, 10, 15);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SCIENCE', 16, 10, 16);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SPORTS', 17, 10, 17);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SHOPPING', 18, 10, 18);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('STYLE & FASHION', 19, 10, 19);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('TRAVEL', 20, 10, 20);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('JOBS & EDUCATION', 21, 10, 21);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('RELIGION & SPIRITUALITY', 22, 10, 22);
-    
-    -- roaming data profile
-     INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('ARTS & ENTERTAINMENT', 1, 11, 1);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('AUTO & VEHICLES', 2, 11, 2);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('BEAUTY & FITNESS', 3, 11, 3);
- INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('BUSINESS', 4, 11, 4);
-INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('TECHNOLOGY & COMPUTING', 5, 11, 5);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('PERSONAL FINANCE', 6, 11, 6);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('FOOD & DRINK', 7, 11, 7);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('HOBBIES & INTEREST',8, 11, 8);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('FAMILY & PARENTING', 9, 11, 9);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('HOME & GARDEN', 10, 11, 10);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('LAW & GOVERNMENT', 11, 11, 11);
-    
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('NEWS', 12, 11, 12);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('ONLINE COMMUNITY', 13, 11, 13);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SOCIETY', 14, 11, 14);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('PETS', 15, 11, 15);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SCIENCE', 16, 11, 16);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SPORTS', 17, 11, 17);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('SHOPPING', 18, 11, 18);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('STYLE & FASHION', 19, 11, 19);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('TRAVEL', 20, 11, 20);
-    
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('JOBS & EDUCATION', 21, 11, 21);
-    INSERT INTO attribute_category(categ_name, display_order, attr_ind, categ_ind)
-    VALUES ('RELIGION & SPIRITUALITY', 22, 11, 22);
-    
+
+Insert into attribute_category values (1,'Silent',1,2,'1');
+Insert into attribute_category values (2,'Value',2,2,'2');
+Insert into attribute_category values (3,'Premium',3,2,'3');
+Insert into attribute_category values (4,'Low',1,3,'4');
+Insert into attribute_category values (5,'Medium',2,3,'5');
+Insert into attribute_category values (6,'High',3,3,'6'),
+Insert into attribute_category values (7,'Pre Paid',1,4,'1');
+Insert into attribute_category values (8,'Post Paid',2,4,'0');
+Insert into attribute_category values (9,'MO Zero',1,6,'1');
+Insert into attribute_category values (10,'MO Moderate',2,6,'2');
+Insert into attribute_category values (11,'MO Heavy',3,6,'3');
+Insert into attribute_category values (12,'MT Zero',1,7,'1');
+Insert into attribute_category values (13,'MT Moderate',2,7,'2');
+Insert into attribute_category values (14,'MT Heavy',3,7,'3');
+Insert into attribute_category values (15,'Data Zero',1,8,'1');
+Insert into attribute_category values (16,'Data Moderate',2,8,'2');
+Insert into attribute_category values (17,'Data Heavy',3,8,'3');
+Insert into attribute_category values (18,'SMS Zero',1,9,'1');
+Insert into attribute_category values (19,'SMS Moderate',2,9,'2');
+Insert into attribute_category values (20,'SMS  Heavy',3,9,'3');
     
     
     -- Insert script for trip added by smruti on 22-08-2014
@@ -266,3 +66,8 @@ INSERT INTO trip (id, opcoid, roamtype, homemcc, homemnc, visitedmcc, visitedmnc
 --- insert sql for userinfo and user_roles table
 INSERT INTO userinfo(username, password, enabled)     VALUES ('smruti', '$2a$10$QAFuRJEH1HfDnvrmiCmfrOCRdnzWF2mLA7AuJmqWjFAjzPK6znDj2', TRUE);
 INSERT INTO user_roles(role_name, username) VALUES ( 'ROLE_ADMIN', 'smruti');
+
+--- insert sql for userinfo and user_roles table
+INSERT INTO userinfo(username, password, enabled)     VALUES ('RAtest', '$2a$10$Nhdoa1IYol1MWD8xDPlAnOoyYilKpiVVxb2iL.Jkb4.q7laJwmkXC', TRUE);
+INSERT INTO user_roles(role_name, username) VALUES ( 'ROLE_ADMIN', 'RAtest');
+

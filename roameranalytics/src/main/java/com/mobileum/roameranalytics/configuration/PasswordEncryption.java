@@ -16,7 +16,7 @@ public class PasswordEncryption {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-	 System.out.println(getHashPassword("pass"));
+	 System.out.println(getHashPassword("passw0rd"));
 
 	}
 	
