@@ -3,9 +3,10 @@
  */
 package com.mobileum.roameranalytics.model.chart;
 
-import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Set;
+
+import com.mobileum.roameranalytics.enums.DayOfWeek;
 
 /**
  * @author sarvesh

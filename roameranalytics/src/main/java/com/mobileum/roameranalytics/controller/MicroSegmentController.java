@@ -43,16 +43,19 @@ public class MicroSegmentController {
 	}
 	
 	@RequestMapping(value="/microsegment/graphs", method = RequestMethod.GET)
-	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(HttpServletRequest req) throws ParseException {
+	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(HttpServletRequest request) throws ParseException {
 
-		String microSegmentCharts = req.getParameter("microsegmentcharts");
-		
+		String microSegmentCharts = request.getParameter("microsegmentcharts");
+		String countries = request.getParameter("countries");
 		List<MSChartMetadata> list = new ArrayList<MSChartMetadata>(5);
 		if (!microSegmentCharts.isEmpty()) {
 			String[] chartMetadata = microSegmentCharts.split(RAConstants.COLON);
 			for (String metadata : chartMetadata) {
 				
 				String[] chartAttr = metadata.split(RAConstants.COMMA);
+				if (countries.isEmpty() 
+						&& RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED.equalsIgnoreCase(chartAttr[0]))
+					continue;
 				MSChartMetadata msChart = new MSChartMetadata();
 				msChart.setColumn(chartAttr[1]);
 				msChart.setTitle(chartAttr[0]);
@@ -68,13 +71,13 @@ public class MicroSegmentController {
 	
 	
 	@RequestMapping(value="/microsegment/graph", method = RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getMicroSegmentChartData(HttpServletRequest req) throws ParseException {
+	public @ResponseBody Map<String,Object> getMicroSegmentChartData(HttpServletRequest request) throws ParseException {
 		
-		String startdate = req.getParameter("dateRangeFrom");
-		String endDate = req.getParameter("dateRangeTo");
-		String attributes = req.getParameter("attributes");
-		String countries = req.getParameter("countries");
-		String chartMetaData = req.getParameter("chartmetadata");
+		String startdate = request.getParameter("dateRangeFrom");
+		String endDate = request.getParameter("dateRangeTo");
+		String attributes = request.getParameter("attributes");
+		String countries = request.getParameter("countries");
+		String chartMetaData = request.getParameter("chartmetadata");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
@@ -115,6 +118,35 @@ public class MicroSegmentController {
 		}
 		Map<String, List<Object[]>> data = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
 				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("attrName", chartInfo[0]);
+		result.put("data", data);
+		return result;
+	}
+	
+	
+	@RequestMapping(value="/microsegment/otherCountriesTraveled", method = RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getOtherCountriesTraveledChartData(HttpServletRequest req) 
+			throws ParseException {
+		
+		String startdate = req.getParameter("dateRangeFrom");
+		String endDate = req.getParameter("dateRangeTo");
+		String attributes = req.getParameter("attributes");
+		String countries = req.getParameter("countries");
+		String chartMetaData = req.getParameter("chartmetadata");
+		Filter filter = new Filter();
+		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		filter.setSelectedCountries(countries);
+		
+		String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
+		
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+		Map<String, List<Object[]>> data = microsegmentSerice.getOtherCountriesTraveledData(
+				filter, chartInfo[1], chartInfo[2], RAConstants.attributeNameValueCache.get(chartInfo[0]) );
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
 		result.put("data", data);

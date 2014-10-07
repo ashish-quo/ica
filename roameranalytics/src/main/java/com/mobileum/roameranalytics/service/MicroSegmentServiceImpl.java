@@ -49,4 +49,18 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.service.MicroSegmentService#getOtherCountriesTraveledData(com.mobileum.roameranalytics.model.Filter, java.lang.String, java.lang.String, java.util.Map)
+	 */
+	@Override
+	public Map<String, List<Object[]>> getOtherCountriesTraveledData(
+			Filter filter, String column, String columnType,
+			Map<String, String> catNameValue) {
+		try {
+			return microsegmentDao.getOtherCountriesTraveledData(filter, column, columnType, catNameValue);
+		} catch (RADataAccessException dae) {
+			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
+		}
+	}
 }

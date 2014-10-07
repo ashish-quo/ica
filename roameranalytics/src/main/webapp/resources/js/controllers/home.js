@@ -344,13 +344,6 @@ console.log("Inside mapcore");
        }
        
        
-       
-       function   intiateTop10Bar(){
-    	   
-    	   
-
-       }
-	
 	homeC.controller('RoamingStatisticsControllerHome',
 			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
 				console.log("Call inside2");
@@ -372,8 +365,6 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				
-				intiateTop10Bubble();
-				intiateTop10Bar();
 				$http.get("getRoamingStatistics", data).success(function(result) {
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
@@ -482,35 +473,35 @@ console.log("Inside mapcore");
 				
 				function displayTop10Bubbles(top10RoamerJson,top10MoJson,top10MtJson,top10DataJson,top10SmsJson,removeHitterCount)
 				{
-						roamerJsonMap = [];
-						moJsonMap = [];
-						mtJsonMap = [];
-						dataJsonMap = [];
+						top10roamerJsonMap = [];
+						top10moJsonMap = [];
+						top10mtJsonMap = [];
+						top10dataJsonMap = [];
 						angular.forEach(top10RoamerJson, function(countryData) {
 							
 							if(countryData.roamerTotal>0)
-							roamerJsonMap.push({
+								top10roamerJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.roamerTotal
 								});
 							});
 						angular.forEach(top10MoJson, function(countryData) {
 							if(countryData.moTotal>0)
-							moJsonMap.push({
+								top10moJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.moTotal
 								});
 							});
 						angular.forEach(top10MtJson, function(countryData) {
 							if(countryData.mt>0)
-							mtJsonMap.push({
+								top10mtJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.mt
 								});
 							});
 						angular.forEach(top10DataJson, function(countryData) {
 							if(countryData.dataUsage>0)
-							dataJsonMap.push({
+								top10dataJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.dataUsage
 								});
@@ -590,15 +581,15 @@ console.log("Inside mapcore");
 									return location.search = encodeURIComponent(key);
 								});
 						d3.select("#book-title").html(text.name);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(roamerJsonMap),displayRoamer);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(moJsonMap), displayMo);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(mtJsonMap), displayMt);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(dataJsonMap),displayData);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap),displayRoamer);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap), displayMo);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap), displayMt);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap),displayData);
 						
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(roamerJsonMap.slice(removeHitterCount,roamerJsonMap.length)),displayRoamerHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap.slice(removeHitterCount,roamerJsonMap.length)),displayRoamerHitter);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
+						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
 						 
 						
 					
@@ -697,7 +688,7 @@ console.log("Inside mapcore");
 						var unique = {};
 						var distinct = [];
 						for( var i in top10CSVobjectsTemp ){
-						 if( typeof(unique[top10CSVobjectsTemp[i].countryCode]) == "undefined"){
+						if( typeof(unique[top10CSVobjectsTemp[i].countryCode]) == "undefined"){
 							 top10CSVobjects.push(top10CSVobjectsTemp[i]);
 						 }
 						 unique[top10CSVobjectsTemp[i].countryCode] = '';

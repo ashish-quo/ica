@@ -19,6 +19,11 @@
 	content: 'No data found';
 }
 
+.no-data:before {
+	content: 'No data found';
+	text-align: center;
+}
+
 .donut.no-data-found {
 	text-align: center;
 	vertical-align: middle;

@@ -24,13 +24,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.QueryBuilder;
-import com.mobileum.roameranalytics.enums.ARPU;
-import com.mobileum.roameranalytics.enums.Network;
-import com.mobileum.roameranalytics.enums.PaymentType;
-import com.mobileum.roameranalytics.enums.RoamerType;
 import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.model.chart.DonutData;
 
 /**
  * @author sarvesh
@@ -65,7 +60,7 @@ public class MicroSegmentRepositoryImpl implements MicroSegmentRepository{
 	
 	@Override
 	public Map<String,List<Object[]>> getMSChartData(Filter filter,String attributeName, String column,  
-			Map<String,String> catNameValue) throws RADataAccessException {
+			final Map<String,String> catNameValue) throws RADataAccessException {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
 		QueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, parameterMap);
@@ -84,7 +79,7 @@ public class MicroSegmentRepositoryImpl implements MicroSegmentRepository{
 		
 		LOGGER.debug(attributeName + " query parameters : " + parameters.getValues());
 		
-		Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
+		final Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
 		dataMap.put("roamers",new ArrayList<Object[]>());
 		dataMap.put("mt",new ArrayList<Object[]>());
 		dataMap.put("mo",new ArrayList<Object[]>());
@@ -92,10 +87,10 @@ public class MicroSegmentRepositoryImpl implements MicroSegmentRepository{
 		
 		try {
 			this.namedParameterJdbcTemplate2.query(query.toString(), parameters,
-					new RowMapper<DonutData>() {
+					new RowMapper<Object>() {
 				String categoryValue = null;
 				@Override
-				public DonutData mapRow(ResultSet rs, int rowNum)
+				public Object mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
 
 					categoryValue = catNameValue.get(rs.getString("categoryValue"));
@@ -168,17 +163,17 @@ public class MicroSegmentRepositoryImpl implements MicroSegmentRepository{
 		
 		LOGGER.debug("Network Group query Parameters : " + parameters.getValues());
 		
-		Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
+		final Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
 		dataMap.put("roamers",new ArrayList<Object[]>());
 		dataMap.put("mt",new ArrayList<Object[]>());
 		dataMap.put("mo",new ArrayList<Object[]>());
 		dataMap.put("data",new ArrayList<Object[]>());
 		try {
 			this.namedParameterJdbcTemplate2.query(query.toString(), parameters,
-					new RowMapper<DonutData>() {
+					new RowMapper<Object>() {
 				String networkGroup = null;
 				@Override
-				public DonutData mapRow(ResultSet rs, int rowNum)
+				public Object mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
 					
 					networkGroup = rs.getString("networkGroup");
@@ -253,6 +248,88 @@ public class MicroSegmentRepositoryImpl implements MicroSegmentRepository{
 				return result;
 			}
 		});
+	}
+
+	@Override
+	public Map<String, List<Object[]>> getOtherCountriesTraveledData(
+			Filter filter, String column, String columnType,
+			Map<String, String> catNameValue) throws RADataAccessException {
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		
+		StringBuilder query = new StringBuilder();
+		QueryBuilder.populateQueryForOtherCountriesTraveledChart(filter, query,parameterMap);
+		
+		LOGGER.debug("Getting microsegment chart data for attribute : Other Countries traveled");
+		LOGGER.debug(" Other Countries traveled query : " + query.toString());
+		
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("startDate", filter.getDateFrom());
+		parameters.addValue("endDate", filter.getDateTo());
+		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
+		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
+		
+		for (String key : parameterMap.keySet()) {
+			parameters.addValue(key, parameterMap.get(key));
+		}
+		
+		LOGGER.debug("Other Countries traveled query Parameters : " + parameters.getValues());
+		
+		final Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
+		dataMap.put("roamers",new ArrayList<Object[]>());
+		dataMap.put("mt",new ArrayList<Object[]>());
+		dataMap.put("mo",new ArrayList<Object[]>());
+		dataMap.put("data",new ArrayList<Object[]>());
+		try {
+			this.namedParameterJdbcTemplate2.query(query.toString(), parameters,
+					new RowMapper<Object>() {
+				String country = null;
+				@Override
+				public Object mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					
+					country = rs.getString("country");
+					
+					Object[] roamersObject = new Object[2];
+					roamersObject[0] = country;
+					roamersObject[1] = rs.getDouble("imsicount");
+					
+					Object[] moObject = new Object[2];
+					moObject[0] = country;
+					moObject[1] = rs.getDouble("mocallminutes");
+				
+					
+					Object[] mtObject = new Object[2];
+					mtObject[0] = country;
+					mtObject[1] = rs.getDouble("mtcallminutes");
+					
+					
+					Object[] dataObject = new Object[2];
+					dataObject[0] = country;
+					dataObject[1] = rs.getDouble("datausage");
+					
+					
+					dataMap.get("mt").add(mtObject);
+					dataMap.get("mo").add(moObject);
+					dataMap.get("roamers").add(roamersObject);
+					dataMap.get("data").add(dataObject);
+					
+					return null;
+				}
+			});
+		} catch (DataAccessException dae) {
+			LOGGER.error("Exception While getting Other Countries traveled data in microsegment : ", dae);
+			throw new RADataAccessException(dae);
+		}
+		
+		Collections.sort(dataMap.get("mo"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("mt"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("data"),COUNT_SORT_DESC);
+		Collections.sort(dataMap.get("roamers"),COUNT_SORT_DESC);
+			
+		
+		LOGGER.debug("Other Countries traveled data found :" + dataMap.size());
+		LOGGER.trace("Other Countries traveled data :" + dataMap);
+		return dataMap;
 	}
 
 }

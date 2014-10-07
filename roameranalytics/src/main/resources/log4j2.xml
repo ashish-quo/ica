@@ -3,6 +3,7 @@
   <Appenders>
 
      <RollingFile name="RollingFile" fileName="/home/smruti/RAlogs/application.log" filePattern="/home/sarvesh/RAlogs/application-%d{MM-dd-yyyy}.log"
+
                  ignoreExceptions="false">
 
       <PatternLayout>

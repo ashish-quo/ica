@@ -5,7 +5,6 @@ package com.mobileum.roameranalytics.model.chart;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
+import com.mobileum.roameranalytics.enums.DayOfWeek;
 import com.mobileum.roameranalytics.enums.RoamerType;
 import com.mobileum.roameranalytics.enums.VoiceType;
 
@@ -153,22 +153,22 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			RoamingTrend roamingTrend, long startDate) {
 		
 		List<ChartSeries> dowDataSeriesList = new ArrayList<ChartSeries>();
-		
-		ChartSeries dowSeries = new ChartSeries();
-		dowSeries.setName("SMS");
-		dowSeries.setShowInLegend(false);
-		dowSeries.setData(dowDataMap.values());
-		dowDataSeriesList.add(dowSeries);
-		
+		if (!dowDataMap.values().isEmpty()) {
+			ChartSeries dowSeries = new ChartSeries();
+			dowSeries.setName("SMS");
+			dowSeries.setShowInLegend(false);
+			dowSeries.setData(dowDataMap.values());
+			dowDataSeriesList.add(dowSeries);
+		}
 		List<ChartSeries> perDayDataSeriesList = new ArrayList<ChartSeries>();
-		
-		PerDaySeries dateSeries = new PerDaySeries();
-		dateSeries.setName("SMS");
-		dateSeries.setShowInLegend(false);
-		dateSeries.setData(perDayDataMap.values());
-		dateSeries.setPointStart(startDate);
-		perDayDataSeriesList.add(dateSeries);
-	
+		if (!perDayDataMap.values().isEmpty()) {
+			PerDaySeries dateSeries = new PerDaySeries();
+			dateSeries.setName("SMS");
+			dateSeries.setShowInLegend(false);
+			dateSeries.setData(perDayDataMap.values());
+			dateSeries.setPointStart(startDate);
+			perDayDataSeriesList.add(dateSeries);
+		}
 		
 		RoamingTrendChart dataChart = new RoamingTrendChart();
 		dataChart.setDowCategoryList(dowCategory);
@@ -193,21 +193,22 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 		
 		List<ChartSeries> dowDataSeriesList = new ArrayList<ChartSeries>();
 		
-		ChartSeries dowSeries = new ChartSeries();
-		dowSeries.setName("Data");
-		dowSeries.setShowInLegend(false);
-		dowSeries.setData(dowDataMap.values());
-		dowDataSeriesList.add(dowSeries);
-		
+		if (!dowDataMap.values().isEmpty()) {
+			ChartSeries dowSeries = new ChartSeries();
+			dowSeries.setName("Data");
+			dowSeries.setShowInLegend(false);
+			dowSeries.setData(dowDataMap.values());
+			dowDataSeriesList.add(dowSeries);
+		}
 		List<ChartSeries> perDayDataSeriesList = new ArrayList<ChartSeries>();
-		
-		PerDaySeries dateSeries = new PerDaySeries();
-		dateSeries.setName("Data");
-		dateSeries.setShowInLegend(false);
-		dateSeries.setData(perDayDataMap.values());
-		dateSeries.setPointStart(startDate);
-		perDayDataSeriesList.add(dateSeries);
-	
+		if (!perDayDataMap.values().isEmpty()) {
+			PerDaySeries dateSeries = new PerDaySeries();
+			dateSeries.setName("Data");
+			dateSeries.setShowInLegend(false);
+			dateSeries.setData(perDayDataMap.values());
+			dateSeries.setPointStart(startDate);
+			perDayDataSeriesList.add(dateSeries);
+		}
 		
 		RoamingTrendChart dataChart = new RoamingTrendChart();
 		dataChart.setDowCategoryList(dowCategory);

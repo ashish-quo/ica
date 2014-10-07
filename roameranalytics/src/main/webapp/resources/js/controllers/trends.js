@@ -100,6 +100,18 @@
 					$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
 					$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dow, 'false');
 					$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.dow, 'false');
+					if ($scope.roamerCountChartConfig.series.length == 0) {
+						$scope.roamerCountChartConfig.subtitle.text = 'No data found'
+					}
+					if ($scope.roamerVoiceChartConfig.series.length == 0) {
+						$scope.roamerVoiceChartConfig.subtitle.text = 'No data found'
+					}
+					if ($scope.roamerDataChartConfig.series.length == 0) {
+						$scope.roamerDataChartConfig.subtitle.text = 'No data found'
+					}
+					if ($scope.roamerSMSChartConfig.series.length == 0) {
+						$scope.roamerSMSChartConfig.subtitle.text = 'No data found'
+					}
 				});
 				
 				$rootScope.$on('refresh-roaming-trends', function (event) {
@@ -116,24 +128,48 @@
 						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
 						$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dow, 'false');
 						$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.dow, 'false');
+						if ($scope.roamerCountChartConfig.series.length == 0) {
+							$scope.roamerCountChartConfig.subtitle.text = 'No data found'
+						}
+						if ($scope.roamerVoiceChartConfig.series.length == 0) {
+							$scope.roamerVoiceChartConfig.subtitle.text = 'No data found'
+						}
+						if ($scope.roamerDataChartConfig.series.length == 0) {
+							$scope.roamerDataChartConfig.subtitle.text = 'No data found'
+						}
+						if ($scope.roamerSMSChartConfig.series.length == 0) {
+							$scope.roamerSMSChartConfig.subtitle.text = 'No data found'
+						}
 					});
 				});
 				
 				$scope.$watch("dow", function (newValue, oldValue) {
 					if ($scope.trends.roamersCountChart) {
 						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
+						if ($scope.roamerCountChartConfig.series.length == 0) {
+							$scope.roamerCountChartConfig.subtitle.text = 'No data found'
+						}
 					}
 					
 					if ($scope.trends.roamersCountChart) {
 						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
+						if ($scope.roamerVoiceChartConfig.series.length == 0) {
+							$scope.roamerVoiceChartConfig.subtitle.text = 'No data found'
+						}
 					}
 					
 					if ($scope.trends.roamersCountChart) {
 						$scope.roamerDataChartConfig = getChart($scope.trends.roamersDataChart, $scope.dow, 'false');
+						if ($scope.roamerDataChartConfig.series.length == 0) {
+							$scope.roamerDataChartConfig.subtitle.text = 'No data found'
+						}
 					}
 					
 					if ($scope.trends.roamersCountChart) {
 						$scope.roamerSMSChartConfig = getChart($scope.trends.roamersSMSChart, $scope.dow, 'false');
+						if ($scope.roamerSMSChartConfig.series.length == 0) {
+							$scope.roamerSMSChartConfig.subtitle.text = 'No data found'
+						}
 					}
 					
 				});
@@ -141,6 +177,9 @@
 				$scope.$watch("logScale", function (newValue, oldValue) {
 					if ($scope.trends.roamersCountChart) {
 						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
+						if ($scope.roamerCountChartConfig.series.length == 0) {
+							$scope.roamerCountChartConfig.subtitle.text = 'No data found'
+						}
 					}
 				});
 				

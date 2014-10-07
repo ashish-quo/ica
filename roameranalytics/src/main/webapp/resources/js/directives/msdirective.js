@@ -20,6 +20,10 @@
 	    	          onclick: function (d, i) {
 	    	        	  var target = $j( "input[name='" + d.id + "']")[0];
 	    	        	  var filterId = $j(target).attr("id").split('_');
+	    	        	  if (filterId[0] == 'country') {
+	    	        		  target = $j( "input[name='" + d.id + "']")[1];
+	    	        		  filterId = $j(target).attr("id").split('_');
+	    	        	  }
 	    	        	  $j(target).attr('checked', 'checked');
 	    	        	  var filter = {'attributeId':filterId[0],'categoryId':filterId[1]};
 	    	        	  $rootScope.$broadcast('add-filter-from-microsegment',filter);
@@ -119,8 +123,10 @@
 	    		  var url = '';
 	    		  if (attrs.chartname == 'Network Group') {
 	    			  url = 'microsegment/networkgroup/'
+	    		  } else if (attrs.chartname == 'Other Countries Traveled'){
+	    			  url = 'microsegment/otherCountriesTraveled';
 	    		  } else {
-	    			  url = 'microsegment/graph/';
+    				  url = 'microsegment/graph/';
 	    		  }
 	    		  element.html('');
 		    	  $http.get(url , data).success(function(result) {
