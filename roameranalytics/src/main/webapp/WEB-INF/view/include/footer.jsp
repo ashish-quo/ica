@@ -1,21 +1,7 @@
 <!-- Common Js -->
 <script src="js/libs/jquery-1.11.1.min.js"></script>
-
-
-
 <script defer src="assets/bubble-chart/js/plugins.js"></script>
-<script src="assets/bubble-chart/js/libs/coffee-script.js"></script>
-<script src="assets/bubble-chart/js/libs/d3.v2.js"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis.coffee"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis1.coffee"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis2.coffee"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis2n.coffee"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis3.coffee"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis3n.coffee"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis4.coffee"></script>
-<script type="text/coffeescript" src="assets/bubble-chart/coffee/vis4n.coffee"></script>
-
-<script type="text/coffeescript" src="assets/bubble-chart/js/top10charts.js"></script>
+<script src="assets/bubble-chart/js/top10charts.js"></script>
 
 <script src="js/libs/highcharts.js"></script>
 <script src="assets/mapjs/map.js"></script>
@@ -23,7 +9,6 @@
 
 <script src="js/common.js"></script>
 <script src="assets/mapjs/mapcore.js"></script>
-
 <script src="assets/mapjs/data.js"></script>
 <script src="assets/mapjs/world.js"></script>
 
