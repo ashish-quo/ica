@@ -23,13 +23,13 @@
           <span><fmt:message key="header.microsegment"/></span>
           </a>
         </li>
-        <li>
+        <li style="display:none">
           <a ng-class="{'active': tabIndex == 3}" href ng-click='showBeforeTravel()'>
           <i class="pretrip-icon"></i>
           <span>Before Travel</span>
           </a>
         </li>
-        <li>
+        <li style="display:none">
           <a ng-class="{'active': tabIndex == 4}" href ng-click='showUponLanding()'>
           <i class="posttrip-icon"></i>
           <span>Upon Landing</span>
@@ -42,7 +42,7 @@
     </div>
   </div>
   <div class="header-right clearfix">
-    <div class="header-notification">
+    <div class="header-notification" style="display:none">
       <ul>
         <li class="dropdown">
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
@@ -85,7 +85,7 @@
           </a>
           <ul class="dropdown-menu notify-dropdown popover bottom">
             <div class="arrow"></div>
-            <li><a href="">Profile</a></li>
+            <li style="display:none"><a href="">Profile</a></li>
        		<li><a href="./perform_logout">Logout</a></li>
           </ul>
         </li>

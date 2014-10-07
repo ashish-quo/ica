@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <aside class="sidebar" ng-controller="SidebarController">
-	<ul class="lefttop-nav clearfix">
+	<ul class="lefttop-nav clearfix" style="display:none">
 		<li><a href="javascript:void(0)"
 			class="lefttop-icon track-icon cust-tooltip" original-title="Track"></a>
 			<div class="lefttop-nav-dropdown">
@@ -247,7 +247,7 @@
 						<input type="text" ng-model="countryQuery.countryName" name="Country Search" placeholder="Search...">
 					</div>
 				</li>
-				<li>
+				<li style="display:none">
 					<div class="menu-select-btn">
 						<input type="button" name="Select from  Map"
 							value="Select from  Map">
@@ -273,7 +273,7 @@
 					</p>
 				</li>
 			</ul></li>
-		<li class="nav-dropdown open"><a href="#"><i
+		<li class="nav-dropdown open" style="display:none"><a href="#"><i
 				class="persona-icon"></i> Personas</a>
 			<ul class="nav-sub leftmenu-hover persona-menu">
 				<form>

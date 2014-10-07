@@ -67,7 +67,7 @@
 					</div>
 
 				</div>
-			</span> <span class="dropdown"> <a href="javascript:void(0)"
+			</span> <span class="dropdown" style="display:none"> <a href="javascript:void(0)"
 					class="greycomment-icon cust-tooltip" data-toggle="dropdown"
 					original-title="Comment"></a>
 					<div
@@ -86,7 +86,7 @@
 								href="javascript:void(0)" class="share-onlyme"></a>
 						</div>
 					</div>
-				</span> <span class="dropdown"><a href="javascript:void(0)"
+				</span> <span class="dropdown" style="display:none"><a href="javascript:void(0)"
 					class="microtrack-icon cust-tooltip" data-toggle="dropdown"
 					original-title="Track"> </a>
 					<div
@@ -394,7 +394,7 @@
 
        
 
-          <div id="accordion-comm" class="panel-group">
+          <div id="accordion-comm" class="panel-group" style="display:none">
 
             <div class="panel accor-color panel-default mt20">
 
@@ -510,7 +510,7 @@
 
                   </tr>
 
-                  <tr class="comment-add-area" style="display: table-row;">
+                  <tr class="comment-add-area" style="display: none;">
 
                   		<td colspan="4"><div class="comm-text-area"><textarea placeholder="Add your comments here" class="track-textarea"></textarea> <br> <button type="button" class="btn btn-primary-comm pull-right clearfix">Submit</button></div></td>
 

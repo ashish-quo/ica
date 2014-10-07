@@ -21,7 +21,7 @@
 		
 	</div>
 	<div class="col-lg-2 pull-right">
-        <div class="commentshare-icon">
+        <div class="commentshare-icon" style="display:none">
           <span class="dropdown">
           <a href="javascript:void(0)" class="greycomment-icon cust-tooltip" data-toggle="dropdown" original-title="Comment"></a>
           <div class="dropdown-menu pull-right comment-dropdown popover bottom stay-dd">
