@@ -11,6 +11,16 @@
 		var top10DataJson=[]
 		var top10SmsJson=[]
 		
+		var top10roamerBarX = [];
+		var top10moBarX = [];
+		var top10mtBarX = [];
+		var top10dataBarX = [];
+		
+		var top10roamerBarData = [];
+		var top10moBarData = [];
+		var top10mtBarData = [];
+		var top10dataBarData = [];
+		
 		var colorAxisText= {
             dataClasses: [{
                 to: 30,
@@ -284,7 +294,7 @@
 	/* Bubble Chart Intialization End */	
 		
 	   
-	   // Initiate the chart
+	   // Initiate the HeatMap
        function initiateMap(data,colorAxisJson,suffixLable,nameLable)
        {
        $j('#map-container').highcharts('Map', {
@@ -341,6 +351,35 @@
            }]
        });
 console.log("Inside mapcore");
+       }
+       
+       
+       // Initiate the Top10 Bar Chart
+       function initiateTop10Bar(selector,dataTop10Bar,xAxis,suffixLable){
+    	   
+    	   var chart = new Highcharts.Chart({
+    			 title: {
+    		            text: '',
+    		            x: -20 //center
+    		        },
+
+    		    chart: {
+    		        renderTo: selector
+    		    },
+
+    		    xAxis: {
+    		        categories: xAxis
+    		    },
+
+    		    series: [{
+    				showInLegend:false,
+    		        type: 'column',
+    		        name: suffixLable,
+    		        data: dataTop10Bar,
+    				color: '#51bfe3',
+    		    }]
+    		});
+    	   
        }
        
        
@@ -477,34 +516,51 @@ console.log("Inside mapcore");
 						top10moJsonMap = [];
 						top10mtJsonMap = [];
 						top10dataJsonMap = [];
+						
+						
 						angular.forEach(top10RoamerJson, function(countryData) {
 							
-							if(countryData.roamerTotal>0)
+							if(countryData.roamerTotal>0){
 								top10roamerJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.roamerTotal
 								});
+								top10roamerBarX.push(countryData.countryCode);
+								top10roamerBarData.push(countryData.roamerTotal)
+							}
 							});
+						
 						angular.forEach(top10MoJson, function(countryData) {
-							if(countryData.moTotal>0)
+							if(countryData.moTotal>0){
 								top10moJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.moTotal
 								});
+								top10moBarX.push(countryData.countryCode);
+								top10moBarData.push(countryData.moTotal);
+							}
+							
 							});
+						
 						angular.forEach(top10MtJson, function(countryData) {
-							if(countryData.mt>0)
+							if(countryData.mt>0){
 								top10mtJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.mt
 								});
+								top10mtBarX.push(countryData.countryCode);
+								top10mtBarData.push(countryData.mt);
+							}
 							});
 						angular.forEach(top10DataJson, function(countryData) {
-							if(countryData.dataUsage>0)
+							if(countryData.dataUsage>0){
 								top10dataJsonMap.push({
 									name : countryData.countryCode,
 									count : countryData.dataUsage
 								});
+								top10dataBarX.push(countryData.countryCode);
+								top10dataBarData.push(countryData.dataUsage);
+							}
 							});
 						
 
@@ -590,7 +646,12 @@ console.log("Inside mapcore");
 						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
 						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
 						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
-						 
+						
+						initiateTop10Bar('container',top10roamerBarData,top10roamerBarX,'Roamer Count');
+						initiateTop10Bar('container2',top10moBarData,top10moBarX,'MO (Minute)');
+						initiateTop10Bar('container3',top10mtBarData,top10mtBarX,'MT (Minute)');
+						initiateTop10Bar('container4',top10dataBarData,top10dataBarX,'Data (MB)');
+						
 						
 					
 				}
@@ -774,5 +835,40 @@ console.log("Inside mapcore");
 	}]);
 	
 	
+	$j('#roamer-chart').live('click',function(){
+		 if ($j(this).is(':checked')){
+			 initiateTop10Bar('container',top10roamerBarData.slice(1,top10roamerBarData.length),top10roamerBarX.slice(1,top10roamerBarX.length),'Roamer Count');
+		 }else{
+			 initiateTop10Bar('container',top10roamerBarData,top10roamerBarX,'Roamer Count');
+ 
+		 }
+	});
+	
+	$j('#mo-chart').live('click',function(){
+		 if ($j(this).is(':checked')){
+			 initiateTop10Bar('container2',top10moBarData.slice(1,top10moBarData.length),top10moBarX.slice(1,top10moBarX.length),'MO (Minute)');
+		 }else{
+			 initiateTop10Bar('container2',top10moBarData,top10moBarX,'Roamer Count');
+
+		 }
+	});
+	
+	$j('#mt-chart').live('click',function(){
+		 if ($j(this).is(':checked')){
+			 initiateTop10Bar('container3',top10mtBarData.slice(1,top10mtBarData.length),top10mtBarX.slice(1,top10mtBarX.length),'MT (Minute)');
+		 }else{
+			 initiateTop10Bar('container3',top10mtBarData,top10mtBarX,'Roamer Count');
+
+		 }
+	});
+	
+	$j('#data-chart').live('click',function(){
+		 if ($j(this).is(':checked')){
+			 initiateTop10Bar('container4',top10dataBarData.slice(1,top10dataBarData.length),top10dataBarX.slice(1,top10dataBarX.length),'Data (MB)');
+		 }else{
+			 initiateTop10Bar('container4',top10dataBarData,top10dataBarX,'Roamer Count');
+
+		 }
+	});
 	
 })();

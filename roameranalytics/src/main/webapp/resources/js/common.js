@@ -58,8 +58,11 @@ $j(document).ready(function(){
            } 
        });
        
-       $j(".viewtrend-link").click(function(){
-    	   $j(this).parents().closest(".card").toggleClass("flipped");
+       $j(".viewtrend-link").live('click',function(){
+    	   if( $j(this).parents().closest(".card").hasClass("flipped")==true)
+    		   $j(this).parents().closest(".card").removeClass("flipped");
+    	   else
+    		   $j(this).parents().closest(".card").addClass("flipped");
     	   return false;
     	 });
    });

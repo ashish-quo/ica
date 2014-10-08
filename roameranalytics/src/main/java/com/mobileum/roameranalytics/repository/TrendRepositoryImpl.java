@@ -119,7 +119,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 				roamingStatistics.setMoLocal(rs.getLong("mocallminuteslocal"));
 				roamingStatistics.setMoHome(rs.getLong("mocallminuteshome"));
 				roamingStatistics.setMoIntl(rs.getLong("mocallminutesother"));
-				roamingStatistics.setDataUsage(rs.getLong("datausage"));
+				roamingStatistics.setDataUsage(rs.getLong("datausage")/(1024*1024));
 				roamingStatistics.setMt(rs.getLong("mtcallminutes"));
 				roamingStatistics.setSmsUsage(rs.getLong("mosmscount"));
 				return roamingStatistics;
