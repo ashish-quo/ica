@@ -113,6 +113,12 @@
 			<version>2.0.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.facebook.presto</groupId>
+			<artifactId>presto-jdbc</artifactId>
+			<version>0.76</version>
+		</dependency>
+		
 		<!-- database -->
 		<dependency>
 			<groupId>com.facebook.presto</groupId>

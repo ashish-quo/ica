@@ -201,7 +201,7 @@
 			<div class="microchart-panel" ng-repeat="graph in graphToBeShown">
 				<div class="segment-charts">
 					<div class="microchart-heading">
-						{{title[graph.title]}} <a href="javascript:void(0)"
+						{{title[graph.title]}} <a href="javascript:void(0)" style="display:none"
 							class="bookmark-unactive cust-tooltip" original-title="Bookmark"></a>
 					</div>
 					<div id="bar-chart-{{graph.id}}"></div>
@@ -209,7 +209,7 @@
 					<div id="column-chart-{{graph.id}}"></div>
 				</div>
 				<div class="bookmark-panel">
-					<a href="javascript:void(0)" class="close-bookmark"><i
+					<a href="javascript:void(0)" class="close-bookmark" style="display:none"><i
 						class="fa close-icon"></i></a>
 					<div class="bookmarkpnl-content">
 						<div class="clearfix">
@@ -257,7 +257,7 @@
 
                 <p class="subnum-text">Silent</p>
 
-                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>{{silentRoamer}}</p>
+                <p class="subnum-number"><span class="arr-space"><img style="display:none" src="images/down-icon.png"></span>{{silentRoamer}}</p>
 
               </li>
 
@@ -305,7 +305,7 @@
 
                 <p class="subnum-text">Home</p>
 
-                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>{{homeMo}}</p>
+                <p class="subnum-number"><span class="arr-space"><img style="display:none" src="images/down-icon.png"></span>{{homeMo}}</p>
 
               </li>
 
@@ -321,7 +321,7 @@
 
                 <p class="subnum-text">Intl</p>
 
-                <p class="subnum-number"><span class="arr-space"><img src="images/up-icon.png"></span>{{intlMo}}</p>
+                <p class="subnum-number"><span class="arr-space"><img style="display:none" src="images/up-icon.png"></span>{{intlMo}}</p>
 
               </li>
 

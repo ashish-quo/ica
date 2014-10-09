@@ -259,7 +259,7 @@
             <ul class="statics-subnum">
               <li class="cust-tooltip-dn" original-title="Projected: 350">
                 <p class="subnum-text">Silent</p>
-                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png" ></span>{{silentRoamer}}</p>
+                <p class="subnum-number"><span class="arr-space"><img style="display:none" src="images/down-icon.png" ></span>{{silentRoamer}}</p>
               </li>
               <li>
                 <p class="subnum-text">Value</p>
@@ -284,7 +284,7 @@
             <ul class="statics-subnum">
               <li class="cust-tooltip-dn" original-title="Projected: 81">
                 <p class="subnum-text">Home</p>
-                <p class="subnum-number"><span class="arr-space"><img src="images/down-icon.png"></span>{{homeMo}}</p>
+                <p class="subnum-number"><span class="arr-space"><img style="display:none" src="images/down-icon.png"></span>{{homeMo}}</p>
               </li>
               <li>
                 <p class="subnum-text">Local</p>
@@ -292,7 +292,7 @@
               </li>
               <li>
                 <p class="subnum-text">Intl</p>
-                <p class="subnum-number"><span class="arr-space"><img src="images/up-icon.png"></span>{{intlMo}}</p>
+                <p class="subnum-number"><span class="arr-space"><img style="display:none" src="images/up-icon.png"></span>{{intlMo}}</p>
               </li>
             </ul>
           </div>

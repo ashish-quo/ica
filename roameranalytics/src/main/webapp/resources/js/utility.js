@@ -62,10 +62,13 @@
 		    	return obj.name;
 		    }).join(",");
 			
+			var excludedCountries = filters.excludedCountries.join(",");
+			
 			var params = { 'dateRangeFrom' : filters.dateRangeFrom,
 				'dateRangeTo': filters.dateRangeTo,
 				'attributes' : attrs,
 				'countries' : countries,
+				'excludedCountries' : excludedCountries,
 				'personas': personas
 			}
 			return params;

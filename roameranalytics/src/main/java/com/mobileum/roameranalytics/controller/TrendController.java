@@ -137,11 +137,15 @@ public class TrendController {
 		String attributes = request.getParameter("attributes");
 		String countries = request.getParameter("countries");
 		
+		
 		Filter filter = new Filter();
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-
 		filter.setSelectedCountries(countries);
+		
+		String excludedCountries = request.getParameter("excludedCountries");
+		filter.setExcludedCountries(excludedCountries);
+		
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
@@ -174,6 +178,9 @@ public class TrendController {
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 
 		filter.setSelectedCountries(countries);
+		String excludedCountries = request.getParameter("excludedCountries");
+		filter.setExcludedCountries(excludedCountries);
+		
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
@@ -204,7 +211,8 @@ public class TrendController {
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		
-		
+		String excludedCountries = request.getParameter("excludedCountries");
+		filter.setExcludedCountries(excludedCountries);
 		
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
@@ -233,7 +241,8 @@ public class TrendController {
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		
+		String excludedCountries = request.getParameter("excludedCountries");
+		filter.setExcludedCountries(excludedCountries);
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
@@ -256,12 +265,14 @@ public class TrendController {
 		
 		String attributes = request.getParameter("attributes");
 		String countries = request.getParameter("countries");
+		
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		
+		String excludedCountries = request.getParameter("excludedCountries");
+		filter.setExcludedCountries(excludedCountries);
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
