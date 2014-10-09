@@ -201,7 +201,7 @@
 			<div class="microchart-panel" ng-repeat="graph in graphToBeShown">
 				<div class="segment-charts">
 					<div class="microchart-heading">
-						{{title[graph.title]}} <a href="javascript:void(0)"
+						{{title[graph.title]}} <a href="javascript:void(0)" style="display:none"
 							class="bookmark-unactive cust-tooltip" original-title="Bookmark"></a>
 					</div>
 					<div id="bar-chart-{{graph.id}}"></div>

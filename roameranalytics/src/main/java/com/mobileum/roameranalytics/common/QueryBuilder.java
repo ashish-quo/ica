@@ -97,8 +97,7 @@ public class QueryBuilder {
 			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
 			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
 		
-		Map<String, String> attributeMap = filter.getSelectedAttributes();
-		appendClauseForAttributes(query, parameterMap, attributeMap);
+		
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries) ");
@@ -115,6 +114,8 @@ public class QueryBuilder {
 			}
 
 		}
+		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		query.append(" group by  triptime.usagebintime, trip.overalltripcategory ");
 		query.append("  order by triptime.usagebintime ");
