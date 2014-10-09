@@ -281,7 +281,7 @@
               <div class="face back">
                 <div class="top10chart-panel">
                   <div class="linechart-box">
-                    <div id="container3"></div>
+                    <div id="container2"></div>
                     <div class="top10-chart-btn purple-checked">
                       <p class="i-checks">
                         <label>
@@ -330,7 +330,7 @@
               <div class="face back">
                 <div class="top10chart-panel">
                   <div class="linechart-box">
-                    <div id="container2"></div>
+                    <div id="container3"></div>
                     <div class="top10-chart-btn light-green-checked">
                      <p class="i-checks">
                         <label>
