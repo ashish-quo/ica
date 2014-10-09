@@ -3,6 +3,7 @@
  */
 package com.mobileum.roameranalytics.common;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -65,8 +66,12 @@ public class QueryBuilder {
 			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname not in (:countries)");
-			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+			query.append(" and trip.visitedcountryname not in (:countriesNotIn)");
+			parameterMap.put("countriesNotIn", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		} 
+		if (!filter.getExcludedCountries().isEmpty()){
+			query.append(" and trip.visitedcountryname not in (:excludedCountries) ");
+			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
 		}
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
@@ -84,10 +89,11 @@ public class QueryBuilder {
 		
 		query.append(" select sum(1) imsicount, sum(triptime.mocallminutes) mocallminutes, ")
 			.append(" sum(triptime.mtcallminutes) mtcallminutes, sum(triptime.mosmscount) mosmscount,")
-			.append(" sum(triptime.uplink + triptime.downlink)  datausage, ")
+			.append(" sum(triptime.uplink + triptime.downlink)/1048576.0  datausage, ")
 			.append(" triptime.usagebintime usagebintime,trip.overalltripcategory overalltripcategory from ")
 			.append(Relation.TRIP_TIME).append(" triptime inner join ").append(Relation.TRIP)
 			.append(" trip on triptime.imsi = trip.imsi and triptime.tripstarttime = trip.starttime ")
+			.append(" and trip.visitedcountryname = triptime.visitedcountryname ")
 			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
 			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType");
 		
@@ -95,9 +101,19 @@ public class QueryBuilder {
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and trip.visitedcountryname in (:countries) ")
-				.append(" and triptime.visitedcountryname in (:countries)");
+			query.append(" and trip.visitedcountryname in (:countries) ");
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		} 
+		if (!filter.getExcludedCountries().isEmpty()){
+			List<String> countries = (List<String>) parameterMap.get("countriesNotIn"); 
+			List<String> parameterList = Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA));
+			if (countries == null) {
+				query.append(" and trip.visitedcountryname not in (:countriesNotIn) ");
+				parameterMap.put("countriesNotIn",parameterList);
+			} else {
+				parameterList.addAll(countries);
+			}
+
 		}
 		
 		query.append(" group by  triptime.usagebintime, trip.overalltripcategory ");
@@ -117,7 +133,7 @@ public class QueryBuilder {
 			String column,  Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes,")
-			.append(" sum(trip.uplink + trip.downlink)  datausage, ");
+			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ");
 		
 		query.append(" trip.").append(column).append(" categoryValue from ")
 			.append(Relation.TRIP).append(" trip ")
@@ -127,6 +143,10 @@ public class QueryBuilder {
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries) ");
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		} 
+		if (!filter.getExcludedCountries().isEmpty()){
+			query.append(" and trip.visitedcountryname not in (:excludedCountries) ");
+			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
 		}
 		
 		Map<String,String> filterParameters = filter.getSelectedAttributes();
@@ -150,7 +170,7 @@ public class QueryBuilder {
 			Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
-			.append(" sum(trip.uplink + trip.downlink)  datausage, ")
+			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
 			.append(" network.network_group networkGroup from ")
 			.append(Relation.TRIP).append(" trip ").append(" inner join ")
 			.append(Relation.TADIGNETWORK).append(" network ")
@@ -161,6 +181,10 @@ public class QueryBuilder {
 		if (!filter.getSelectedCountries().isEmpty()) {
 			query.append(" and trip.visitedcountryname in (:countries) ");
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		} 
+		if (!filter.getExcludedCountries().isEmpty()){
+			query.append(" and trip.visitedcountryname not in (:excludedCountries) ");
+			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
 		}
 		
 		Map<String,String> filterParameters = filter.getSelectedAttributes();
@@ -185,12 +209,29 @@ public class QueryBuilder {
 			Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
-			.append(" sum(trip.uplink + trip.downlink)  datausage, ")
+			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
 			.append(" trip.visitedcountryname country from ")
 			.append(Relation.TRIP).append(" trip ")
 			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
 			.append(" and trip.homecountryname = :homeCountry and trip.roamtype = :roamType "); 
 
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(" and trip.visitedcountryname not in (:countriesNotIn) ");
+			parameterMap.put("countriesNotIn", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
+		} 
+		if (!filter.getExcludedCountries().isEmpty()){
+			List<String> countries = (List<String>) parameterMap.get("countriesNotIn"); 
+			List<String> parameterList = Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA));
+			if (countries == null) {
+				query.append(" and trip.visitedcountryname not in (:countriesNotIn) ");
+				parameterMap.put("countriesNotIn",parameterList);
+			} else {
+				List<String> newList = new ArrayList<String>(countries);
+				newList.addAll(parameterList);
+				parameterMap.put("countriesNotIn",newList);
+			}
+
+		}
 		
 		Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
@@ -256,9 +297,12 @@ public class QueryBuilder {
 			} else if ("visitedcountryname".equalsIgnoreCase(columnName)) {
 				List<Object> countries = (List<Object>)parameterMap.get("countries"); 
 				if (countries == null) {
+					query.append(" and trip.visitedcountryname in (:countries)");
 					parameterMap.put("countries",parameterList);
 				} else {
-					parameterList.addAll(countries);
+					List<Object> newList = new ArrayList<Object>(countries);
+					newList.addAll(parameterList);
+					parameterMap.put("countries",newList);
 				}
 				
 			} else {
@@ -296,6 +340,11 @@ public class QueryBuilder {
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		}
 		
+		if (!filter.getExcludedCountries().isEmpty()){
+			query.append(" and trip.visitedcountryname not in (:excludedCountries) ");
+			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
+		}
+		
 		Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
@@ -316,7 +365,10 @@ public class QueryBuilder {
 			query.append(" and trip.visitedcountryname in (:countries)");
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		}
-		
+		if (!filter.getExcludedCountries().isEmpty()){
+			query.append(" and trip.visitedcountryname not in (:excludedCountries) ");
+			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
+		}
 		query.append(" group by  overalltripcategory,visitedcountryname");
 		
 		query.append(" order by visitedcountryname,roamingcategory");

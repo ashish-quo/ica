@@ -12,6 +12,7 @@
 				attributes : {},
 				personas : new Array(),
 				countries : new Array(),
+				excludedCountries : new Array(),
 				dateRangeFrom : '',
 				dateRangeTo : ''
 		};
@@ -385,8 +386,9 @@
 		/**
 		 * Refreshes the data when country is changed
 		 */
-		$scope.updateCountryFilter = function() {
+		$scope.updateCountryFilter = function(exclude) {
 			$rootScope.filters.countries = new Array();
+			$rootScope.filters.excludedCountries = new Array();
 			var countryChecked = false;
 			$j("input.country-chk:checked").each(function () {
 				countryChecked = true;
@@ -396,6 +398,14 @@
 				$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering});
 			});
 			
+			if ($scope.excludeNbrs) {
+				$j("input[bordering = '1']").each(function () {
+					var id = $j(this).attr("id");
+					var name = $j(this).attr("name");
+					var brodering = $j(this).attr('bordering')
+					$rootScope.filters.excludedCountries.push(name);
+				});
+			}
 			if (countryChecked) {
 				var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
@@ -525,7 +535,7 @@
 		 * Call when exclude neighbors is checked
 		 */
 		$scope.$watch('excludeNbrs', function () {
-			$scope.updateCountryFilter();
+			$scope.updateCountryFilter(true);
 		});
 		
 		$rootScope.$on("add-filter-from-microsegment", function (data, event) {

@@ -17,6 +17,9 @@ public class Filter {
 	/** The selected countries. */
 	private String selectedCountries;
 	
+	/** The excluded countries. */
+	private String excludedCountries;
+	
 	/** The selected attributes. */
 	private Map<String,String> selectedAttributes = new HashMap<String, String>(1);
 	
@@ -126,5 +129,19 @@ public class Filter {
 	 */
 	public void setOtherCountriesTravelled(String otherCountriesTravelled) {
 		this.otherCountriesTravelled = otherCountriesTravelled;
+	}
+
+	/**
+	 * @return the excludedCountries
+	 */
+	public String getExcludedCountries() {
+		return excludedCountries;
+	}
+
+	/**
+	 * @param excludedCountries the excludedCountries to set
+	 */
+	public void setExcludedCountries(String excludedCountries) {
+		this.excludedCountries = excludedCountries;
 	}
 }
