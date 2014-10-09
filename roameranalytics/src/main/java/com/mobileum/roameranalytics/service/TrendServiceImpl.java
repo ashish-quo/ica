@@ -186,7 +186,7 @@ public class TrendServiceImpl implements TrendService{
 		List<RoamingCategory> roamingCategoryList= trendDao.getRoamingCategoryRepository(filter);
 		for(RoamingCategory roamingCategory : roamingCategoryList ){
 			if(roamingStatisticsMap.get(roamingCategory.getCategory())!=null){
-				roamingStatisticsMap.put(roamingCategory.getCategory(), roamingCategory.getCount());
+				roamingStatisticsMap.put(roamingCategory.getCategory(),roamingStatisticsMap.get(roamingCategory.getCategory())+ roamingCategory.getCount());
 			}
 		}
 		

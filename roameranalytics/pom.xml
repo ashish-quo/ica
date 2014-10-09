@@ -115,6 +115,12 @@
 
 		<!-- database -->
 		<dependency>
+			<groupId>com.facebook.presto</groupId>
+			<artifactId>presto-jdbc</artifactId>
+			<version>0.78</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresVersion}</version>

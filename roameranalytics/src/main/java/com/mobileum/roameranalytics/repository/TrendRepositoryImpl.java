@@ -99,6 +99,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
+		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
 		parameters.addValue("endDate", filter.getDateTo());
 		
 		for (String key : parameterMap.keySet()) {
@@ -142,6 +143,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		parameters.addValue("startDate", filter.getDateFrom());
 		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
+		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
 		parameters.addValue("endDate", filter.getDateTo());
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
