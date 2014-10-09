@@ -3,9 +3,8 @@
 <Property name="log-path" >${}</Property>
   <Appenders>
 
-     <RollingFile name="RollingFile" fileName="/home/ec2-user/RAlogs/application.log" filePattern="/home/ec2-user/RAlogs/application-%d{MM-dd-yyyy}.log"
 
-                 ignoreExceptions="false">
+     <RollingFile name="RollingFile" fileName="/home/ec2-user/RAlogs/application.log" filePattern="/home/ec2-user/RAlogs/application-%d{MM-dd-yyyy}.log"
 
       <PatternLayout>
         <Pattern>%d %p %c{1.} %m%n</Pattern>
