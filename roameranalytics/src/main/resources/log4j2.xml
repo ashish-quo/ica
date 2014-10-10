@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn" name="MyApp" packages="com.mobileum">
-<Property name="log-path" >${}</Property>
   <Appenders>
-
-
-     <RollingFile name="RollingFile" fileName="/home/smruti/RAlogs/application.log" 
+   <RollingFile name="RollingFile" fileName="/home/smruti/RAlogs/application.log" 
      filePattern="/home/smruti/RAlogs/application-%d{MM-dd-yyyy}.log">
+
 
       <PatternLayout>
         <Pattern>%d %p %c{1.} %m%n</Pattern>
@@ -18,7 +16,7 @@
     </Async>
   </Appenders>
   <Loggers>
-    <Root level="info">
+    <Root level="trace">
       <AppenderRef ref="rollingFileAppender"/>
     </Root>
   </Loggers>

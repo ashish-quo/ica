@@ -129,6 +129,12 @@
     				  url = 'microsegment/graph/';
 	    		  }
 	    		  element.html('');
+	    		  var verticalChart = $j('#column-chart-'+attrs.chartname.replace(/ /g,''));
+	    		  var horizontalChart = $j('#bar-chart-'+attrs.chartname.replace(/ /g,''));
+	    		  verticalChart.html('');
+	    		  horizontalChart.html('');
+	    		  element.removeClass("loading");
+	    		  element.addClass("loading");
 		    	  $http.get(url , data).success(function(result) {
 		    		  $scope.msdata = result.data;
 		    		  
@@ -138,7 +144,7 @@
 		    		  element.removeClass("loading");
 		    	  }).error(function(data, status, headers, config) {
 		    		  element.removeClass("loading");
-		    		  element.addClass("internal-error")
+		    		  element.addClass("internal-error");
 		    	  });
 	    	  };
 	    	  

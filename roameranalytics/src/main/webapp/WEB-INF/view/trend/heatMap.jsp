@@ -165,35 +165,35 @@
     </div>
     
     <div class="row dashboard-statics">
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <section class="panel">
           <div class="symbol light-green">
             <i class="mt-icon"></i>
             <p>MT(Min)</p>
           </div>
-          <div class="value">
+          <div class="value newclass">
             <p class="statics-num light-green-text">{{totalMt}}</p>
           </div>
         </section>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <section class="panel">
           <div class="symbol light-orange">
             <i class="data-icon"></i>
             <p>Data(MB)</p>
           </div>
-          <div class="value">
+          <div class="value newclass">
             <p class="statics-num light-orange-text">{{totalData}}</p>
           </div>
         </section>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <section class="panel">
           <div class="symbol yellow">
             <i class="sms-icon"></i>
             <p>SMS</p>
           </div>
-          <div class="value">
+          <div class="value newclass">
             <p class="statics-num yellow-text">{{totalSms}}</p>
           </div>
         </section>

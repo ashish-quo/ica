@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,7 +37,7 @@ public class MetaDataRepositoryImplTest {
 
 	/** The jdbc template. */
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate2;
 	
 	/** The named parameter jdbc template. */
 	@Autowired
@@ -53,19 +54,25 @@ public class MetaDataRepositoryImplTest {
 		List<Country> countries = new ArrayList<Country>(200);
 
 		try {
-			countries = namedParameterJdbcTemplate2.query(query, new RowMapper<Country>(){
-				public Country mapRow(ResultSet rs, int rowNumber) throws SQLException {
-					Country country = new Country();
-					country.setCountryName(rs.getString("countryName"));
-					country.setBordering(rs.getByte("bordering"));
-					return country;
+			jdbcTemplate2.query(query, new ResultSetExtractor<List<Country>>(){
+
+				@Override
+				public List<Country> extractData(ResultSet rs) throws SQLException,
+						DataAccessException {
+					while(rs.next()) {
+						Country country = new Country();
+						country.setCountryName(rs.getString(1));
+						countries.add(country);
+					}
+					return countries;
 				}
+				
 			});
 		} catch(DataAccessException dae) {
 			throw new RADataAccessException(dae);
 		}
-
 		
+		System.out.println(countries.size());
 		assertNotNull(countries);
 	}
 

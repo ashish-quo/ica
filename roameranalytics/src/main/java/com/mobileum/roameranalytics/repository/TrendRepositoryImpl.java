@@ -79,7 +79,7 @@ public class TrendRepositoryImpl implements TrendRepository {
 		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
 		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
 		
-		LOGGER.debug("Query parameters : " + parameterMap);
+		LOGGER.debug("Query parameters : " + parameterMap.values());
 		
 		for (String key : parameterMap.keySet()) {
 			parameters.addValue(key, parameterMap.get(key));
