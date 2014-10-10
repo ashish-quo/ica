@@ -1022,6 +1022,12 @@ p.i-checks img {
 	text-align: center;
 	vertical-align: top;
 }
+.dashboard-statics .value.newclass {
+    display: inline-block;
+    margin-top: 16px;
+    text-align: center;
+    width: 64%;
+}
 .dashboard-statics .value {
 	margin-top: 16px;
 }
@@ -2022,6 +2028,9 @@ button.btn-primary.unactive:hover {
 .arpv-btns.btn-group, .arpv-btns.btn-group-vertical {
 	padding: 0 20px;
 }
+.arpv-btns.btn-group{
+	padding: 0 1px;
+}
 .arpv-btns .btn {
 	border-right: 1px solid rgba(0, 0, 0, 0);
 	padding: 7px 25px;
@@ -2785,6 +2794,7 @@ button.btn-primary.unactive:hover .back-arrow {
 .accordion-tag {
 	margin-top:10px;
 }
+.topChart-angle{display:inline-block;}
 .country-accordion {margin-bottom:10px;}
 .country-accordion .panel-heading {margin-left:14px; padding:2px 15px;}
 .country-accordion div.panel-collapse .panel-body, .country_area {padding: 10px 15px;}

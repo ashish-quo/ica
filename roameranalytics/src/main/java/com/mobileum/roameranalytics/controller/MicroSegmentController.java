@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -80,6 +81,7 @@ public class MicroSegmentController {
 		String chartMetaData = request.getParameter("chartmetadata");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
@@ -108,6 +110,7 @@ public class MicroSegmentController {
 		String chartMetaData = req.getParameter("chartmetadata");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
@@ -138,6 +141,7 @@ public class MicroSegmentController {
 		String chartMetaData = req.getParameter("chartmetadata");
 		Filter filter = new Filter();
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
