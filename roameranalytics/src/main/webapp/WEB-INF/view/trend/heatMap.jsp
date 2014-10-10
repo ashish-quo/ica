@@ -201,8 +201,8 @@
     </div>
 
     <div class="top10chart-view-home">
-      <div class="row">
-        <div class="col-lg-3">
+      <div>
+        <div class="col-lg-3 chart-panel-box">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -251,7 +251,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 chart-panel-box">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -300,7 +300,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 chart-panel-box">
           <div class="flip">
             <div class="card">
               <div class="face front">
@@ -349,11 +349,11 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 chart-panel-box">
           <div class="flip">
             <div class="card">
               <div class="face front">
-                <div class="top10chart-panel">
+                <div class="top10chart-panel last">
                   <div class="bubble-label-chart">
                     <div class="visfront">
                       <div id="vis4"></div>
@@ -377,7 +377,7 @@
                 </div>
               </div>
               <div class="face back">
-                <div class="top10chart-panel">
+                <div class="top10chart-panel last">
                   <div class="linechart-box">
                     <div id="container4"></div>
                     <div class="top10-chart-btn light-orange-checked">
