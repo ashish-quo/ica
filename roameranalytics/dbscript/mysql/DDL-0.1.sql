@@ -157,3 +157,16 @@ CREATE TABLE `triptime` (
   `id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+CREATE INDEX trip_visitedcountryname ON trip (visitedcountryname);
+CREATE INDEX trip_starttime ON trip (starttime);
+CREATE INDEX trip_endtime ON trip (endtime);
+CREATE INDEX trip_roamtype ON trip (roamtype);
+CREATE INDEX trip_homecountryname ON trip (homecountryname);
+CREATE INDEX trip_overalltripcategory ON trip (overalltripcategory);
+
+CREATE INDEX triptime_starttime ON triptime (usagebintime);
+CREATE INDEX triptime_imsi ON triptime (imsi);
+
