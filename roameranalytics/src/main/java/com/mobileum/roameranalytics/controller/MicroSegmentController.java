@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.model.MSChartMetadata;
+import com.mobileum.roameranalytics.model.chart.MSChartMetadata;
 import com.mobileum.roameranalytics.service.MicroSegmentService;
 
 /**

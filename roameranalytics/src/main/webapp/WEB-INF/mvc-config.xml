@@ -104,5 +104,8 @@
 	<bean id="namedParameterJdbcTemplate2" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSource2"/>
 	</bean>
+	<bean id="prestoJdbcTempate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSource2"/>
+	</bean>
 	
 </beans>

@@ -4,6 +4,7 @@
 package com.mobileum.roameranalytics.common;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,5 +52,24 @@ public class CommonUtil {
 			attributeMap.put(key,value );
 		}
 		return attributeMap;
+	}
+	
+	public static String covnertToCommaSeparatedString(Collection<? extends Object> list) {
+		StringBuilder result = new StringBuilder();
+		boolean first = true;
+		for (Object object : list) {
+			if (first) {
+				first = false;
+			} else {
+				result.append(",");
+			}
+			if (object instanceof String) {
+				result.append("'").append(object).append("'");
+			} else {
+				result.append(object);
+			}
+			
+		}
+		return result.toString();
 	}
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.mobileum.roameranalytics.common.RAConstants;
@@ -32,6 +33,7 @@ public class MetaDataServiceImpl implements MetaDataService {
 
 	/** The common dao. */
 	@Autowired
+	@Qualifier("prestoMetadataRepository")
 	private MetaDataRepository metaDataRepository;
 	
 	/** The logger. */

@@ -19,8 +19,6 @@ import com.mobileum.roameranalytics.model.chart.RoamingTrend;
  */
 public interface TrendService {
 
-	public void printQuery();
-	
 	/**
 	 * @Authr Smruti
 	 * @param startDate

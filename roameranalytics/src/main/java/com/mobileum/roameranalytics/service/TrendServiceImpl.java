@@ -3,22 +3,19 @@
  */
 package com.mobileum.roameranalytics.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.model.AggregatedCountryStatistics;
-import com.mobileum.roameranalytics.model.CountryUsageStatistics;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.RoamingCategory;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
@@ -30,31 +27,25 @@ import com.mobileum.roameranalytics.repository.TrendRepository;
  *
  */
 @Service
-public class TrendServiceImpl implements TrendService{
+public class TrendServiceImpl implements TrendService {
 
 	/** The common service. */
 	@Autowired
-	private MetaDataService commonService;
+	private MetaDataService metaDataService;
 
 	/** The trend dao. */
 	@Autowired
-	private TrendRepository trendDao;
+	@Qualifier("prestoTrendRepository")
+	private TrendRepository trendRepository;
 	
 	/** The logger. */
 	private static Logger LOGGER = LogManager.getLogger(TrendServiceImpl.class.getName());
 
-	public void printQuery()
-	{
-		
-	}
-	
-	
-	
 	public List<RoamingStatistics> getHeatMap(Filter filter){
 				
-		List<RoamingStatistics> roamingStatisticsList=trendDao.getRoamingStatisticsRepository(filter);
+		List<RoamingStatistics> roamingStatisticsList=trendRepository.getRoamingStatisticsRepository(filter);
 		
-		List<RoamingCategory> roamingCategoryList= trendDao.getRoamingCategoryRepository(filter);
+		List<RoamingCategory> roamingCategoryList= trendRepository.getRoamingCategoryRepository(filter);
 		for(RoamingCategory roamingCategory : roamingCategoryList ){
 			LOGGER.info(roamingCategory.getCategory()+roamingCategory.getVisitedCountryName()+roamingCategory.getCount());
 			for(RoamingStatistics roamingStatistics : roamingStatisticsList){
@@ -72,20 +63,15 @@ public class TrendServiceImpl implements TrendService{
 					roamingStatistics.setRoamerPremium(roamingCategory.getCount());
 					
 				}
-				
 			}
-			
-			
 		}
 		
 		return roamingStatisticsList;
-		
-				
 	}
 	
 	@Override
 	public  AggregatedCountryStatistics getTopCountry(Filter filter){
-		List<RoamingStatistics> roamingStatisticslist= trendDao.getRoamingStatisticsRepository(filter);
+		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatisticsRepository(filter);
 		AggregatedCountryStatistics topCountry=new AggregatedCountryStatistics();
 		
 		/**	Get Top 10 Country List **/
@@ -146,7 +132,7 @@ public class TrendServiceImpl implements TrendService{
 	@Override
 	public RoamingTrend getTrendsCharts(Filter filter) {
 		LOGGER.trace("Getting trend chart's data - Roamer Count, MT & MO, SMS and Data");
-		return this.trendDao.getTrendsCharts(filter);
+		return this.trendRepository.getTrendsCharts(filter);
 	}
 	
 	@Override
@@ -165,7 +151,7 @@ public class TrendServiceImpl implements TrendService{
 		roamingStatisticsMap.put("totalData", new Long(0));
 		roamingStatisticsMap.put("totalSms", new Long(0));
 		
-		List<RoamingStatistics> roamingStatisticslist= trendDao.getRoamingStatisticsRepository(filter);
+		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatisticsRepository(filter);
 		
 		for(RoamingStatistics roamingStatistics : roamingStatisticslist ){
 			roamingStatisticsMap.put("totalRoamer",roamingStatisticsMap.get("totalRoamer")+roamingStatistics.getRoamerTotal() );
@@ -183,7 +169,7 @@ public class TrendServiceImpl implements TrendService{
 		}
 		
 		
-		List<RoamingCategory> roamingCategoryList= trendDao.getRoamingCategoryRepository(filter);
+		List<RoamingCategory> roamingCategoryList= trendRepository.getRoamingCategoryRepository(filter);
 		for(RoamingCategory roamingCategory : roamingCategoryList ){
 			if(roamingStatisticsMap.get(roamingCategory.getCategory())!=null){
 				roamingStatisticsMap.put(roamingCategory.getCategory(),roamingStatisticsMap.get(roamingCategory.getCategory())+ roamingCategory.getCount());
