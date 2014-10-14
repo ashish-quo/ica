@@ -309,5 +309,16 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 				RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED).keySet());
 		return otherCountries;
 	}
+
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getAllNetworkAndNetworkGroups(long, long)
+	 */
+	@Override
+	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(
+			long networkAttrId, long networkGroupAttrId)
+			throws RADataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

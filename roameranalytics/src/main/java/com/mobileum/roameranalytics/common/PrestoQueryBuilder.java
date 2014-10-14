@@ -343,14 +343,14 @@ public class PrestoQueryBuilder {
 	 *
 	 * @return the string
 	 */
-	public static String queryForDistinctNetworkGroups(Collection<String> networks) {
+	public static String queryForDistinctNetworkGroups() {
 		StringBuilder query = new StringBuilder();
 		query.append("select distinct network_name , network_group from ").append(Relation.TADIGNETWORK)
 			.append(" tadignetwork inner join ").append(Relation.TRIP)
 			.append(" trip on trip.visitednetworkname = tadignetwork.network_name ")
 			.append(" and trip.homecountryname = '").append(resourseBundle.getString("home.country"))
 			.append("' and trip.roamtype = '").append(resourseBundle.getString("roam.type" )).append("' ") 
-			.append(" order by network_group");
+			.append(" order by network_name ");
 		return query.toString();
 	}
 	

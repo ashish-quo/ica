@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -192,12 +191,88 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	}
 
 	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getAllNetworkAndNetworkGroups(long, long)
+	 */
+	@Override
+	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups( long networkAttrId, long networkGroupAttrId)
+			throws RADataAccessException {
+		String query = PrestoQueryBuilder.queryForDistinctNetworkGroups();
+		LOGGER.debug("Getting all networks groups ");
+		LOGGER.debug("Network Group Query : " + query);
+
+		List<AttributeCategory> networkGroupCategories = new ArrayList<AttributeCategory>(50);
+		List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
+		final Map<String,StringBuilder> networkGroupMap = new TreeMap<String, StringBuilder>();
+		Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
+		try {
+			this.prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
+				@Override
+				public AttributeCategory mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					String groupString = rs.getString("network_group");
+					String networkName = rs.getString("network_name");
+					if (networkName != null && !networkName.isEmpty()) {
+						if (groupString.contains(RAConstants.COMMA)) {
+							String[] groups = groupString.split(RAConstants.COMMA);
+							for (String group : groups) {
+								StringBuilder networkNames = networkGroupMap.get(group);
+								if (networkNames == null) {
+									networkNames = new StringBuilder(); 
+									networkGroupMap.put(group, networkNames);
+									networkNames.append(networkName);
+								} else {
+									networkNames.append(RAConstants.COMMA).append(networkName);
+								}
+							}
+						} else {
+							StringBuilder networkNames = networkGroupMap.get(groupString);
+							if (networkNames == null) {
+								networkNames = new StringBuilder(); 
+								networkGroupMap.put(groupString, networkNames);
+								networkNames.append(networkName);
+							} else {
+								networkNames.append(RAConstants.COMMA).append(networkName);
+							}
+						}
+						
+						AttributeCategory attributeCategory = new AttributeCategory();
+						attributeCategory.setCategName(networkName);
+						attributeCategory.setAttrId(networkAttrId);
+						attributeCategory.setId(rowNum);
+						attributeCategory.setCategValue(networkName);
+						RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).put(attributeCategory.getCategValue(),
+								attributeCategory.getCategName());
+						networkCategories.add(attributeCategory);
+						}
+					return null;
+				}
+			});
+		} catch(DataAccessException dae) {
+			LOGGER.error("Error occurred while getting all network groups: ", dae);
+			throw new RADataAccessException(dae);
+		}
+		int catId = 1;
+		for (String group : networkGroupMap.keySet()) {
+			AttributeCategory attrCat = new AttributeCategory();
+			attrCat.setCategName(group);
+			attrCat.setAttrId(networkGroupAttrId);
+			attrCat.setId(catId++);
+			attrCat.setCategValue(networkGroupMap.get(group).toString());
+			networkGroupCategories.add(attrCat);
+		}
+		result.put(networkGroupAttrId, networkGroupCategories);
+		result.put(networkAttrId, networkCategories);
+		LOGGER.debug("networks groups found : " + networkGroupCategories.size());
+		LOGGER.debug("networks groups : " + networkGroupCategories);
+		return result;
+	}
+	
+	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getNetworkGroups(long)
 	 */
 	@Override
 	public List<AttributeCategory> getNetworkGroups(long attributeId) throws RADataAccessException {
-		String query = PrestoQueryBuilder.queryForDistinctNetworkGroups(
-				RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).keySet());
+		String query = PrestoQueryBuilder.queryForDistinctNetworkGroups();
 		LOGGER.debug("Getting all networks groups ");
 		LOGGER.debug("Network Group Query : " + query);
 
@@ -288,5 +363,5 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 				RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED).keySet());
 		return otherCountries;
 	}
-	
+
 }

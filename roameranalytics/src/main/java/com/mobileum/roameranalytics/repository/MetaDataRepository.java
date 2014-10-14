@@ -4,6 +4,7 @@
 package com.mobileum.roameranalytics.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Attribute;
@@ -30,6 +31,14 @@ public interface MetaDataRepository {
 	 * @return the all networks
 	 */
 	public List<AttributeCategory> getAllNetworks(long networkAttrId) throws RADataAccessException ;
+	
+	/**
+	 * Gets the all networks.
+	 *
+	 * @return the all networks
+	 */
+	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(long networkAttrId, 
+			long networkGroupAttrId) throws RADataAccessException ;
 	
 	
 	/**
