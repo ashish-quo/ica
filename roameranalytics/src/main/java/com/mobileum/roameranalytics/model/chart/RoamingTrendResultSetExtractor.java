@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -67,6 +68,7 @@ public class RoamingTrendResultSetExtractor implements ResultSetExtractor<Roamin
 			
 			Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(date);
+			cal.setTimeZone(TimeZone.getTimeZone("UTC"));
 			int calDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 			calDayOfWeek = calDayOfWeek == 1 ? 7 : calDayOfWeek - 1;
 			DayOfWeek dow =  DayOfWeek.of(calDayOfWeek);

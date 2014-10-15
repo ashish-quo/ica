@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.repository;
+package com.mobileum.roameranalytics.repository.presto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,20 +10,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.mobileum.roameranalytics.common.PrestoQueryBuilder;
 import com.mobileum.roameranalytics.common.QueryBuilder;
 import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.exception.RADataAccessException;
@@ -31,32 +30,26 @@ import com.mobileum.roameranalytics.model.Attribute;
 import com.mobileum.roameranalytics.model.AttributeCategory;
 import com.mobileum.roameranalytics.model.Country;
 import com.mobileum.roameranalytics.model.Filter;
+import com.mobileum.roameranalytics.repository.MetaDataRepository;
 
 /**
  * @author sarvesh
  *
  */
 @Repository
-public class MetaDataRepositoryImpl implements MetaDataRepository {
+@Qualifier("prestoMetadataRepository")
+public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 
+	/** The jdbc template. */
+	@Autowired
+	private JdbcTemplate prestoJdbcTempate;
+	
 	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	/** The named parameter jdbc template. */
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-	
-	/** The named parameter jdbc template. */
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate2;
-	
-	/** The application configuration. */
-	@Autowired
-	private Properties applicationConfiguration;
-	
 	/** The logger. */
-	private static Logger LOGGER = LogManager.getLogger("MetaDataRepositoryImpl");
+	private static Logger LOGGER = LogManager.getLogger("PrestoMetadataRepositoryImpl");
 	
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAttributeList()
@@ -138,12 +131,12 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		String query = QueryBuilder.queryForAllCountries();
 		
 		LOGGER.debug("Getting all countries ");
-		LOGGER.debug(query);
+		LOGGER.debug("Country query : " + query);
 
 		List<Country> countries = new ArrayList<Country>(200);
 
 		try {
-			countries = namedParameterJdbcTemplate2.query(query, new RowMapper<Country>(){
+			countries = prestoJdbcTempate.query(query, new RowMapper<Country>(){
 				public Country mapRow(ResultSet rs, int rowNumber) throws SQLException {
 					Country country = new Country();
 					country.setCountryName(rs.getString("countryName"));
@@ -167,17 +160,13 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	 */
 	@Override
 	public List<AttributeCategory> getAllNetworks(final long networkAttrId) throws RADataAccessException {
-		String query = QueryBuilder.queryForDistinctNetworks();
+		String query = PrestoQueryBuilder.queryForDistinctNetworks();
 		LOGGER.debug("Getting all network names ");
-		LOGGER.debug(query);
-		
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
-		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
+		LOGGER.debug("All Networks query " + query);
 		
 		List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
 		try{
-			networkCategories = namedParameterJdbcTemplate2.query(query,parameters, new RowMapper<AttributeCategory>() {
+			networkCategories = prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
@@ -202,21 +191,97 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	}
 
 	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getAllNetworkAndNetworkGroups(long, long)
+	 */
+	@Override
+	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(final long networkAttrId, 
+			final long networkGroupAttrId)
+			throws RADataAccessException {
+		String query = PrestoQueryBuilder.queryForDistinctNetworkGroups();
+		LOGGER.debug("Getting all networks groups ");
+		LOGGER.debug("Network Group Query : " + query);
+
+		List<AttributeCategory> networkGroupCategories = new ArrayList<AttributeCategory>(50);
+		final List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
+		final Map<String,StringBuilder> networkGroupMap = new TreeMap<String, StringBuilder>();
+		Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
+		try {
+			this.prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
+				@Override
+				public AttributeCategory mapRow(ResultSet rs, int rowNum)
+						throws SQLException {
+					String groupString = rs.getString("network_group");
+					String networkName = rs.getString("network_name");
+					if (networkName != null && !networkName.isEmpty()) {
+						if (groupString.contains(RAConstants.COMMA)) {
+							String[] groups = groupString.split(RAConstants.COMMA);
+							for (String group : groups) {
+								StringBuilder networkNames = networkGroupMap.get(group);
+								if (networkNames == null) {
+									networkNames = new StringBuilder(); 
+									networkGroupMap.put(group, networkNames);
+									networkNames.append(networkName);
+								} else {
+									networkNames.append(RAConstants.COMMA).append(networkName);
+								}
+							}
+						} else {
+							StringBuilder networkNames = networkGroupMap.get(groupString);
+							if (networkNames == null) {
+								networkNames = new StringBuilder(); 
+								networkGroupMap.put(groupString, networkNames);
+								networkNames.append(networkName);
+							} else {
+								networkNames.append(RAConstants.COMMA).append(networkName);
+							}
+						}
+						
+						AttributeCategory attributeCategory = new AttributeCategory();
+						attributeCategory.setCategName(networkName);
+						attributeCategory.setAttrId(networkAttrId);
+						attributeCategory.setId(rowNum);
+						attributeCategory.setCategValue(networkName);
+						RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).put(attributeCategory.getCategValue(),
+								attributeCategory.getCategName());
+						networkCategories.add(attributeCategory);
+						}
+					return null;
+				}
+			});
+		} catch(DataAccessException dae) {
+			LOGGER.error("Error occurred while getting all network groups: ", dae);
+			throw new RADataAccessException(dae);
+		}
+		int catId = 1;
+		for (String group : networkGroupMap.keySet()) {
+			AttributeCategory attrCat = new AttributeCategory();
+			attrCat.setCategName(group);
+			attrCat.setAttrId(networkGroupAttrId);
+			attrCat.setId(catId++);
+			attrCat.setCategValue(networkGroupMap.get(group).toString());
+			networkGroupCategories.add(attrCat);
+		}
+		result.put(networkGroupAttrId, networkGroupCategories);
+		result.put(networkAttrId, networkCategories);
+		LOGGER.debug("networks groups found : " + networkGroupCategories.size());
+		LOGGER.debug("networks groups : " + networkGroupCategories);
+		return result;
+	}
+	
+	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getNetworkGroups(long)
 	 */
 	@Override
 	public List<AttributeCategory> getNetworkGroups(long attributeId) throws RADataAccessException {
-		String query = QueryBuilder.queryForDistinctNetworkGroups();
+		String query = PrestoQueryBuilder.queryForDistinctNetworkGroups();
 		LOGGER.debug("Getting all networks groups ");
-		LOGGER.debug(query);
+		LOGGER.debug("Network Group Query : " + query);
 
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("networks", RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).keySet());
 		List<AttributeCategory> attributeCategories = new ArrayList<AttributeCategory>(50);
 		final Map<String,StringBuilder> attrCategoryMap = new TreeMap<String, StringBuilder>();
 		
 		try {
-			namedParameterJdbcTemplate2.query(query,parameters, new RowMapper<AttributeCategory>() {
+			prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(ResultSet rs, int rowNum)
 						throws SQLException {
@@ -269,23 +334,13 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter) throws RADataAccessException {
 		StringBuilder query = new StringBuilder();
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		QueryBuilder.populateQueryForOtherCountriesTraveled(filter, query, parameterMap );
+		PrestoQueryBuilder.populateQueryForOtherCountriesTraveled(filter, query, parameterMap );
 		LOGGER.debug("Getting other countries traveled ");
-		LOGGER.debug(query.toString());
+		LOGGER.debug("Other Countries Traveled query : " + query.toString());
 		
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("startDate", filter.getDateFrom());
-		parameters.addValue("endDate", filter.getDateTo());
-		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
-		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
-		
-		for (String key : parameterMap.keySet()) {
-			parameters.addValue(key, parameterMap.get(key));
-		}
-		LOGGER.debug("Parameter values for other countries traveled : " + parameters.getValues());
 		List<AttributeCategory> otherCountries = new ArrayList<AttributeCategory>(10);
 		try{
-			otherCountries = namedParameterJdbcTemplate2.query(query.toString(),parameters, 
+			otherCountries = prestoJdbcTempate.query(query.toString(), 
 					new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(ResultSet rs, int rowNum)
@@ -310,15 +365,4 @@ public class MetaDataRepositoryImpl implements MetaDataRepository {
 		return otherCountries;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getAllNetworkAndNetworkGroups(long, long)
-	 */
-	@Override
-	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(
-			long networkAttrId, long networkGroupAttrId)
-			throws RADataAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

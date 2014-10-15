@@ -8,10 +8,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.mobileum.roameranalytics.common.RAConstants;
@@ -32,6 +34,7 @@ public class MetaDataServiceImpl implements MetaDataService {
 
 	/** The common dao. */
 	@Autowired
+	@Qualifier("prestoMetadataRepository")
 	private MetaDataRepository metaDataRepository;
 	
 	/** The logger. */
@@ -44,14 +47,24 @@ public class MetaDataServiceImpl implements MetaDataService {
 		List<Attribute> commonAttributes = null;
 		try {
 			commonAttributes = this.metaDataRepository.getAttributeList();
-			
+			long networkAttrId = 0;
+			long networkGroupAttrId = 0;
+			Attribute networkAttr = null ;
+			Attribute neworkgGrpupAttr = null;
 			for (Attribute attribute : commonAttributes) {
 				if (RAConstants.ATTR_NETWORK.equalsIgnoreCase(attribute.getAttributeName())) {
-					attribute.setAttributeCategoryList(this.metaDataRepository.getAllNetworks(attribute.getId()));
+					networkAttrId = attribute.getId();
+					networkAttr = attribute;
 				} else if (RAConstants.ATTR_NETWORK_GROUP.equalsIgnoreCase(attribute.getAttributeName())) {
-					attribute.setAttributeCategoryList(this.metaDataRepository.getNetworkGroups(attribute.getId()));
+					neworkgGrpupAttr = attribute;
+					networkGroupAttrId = attribute.getId();
 				}
 			}
+			
+			Map<Long,List<AttributeCategory>> networkAndGroupMap = 
+					this.metaDataRepository.getAllNetworkAndNetworkGroups(networkAttrId, networkGroupAttrId);
+			networkAttr.setAttributeCategoryList(networkAndGroupMap.get(networkAttrId));
+			neworkgGrpupAttr.setAttributeCategoryList(networkAndGroupMap.get(networkGroupAttrId));
 		} catch (RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}

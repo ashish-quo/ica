@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.mobileum.roameranalytics.common.RAConstants;
@@ -23,6 +24,7 @@ import com.mobileum.roameranalytics.repository.MicroSegmentRepository;
 public class MicroSegmentServiceImpl implements MicroSegmentService {
 
 	@Autowired
+	@Qualifier("prestoMetadataRepository")
 	private MicroSegmentRepository microsegmentDao;
 	
 	@Override

@@ -1,59 +1,50 @@
 /**
  * 
  */
-package com.mobileum.roameranalytics.repository;
+package com.mobileum.roameranalytics.repository.presto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.mobileum.roameranalytics.common.QueryBuilder;
+import com.mobileum.roameranalytics.common.PrestoQueryBuilder;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.RoamingCategory;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.model.chart.RoamingTrendResultSetExtractor;
+import com.mobileum.roameranalytics.repository.TrendRepository;
 
 /**
- * @author smruti
+ * @author sarvesh
  *
  */
 @Repository
-public class TrendRepositoryImpl implements TrendRepository {
+@Qualifier("prestoTrendRepository")
+public class PrestoTrendRepositoryImpl implements TrendRepository {
 
 	/** The jdbc template. */
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	/** The application configuration. */
+	/** The jdbc template. */
 	@Autowired
-	private Properties applicationConfiguration;
-	
-	/** The named parameter jdbc template. */
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-	
-	/** The named parameter jdbc template. */
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate2;
+	private JdbcTemplate prestoJdbcTempate;
 	
 	/** The logger. */
-	private static Logger LOGGER = LogManager.getLogger(TrendRepositoryImpl.class.getName());
+	private static Logger LOGGER = LogManager.getLogger(PrestoTrendRepositoryImpl.class.getName());
 
 	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -67,23 +58,9 @@ public class TrendRepositoryImpl implements TrendRepository {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
 		
-		QueryBuilder.populateQueryForTrends(filter,query,parameterMap);
-
-		
+		PrestoQueryBuilder.populateQueryForTrends(filter,query,parameterMap);
 		LOGGER.debug("Roaming Trends query : " + query.toString());
-
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("startDate", filter.getDateFrom());
-		parameters.addValue("endDate", filter.getDateTo());
-		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
-		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
-		
-		LOGGER.debug("Query parameters : " + parameterMap.values());
-		
-		for (String key : parameterMap.keySet()) {
-			parameters.addValue(key, parameterMap.get(key));
-		}
-		return namedParameterJdbcTemplate2.query(query.toString(),parameters, new RoamingTrendResultSetExtractor());
+		return prestoJdbcTempate.query(query.toString(), new RoamingTrendResultSetExtractor());
 	}
 	
 	@Override
@@ -91,22 +68,10 @@ public class TrendRepositoryImpl implements TrendRepository {
 		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
-		QueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap);
-		
+		PrestoQueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap);
 		LOGGER.debug(query.toString());
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		parameters.addValue("startDate", filter.getDateFrom());
-		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
-		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
-		parameters.addValue("endDate", filter.getDateTo());
-		
-		for (String key : parameterMap.keySet()) {
-			parameters.addValue(key, parameterMap.get(key));
-		}
-		
-		LOGGER.debug(" Roaming statistics parameters : " + parameters.getValues());
-		return namedParameterJdbcTemplate2.query(query.toString(),parameters, new RowMapper<RoamingStatistics>() {
+
+		return prestoJdbcTempate.query(query.toString(), new RowMapper<RoamingStatistics>() {
 
 			@Override
 			public RoamingStatistics mapRow(ResultSet rs, int rowNum)
@@ -125,8 +90,6 @@ public class TrendRepositoryImpl implements TrendRepository {
 				return roamingStatistics;
 			}
 		});
-
-		
 	}
 
 	@Override
@@ -134,21 +97,11 @@ public class TrendRepositoryImpl implements TrendRepository {
 		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
-		QueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap);
+		PrestoQueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap);
 		
 		LOGGER.info(query.toString());
 		
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		//parameters.addValue("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		parameters.addValue("startDate", filter.getDateFrom());
-		parameters.addValue("homeCountry", applicationConfiguration.get("home.country"));
-		parameters.addValue("roamType", applicationConfiguration.get("roam.type"));
-		parameters.addValue("endDate", filter.getDateTo());
-		for (String key : parameterMap.keySet()) {
-			parameters.addValue(key, parameterMap.get(key));
-		}
-		
-		return namedParameterJdbcTemplate2.query(query.toString(),parameters, new RowMapper<RoamingCategory>() {
+		return prestoJdbcTempate.query(query.toString(), new RowMapper<RoamingCategory>() {
 			@Override
 			public RoamingCategory mapRow(ResultSet resultSet, int rowNum)
 					throws SQLException {
@@ -173,7 +126,5 @@ public class TrendRepositoryImpl implements TrendRepository {
 				return roamingCategory;
 			}
 		});
-
-		
 	}
 }
