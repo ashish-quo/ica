@@ -228,7 +228,7 @@
 	</ul>
 	<ul class="mainnav" id="demo1">
 		<li class="nav-dropdown"><a href="#"><i
-				class="custom-date-icon"></i> <span id="display-cutdate">{{filters.dateRangeFrom}} 
+				class="custom-date-icon"></i>  <span id="display-cutdate" style="display:none">{{filters.dateRangeFrom}} 
 					- {{filters.dateRangeTo}}</span></a>
 			<ul class="nav-sub">
 				<li><a href ng-click="thisWeekRange()"><fmt:message key="date.range.this.week"/></a></li>

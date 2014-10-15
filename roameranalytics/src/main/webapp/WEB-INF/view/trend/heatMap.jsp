@@ -49,14 +49,14 @@
      
         <div class="map-content clearfix">
           <ul class="map-tabs">
-            <li>
+          <!--    <li>
               <p class="i-checks">
                 <label>
                   <input type="radio" name="project" id="usage" value="usage" ng-model="mapUnit" checked>
                   <i></i></label>
                 <label for="usage">Expected Usage</label>
               </p>
-            </li>
+            </li> -->
             <li>
               <p class="i-checks">
                 <label>

@@ -36,7 +36,7 @@
           </a>
         </li>
         <li>
-        	<div id="error" class="header-eror clearfix"> {{error}} </div>
+        	 <div id="error" class="header-eror clearfix" style="display:none"> {{error}} </div><!-- added by cheshta for angular {{}} -->
         </li>
       </ul>
     </div>

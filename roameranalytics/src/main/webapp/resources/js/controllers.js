@@ -42,6 +42,7 @@
 			$rootScope.tabIndex = 4;
 		};
 		$rootScope.error = '';
+		$j('#error').show();
 	}]);
 
 })();

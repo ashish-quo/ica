@@ -356,7 +356,7 @@ console.log("Inside mapcore");
        
        // Initiate the Top10 Bar Chart
        function initiateTop10Bar(selector,dataTop10Bar,xAxis,suffixLable){
-    	   
+    	   $j(selector).html("");
     	   var chart = new Highcharts.Chart({
     			 title: {
     		            text: '',
@@ -492,6 +492,7 @@ console.log("Inside mapcore");
 				$scope.totalSms=0;
 				
 				$scope.top10CsvText='';
+				$scope.mapUnit = 'roamers';
 				
 				function setTop10CSVData(countryData)
 				{
@@ -516,6 +517,11 @@ console.log("Inside mapcore");
 						top10moJsonMap = [];
 						top10mtJsonMap = [];
 						top10dataJsonMap = [];
+						
+						top10roamerBarData = [];
+						top10moBarData = [];
+						top10mtBarData = [];
+						top10dataBarData = [];
 						
 						
 						angular.forEach(top10RoamerJson, function(countryData) {

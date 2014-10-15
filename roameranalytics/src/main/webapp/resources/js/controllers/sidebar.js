@@ -48,6 +48,8 @@
 		$rootScope.filters.dateRangeFrom = defaultDateRange.from;
 		$rootScope.filters.dateRangeTo = defaultDateRange.to;
 		
+		// added by cheshta for hide and show angular {{}}
+		$j("#display-cutdate").show();
 		// Get all the attributes to be shown in left panel
 		$http.get('getAttributes').success(function(data) {
 			$scope.attributes = data;
