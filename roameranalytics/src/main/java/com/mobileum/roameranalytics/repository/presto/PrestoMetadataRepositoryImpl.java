@@ -194,14 +194,15 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getAllNetworkAndNetworkGroups(long, long)
 	 */
 	@Override
-	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups( long networkAttrId, long networkGroupAttrId)
+	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(final long networkAttrId, 
+			final long networkGroupAttrId)
 			throws RADataAccessException {
 		String query = PrestoQueryBuilder.queryForDistinctNetworkGroups();
 		LOGGER.debug("Getting all networks groups ");
 		LOGGER.debug("Network Group Query : " + query);
 
 		List<AttributeCategory> networkGroupCategories = new ArrayList<AttributeCategory>(50);
-		List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
+		final List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
 		final Map<String,StringBuilder> networkGroupMap = new TreeMap<String, StringBuilder>();
 		Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
 		try {

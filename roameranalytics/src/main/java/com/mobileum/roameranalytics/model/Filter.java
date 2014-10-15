@@ -89,7 +89,7 @@ public class Filter {
 	 * @param dateTo the dateTo to set
 	 */
 	public void setDateTo(long dateTo) {
-		this.dateTo = dateTo/1000;
+		this.dateTo = dateTo/1000 + 86399;
 	}
 
 	/**
