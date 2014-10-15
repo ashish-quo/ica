@@ -14,5 +14,5 @@
 		<microsegment />
 	</div>
 </div>
-<div ng-if="isBeforeTravelTab()"  ng-controller="BeforeTravelController">Before Travel Body</div>
-<div ng-if="isUponLandingTab()"  ng-controller="UponLandingController">Upon Landing Body</div>
+<div ng-if="isBeforeTravelTab()"  ng-controller="BeforeTravelController"></div>
+<div ng-if="isUponLandingTab()"  ng-controller="UponLandingController"></div>
