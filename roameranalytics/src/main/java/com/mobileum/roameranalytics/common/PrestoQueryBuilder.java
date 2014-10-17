@@ -30,16 +30,26 @@ public class PrestoQueryBuilder {
 	 * Creates query for getting all attributes for left panel
 	 * @return query
 	 */
-	public static String queryForAttributes() {
+	public static String queryForAttributes(String roamType) {
 		StringBuilder query = new StringBuilder();
-		
-		query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
 				.append(" attr.db_column db_column,  attr.column_type column_type, attr.chart_type chart_type, ")
 				.append(" attrCat.categ_name catName, attrCat.categ_value catValue, attrCat.id catId ")
 				.append(" from ").append(Relation.ATTRIBUTE).append(" attr left join ")
 				.append(Relation.ATTRIBUTE_CATEGORY)
 				.append(" attrCat on attr.id = attrCat.attr_id ")
 				.append(" order by attr.display_order, attrCat.display_order");
+		} else {
+			query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
+				.append(" attr.db_column_in db_column,  attr.column_type column_type, attr.chart_type chart_type, ")
+				.append(" attrCat.categ_name catName, attrCat.categ_value catValue, attrCat.id catId ")
+				.append(" from ").append(Relation.ATTRIBUTE).append(" attr left join ")
+				.append(Relation.ATTRIBUTE_CATEGORY)
+				.append(" attrCat on attr.id = attrCat.attr_id ")
+				.append(" order by attr.display_order, attrCat.display_order");
+		}
+		
 		
 		return query.toString();
 	}
@@ -83,7 +93,7 @@ public class PrestoQueryBuilder {
 			.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
 			.append(" and trip.endtime != 0 ")
-			.append("' and trip.roamtype = '").append(resourseBundle.getString("roam.type")).append("' ");
+			.append(" and trip.roamtype = '").append(roamType).append("' ");
 		List<String> exculdeCountryList = new ArrayList<String>();
 		List<String> selectedCountryList = new ArrayList<String>();
 		if (!filter.getSelectedCountries().isEmpty()) {
@@ -155,7 +165,7 @@ public class PrestoQueryBuilder {
 			.append(" and trip.endtime != 0 ")
 			.append(" and (triptime.usagebintime between ")
 			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
-			.append(") and trip.roamtype = '").append(resourseBundle.getString("roam.type")).append("' ");
+			.append(") and trip.roamtype = '").append(roamType).append("' ");
 
 		
 		List<String> exculdeCountryList = new ArrayList<String>();
@@ -245,9 +255,13 @@ public class PrestoQueryBuilder {
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
 			.append(" network.network_group networkGroup from ")
 			.append(Relation.TRIP).append(" trip ").append(" inner join ")
-			.append(Relation.TADIGNETWORK).append(" network ")
-			.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
-			.append(" where trip.starttime >= ").append(filter.getDateFrom())
+			.append(Relation.TADIGNETWORK).append(" network ");
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			query.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ");
+		} else {
+			query.append(" on trip.homemcc = network.mcc and trip.homemnc = network.mnc ");
+		}
+		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
 			.append(" and trip.endtime != 0 ")
 			.append(" and trip.roamtype = '").append(roamType).append("' ");
@@ -328,9 +342,13 @@ public class PrestoQueryBuilder {
 			Map<String, Object> parameterMap, String roamType) {
 		query.append(" select count(trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
-			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" trip.visitedcountryname country from ")
-			.append(Relation.TRIP).append(" trip ")
+			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ");
+			if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+				query.append(" trip.visitedcountryname country from ");
+			} else {
+				query.append(" trip.homecountryname country from ");
+			}
+			query.append(Relation.TRIP).append(" trip ")
 			.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
 			.append(" and trip.endtime != 0 ")
@@ -522,18 +540,6 @@ public class PrestoQueryBuilder {
 		if (countriesIn != null && !countriesIn.isEmpty()) {
 			selectedCountryList.addAll(countriesIn);
 		}
-		
-		if (!exculdeCountryList.isEmpty()) {
-			query.append(" and trip.visitedcountryname not in (")
-				.append(CommonUtil.covnertToCommaSeparatedString(exculdeCountryList))
-				.append(")");
-		}
-		
-		if (!selectedCountryList.isEmpty()) {
-			query.append(" and trip.visitedcountryname in (")
-				.append(CommonUtil.covnertToCommaSeparatedString(selectedCountryList))
-				.append(")");
-		}
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
 			if (!exculdeCountryList.isEmpty()) {
 				query.append(" and trip.visitedcountryname not in (")
@@ -586,16 +592,8 @@ public class PrestoQueryBuilder {
 				query.append(" and network.network_name in (").append(CommonUtil.covnertToCommaSeparatedString(parameterList))
 					.append(") ");
 				parameterMap.put("networknames",parameterList);
-			} else if ("visitedcountryname".equalsIgnoreCase(columnName)) {
-				List<Object> countries = (List<Object>)parameterMap.get("countries"); 
-				if (countries == null) {
-					parameterMap.put("countries",parameterList);
-				} else {
-					List<Object> newList = new ArrayList<Object>(countries);
-					newList.addAll(parameterList);
-					parameterMap.put("countries",newList);
-				}
-				
+			} else if ("othercountriestraveled".equalsIgnoreCase(columnName)) {
+				parameterMap.put("countries",parameterList);
 			} else {
 				query.append(" and trip.").append(columnName).append(" in (")
 					.append(CommonUtil.covnertToCommaSeparatedString(parameterList))

@@ -639,15 +639,15 @@ console.log("Inside mapcore");
 									return location.search = encodeURIComponent(key);
 								});
 						d3.select("#book-title").html(text.name);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap),displayRoamer);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap), displayMo);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap), displayMt);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap),displayData);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap),displayRoamer);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap), displayMo);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap), displayMt);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap),displayData);
 						
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap.slice(removeHitterCount,roamerJsonMap.length)),displayRoamerHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap.slice(removeHitterCount,roamerJsonMap.length)),displayRoamerHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
 						
 						initiateTop10Bar('container',top10roamerBarData,top10roamerBarX,'Roamer Count');
 						initiateTop10Bar('container2',top10moBarData,top10moBarX,'MO (Minute)');

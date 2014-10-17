@@ -63,8 +63,8 @@ public class TrendController {
 	 *
 	 * @return the model and view
 	 */
-	@RequestMapping(method = RequestMethod.GET, value="/login")
-	public ModelAndView showHome() {
+	@RequestMapping(method = RequestMethod.GET, value={"/login","/"})
+	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("login");
 		return mv;
 	}

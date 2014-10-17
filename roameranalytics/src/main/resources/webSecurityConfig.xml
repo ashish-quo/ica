@@ -20,7 +20,7 @@
 		<form-login login-page='/login' login-processing-url="/perform_login" 
 			default-target-url="/out" authentication-failure-url="/login?error=true"
 			username-parameter="username"	password-parameter="password" 
-			always-use-default-target="true" />
+			always-use-default-target="false" />
 
 		<logout logout-url="/perform_logout" delete-cookies="JSESSIONID"
 			success-handler-ref="customLogoutSuccessHandler" />

@@ -79,7 +79,7 @@
 	    			  var donutData ;
 		    		  var columnData;
 		    		  columnData = dataToPlot.slice(0,2);
-		    		  donutData = dataToPlot.slice(3);
+		    		  donutData = dataToPlot.slice(2);
 		    		  element.removeClass("big-donutchart").addClass("medium-donutchart")
 		    		  this.drawHorizontalBarChart(horizontalChart,columnData);
 		    		  this.drawMorrisChart(element,donutData);
@@ -87,7 +87,7 @@
 		    		  var donutData ;
 		    		  var columnData;
 	    			  donutData = dataToPlot.slice(0,3);
-	    			  columnData = dataToPlot.slice(4);
+	    			  columnData = dataToPlot.slice(3);
 	    			  if (columnData.length > 0) {
 	    				  element.removeClass("big-donutchart").addClass("medium-donutchart");
 	    				  this.drawVerticalBarChart(verticalChart,columnData);

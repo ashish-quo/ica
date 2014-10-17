@@ -55,7 +55,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAttributeList()
 	 */
 	public List<Attribute> getAttributeList(String roamType) throws RADataAccessException {
-		String query = PrestoQueryBuilder.queryForAttributes();
+		String query = PrestoQueryBuilder.queryForAttributes(roamType);
 		LOGGER.debug("Getting all attributes");
 		LOGGER.debug(query);
 		
