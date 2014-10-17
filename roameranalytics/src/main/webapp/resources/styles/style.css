@@ -2814,3 +2814,21 @@ button.btn-primary.unactive:hover .back-arrow {
 .commentClose {background-image:url(../images/close-tag-icon.png); cursor:pointer;}
 
 .load-data {text-align:center; color:#aeb2b7; font-style:italic; font-size:15px; line-height:24px;}
+
+p.displyclass{display: block !important;}
+.input-label{
+	  display: inline-block !important;
+    float: left;
+    width: 11%;
+}
+.input-label1{
+	    display: inline-block !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 85%;
+    line-height: 15px;
+}
+.statics-num.smallsize {
+    font-size: 30px;
+}

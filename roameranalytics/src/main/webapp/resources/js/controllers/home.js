@@ -348,7 +348,10 @@
                tooltip: {
                    valueSuffix: suffixLable
                }
-           }]
+           }],
+           credits: {
+        	      enabled: false
+        	  }
        });
 console.log("Inside mapcore");
        }
@@ -377,7 +380,10 @@ console.log("Inside mapcore");
     		        name: suffixLable,
     		        data: dataTop10Bar,
     				color: '#51bfe3',
-    		    }]
+    		    }],
+    		    credits: {
+    		        enabled: false
+    		    }
     		});
     	   
        }
@@ -719,7 +725,7 @@ console.log("Inside mapcore");
 					    });
 					 
 					 sortedMt.sort(function(a, b){
-						 return parseInt(b['mtTotal'],10) - parseInt(a['mtTotal'],10);
+						 return parseInt(b['mt'],10) - parseInt(a['mt'],10);
 					    });
 					 sortedMo.sort(function(a, b){
 						 return parseInt(b['moTotal'],10) - parseInt(a['moTotal'],10);
