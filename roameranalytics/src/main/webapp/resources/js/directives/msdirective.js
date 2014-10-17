@@ -120,13 +120,13 @@
 	    		  var chartMetaData = attrs.chartname + "," + attrs.columnname +  "," + attrs.columntype + "," + attrs.charttype;
 	    		  $j.extend(data.params, {'chartmetadata' :chartMetaData } );
 	    		  
-	    		  var url = '';
+	    		  var url =  "/";
 	    		  if (attrs.chartname == 'Network Group') {
-	    			  url = 'microsegment/networkgroup/'
+	    			  url+= 'microsegment/networkgroup/'
 	    		  } else if (attrs.chartname == 'Other Countries Traveled'){
-	    			  url = 'microsegment/otherCountriesTraveled';
+	    			  url+= 'microsegment/otherCountriesTraveled';
 	    		  } else {
-    				  url = 'microsegment/graph/';
+    				  url+= 'microsegment/graph/';
 	    		  }
 	    		  element.html('');
 	    		  var verticalChart = $j('#column-chart-'+attrs.chartname.replace(/ /g,''));
@@ -135,7 +135,7 @@
 	    		  horizontalChart.html('');
 	    		  element.removeClass("loading");
 	    		  element.addClass("loading");
-		    	  $http.get(url , data).success(function(result) {
+		    	  $http.get($scope.roamType + url , data).success(function(result) {
 		    		  $scope.msdata = result.data;
 		    		  
 		    		  $scope.title[attrs.chartname] = result.attrName;

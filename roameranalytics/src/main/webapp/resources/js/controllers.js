@@ -1,12 +1,13 @@
 (function() {
 	var appControllers = angular.module("app.main", []);
-
+	
 	/**
 	 * Main Controller for global actions
 	 */
 	appControllers.controller('MainController',
 			['$scope', '$rootScope', function($scope, $rootScope) {
-				
+		
+		
 		$rootScope.tabIndex = 0;
 		
 		$rootScope.isHomeTab = function() {

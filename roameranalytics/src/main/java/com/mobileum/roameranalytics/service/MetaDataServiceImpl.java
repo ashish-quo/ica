@@ -43,10 +43,10 @@ public class MetaDataServiceImpl implements MetaDataService {
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.TrendServiceI#getAttributes()
 	 */
-	public List<Attribute> getAttributes() {
+	public List<Attribute> getAttributes(String roamType) {
 		List<Attribute> commonAttributes = null;
 		try {
-			commonAttributes = this.metaDataRepository.getAttributeList();
+			commonAttributes = this.metaDataRepository.getAttributeList(roamType);
 			long networkAttrId = 0;
 			long networkGroupAttrId = 0;
 			Attribute networkAttr = null ;
@@ -62,7 +62,7 @@ public class MetaDataServiceImpl implements MetaDataService {
 			}
 			
 			Map<Long,List<AttributeCategory>> networkAndGroupMap = 
-					this.metaDataRepository.getAllNetworkAndNetworkGroups(networkAttrId, networkGroupAttrId);
+					this.metaDataRepository.getAllNetworkAndNetworkGroups(networkAttrId, networkGroupAttrId,roamType);
 			networkAttr.setAttributeCategoryList(networkAndGroupMap.get(networkAttrId));
 			neworkgGrpupAttr.setAttributeCategoryList(networkAndGroupMap.get(networkGroupAttrId));
 		} catch (RADataAccessException dae) {
@@ -75,18 +75,18 @@ public class MetaDataServiceImpl implements MetaDataService {
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.CommonServiceI#getAllCountries()
 	 */
-	public List<Country> getAllCountries() {
+	public List<Country> getAllCountries(String roamType) {
 		try {
-			return this.metaDataRepository.getAllCountries();
+			return this.metaDataRepository.getAllCountries(roamType);
 		} catch (RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 	}
 	
 	@Override
-	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter) {
+	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter,String roamType) {
 		try {
-			return this.metaDataRepository.getOtherCountriesTraveled(filter);
+			return this.metaDataRepository.getOtherCountriesTraveled(filter, roamType);
 		} catch (RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}

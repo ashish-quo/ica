@@ -21,7 +21,7 @@ public interface MicroSegmentService {
 	 * @return the network data
 	 */
 	Map<String, List<Object[]>> getMSChartData(Filter filter, String attributeName, String column, String columnType,
-			Map<String,String> catNameValue);
+			Map<String,String> catNameValue, String roamType);
 	
 	/**
 	 * Gets the network group data.
@@ -33,7 +33,7 @@ public interface MicroSegmentService {
 	 * @return the network data
 	 */
 	Map<String, List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
-			Map<String,String> catNameValue);
+			Map<String,String> catNameValue, String roamType);
 	
 	
 	/**
@@ -43,7 +43,7 @@ public interface MicroSegmentService {
 	 * @throws RADataAccessException 
 	 */
 	Map<String, List<Object[]>> getOtherCountriesTraveledData(Filter filter, String column, String columnType,
-			Map<String,String> catNameValue);
+			Map<String,String> catNameValue,String roamType);
 	
 	/**
 	 * Gets the attribute label and value.

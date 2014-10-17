@@ -75,7 +75,7 @@ public class MicroSegmentControllerTest {
 		filter.setSelectedCountries("China");
 		filter.setDateFrom(1412121600);
 		filter.setDateTo(1419984000);
-		Map<String, List<Object[]>>  data = msService.getMSChartData(filter, "Network", "visitednetworkname", "", new HashMap<String, String>());
+		Map<String, List<Object[]>>  data = msService.getMSChartData(filter, "Network", "visitednetworkname", "", new HashMap<String, String>(),"IN");
 	}
 
 	/**

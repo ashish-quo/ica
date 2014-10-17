@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,13 +39,14 @@ public class MicroSegmentController {
 	@Autowired
 	private MicroSegmentService microsegmentSerice;
 	
-	@RequestMapping(value="/microsegment", method = RequestMethod.GET)
-	public ModelAndView showMicroSegment() {
+	@RequestMapping(value="/{roamType}/microsegment", method = RequestMethod.GET)
+	public ModelAndView showMicroSegment(@PathVariable("roamType") String roamType) {
 		return new ModelAndView("microsegment");
 	}
 	
-	@RequestMapping(value="/microsegment/graphs", method = RequestMethod.GET)
-	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(HttpServletRequest request) throws ParseException {
+	@RequestMapping(value="/{roamType}/microsegment/graphs", method = RequestMethod.GET)
+	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(@PathVariable("roamType") String roamType,
+			HttpServletRequest request) throws ParseException {
 
 		String microSegmentCharts = request.getParameter("microsegmentcharts");
 		String countries = request.getParameter("countries");
@@ -71,8 +73,9 @@ public class MicroSegmentController {
 	}
 	
 	
-	@RequestMapping(value="/microsegment/graph", method = RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getMicroSegmentChartData(HttpServletRequest request) throws ParseException {
+	@RequestMapping(value="/{roamType}/microsegment/graph", method = RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getMicroSegmentChartData(@PathVariable("roamType") String roamType,
+			HttpServletRequest request) throws ParseException {
 		
 		String startdate = request.getParameter("dateRangeFrom");
 		String endDate = request.getParameter("dateRangeTo");
@@ -93,15 +96,16 @@ public class MicroSegmentController {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
 		Map<String, List<Object[]>> data = microsegmentSerice.getMSChartData(filter,chartInfo[0], chartInfo[1], chartInfo[2],
-				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+				RAConstants.attributeNameValueCache.get(chartInfo[0]) ,roamType);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
 		result.put("data", data);
 		return result;
 	}
 	
-	@RequestMapping(value="/microsegment/networkgroup", method = RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getNetworkGroupChartData(HttpServletRequest req) throws ParseException {
+	@RequestMapping(value="/{roamType}/microsegment/networkgroup", method = RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getNetworkGroupChartData(@PathVariable("roamType") String roamType,
+			HttpServletRequest req) throws ParseException {
 		
 		String startdate = req.getParameter("dateRangeFrom");
 		String endDate = req.getParameter("dateRangeTo");
@@ -122,7 +126,7 @@ public class MicroSegmentController {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
 		Map<String, List<Object[]>> data = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
-				RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+				RAConstants.attributeNameValueCache.get(chartInfo[0]),roamType);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
 		result.put("data", data);
@@ -130,9 +134,9 @@ public class MicroSegmentController {
 	}
 	
 	
-	@RequestMapping(value="/microsegment/otherCountriesTraveled", method = RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getOtherCountriesTraveledChartData(HttpServletRequest req) 
-			throws ParseException {
+	@RequestMapping(value="/{roamType}/microsegment/otherCountriesTraveled", method = RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getOtherCountriesTraveledChartData(@PathVariable("roamType") String roamType,
+			HttpServletRequest req)  throws ParseException {
 		
 		String startdate = req.getParameter("dateRangeFrom");
 		String endDate = req.getParameter("dateRangeTo");
@@ -153,7 +157,7 @@ public class MicroSegmentController {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
 		Map<String, List<Object[]>> data = microsegmentSerice.getOtherCountriesTraveledData(
-				filter, chartInfo[1], chartInfo[2], RAConstants.attributeNameValueCache.get(chartInfo[0]) );
+				filter, chartInfo[1], chartInfo[2], RAConstants.attributeNameValueCache.get(chartInfo[0]), roamType);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
 		result.put("data", data);

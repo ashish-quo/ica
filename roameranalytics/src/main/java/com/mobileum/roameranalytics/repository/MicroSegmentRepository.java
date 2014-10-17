@@ -22,7 +22,7 @@ public interface MicroSegmentRepository {
 	 * @throws RADataAccessException 
 	 */
 	Map<String,List<Object[]>> getMSChartData(Filter filter,String attributeName, String column,
-			Map<String,String> catNameValue) throws RADataAccessException;
+			Map<String,String> catNameValue, String roamType) throws RADataAccessException;
 	
 	/**
 	 *  Gets data required for network group in microsegment section.
@@ -31,7 +31,7 @@ public interface MicroSegmentRepository {
 	 * @throws RADataAccessException 
 	 */
 	Map<String,List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
-			Map<String,String> catNameValue) throws RADataAccessException;
+			Map<String,String> catNameValue, String roamType) throws RADataAccessException;
 	
 	
 	/**
@@ -41,7 +41,7 @@ public interface MicroSegmentRepository {
 	 * @throws RADataAccessException 
 	 */
 	Map<String,List<Object[]>> getOtherCountriesTraveledData(Filter filter, String column, String columnType,
-			Map<String,String> catNameValue) throws RADataAccessException;
+			Map<String,String> catNameValue, String roamType) throws RADataAccessException;
 	
 	/**
 	 * Gets the attribute label and value.

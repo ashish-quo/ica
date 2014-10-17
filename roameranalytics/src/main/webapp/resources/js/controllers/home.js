@@ -404,7 +404,7 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				
-				$http.get("getRoamingStatistics", data).success(function(result) {
+				$http.get($scope.roamType +"/getRoamingStatistics", data).success(function(result) {
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -419,7 +419,6 @@ console.log("Inside mapcore");
 					$scope.totalMt = result.totalMt;
 					$scope.totalData=result.totalData;
 					$scope.totalSms=result.totalSms;
-					console.log("Call inside1");
 				});
 				
 				
@@ -439,11 +438,10 @@ console.log("Inside mapcore");
 					$scope.totalMt = 0;
 					$scope.totalData=0;
 					$scope.totalSms=0;
-					console.log("Call inside2");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get("getRoamingStatistics", latestData).success(function(result) {
+					$http.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;
@@ -458,17 +456,9 @@ console.log("Inside mapcore");
 						$scope.totalMt = result.totalMt;
 						$scope.totalData=result.totalData;
 						$scope.totalSms=result.totalSms;
-						console.log("Call inside3");
 					});
 					
 				});
-				
-				
-				
-				
-						
-				
-		
 	}]);
 	
 	
@@ -777,7 +767,7 @@ console.log("Inside mapcore");
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get("getHeatMap", data).success(function(result) {
+				$http.get($scope.roamType +"/getHeatMap", data).success(function(result) {
 							
 					setHeatMapJson(result);
 					initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
@@ -803,7 +793,7 @@ console.log("Inside mapcore");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get("getHeatMap", latestData).success(function(result) {
+					$http.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
 						
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
