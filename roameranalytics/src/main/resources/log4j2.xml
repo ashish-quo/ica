@@ -3,6 +3,7 @@
   <Appenders>
    <RollingFile name="RollingFile" fileName="/home/sarvesh/RAlogs/application.log" 
      filePattern="/home/sarvesh/RAlogs/application-%d{MM-dd-yyyy}.log">
+
       <PatternLayout>
         <Pattern>%d %p %c{1.} %m%n</Pattern>
       </PatternLayout>
