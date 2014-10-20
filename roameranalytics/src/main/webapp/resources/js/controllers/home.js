@@ -128,6 +128,12 @@
 		      label = d3.select(this).selectAll("#bubble-labels").data([data]).enter().append("div").attr("id", "bubble-labels");
 		      update();
 		      hashchange();
+		      d3.select(this).selectAll("circle").append("svg:title")
+		      .text(function(d) { 
+		    	  return d.name; });
+		      d3.select(this).selectAll("div.bubble-label-name").attr("title",function(d) { 
+		    	  return d.name; });
+		      
 		      return d3.select(window).on("hashchange", hashchange);
 		    });
 		  };
@@ -159,8 +165,8 @@
 		    labelEnter = label.enter().append("a").attr("class", "bubble-label").attr("href", function(d) {
 		      return "#" + (encodeURIComponent(idValue(d)));
 		    }).call(force.drag).call(connectEvents);
-		    labelEnter.append("div").attr("class", "bubble-label-name").text(function(d) {
-		      return textValue(d);
+		    labelEnter.append("div").attr("class", "bubble-label-name").attr("dy", ".3em").style("text-anchor", "middle").text(function(d) {
+		      return textValue(d).substring(0, Math.sqrt(rScale(rValue(d))))
 		    });
 		    label.style("font-size", function(d) {
 		      return Math.max(8, rScale(rValue(d) / 2)) + "px";
