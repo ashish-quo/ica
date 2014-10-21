@@ -61,13 +61,14 @@ public class PrestoQueryBuilder {
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
 			query.append(" select visitedcountry countryName, ")
 				.append(" case when bordering = 'Distant' then 0 else 1 end bordering from ")
-				.append(RAPropertyUtil.getProperty("common.table.country")).append(" order by visitedcountry");
+				.append(RAPropertyUtil.getProperty("common.table.country"));
 		} else {
 			query.append(" select visitedcountry countryName, ")
 				.append(" case when bordering = 'Distant' then 0 else 1 end bordering from ")
-				.append(RAPropertyUtil.getProperty("common.table.country")).append(" order by visitedcountry");
+				.append(RAPropertyUtil.getProperty("common.table.country"));
 		}
-		
+		query.append(" where homecountry = ").append(RAPropertyUtil.getProperty("home.country")).append(" ");
+		query.append(" order by visitedcountry");
 		return query.toString();
 	}
 	
@@ -91,8 +92,7 @@ public class PrestoQueryBuilder {
 		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ")
-			.append(" and trip.roamtype = '").append(roamType).append("' ");
+			.append(" and trip.endtime != 0 ");
 		final List<String> exculdeCountryList = new ArrayList<String>();
 		final List<String> selectedCountryList = new ArrayList<String>();
 		if (!filter.getSelectedCountries().isEmpty()) {
@@ -185,7 +185,7 @@ public class PrestoQueryBuilder {
 			.append(" and trip.endtime != 0 ")
 			.append(" and (triptime.usagebintime between ")
 			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
-			.append(") and trip.roamtype = '").append(roamType).append("' ");
+			.append(") ");
 
 		
 		final List<String> exculdeCountryList = new ArrayList<String>();
@@ -234,8 +234,7 @@ public class PrestoQueryBuilder {
 		}
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ")
-			.append(" and trip.roamtype = '").append(roamType).append("' ");
+			.append(" and trip.endtime != 0 ");
 
 		final List<String> exculdeCountryList = new ArrayList<String>();
 		final List<String> selectedCountryList = new ArrayList<String>();
@@ -292,8 +291,7 @@ public class PrestoQueryBuilder {
 		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ")
-			.append(" and trip.roamtype = '").append(roamType).append("' ");
+			.append(" and trip.endtime != 0 ");
 
 		final List<String> exculdeCountryList = new ArrayList<String>();
 		final List<String> selectedCountryList = new ArrayList<String>();
@@ -382,8 +380,7 @@ public class PrestoQueryBuilder {
 			
 			query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 				.append(" and trip.endtime <= ").append(filter.getDateTo())
-				.append(" and trip.endtime != 0 ")
-				.append(" and trip.roamtype = '").append(roamType).append("' ");
+				.append(" and trip.endtime != 0 ");
 
 		final List<String> exculdeCountryList = new ArrayList<String>();
 		final List<String> selectedCountryList = new ArrayList<String>();
@@ -456,7 +453,7 @@ public class PrestoQueryBuilder {
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.visitednetworkname as network from ")
 				.append(RAPropertyUtil.getProperty("out.table.trip"))
-				.append(" trip where trip.roamtype = '").append(roamType).append("' ") 
+				.append(" trip ") 
 				.append(" ) T on T.network = tadignetwork.network_name ")
 				.append(" order by network_name ");
 		} else {
@@ -465,7 +462,7 @@ public class PrestoQueryBuilder {
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.homenetworkname as network from ")
 				.append(RAPropertyUtil.getProperty("in.table.trip"))
-				.append(" trip where trip.roamtype = '").append(roamType).append("' ") 
+				.append(" trip ") 
 				.append(" ) T on T.network = tadignetwork.network_name ")
 			.append(" order by network_name ");
 		}
@@ -498,8 +495,7 @@ public class PrestoQueryBuilder {
 		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ")
-			.append(" and trip.roamtype = '").append(roamType).append("' ");
+			.append(" and trip.endtime != 0 ");
 		
 		final List<String> exculdeCountryList = new ArrayList<String>();
 		final List<String> selectedCountryList = new ArrayList<String>();
@@ -562,8 +558,8 @@ public class PrestoQueryBuilder {
 		}
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ")
-			.append(" and trip.roamtype = '").append(roamType).append("' ");
+			.append(" and trip.endtime != 0 ");
+			
 		
 		final List<String> exculdeCountryList = new ArrayList<String>();
 		final List<String> selectedCountryList = new ArrayList<String>();

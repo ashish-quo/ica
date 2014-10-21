@@ -46,7 +46,9 @@ public class QueryBuilder {
 		StringBuilder query = new StringBuilder();
 		query.append(" select visitedcountry countryName, ")
 			.append(" case when bordering = 'Distant' then 0 else 1 end bordering from ")
-			.append(Relation.COUNTRY).append(" order by visitedcountry");
+			.append(Relation.COUNTRY)
+			.append(" where homecountry='Indonesia'")
+			.append(" order by visitedcountry");
 		return query.toString();
 	}
 	

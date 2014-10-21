@@ -24,10 +24,10 @@ public enum Relation {
 	TRIP_TIME("triptime"),
 	
 	/** The tadignetwork. */
-	TADIGNETWORK("tadignetwork"),
+	TADIGNETWORK("tadignetworknew"),
 	
 	/** The trip. */
-	TRIP("trip");
+	TRIP("tripnew");
 	
 	/** The table name. */
 	private String tableName;
