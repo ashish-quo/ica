@@ -2829,6 +2829,19 @@ p.displyclass{display: block !important;}
     width: 85%;
     line-height: 15px;
 }
-.statics-num.smallsize {
-    font-size: 30px;
+ .statics-num.smallsize {
+     font-size: 30px;
+	display: block;
+	line-height: 20px;
+	margin-bottom: 10px;
+}
+/****** 21-oct******/
+
+.nodata{display: block;
+vertical-align: middle;
+text-align: center;
+margin-top:58%;
+}
+ .remove-hitter{
+	font-size: 14px
 }

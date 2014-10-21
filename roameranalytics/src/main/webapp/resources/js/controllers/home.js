@@ -366,12 +366,21 @@ console.log("Inside mapcore");
        // Initiate the Top10 Bar Chart
        function initiateTop10Bar(selector,dataTop10Bar,xAxis,suffixLable){
     	   $j(selector).html("");
+    	   var subtitle='';
+    	   if(dataTop10Bar.length <= 0){
+    		   subtitle = 'No Data Found';
+    	   }
+    	   
     	   var chart = new Highcharts.Chart({
     			 title: {
     		            text: '',
     		            x: -20 //center
     		        },
-
+    		        subtitle: {
+    	                text: subtitle,
+    	                x: 5, 
+						y: 145
+    		        },
     		    chart: {
     		        renderTo: selector
     		    },
@@ -379,7 +388,6 @@ console.log("Inside mapcore");
     		    xAxis: {
     		        categories: xAxis
     		    },
-
     		    series: [{
     				showInLegend:false,
     		        type: 'column',
