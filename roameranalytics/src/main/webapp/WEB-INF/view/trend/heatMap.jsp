@@ -219,7 +219,7 @@
                         <label>
                         <input type="checkbox" name="bubble-chart1" id="bubble-chart1" value="" class="heavy-hitter-opt">
                         <i></i></label>
-                        <label for="bubble-chart1" class="">Remove Heavy Hitter</label>
+                        <label for="bubble-chart1" class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
@@ -238,7 +238,7 @@
                         <label>
                         <input type="checkbox" name="roamer-chart" id="roamer-chart" value="" class="roamer-chart">
                         <i></i></label>
-                        <label for="roamer-chart" class="">Remove Heavy Hitter</label>
+                        <label for="roamer-chart"  class="">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
@@ -268,7 +268,7 @@
                         <label>
                         <input type="checkbox" name="bubble-chart2" id="bubble-chart2" value="" class="heavy-hitter-opt" >
                         <i></i></label>
-                        <label for="bubble-chart2" class="">Remove Heavy Hitter</label>
+                        <label for="bubble-chart2"  class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
@@ -317,7 +317,7 @@
                         <label>
                         <input type="checkbox" name="bubble-chart3" id="bubble-chart3" value="" class="heavy-hitter-opt">
                         <i></i></label>
-                        <label for="bubble-chart3" class="">Remove Heavy Hitter</label>
+                        <label for="bubble-chart3"  class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
@@ -366,7 +366,7 @@
                         <label>
                         <input type="checkbox" name="bubble-chart4" id="bubble-chart4" value="" class="heavy-hitter-opt" >
                         <i></i></label>
-                        <label for="bubble-chart4" class="">Remove Heavy Hitter</label>
+                        <label for="bubble-chart4"  class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
