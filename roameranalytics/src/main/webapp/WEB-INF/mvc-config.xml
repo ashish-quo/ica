@@ -50,12 +50,10 @@
 
 	<!-- Bean Definations Ends -->
 
-	<context:property-placeholder location="classpath:application.properties"/>
-	
 	<bean id="propertyConfigurer"
 		class="com.mobileum.roameranalytics.common.RAPropertyUtil">
 		<property name="location">
-			<value>classpath:application.properties</value>
+			<value>file:${user.home}/ra-web-config/application.properties</value>
 		</property>
 	</bean>
 	<!-- declare datasource bean -->

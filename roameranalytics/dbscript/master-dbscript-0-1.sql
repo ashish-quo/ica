@@ -11,6 +11,7 @@ CREATE TABLE attribute
   db_column character varying(50),
   column_type character varying(50),
   chart_type smallint, -- Column for Chart type in microsegment
+  db_column_in character varying(50),
   CONSTRAINT attribute_pkey PRIMARY KEY (id)
 )
 WITH (
