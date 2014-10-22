@@ -41,7 +41,7 @@
 		<property name="cacheSeconds" value="1" />
 	</bean>
 
-	<util:properties id="applicationConfiguration" location="classpath:application.properties"/>
+	<util:properties id="applicationConfiguration" location="file:${user.home}/ra-web-config/application.properties"/>
 
 
 	<!-- Saves a locale change using a cookie -->
@@ -54,7 +54,7 @@
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
-			<value>/WEB-INF/jdbc.properties</value>
+			<value>file:${user.home}/ra-web-config/jdbc.properties</value>
 		</property>
 	</bean>
 	<!-- declare datasource bean -->
