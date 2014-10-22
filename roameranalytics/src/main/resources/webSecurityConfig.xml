@@ -10,20 +10,22 @@
 	<http use-expressions="true">
 	<access-denied-handler error-page="/login" />
 		<intercept-url pattern="/anonymous*" access="isAnonymous()" />
-		 <intercept-url pattern="/css/**" access="permitAll" />
-	<intercept-url pattern="/js/**" access="permitAll" />
-	<intercept-url pattern="/images/**" access="permitAll" />
+		<intercept-url pattern="/css/**" access="permitAll" />
+		<intercept-url pattern="/js/**" access="permitAll" />
+		<intercept-url pattern="/images/**" access="permitAll" />
 		<intercept-url pattern="/login*" access="permitAll" />
-		 <intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<intercept-url pattern="/out/**" access="isAuthenticated()" />
+		<intercept-url pattern="/in/**" access="isAuthenticated()" />
 
 		<form-login login-page='/login' login-processing-url="/perform_login" 
-			default-target-url="/" authentication-failure-url="/login?error=true"
+			default-target-url="/out" authentication-failure-url="/login?error=true"
 			username-parameter="username"	password-parameter="password" 
-			always-use-default-target="true" />
+			always-use-default-target="false" />
 
 		<logout logout-url="/perform_logout" delete-cookies="JSESSIONID"
-			success-handler-ref="customLogoutSuccessHandler" />
+			logout-success-url="/login"/>
 
 	</http>
 

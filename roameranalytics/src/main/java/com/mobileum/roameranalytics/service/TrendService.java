@@ -5,10 +5,8 @@ package com.mobileum.roameranalytics.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.mobileum.roameranalytics.model.AggregatedCountryStatistics;
-import com.mobileum.roameranalytics.model.CountryUsageStatistics;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
@@ -25,7 +23,7 @@ public interface TrendService {
 	 * @param endDate
 	 * @return
 	 */
-	public  AggregatedCountryStatistics getTopCountry(Filter filter);
+	public  AggregatedCountryStatistics getTopCountry(Filter filter, String roamType);
 	/**
 	 *  @Authr Smruti
 	 * @param startDate
@@ -34,7 +32,7 @@ public interface TrendService {
 	 * @param groupBy
 	 * @return
 	 */
-	public List<RoamingStatistics> getHeatMap(Filter filter);	
+	public List<RoamingStatistics> getHeatMap(Filter filter , String roamType);	
 
 	/**
 	 * Gets the trends charts.
@@ -42,7 +40,7 @@ public interface TrendService {
 	 * @param filter the filter
 	 * @return the trends charts
 	 */
-	public RoamingTrend getTrendsCharts(Filter filter);		
+	public RoamingTrend getTrendsCharts(Filter filter, String roamType);		
 	
 	/**
 	 * Gets the Roaming Statistics.
@@ -50,6 +48,6 @@ public interface TrendService {
 	 * @param filter the filter
 	 * @return the trends charts
 	 */
-	public HashMap<String,Long> getRoamingStatistics(Filter filter);
+	public HashMap<String,Long> getRoamingStatistics(Filter filter, String roamType);
 
 }

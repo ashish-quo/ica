@@ -37,7 +37,7 @@
 				}
 			});
 			data.params.microsegmentcharts = cahrtArray.join(":");	
-			$http.get("microsegment/graphs", data).success(function(result) {
+			$http.get($scope.roamType + "/microsegment/graphs", data).success(function(result) {
 				$scope.graphToBeShown = result;
 				$scope.graphToBeShown = $scope.graphToBeShown.map(function (obj) {
 					obj.id = obj.title.replace(/ /g,'');
@@ -87,7 +87,7 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get("getRoamingStatistics", data).success(function(result) {
+				$http.get($scope.roamType  + "/getRoamingStatistics", data).success(function(result) {
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -122,7 +122,7 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get("getRoamingStatistics", latestData).success(function(result) {
+					$http.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;

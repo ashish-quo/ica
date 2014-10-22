@@ -50,11 +50,10 @@
 
 	<!-- Bean Definations Ends -->
 
-
 	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		class="com.mobileum.roameranalytics.common.RAPropertyUtil">
 		<property name="location">
-			<value>file:${user.home}/ra-web-config/jdbc.properties</value>
+			<value>file:${user.home}/ra-web-config/application.properties</value>
 		</property>
 	</bean>
 	<!-- declare datasource bean -->

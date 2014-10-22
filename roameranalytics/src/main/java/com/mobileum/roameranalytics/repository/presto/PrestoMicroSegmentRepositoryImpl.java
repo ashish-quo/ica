@@ -59,10 +59,10 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 	
 	@Override
 	public Map<String,List<Object[]>> getMSChartData(Filter filter,String attributeName, String column,  
-			final Map<String,String> catNameValue) throws RADataAccessException {
+			final Map<String,String> catNameValue, String roamType) throws RADataAccessException {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, parameterMap);
+		PrestoQueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, parameterMap, roamType);
 		
 		LOGGER.debug("Getting microsegment chart data for attribute : " + attributeName);
 		LOGGER.debug(attributeName + " query : " + query.toString());
@@ -130,12 +130,12 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 
 	@Override
 	public Map<String,List<Object[]>> getNetworkGroupData(Filter filter,
-			String column, String columnType, Map<String, String> catNameValue)
+			String column, String columnType, Map<String, String> catNameValue, String roamType)
 			throws RADataAccessException {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		
 		StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForNetworkGroupChart(filter, query,parameterMap);
+		PrestoQueryBuilder.populateQueryForNetworkGroupChart(filter, query,parameterMap,roamType);
 		
 		LOGGER.debug("Getting microsegment chart data for attribute : Network Group");
 		LOGGER.debug(" Network Group query : " + query.toString());
@@ -229,12 +229,12 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 
 	@Override
 	public Map<String, List<Object[]>> getOtherCountriesTraveledData(
-			Filter filter, String column, String columnType,
-			Map<String, String> catNameValue) throws RADataAccessException {
+			Filter filter, String column, String columnType, 
+			Map<String, String> catNameValue, String roamType) throws RADataAccessException {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		
 		StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForOtherCountriesTraveledChart(filter, query,parameterMap);
+		PrestoQueryBuilder.populateQueryForOtherCountriesTraveledChart(filter, query,parameterMap, roamType);
 		
 		final Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
 		dataMap.put("roamers",new ArrayList<Object[]>());

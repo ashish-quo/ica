@@ -79,7 +79,7 @@
 	    			  var donutData ;
 		    		  var columnData;
 		    		  columnData = dataToPlot.slice(0,2);
-		    		  donutData = dataToPlot.slice(3);
+		    		  donutData = dataToPlot.slice(2);
 		    		  element.removeClass("big-donutchart").addClass("medium-donutchart")
 		    		  this.drawHorizontalBarChart(horizontalChart,columnData);
 		    		  this.drawMorrisChart(element,donutData);
@@ -87,7 +87,7 @@
 		    		  var donutData ;
 		    		  var columnData;
 	    			  donutData = dataToPlot.slice(0,3);
-	    			  columnData = dataToPlot.slice(4);
+	    			  columnData = dataToPlot.slice(3);
 	    			  if (columnData.length > 0) {
 	    				  element.removeClass("big-donutchart").addClass("medium-donutchart");
 	    				  this.drawVerticalBarChart(verticalChart,columnData);
@@ -120,13 +120,13 @@
 	    		  var chartMetaData = attrs.chartname + "," + attrs.columnname +  "," + attrs.columntype + "," + attrs.charttype;
 	    		  $j.extend(data.params, {'chartmetadata' :chartMetaData } );
 	    		  
-	    		  var url = '';
+	    		  var url =  "/";
 	    		  if (attrs.chartname == 'Network Group') {
-	    			  url = 'microsegment/networkgroup/'
+	    			  url+= 'microsegment/networkgroup/'
 	    		  } else if (attrs.chartname == 'Other Countries Traveled'){
-	    			  url = 'microsegment/otherCountriesTraveled';
+	    			  url+= 'microsegment/otherCountriesTraveled';
 	    		  } else {
-    				  url = 'microsegment/graph/';
+    				  url+= 'microsegment/graph/';
 	    		  }
 	    		  element.html('');
 	    		  var verticalChart = $j('#column-chart-'+attrs.chartname.replace(/ /g,''));
@@ -135,7 +135,7 @@
 	    		  horizontalChart.html('');
 	    		  element.removeClass("loading");
 	    		  element.addClass("loading");
-		    	  $http.get(url , data).success(function(result) {
+		    	  $http.get($scope.roamType + url , data).success(function(result) {
 		    		  $scope.msdata = result.data;
 		    		  
 		    		  $scope.title[attrs.chartname] = result.attrName;

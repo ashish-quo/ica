@@ -23,14 +23,8 @@ public interface MetaDataRepository {
 	 *
 	 * @return the attribute list
 	 */
-	public List<Attribute> getAttributeList() throws RADataAccessException;
+	public List<Attribute> getAttributeList(String roamType) throws RADataAccessException;
 	
-	/**
-	 * Gets the all networks.
-	 *
-	 * @return the all networks
-	 */
-	public List<AttributeCategory> getAllNetworks(long networkAttrId) throws RADataAccessException ;
 	
 	/**
 	 * Gets the all networks.
@@ -38,23 +32,14 @@ public interface MetaDataRepository {
 	 * @return the all networks
 	 */
 	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(long networkAttrId, 
-			long networkGroupAttrId) throws RADataAccessException ;
-	
-	
-	/**
-	 * Gets the network groups.
-	 *
-	 * @param attributeId the attribute id
-	 * @return the network groups
-	 */
-	public List<AttributeCategory> getNetworkGroups(long attributeId) throws RADataAccessException;
+			long networkGroupAttrId, String roamType) throws RADataAccessException ;
 	
 	/**
 	 * Gets the all countries.
 	 *
 	 * @return the all countries
 	 */
-	public List<Country> getAllCountries() throws RADataAccessException;
+	public List<Country> getAllCountries(String roamType) throws RADataAccessException;
 	
 	/**
 	 * Gets the other countries traveled.
@@ -62,5 +47,5 @@ public interface MetaDataRepository {
 	 * @param filter the filter
 	 * @return the other countries traveled
 	 */
-	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter) throws RADataAccessException;
+	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter, String roamType) throws RADataAccessException;
 }

@@ -2,7 +2,7 @@
 <header class="clearfix">
   <div class="header-left clearfix">
     <a href="javascript:void(0)" class="rmenu-icon"><img src="images/responsive/rmenu-icon.png" alt="rmenu"></a>
-    <a href ng-click="showHome()" class="logo"><img src="images/logo.png" class="logo-img" alt="logo"><img src="images/responsive/rlogo.png" class="res-logo" alt="logo"></a>
+    <a href ng-click="showHome()" class="logo"><img src="images/logo.png" class="logo-img" alt="logo"><img src="images/responsive/rlogo.png" class="res-logo" alt="logo">{{roamType}}</a>
     <div class="top-nav">
       <ul>
         <li>

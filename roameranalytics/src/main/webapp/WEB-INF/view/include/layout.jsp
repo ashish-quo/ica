@@ -32,8 +32,8 @@
 <link rel="stylesheet" type="text/css" href="assets/morris-charts/dount/c3.css">
 
 
-<body class="full-width" ng-controller="MainController">
-
+<body class="full-width" ng-controller="MainController" ng-init="roamType = '${roamType}'">
+	
 	<header class="clearfix">
 		<tiles:insertAttribute name="header" />
 	</header>

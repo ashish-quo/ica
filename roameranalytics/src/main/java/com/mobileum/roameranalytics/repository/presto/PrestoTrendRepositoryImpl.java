@@ -44,38 +44,29 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 	/** The logger. */
 	private static Logger LOGGER = LogManager.getLogger(PrestoTrendRepositoryImpl.class.getName());
 
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.mobileum.roameranalytics.dao.TrendDaoI#getTrendsCharts(com.mobileum
-	 * .roameranalytics.model.Fitler)
-	 */
 	@Override
-	public RoamingTrend getTrendsCharts(Filter filter) {
+	public RoamingTrend getTrendsCharts(Filter filter, String roamType) {
 
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
 		
-		PrestoQueryBuilder.populateQueryForTrends(filter,query,parameterMap);
+		PrestoQueryBuilder.populateQueryForTrends(filter,query,parameterMap, roamType);
 		LOGGER.debug("Roaming Trends query : " + query.toString());
 		return prestoJdbcTempate.query(query.toString(), new RoamingTrendResultSetExtractor());
 	}
 	
 	@Override
-	public List<RoamingStatistics> getRoamingStatisticsRepository(Filter filter) {
+	public List<RoamingStatistics> getRoamingStatisticsRepository(Filter filter,  String roamType) {
 		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap);
+		PrestoQueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap, roamType);
 		LOGGER.debug(query.toString());
 
 		return prestoJdbcTempate.query(query.toString(), new RowMapper<RoamingStatistics>() {
 
 			@Override
-			public RoamingStatistics mapRow(ResultSet rs, int rowNum)
-					throws SQLException {
+			public RoamingStatistics mapRow(ResultSet rs, int rowNum) throws SQLException {
 				
 				RoamingStatistics roamingStatistics = new RoamingStatistics();
 				roamingStatistics.setCountryCode(rs.getString("visitedcountryname"));
@@ -93,11 +84,11 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 	}
 
 	@Override
-	public List<RoamingCategory> getRoamingCategoryRepository(Filter filter) {
+	public List<RoamingCategory> getRoamingCategoryRepository(Filter filter, String roamType) {
 		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap);
+		PrestoQueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap, roamType);
 		
 		LOGGER.info(query.toString());
 		

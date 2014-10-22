@@ -5,7 +5,7 @@
 	 * are defined here.
 	 */
 	sidebar.controller('SidebarController',
-			['$scope','$rootScope', '$http', 'util', function($scope,$rootScope,$http,util) {
+			['$scope','$rootScope', '$http', 'util', '$location', function($scope,$rootScope,$http,util,$location) {
 		
 		// filters object, it will contain the information of selected attributes, countries 
 		$rootScope.filters = {
@@ -16,7 +16,6 @@
 				dateRangeFrom : '',
 				dateRangeTo : ''
 		};
-		
 		// initialize other countries traveled
 		$rootScope.otherCountriesTraveled = {};
 		
@@ -51,14 +50,14 @@
 		// added by cheshta for hide and show angular {{}}
 		$j("#display-cutdate").show();
 		// Get all the attributes to be shown in left panel
-		$http.get('getAttributes').success(function(data) {
+		$http.get($scope.roamType + '/getAttributes').success(function(data) {
 			$scope.attributes = data;
 		}).error(function(data, status, headers, config) {
 	        $rootScope.error = data.message;
 	    });
 		
 		// Getl all the countries to be shown in left panel
-		$http.get("getCountries").success(function (data) {
+		$http.get($scope.roamType + "/getCountries").success(function (data) {
 			$scope.countries = data;
 		}).error(function(data, status, headers, config) {
 			 $rootScope.error = data.message;
@@ -414,7 +413,7 @@
 				};
 				$rootScope.otherCountriesTraveled = {};
 				// Getl all the countries to be shown in left panel
-				$http.get("getOtherCountriesTraveled", latestData).success(function (data) {
+				$http.get($scope.roamType + "/getOtherCountriesTraveled", latestData).success(function (data) {
 					$rootScope.otherCountriesTraveled = data;
 				}).error(function(data, status, headers, config) {
 					 $rootScope.error = data.message;
@@ -455,7 +454,7 @@
 				};
 				$rootScope.otherCountriesTraveled = {};
 				// Getl all the countries to be shown in left panel
-				$http.get("getOtherCountriesTraveled", latestData).success(function (data) {
+				$http.get($scope.roamType + "/getOtherCountriesTraveled", latestData).success(function (data) {
 					$rootScope.otherCountriesTraveled = data;
 				}).error(function(data, status, headers, config) {
 					 $rootScope.error = data.message;

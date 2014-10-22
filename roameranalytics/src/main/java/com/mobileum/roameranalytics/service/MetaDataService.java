@@ -21,14 +21,14 @@ public interface MetaDataService {
 	 *
 	 * @return the attribute list
 	 */
-	public List<Attribute> getAttributes();
+	public List<Attribute> getAttributes(String roamType);
 	
 	/**
 	 * Gets the all countries.
 	 *
 	 * @return the all countries
 	 */
-	public List<Country> getAllCountries();
+	public List<Country> getAllCountries(String roamType);
 	
 	/**
 	 * Gets the other countries traveled.
@@ -36,7 +36,7 @@ public interface MetaDataService {
 	 * @param filter the filter
 	 * @return the other countries traveled
 	 */
-	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter);
+	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter,String roamType);
 	
 	/**
 	 * Added by smruti on 2014-07-21

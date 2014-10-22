@@ -4,31 +4,31 @@
 	/**
 	 * Directive for roaming trends
 	 */
-	appDirectives.directive('trends', function() {
+	appDirectives.directive('trends', ['$rootScope',function($rootScope) {
 	    return {
 	      restrict: 'E',
-	      templateUrl: 'trends',
+	      templateUrl: $rootScope.roamType + '/trends',
 	    };
-	  });
+	  }]);
 	
 	/**
 	 * Directive for microsegment
 	 */
-	appDirectives.directive('microsegment', function() {
+	appDirectives.directive('microsegment', ['$rootScope',function($rootScope) {
 	    return {
 	      restrict: 'E',
-	      templateUrl: 'microsegment',
+	      templateUrl: $rootScope.roamType + '/microsegment',
 	    };
-	  });
+	  }]);
 	
 	/**
 	 * Directive for HeatMap
 	 */
-	appDirectives.directive('heatMap', function() {
+	appDirectives.directive('heatMap', ['$rootScope',function($rootScope) {
 	    return {
 	      restrict: 'E',
-	      templateUrl: 'heatMap',
+	      templateUrl: $rootScope.roamType + '/heatMap',
 	    };
-	  });
+	  }]);
 	
 })();

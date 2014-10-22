@@ -33,7 +33,7 @@ public class GlobalControllerExceptionHandler {
     	exception.printStackTrace();
         resp.setStatus(500);
         ErrorDto error = new ErrorDto();
-        error.setMessage(exception.toString());
+        error.setMessage("Internal server error");
         return error;
     }
 }

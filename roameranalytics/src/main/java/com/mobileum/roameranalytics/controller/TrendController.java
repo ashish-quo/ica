@@ -19,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +37,6 @@ import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.service.MetaDataService;
 import com.mobileum.roameranalytics.service.TrendService;
-import com.mobileum.roameranalytics.service.TrendServiceImpl;
 
 /**
  * The Class TrendController.
@@ -48,45 +48,47 @@ import com.mobileum.roameranalytics.service.TrendServiceImpl;
 public class TrendController {
 	
 	/** The logger. */
-	private static Logger LOGGER = LogManager.getLogger(TrendServiceImpl.class.getName());
+	private static Logger LOGGER = LogManager.getLogger(TrendController.class.getName());
 	
 	/** The common service. */
 	@Autowired
-
 	private MetaDataService metaDataService;
-
 	
 	/** The trend service. */
 	@Autowired
 	private TrendService trendService;
-	
-	
 	
 	/**
 	 * Show home.
 	 *
 	 * @return the model and view
 	 */
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView showHome() {
-		return new ModelAndView("home");
+	@RequestMapping(method = RequestMethod.GET, value={"/login","/"})
+	public ModelAndView login() {
+		ModelAndView mv = new ModelAndView("login");
+		return mv;
+	}
+	
+	/**
+	 * Show home.
+	 *
+	 * @return the model and view
+	 */
+	@RequestMapping(method = RequestMethod.GET, value="/{roamType}")
+	public ModelAndView showHome(@PathVariable("roamType") String roamType) {
+		ModelAndView mv = new ModelAndView("home");
+		mv.addObject("roamType", roamType);
+		return mv;
 	}
 	
 	/**
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/heatMap")
-	public ModelAndView showHeatMap() {
-		return new ModelAndView("heatMap");
-	}
-	/**
-	 * Renders Roaming trend header.
-	 *
-	 * @return the model and view
-	 */
-	@RequestMapping(method=RequestMethod.GET, value="/trendHeader")
-	public ModelAndView showTrendHeader() {
-		return new ModelAndView("trendHeader");
+	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/heatMap")
+	public ModelAndView showHeatMap(@PathVariable("roamType") String roamType) {
+		ModelAndView mv = new ModelAndView("heatMap");
+		mv.addObject("roamType", roamType);
+		return mv;
 	}
 	
 	/**
@@ -94,9 +96,11 @@ public class TrendController {
 	 *
 	 * @return the model and view
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/trends")
-	public ModelAndView showRoamingTrends() {
-		return new ModelAndView("trends");
+	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/trends")
+	public ModelAndView showRoamingTrends(@PathVariable("roamType") String roamType) {
+		ModelAndView mv = new ModelAndView("trends");
+		mv.addObject("roamType", roamType);
+		return mv;
 	}
 	
 	/**
@@ -104,9 +108,9 @@ public class TrendController {
 	 *
 	 * @return the attributes
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getAttributes")
-	public @ResponseBody List<Attribute> getAttributes() {
-		return metaDataService.getAttributes();
+	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getAttributes")
+	public @ResponseBody List<Attribute> getAttributes(@PathVariable("roamType") String roamType) {
+		return metaDataService.getAttributes(roamType);
 	}
 	
 	/**
@@ -114,9 +118,9 @@ public class TrendController {
 	 *
 	 * @return the attributes
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getCountries")
-	public @ResponseBody List<Country> getCountries() {
-		return metaDataService.getAllCountries();
+	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getCountries")
+	public @ResponseBody List<Country> getCountries(@PathVariable("roamType") String roamType) {
+		return metaDataService.getAllCountries(roamType);
 	}
 	
 	
@@ -126,9 +130,9 @@ public class TrendController {
 	 * @return the attributes
 	 * @throws ParseException 
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getOtherCountriesTraveled")
-	public @ResponseBody List<AttributeCategory> getOtherCountriesTraveled(HttpServletRequest request) 
-			throws ParseException {
+	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getOtherCountriesTraveled")
+	public @ResponseBody List<AttributeCategory> getOtherCountriesTraveled(@PathVariable("roamType") String roamType,
+			HttpServletRequest request)  throws ParseException {
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
@@ -149,7 +153,7 @@ public class TrendController {
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		return metaDataService.getOtherCountriesTraveled(filter);
+		return metaDataService.getOtherCountriesTraveled(filter,roamType);
 	}
 	
 	
@@ -160,8 +164,9 @@ public class TrendController {
 	 * @return the roaming trends data
 	 * @throws ParseException the parse exception
 	 */
-	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingTrendsData")
-	public @ResponseBody RoamingTrend getRoamingTrendsData(HttpServletRequest request) throws ParseException {
+	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getRoamingTrendsData")
+	public @ResponseBody RoamingTrend getRoamingTrendsData(@PathVariable("roamType") String roamType,
+			HttpServletRequest request) throws ParseException {
 		
 		LOGGER.info("Getting Roaming Trends");
 		
@@ -186,7 +191,7 @@ public class TrendController {
 		}
 
 		LOGGER.debug("Filter for roaming trends :  " + filter);
-		return this.trendService.getTrendsCharts(filter);
+		return this.trendService.getTrendsCharts(filter,roamType);
 	}
 	
 
@@ -197,8 +202,9 @@ public class TrendController {
 	 * @return the roaming trends data
 	 * @throws ParseException the parse exception
 	 */
-	@RequestMapping(method=RequestMethod.GET, value = "/getHeatMap")
-	public @ResponseBody List<RoamingStatistics> getHeatMapData(HttpServletRequest request) throws ParseException {
+	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getHeatMap")
+	public @ResponseBody List<RoamingStatistics> getHeatMapData(@PathVariable("roamType") String roamType,
+			HttpServletRequest request) throws ParseException {
 		String startdate = request.getParameter("dateRangeFrom");
 		String endDate = request.getParameter("dateRangeTo");
 		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
@@ -219,7 +225,7 @@ public class TrendController {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
 
-		return this.trendService.getHeatMap(filter);
+		return this.trendService.getHeatMap(filter, roamType);
 	}
 	
 	/**
@@ -229,8 +235,9 @@ public class TrendController {
 	 * @return the roaming trends data
 	 * @throws ParseException the parse exception
 	 */
-	@RequestMapping(method=RequestMethod.GET, value = "/getRoamingStatistics")
-	public @ResponseBody HashMap<String,Long> getRoamingstatisticsData(HttpServletRequest request) throws ParseException {
+	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getRoamingStatistics")
+	public @ResponseBody HashMap<String,Long> getRoamingstatisticsData(@PathVariable("roamType") String roamType,
+			HttpServletRequest request) throws ParseException {
 		String startdate = request.getParameter("dateRangeFrom");
 		String endDate = request.getParameter("dateRangeTo");
 		
@@ -248,7 +255,7 @@ public class TrendController {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
 
-		return this.trendService.getRoamingStatistics(filter);
+		return this.trendService.getRoamingStatistics(filter,roamType);
 	}
 	
 	/**
@@ -258,8 +265,9 @@ public class TrendController {
 	 * @return the roaming trends data
 	 * @throws ParseException the parse exception
 	 */
-	@RequestMapping(method=RequestMethod.GET, value = "/getBubbleChart")
-	public @ResponseBody AggregatedCountryStatistics getBubbleChartData(HttpServletRequest request) throws ParseException {
+	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getBubbleChart")
+	public @ResponseBody AggregatedCountryStatistics getBubbleChartData(@PathVariable("roamType") String roamType,
+			HttpServletRequest request) throws ParseException {
 		String startdate = request.getParameter("dateRangeFrom");
 		String endDate = request.getParameter("dateRangeTo");
 		
@@ -278,11 +286,12 @@ public class TrendController {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
 
-		return this.trendService.getTopCountry(filter);
+		return this.trendService.getTopCountry(filter, roamType);
 	}
 	
-	@RequestMapping(value = "/getTop10CSV", method = RequestMethod.POST)
-	public void getNameAsXML(HttpServletRequest httpRequest,HttpServletResponse response, @RequestParam("top10csvtext") String csvText)
+	@RequestMapping(value = "/{roamType}/getTop10CSV", method = RequestMethod.POST)
+	public void getNameAsXML(@PathVariable("roamType") String roamType,
+			HttpServletRequest httpRequest,HttpServletResponse response, @RequestParam("top10csvtext") String csvText)
 	{
 		
 		response.setHeader("Content-Disposition", "attachment; filename=top10roamer.csv");
@@ -304,11 +313,10 @@ public class TrendController {
 	 * @return the roaming trends data
 	 * @throws ParseException the parse exception
 	 */
-	@RequestMapping(method=RequestMethod.GET, value = "/getBubbleChartJson")
-	public @ResponseBody String getBubbleChartJson(HttpServletRequest request) throws ParseException {
+	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getBubbleChartJson")
+	public @ResponseBody String getBubbleChartJson(@PathVariable("roamType") String roamType,
+			HttpServletRequest request) throws ParseException {
 		String jsonData = request.getParameter("data");
-		
-
 		return jsonData;
 	}
 	

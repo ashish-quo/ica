@@ -424,7 +424,7 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				
-				$http.get("getRoamingStatistics", data).success(function(result) {
+				$http.get($scope.roamType +"/getRoamingStatistics", data).success(function(result) {
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -439,7 +439,6 @@ console.log("Inside mapcore");
 					$scope.totalMt = result.totalMt;
 					$scope.totalData=result.totalData;
 					$scope.totalSms=result.totalSms;
-					console.log("Call inside1");
 				});
 				
 				
@@ -459,11 +458,10 @@ console.log("Inside mapcore");
 					$scope.totalMt = 0;
 					$scope.totalData=0;
 					$scope.totalSms=0;
-					console.log("Call inside2");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get("getRoamingStatistics", latestData).success(function(result) {
+					$http.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;
@@ -478,17 +476,9 @@ console.log("Inside mapcore");
 						$scope.totalMt = result.totalMt;
 						$scope.totalData=result.totalData;
 						$scope.totalSms=result.totalSms;
-						console.log("Call inside3");
 					});
 					
 				});
-				
-				
-				
-				
-						
-				
-		
 	}]);
 	
 	
@@ -663,15 +653,15 @@ console.log("Inside mapcore");
 									return location.search = encodeURIComponent(key);
 								});
 						d3.select("#book-title").html(text.name);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap),displayRoamer);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap), displayMo);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap), displayMt);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap),displayData);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap),displayRoamer);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap), displayMo);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap), displayMt);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap),displayData);
 						
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap.slice(removeHitterCount,roamerJsonMap.length)),displayRoamerHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
-						d3.json('./getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10roamerJsonMap.slice(removeHitterCount,roamerJsonMap.length)),displayRoamerHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
+						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
 						
 						initiateTop10Bar('container',top10roamerBarData,top10roamerBarX,'Roamer Count');
 						initiateTop10Bar('container2',top10moBarData,top10moBarX,'MO (Minute)');
@@ -797,7 +787,7 @@ console.log("Inside mapcore");
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get("getHeatMap", data).success(function(result) {
+				$http.get($scope.roamType +"/getHeatMap", data).success(function(result) {
 							
 					setHeatMapJson(result);
 					initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
@@ -823,7 +813,7 @@ console.log("Inside mapcore");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get("getHeatMap", latestData).success(function(result) {
+					$http.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
 						
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {

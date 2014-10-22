@@ -94,7 +94,7 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get("getRoamingTrendsData", data).success(function(result) {
+				$http.get($scope.roamType + "/getRoamingTrendsData", data).success(function(result) {
 					$scope.trends = result;
 					$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
 					$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
@@ -122,7 +122,7 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get("getRoamingTrendsData", latestData).success(function(result) {
+					$http.get($scope.roamType + "/getRoamingTrendsData", latestData).success(function(result) {
 						$scope.trends = result;
 						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
 						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
@@ -209,7 +209,6 @@
 	
 	trends.controller('RoamingStatisticsControllerTrend',
 			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
-				console.log("Call inside2");
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
 				$scope.valueRoamer = 0;
@@ -227,7 +226,7 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get("getRoamingStatistics", data).success(function(result) {
+				$http.get($scope.roamType + "/getRoamingStatistics", data).success(function(result) {
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -262,7 +261,7 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get("getRoamingStatistics", latestData).success(function(result) {
+					$http.get($rootScope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;

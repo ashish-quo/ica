@@ -29,9 +29,9 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	
 	@Override
 	public Map<String, List<Object[]>> getMSChartData(Filter filter, String attributeName, String column, String columnType,
-			Map<String,String> catNameValue) {
+			Map<String,String> catNameValue, String roamType) {
 		try {
-			return microsegmentDao.getMSChartData(filter, attributeName, column, catNameValue);
+			return microsegmentDao.getMSChartData(filter, attributeName, column, catNameValue, roamType);
 		} catch (RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
@@ -44,9 +44,9 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 
 	@Override
 	public Map<String, List<Object[]>> getNetworkGroupData(Filter filter,
-			String column, String columnType, Map<String, String> catNameValue) {
+			String column, String columnType, Map<String, String> catNameValue, String roamType) {
 		try {
-			return microsegmentDao.getNetworkGroupData(filter, column, columnType, catNameValue);
+			return microsegmentDao.getNetworkGroupData(filter, column, columnType, catNameValue,roamType);
 		} catch (RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
@@ -57,10 +57,9 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	 */
 	@Override
 	public Map<String, List<Object[]>> getOtherCountriesTraveledData(
-			Filter filter, String column, String columnType,
-			Map<String, String> catNameValue) {
+			Filter filter, String column, String columnType, Map<String, String> catNameValue, String roamType) {
 		try {
-			return microsegmentDao.getOtherCountriesTraveledData(filter, column, columnType, catNameValue);
+			return microsegmentDao.getOtherCountriesTraveledData(filter, column, columnType, catNameValue, roamType);
 		} catch (RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
