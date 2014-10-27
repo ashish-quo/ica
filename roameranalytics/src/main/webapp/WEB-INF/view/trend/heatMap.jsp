@@ -238,7 +238,7 @@
                         <label>
                         <input type="checkbox" name="roamer-chart" id="roamer-chart" value="" class="roamer-chart">
                         <i></i></label>
-                        <label for="roamer-chart"  class="">Remove Heavy Hitter</label>
+                        <label for="roamer-chart"  class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
@@ -287,7 +287,7 @@
                         <label>
                         <input type="checkbox" name="mo-chart" id="mo-chart" value="" class="mo-chart">
                         <i></i></label>
-                        <label for="mo-chart" class="">Remove Heavy Hitter</label>
+                        <label for="mo-chart" class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
@@ -336,7 +336,7 @@
                         <label>
                         <input type="checkbox" name="mt-chart" id="mt-chart" value="" class="mt-chart">
                         <i></i></label>
-                        <label for="mt-chart" class="">Remove Heavy Hitter</label>
+                        <label for="mt-chart" class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>
@@ -385,7 +385,7 @@
                         <label>
                         <input type="checkbox" name="data-chart" id="data-chart" value="" class="data-chart">
                         <i></i></label>
-                        <label for="data-chart" class="">Remove Heavy Hitter</label>
+                        <label for="data-chart" class="remove-hitter">Remove Heavy Hitter</label>
                         </p>
                     </div>
                   </div>

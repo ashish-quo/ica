@@ -276,10 +276,37 @@
 						$scope.totalMt = result.totalMt;
 						$scope.totalData=result.totalData;
 						$scope.totalSms=result.totalSms;
+
+						/* Added by cheshta for roamernalytics text size issue */
+						if ($scope.totalRoamer.toString().length > 4) {
+							$j($j("div.dashboard-statics")[0]).find("p.lightblue-text")
+									.addClass("smallsize");
+						} else {
+							var roamersElement = $j($j("div.dashboard-statics")[0])
+									.find("p.lightblue-text");
+							if (roamersElement.hasClass("smallsize")) {
+								roamersElement.removeClass("smallsize");
+							}
+						}	
+						
+						if ($scope.totalMo.toString().length > 4) {
+							$j($j("div.dashboard-statics")[0]).find("p.purple-text")
+									.addClass("smallsize");
+						} else {
+							var roamersElement = $j($j("div.dashboard-statics")[0])
+									.find("p.purple-text");
+							if (roamersElement.hasClass("smallsize")) {
+								roamersElement.removeClass("smallsize");
+							}
+						}	
+						
 					});
+					
+					
+					
 				});
 				
-						
+
 				
 		
 	}]);

@@ -163,7 +163,7 @@
 		    });
 		    label.exit().remove();
 		    labelEnter = label.enter().append("a").attr("class", "bubble-label").attr("href", function(d) {
-		      return "#" + (encodeURIComponent(idValue(d)));
+		      //return "#" + (encodeURIComponent(idValue(d)));
 		    }).call(force.drag).call(connectEvents);
 		    labelEnter.append("div").attr("class", "bubble-label-name").attr("dy", ".3em").style("text-anchor", "middle").text(function(d) {
 		      return textValue(d).substring(0, Math.sqrt(rScale(rValue(d))))
@@ -224,10 +224,10 @@
 		    return d.on("mouseout", mouseout);
 		  };
 		  clear = function() {
-		    return location.replace("#");
+		    //return location.replace("#");
 		  };
 		  click = function(d) {
-		    location.replace("#" + encodeURIComponent(idValue(d)));
+		    //location.replace("#" + encodeURIComponent(idValue(d)));
 		    return d3.event.preventDefault();
 		  };
 		  hashchange = function() {
@@ -287,7 +287,12 @@
 
 		root.plotData = function(selector, data, plot) {
 		  $j(selector).html("");
-		  return d3.select(selector).datum(data).call(plot);
+		  if(data.length > 0){
+			  return d3.select(selector).datum(data).call(plot);
+		  }
+		  else{
+			  $j(selector).append('<p class="nodata">No data Found</p>');
+		  }
 		};
 
 		texts = [
@@ -649,7 +654,7 @@ console.log("Inside mapcore");
 								"change",
 								function(e) {
 									key = $j(this).val();
-									location.replace("#");
+									//location.replace("#");
 									return location.search = encodeURIComponent(key);
 								});
 						d3.select("#book-title").html(text.name);
@@ -732,6 +737,26 @@ console.log("Inside mapcore");
 						
 					});
 					
+					/* Added by cheshta for roamernalytics text size issue */
+					if($scope.totalRoamer.toString().length > 4){
+						$j($j("div.dashboard-statics")[0]).find("p.lightblue-text").addClass("smallsize");
+					}
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.lightblue-text");
+						if(roamersElement.hasClass("smallsize")) {
+							roamersElement.removeClass("smallsize");
+						}
+					}
+					
+					if($scope.totalMo.toString().length > 4){
+						$j($j("div.dashboard-statics")[0]).find("p.purple-text").addClass("smallsize");
+					}
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.purple-text");
+						if(roamersElement.hasClass("smallsize")) {
+							roamersElement.removeClass("smallsize");
+						}
+					}
 					 
 					 
 					 sortedRoamer.sort(function(a, b){

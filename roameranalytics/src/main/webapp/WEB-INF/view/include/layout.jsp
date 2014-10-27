@@ -20,16 +20,16 @@
 
 
 <!-- Loading style -->
-<link href="styles/bootstrap.css" rel="stylesheet" type="text/css">
-<link href="styles/style.css" rel="stylesheet" type="text/css">
-<link href="styles/app.css" rel="stylesheet" type="text/css">
-<link href="styles/responsive.css" rel="stylesheet" type="text/css">
-<link href="styles/wireframe-style.css" rel="stylesheet" type="text/css">
-<link href="assets/pop/modalPopLite.css" rel="stylesheet" type="text/css" />
+<link href="styles/bootstrap.css" rel="stylesheet">
+<link href="styles/style.css" rel="stylesheet">
+<link href="styles/app.css" rel="stylesheet">
+<link href="styles/responsive.css" rel="stylesheet">
+<link href="styles/wireframe-style.css" rel="stylesheet">
+<link href="assets/pop/modalPopLite.css" rel="stylesheet"/>
 
 <link rel="stylesheet" href="assets/morris-charts/morris.css">
 <link rel="stylesheet" href="assets/selectric/selectric.css">
-<link rel="stylesheet" type="text/css" href="assets/morris-charts/dount/c3.css">
+<link rel="stylesheet" href="assets/morris-charts/dount/c3.css">
 
 
 <body class="full-width" ng-controller="MainController" ng-init="roamType = '${roamType}'">
