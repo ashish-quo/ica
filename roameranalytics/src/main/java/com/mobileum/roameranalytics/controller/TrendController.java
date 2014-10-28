@@ -65,7 +65,7 @@ public class TrendController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value={"/login","/"})
 	public ModelAndView login() {
-		ModelAndView mv = new ModelAndView("login");
+		final ModelAndView mv = new ModelAndView("login");
 		return mv;
 	}
 	
@@ -75,8 +75,8 @@ public class TrendController {
 	 * @return the model and view
 	 */
 	@RequestMapping(method = RequestMethod.GET, value="/{roamType}")
-	public ModelAndView showHome(@PathVariable("roamType") String roamType) {
-		ModelAndView mv = new ModelAndView("home");
+	public ModelAndView showHome(@PathVariable("roamType") final String roamType) {
+		final ModelAndView mv = new ModelAndView("home");
 		mv.addObject("roamType", roamType);
 		return mv;
 	}
@@ -85,8 +85,8 @@ public class TrendController {
 	 * @return
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/heatMap")
-	public ModelAndView showHeatMap(@PathVariable("roamType") String roamType) {
-		ModelAndView mv = new ModelAndView("heatMap");
+	public ModelAndView showHeatMap(@PathVariable("roamType") final String roamType) {
+		final ModelAndView mv = new ModelAndView("heatMap");
 		mv.addObject("roamType", roamType);
 		return mv;
 	}
@@ -97,8 +97,8 @@ public class TrendController {
 	 * @return the model and view
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/trends")
-	public ModelAndView showRoamingTrends(@PathVariable("roamType") String roamType) {
-		ModelAndView mv = new ModelAndView("trends");
+	public ModelAndView showRoamingTrends(@PathVariable("roamType") final String roamType) {
+		final ModelAndView mv = new ModelAndView("trends");
 		mv.addObject("roamType", roamType);
 		return mv;
 	}
@@ -109,7 +109,7 @@ public class TrendController {
 	 * @return the attributes
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getAttributes")
-	public @ResponseBody List<Attribute> getAttributes(@PathVariable("roamType") String roamType) {
+	public @ResponseBody List<Attribute> getAttributes(@PathVariable("roamType") final String roamType) {
 		return metaDataService.getAttributes(roamType);
 	}
 	
@@ -119,7 +119,7 @@ public class TrendController {
 	 * @return the attributes
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getCountries")
-	public @ResponseBody List<Country> getCountries(@PathVariable("roamType") String roamType) {
+	public @ResponseBody List<Country> getCountries(@PathVariable("roamType") final String roamType) {
 		return metaDataService.getAllCountries(roamType);
 	}
 	
@@ -131,23 +131,23 @@ public class TrendController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getOtherCountriesTraveled")
-	public @ResponseBody List<AttributeCategory> getOtherCountriesTraveled(@PathVariable("roamType") String roamType,
-			HttpServletRequest request)  throws ParseException {
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+	public @ResponseBody List<AttributeCategory> getOtherCountriesTraveled(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request)  throws ParseException {
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
-		String startdate = request.getParameter("dateRangeFrom");
-		String endDate = request.getParameter("dateRangeTo");
-		String attributes = request.getParameter("attributes");
-		String countries = request.getParameter("countries");
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
+		final String attributes = request.getParameter("attributes");
+		final String countries = request.getParameter("countries");
 		
 		
-		Filter filter = new Filter();
+		final Filter filter = new Filter();
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
 		
-		String excludedCountries = request.getParameter("excludedCountries");
+		final String excludedCountries = request.getParameter("excludedCountries");
 		filter.setExcludedCountries(excludedCountries);
 		
 		if (!attributes.isEmpty()) {
@@ -165,25 +165,25 @@ public class TrendController {
 	 * @throws ParseException the parse exception
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getRoamingTrendsData")
-	public @ResponseBody RoamingTrend getRoamingTrendsData(@PathVariable("roamType") String roamType,
-			HttpServletRequest request) throws ParseException {
+	public @ResponseBody RoamingTrend getRoamingTrendsData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request) throws ParseException {
 		
 		LOGGER.info("Getting Roaming Trends");
 		
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
-		String startdate = request.getParameter("dateRangeFrom");
-		String endDate = request.getParameter("dateRangeTo");
-		String attributes = request.getParameter("attributes");
-		String countries = request.getParameter("countries");
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
+		final String attributes = request.getParameter("attributes");
+		final String countries = request.getParameter("countries");
 		
-		Filter filter = new Filter();
+		final Filter filter = new Filter();
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 
 		filter.setSelectedCountries(countries);
-		String excludedCountries = request.getParameter("excludedCountries");
+		final String excludedCountries = request.getParameter("excludedCountries");
 		filter.setExcludedCountries(excludedCountries);
 		
 		if (!attributes.isEmpty()) {
@@ -203,21 +203,21 @@ public class TrendController {
 	 * @throws ParseException the parse exception
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getHeatMap")
-	public @ResponseBody List<RoamingStatistics> getHeatMapData(@PathVariable("roamType") String roamType,
-			HttpServletRequest request) throws ParseException {
-		String startdate = request.getParameter("dateRangeFrom");
-		String endDate = request.getParameter("dateRangeTo");
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+	public @ResponseBody List<RoamingStatistics> getHeatMapData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request) throws ParseException {
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		
-		String attributes = request.getParameter("attributes");
-		String countries = request.getParameter("countries");
+		final String attributes = request.getParameter("attributes");
+		final String countries = request.getParameter("countries");
 		
-		Filter filter = new Filter();
+		final Filter filter = new Filter();
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		
-		String excludedCountries = request.getParameter("excludedCountries");
+		final String excludedCountries = request.getParameter("excludedCountries");
 		filter.setExcludedCountries(excludedCountries);
 		
 		filter.setSelectedCountries(countries);
@@ -236,19 +236,19 @@ public class TrendController {
 	 * @throws ParseException the parse exception
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getRoamingStatistics")
-	public @ResponseBody HashMap<String,Long> getRoamingstatisticsData(@PathVariable("roamType") String roamType,
-			HttpServletRequest request) throws ParseException {
-		String startdate = request.getParameter("dateRangeFrom");
-		String endDate = request.getParameter("dateRangeTo");
+	public @ResponseBody HashMap<String,Long> getRoamingstatisticsData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request) throws ParseException {
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
 		
-		String attributes = request.getParameter("attributes");
-		String countries = request.getParameter("countries");
-		Filter filter = new Filter();
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		final String attributes = request.getParameter("attributes");
+		final String countries = request.getParameter("countries");
+		final Filter filter = new Filter();
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		String excludedCountries = request.getParameter("excludedCountries");
+		final String excludedCountries = request.getParameter("excludedCountries");
 		filter.setExcludedCountries(excludedCountries);
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
@@ -266,20 +266,20 @@ public class TrendController {
 	 * @throws ParseException the parse exception
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getBubbleChart")
-	public @ResponseBody AggregatedCountryStatistics getBubbleChartData(@PathVariable("roamType") String roamType,
-			HttpServletRequest request) throws ParseException {
-		String startdate = request.getParameter("dateRangeFrom");
-		String endDate = request.getParameter("dateRangeTo");
+	public @ResponseBody AggregatedCountryStatistics getBubbleChartData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request) throws ParseException {
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
 		
-		String attributes = request.getParameter("attributes");
-		String countries = request.getParameter("countries");
+		final String attributes = request.getParameter("attributes");
+		final String countries = request.getParameter("countries");
 		
-		Filter filter = new Filter();
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		final Filter filter = new Filter();
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
-		String excludedCountries = request.getParameter("excludedCountries");
+		final String excludedCountries = request.getParameter("excludedCountries");
 		filter.setExcludedCountries(excludedCountries);
 		filter.setSelectedCountries(countries);
 		if (!attributes.isEmpty()) {
@@ -289,17 +289,16 @@ public class TrendController {
 		return this.trendService.getTopCountry(filter, roamType);
 	}
 	
-	@RequestMapping(value = "/{roamType}/getTop10CSV", method = RequestMethod.POST)
-	public void getNameAsXML(@PathVariable("roamType") String roamType,
-			HttpServletRequest httpRequest,HttpServletResponse response, @RequestParam("top10csvtext") String csvText)
+	@RequestMapping(value = "/getTop10CSV", method = RequestMethod.POST)
+	public void getNameAsXML(final HttpServletRequest httpRequest,final HttpServletResponse response, @RequestParam("top10csvtext") final String csvText)
 	{
 		
 		response.setHeader("Content-Disposition", "attachment; filename=top10roamer.csv");
 		response.setContentType("text/csv");
 		try{
-			PrintWriter out = response.getWriter();  
+			final PrintWriter out = response.getWriter();  
 			out.print(csvText);
-		}catch(IOException ioException)
+		}catch(final IOException ioException)
 		{
 			
 		}
@@ -314,9 +313,9 @@ public class TrendController {
 	 * @throws ParseException the parse exception
 	 */
 	@RequestMapping(method=RequestMethod.GET, value = "/{roamType}/getBubbleChartJson")
-	public @ResponseBody String getBubbleChartJson(@PathVariable("roamType") String roamType,
-			HttpServletRequest request) throws ParseException {
-		String jsonData = request.getParameter("data");
+	public @ResponseBody String getBubbleChartJson(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request) throws ParseException {
+		final String jsonData = request.getParameter("data");
 		return jsonData;
 	}
 	
