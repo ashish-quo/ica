@@ -76,8 +76,14 @@ public class TrendController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value="/{roamType}")
 	public ModelAndView showHome(@PathVariable("roamType") final String roamType) {
-		final ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv;
+		if(roamType.equals("in") || roamType.equals("out"))
+				mv= new ModelAndView("home");
+		else 
+			mv = new ModelAndView("login");
+		
 		mv.addObject("roamType", roamType);
+		
 		return mv;
 	}
 	
