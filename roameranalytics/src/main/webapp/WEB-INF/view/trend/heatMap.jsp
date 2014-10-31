@@ -62,7 +62,7 @@
                 <label>
                   <input type="radio" name="project" id="roamers" class="all-blue-map" value="roamers" ng-model="mapUnit">
                   <i></i></label>
-                <label for="roamers">roamers</label>
+                <label for="roamers">Roamers</label>
               </p>
             </li>
             <li>
@@ -70,7 +70,7 @@
                 <label>
                   <input type="radio" name="project" id="mt" class="all-blue-map" value="mt" ng-model="mapUnit">
                   <i></i></label>
-                <label for="mt">mt (min)</label>
+                <label for="mt">MT (Min)</label>
               </p>
             </li>
             <li>
@@ -78,7 +78,7 @@
                 <label>
                   <input type="radio" name="project" id="mo" class="all-blue-map" value="mo" ng-model="mapUnit">
                   <i></i></label>
-                <label for="mo">mo (min)</label>
+                <label for="mo">MO (Min)</label>
               </p>
             </li>
             <li>
@@ -86,7 +86,7 @@
                 <label>
                   <input type="radio" name="project" id="data" class="all-blue-map" value="data" ng-model="mapUnit" ng-model="mapUnit">
                   <i></i></label>
-                <label for="data">data (mb)</label>
+                <label for="data">Data (MB)</label>
               </p>
             </li>
             
