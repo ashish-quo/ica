@@ -40,26 +40,26 @@ public class MicroSegmentController {
 	private MicroSegmentService microsegmentSerice;
 	
 	@RequestMapping(value="/{roamType}/microsegment", method = RequestMethod.GET)
-	public ModelAndView showMicroSegment(@PathVariable("roamType") String roamType) {
+	public ModelAndView showMicroSegment(@PathVariable("roamType") final String roamType) {
 		return new ModelAndView("microsegment");
 	}
 	
 	@RequestMapping(value="/{roamType}/microsegment/graphs", method = RequestMethod.GET)
-	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(@PathVariable("roamType") String roamType,
-			HttpServletRequest request) throws ParseException {
+	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request) throws ParseException {
 
-		String microSegmentCharts = request.getParameter("microsegmentcharts");
-		String countries = request.getParameter("countries");
-		List<MSChartMetadata> list = new ArrayList<MSChartMetadata>(5);
+		final String microSegmentCharts = request.getParameter("microsegmentcharts");
+		final String countries = request.getParameter("countries");
+		final List<MSChartMetadata> list = new ArrayList<MSChartMetadata>(5);
 		if (!microSegmentCharts.isEmpty()) {
-			String[] chartMetadata = microSegmentCharts.split(RAConstants.COLON);
-			for (String metadata : chartMetadata) {
+			final String[] chartMetadata = microSegmentCharts.split(RAConstants.COLON);
+			for (final String metadata : chartMetadata) {
 				
-				String[] chartAttr = metadata.split(RAConstants.COMMA);
+				final String[] chartAttr = metadata.split(RAConstants.COMMA);
 				if (countries.isEmpty() 
 						&& RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED.equalsIgnoreCase(chartAttr[0]))
 					continue;
-				MSChartMetadata msChart = new MSChartMetadata();
+				final MSChartMetadata msChart = new MSChartMetadata();
 				msChart.setColumn(chartAttr[1]);
 				msChart.setTitle(chartAttr[0]);
 				msChart.setColumnType(chartAttr[2]);
@@ -74,60 +74,89 @@ public class MicroSegmentController {
 	
 	
 	@RequestMapping(value="/{roamType}/microsegment/graph", method = RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getMicroSegmentChartData(@PathVariable("roamType") String roamType,
-			HttpServletRequest request) throws ParseException {
+	public @ResponseBody Map<String,Object> getMicroSegmentChartData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request) throws ParseException {
 		
-		String startdate = request.getParameter("dateRangeFrom");
-		String endDate = request.getParameter("dateRangeTo");
-		String attributes = request.getParameter("attributes");
-		String countries = request.getParameter("countries");
-		String chartMetaData = request.getParameter("chartmetadata");
-		Filter filter = new Filter();
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
+		final String attributes = request.getParameter("attributes");
+		final String countries = request.getParameter("countries");
+		final String chartMetaData = request.getParameter("chartmetadata");
+		final Filter filter = new Filter();
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
-		String excludedCountries = request.getParameter("excludedCountries");
+		final String excludedCountries = request.getParameter("excludedCountries");
 		filter.setExcludedCountries(excludedCountries);
-		String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
+		final String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
 		
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		Map<String, List<Object[]>> data = microsegmentSerice.getMSChartData(filter,chartInfo[0], chartInfo[1], chartInfo[2],
+		final Map<String, List<Object[]>> data = microsegmentSerice.getMSChartData(filter,chartInfo[0], chartInfo[1], chartInfo[2],
 				RAConstants.attributeNameValueCache.get(chartInfo[0]) ,roamType);
-		Map<String, Object> result = new HashMap<String, Object>();
+		final Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
 		result.put("data", data);
 		return result;
 	}
 	
 	@RequestMapping(value="/{roamType}/microsegment/networkgroup", method = RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getNetworkGroupChartData(@PathVariable("roamType") String roamType,
-			HttpServletRequest req) throws ParseException {
+	public @ResponseBody Map<String,Object> getNetworkGroupChartData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest req) throws ParseException {
 		
-		String startdate = req.getParameter("dateRangeFrom");
-		String endDate = req.getParameter("dateRangeTo");
-		String attributes = req.getParameter("attributes");
-		String countries = req.getParameter("countries");
-		String chartMetaData = req.getParameter("chartmetadata");
-		Filter filter = new Filter();
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		final String startdate = req.getParameter("dateRangeFrom");
+		final String endDate = req.getParameter("dateRangeTo");
+		final String attributes = req.getParameter("attributes");
+		final String countries = req.getParameter("countries");
+		final String chartMetaData = req.getParameter("chartmetadata");
+		final Filter filter = new Filter();
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
-		String excludedCountries = req.getParameter("excludedCountries");
-		filter.setExcludedCountries(excludedCountries);
-		String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
+		
+		final String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
 		
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		Map<String, List<Object[]>> data = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
+		final Map<String, List<Object[]>> data = microsegmentSerice.getNetworkGroupData(filter, chartInfo[1], chartInfo[2],
 				RAConstants.attributeNameValueCache.get(chartInfo[0]),roamType);
-		Map<String, Object> result = new HashMap<String, Object>();
+		final Map<String, Object> result = new HashMap<String, Object>();
+		result.put("attrName", chartInfo[0]);
+		result.put("data", data);
+		return result;
+	}
+	
+	@RequestMapping(value="/{roamType}/microsegment/network", method = RequestMethod.GET)
+	public @ResponseBody Map<String,Object> getNetworkChartData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest req) throws ParseException {
+		
+		final String startdate = req.getParameter("dateRangeFrom");
+		final String endDate = req.getParameter("dateRangeTo");
+		final String attributes = req.getParameter("attributes");
+		final String countries = req.getParameter("countries");
+		final String chartMetaData = req.getParameter("chartmetadata");
+		final Filter filter = new Filter();
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		filter.setSelectedCountries(countries);
+		final String excludedCountries = req.getParameter("excludedCountries");
+		filter.setExcludedCountries(excludedCountries);
+		final String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
+		
+		if (!attributes.isEmpty()) {
+			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
+		}
+		final Map<String, List<Object[]>> data = microsegmentSerice.getNetworkData(filter, chartInfo[1], chartInfo[2],
+				RAConstants.attributeNameValueCache.get(chartInfo[0]),roamType);
+		final Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
 		result.put("data", data);
 		return result;
@@ -135,30 +164,30 @@ public class MicroSegmentController {
 	
 	
 	@RequestMapping(value="/{roamType}/microsegment/otherCountriesTraveled", method = RequestMethod.GET)
-	public @ResponseBody Map<String,Object> getOtherCountriesTraveledChartData(@PathVariable("roamType") String roamType,
-			HttpServletRequest req)  throws ParseException {
+	public @ResponseBody Map<String,Object> getOtherCountriesTraveledChartData(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest req)  throws ParseException {
 		
-		String startdate = req.getParameter("dateRangeFrom");
-		String endDate = req.getParameter("dateRangeTo");
-		String attributes = req.getParameter("attributes");
-		String countries = req.getParameter("countries");
-		String chartMetaData = req.getParameter("chartmetadata");
-		Filter filter = new Filter();
-		DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		final String startdate = req.getParameter("dateRangeFrom");
+		final String endDate = req.getParameter("dateRangeTo");
+		final String attributes = req.getParameter("attributes");
+		final String countries = req.getParameter("countries");
+		final String chartMetaData = req.getParameter("chartmetadata");
+		final Filter filter = new Filter();
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
-		String excludedCountries = req.getParameter("excludedCountries");
+		final String excludedCountries = req.getParameter("excludedCountries");
 		filter.setExcludedCountries(excludedCountries);
-		String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
+		final String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
 		
 		if (!attributes.isEmpty()) {
 			filter.setSelectedAttributes(CommonUtil.parseSelectedAttributes(attributes));
 		}
-		Map<String, List<Object[]>> data = microsegmentSerice.getOtherCountriesTraveledData(
+		final Map<String, List<Object[]>> data = microsegmentSerice.getOtherCountriesTraveledData(
 				filter, chartInfo[1], chartInfo[2], RAConstants.attributeNameValueCache.get(chartInfo[0]), roamType);
-		Map<String, Object> result = new HashMap<String, Object>();
+		final Map<String, Object> result = new HashMap<String, Object>();
 		result.put("attrName", chartInfo[0]);
 		result.put("data", data);
 		return result;

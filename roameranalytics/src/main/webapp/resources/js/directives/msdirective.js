@@ -123,6 +123,8 @@
 	    		  var url =  "/";
 	    		  if (attrs.chartname == 'Network Group') {
 	    			  url+= 'microsegment/networkgroup/'
+	    		  } else  if (attrs.chartname == 'Network') {
+	    			  url+= 'microsegment/network/'
 	    		  } else if (attrs.chartname == 'Other Countries Traveled'){
 	    			  url+= 'microsegment/otherCountriesTraveled';
 	    		  } else {

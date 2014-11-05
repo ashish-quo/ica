@@ -22,6 +22,9 @@ public class RAConstants {
 	/** The Constant COMMA. */
 	public static final String COMMA = ",";
 	
+	/** The Constant PIPE. */
+	public static final String PIPE = "|";
+	
 	/** The Constant COLON. */
 	public static final String COLON = ":";
 

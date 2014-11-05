@@ -33,6 +33,15 @@ public interface MicroSegmentRepository {
 	Map<String,List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
 			Map<String,String> catNameValue, String roamType) throws RADataAccessException;
 	
+	/**
+	 *  Gets data required for network group in microsegment section.
+	 *
+	 * @return the network data
+	 * @throws RADataAccessException 
+	 */
+	Map<String,List<Object[]>> getNetworkData(Filter filter, String column, String columnType,
+			Map<String,String> catNameValue, String roamType) throws RADataAccessException;
+	
 	
 	/**
 	 *  Gets data required for other countries traveled in microsegment section.

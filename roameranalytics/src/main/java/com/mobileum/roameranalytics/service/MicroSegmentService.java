@@ -35,6 +35,18 @@ public interface MicroSegmentService {
 	Map<String, List<Object[]>> getNetworkGroupData(Filter filter, String column, String columnType,
 			Map<String,String> catNameValue, String roamType);
 	
+	/**
+	 * Gets the network  data.
+	 *
+	 * @param filter the filter
+	 * @param column the column
+	 * @param columnType the column type
+	 * @param catNameValue the cat name value
+	 * @return the network data
+	 */
+	Map<String, List<Object[]>> getNetworkData(Filter filter, String column, String columnType,
+			Map<String,String> catNameValue, String roamType);
+	
 	
 	/**
 	 *  Gets data required for other countries traveled in microsegment section.

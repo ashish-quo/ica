@@ -28,11 +28,11 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	private MicroSegmentRepository microsegmentDao;
 	
 	@Override
-	public Map<String, List<Object[]>> getMSChartData(Filter filter, String attributeName, String column, String columnType,
-			Map<String,String> catNameValue, String roamType) {
+	public Map<String, List<Object[]>> getMSChartData(final Filter filter, final String attributeName, final String column, final String columnType,
+			final Map<String,String> catNameValue, final String roamType) {
 		try {
 			return microsegmentDao.getMSChartData(filter, attributeName, column, catNameValue, roamType);
-		} catch (RADataAccessException dae) {
+		} catch (final RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 	}
@@ -43,11 +43,21 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	}
 
 	@Override
-	public Map<String, List<Object[]>> getNetworkGroupData(Filter filter,
-			String column, String columnType, Map<String, String> catNameValue, String roamType) {
+	public Map<String, List<Object[]>> getNetworkGroupData(final Filter filter,
+			final String column, final String columnType, final Map<String, String> catNameValue, final String roamType) {
 		try {
 			return microsegmentDao.getNetworkGroupData(filter, column, columnType, catNameValue,roamType);
-		} catch (RADataAccessException dae) {
+		} catch (final RADataAccessException dae) {
+			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
+		}
+	}
+	
+	@Override
+	public Map<String, List<Object[]>> getNetworkData(final Filter filter,
+			final String column, final String columnType, final Map<String, String> catNameValue, final String roamType) {
+		try {
+			return microsegmentDao.getNetworkData(filter, column, columnType, catNameValue,roamType);
+		} catch (final RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 	}
@@ -57,10 +67,10 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	 */
 	@Override
 	public Map<String, List<Object[]>> getOtherCountriesTraveledData(
-			Filter filter, String column, String columnType, Map<String, String> catNameValue, String roamType) {
+			final Filter filter, final String column, final String columnType, final Map<String, String> catNameValue, final String roamType) {
 		try {
 			return microsegmentDao.getOtherCountriesTraveledData(filter, column, columnType, catNameValue, roamType);
-		} catch (RADataAccessException dae) {
+		} catch (final RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 	}

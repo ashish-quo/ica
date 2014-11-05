@@ -391,24 +391,64 @@
 		 * Refreshes the data when country is changed
 		 */
 		$scope.updateCountryFilter = function(exclude) {
+			
+		};
+		
+		$scope.checkLeisure = function(id) {
+			var element = $j("#"+id);
+			if(element.is(':checked')) {
+				$j("input[leisure = '1']").attr("checked","checked");
+			} else {
+				$j("input[leisure = '1']").removeAttr("checked");
+			}
+		}
+		
+		$scope.checkNeighbours = function(id) {
+			var element = $j("#"+id);
+			if(element.is(':checked')) {
+				$j("input[bordering = '1']").attr("checked","checked");
+			} else {
+				$j("input[bordering = '1']").removeAttr("checked");
+			}
+		}
+		
+		$scope.checkLeisurePermium = function(id) {
+			var element = $j("#"+id);
+			if(element.is(':checked')) {
+				$j("input[leisurepremium = '1']").attr("checked","checked");
+			} else {
+				$j("input[leisurepremium = '1']").removeAttr("checked");
+			}
+		}
+		
+		$scope.checkLowGDP = function(id) {
+			var element = $j("#"+id);
+			if(element.is(':checked')) {
+				$j("input[lowgdp = '1']").attr("checked","checked");
+			} else {
+				$j("input[lowgdp = '1']").removeAttr("checked");
+			}
+		}
+		
+		/**
+		 * Action for apply button on country filter
+		 */
+		$scope.applyCountryFilter = function () {
 			$rootScope.filters.countries = new Array();
-			$rootScope.filters.excludedCountries = new Array();
-			var countryChecked = false;
-			$j("input.country-chk:checked").each(function () {
+			var $checkedCountries = $j("input.country-chk:checked");
+			$checkedCountries.each(function () {
 				countryChecked = true;
 				var id = $j(this).attr("id");
+				var countryId = $j(this).attr("countryId");
 				var name = $j(this).attr("name");
-				var brodering = $j(this).attr('bordering')
-				$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering});
+				var brodering = $j(this).attr('bordering');
+				$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering,"countryId" : countryId});
 			});
 			
-			if ($scope.excludeNbrs) {
-				$j("input[bordering = '1']").each(function () {
-					var id = $j(this).attr("id");
-					var name = $j(this).attr("name");
-					var brodering = $j(this).attr('bordering')
-					$rootScope.filters.excludedCountries.push(name);
-				});
+			
+			/**var countryChecked = false;
+			if ($checkedCountries.length > 0) {
+				countryChecked = true;
 			}
 			if (countryChecked) {
 				var latestData = {
@@ -424,9 +464,8 @@
 			} else {
 				$rootScope.otherCountriesTraveled = {};
 			}
-			
 			var key = 'Other Countries Traveled,visitedcountryname,java.lang.String';
-			delete $rootScope.filters.attributes[key];
+			delete $rootScope.filters.attributes[key];*/
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
 				$rootScope.$broadcast("refresh-bubblechart-home");
@@ -438,8 +477,7 @@
 				$rootScope.$broadcast("refresh-microsegment-country");
 				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
 			}
-		};
-		
+		}
 		/**
 		 * This function removes country filter from filter area on each screen
 		 */
@@ -449,20 +487,6 @@
 				return obj.id == id ? null : obj; 
 			});
 			
-			if ($rootScope.filters.countries.length == 0) {
-				$rootScope.otherCountriesTraveled = {};
-			} else {
-				var latestData = {
-						'params' : util.getParamsFromFilter($rootScope.filters)
-				};
-				$rootScope.otherCountriesTraveled = {};
-				// Getl all the countries to be shown in left panel
-				$http.get($scope.roamType + "/getOtherCountriesTraveled", latestData).success(function (data) {
-					$rootScope.otherCountriesTraveled = data;
-				}).error(function(data, status, headers, config) {
-					 $rootScope.error = data.message;
-			    });
-			}
 			var key = 'Other Countries Traveled,visitedcountryname,java.lang.String';
 			delete $rootScope.filters.attributes[key];
 		};
@@ -500,13 +524,13 @@
 				$rootScope.$broadcast("refresh-heatmap-home");
 				$rootScope.$broadcast("refresh-bubblechart-home");
 				$rootScope.$broadcast("refresh-roaming-statistics-home");
-			}else if ($rootScope.tabIndex == 1) {
+			} else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
-				$rootScope.$broadcast("refresh-roaming-statistics-trends");
-			} else if ($rootScope.tabIndex == 2) {
-				$rootScope.$broadcast("refresh-microsegment-country");
 				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
-			}
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment-attribute");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+			}	
 		};
 		
 		/**
@@ -544,6 +568,7 @@
 		$rootScope.$on("add-filter-from-microsegment", function (data, event) {
 			$scope.updateAttributeFilter(data.attributeId, data.categoryId);
 		});
+		
 		
 	}]);
 })();

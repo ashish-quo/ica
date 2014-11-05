@@ -54,8 +54,9 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAttributeList()
 	 */
+	@Override
 	public List<Attribute> getAttributeList(final String roamType) throws RADataAccessException {
-		String query = PrestoQueryBuilder.queryForAttributes(roamType);
+		final String query = PrestoQueryBuilder.queryForAttributes(roamType);
 		LOGGER.debug("Getting all attributes");
 		LOGGER.debug(query);
 		
@@ -63,20 +64,21 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 		try {
 			attributeList = jdbcTemplate.query(query, new ResultSetExtractor<List<Attribute>>() {
 				
-				public List<Attribute> extractData(ResultSet rs) throws SQLException,
+				@Override
+				public List<Attribute> extractData(final ResultSet rs) throws SQLException,
 						DataAccessException {
 					
-					Map<Integer,Attribute> attributeMap = new LinkedHashMap<Integer, Attribute>();
+					final Map<Integer,Attribute> attributeMap = new LinkedHashMap<Integer, Attribute>();
 					Map<String,String> nameValueMap = null;
 					Integer otherCountriesTravelledAttrId = null;
 					while(rs.next()) {
-						Integer attrId = rs.getInt("attrId");
-						String attrName = rs.getString("attrName");
+						final Integer attrId = rs.getInt("attrId");
+						final String attrName = rs.getString("attrName");
 						if (RoamType.IN.getRoamType().equalsIgnoreCase(roamType) && 
 								"Domestic ARPU".equalsIgnoreCase(attrName))
 							continue;
 						if (!attributeMap.containsKey(attrId)) {
-							Attribute attribute = new Attribute();
+							final Attribute attribute = new Attribute();
 							
 							attribute.setId(attrId);
 							attribute.setAttributeName(attrName);
@@ -97,7 +99,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 							}
 						} 
 						
-						AttributeCategory attributeCategory = new AttributeCategory();
+						final AttributeCategory attributeCategory = new AttributeCategory();
 						attributeCategory.setCategName(rs.getString("catName"));
 						attributeCategory.setAttrId(attrId);
 						attributeCategory.setId(rs.getLong("catId"));
@@ -115,7 +117,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 				}
 	
 			});
-		} catch (DataAccessException dae) {
+		} catch (final DataAccessException dae) {
 			LOGGER.error("Exception While getting all attribute : ", dae);
 			throw new RADataAccessException(dae);
 		}
@@ -130,8 +132,9 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAllCountries()
 	 */
 	
-	public List<Country> getAllCountries(String roamType) throws RADataAccessException {
-		String query = PrestoQueryBuilder.queryForAllCountries(roamType);
+	@Override
+	public List<Country> getAllCountries(final String roamType) throws RADataAccessException {
+		final String query = PrestoQueryBuilder.queryForAllCountries(roamType);
 		
 		LOGGER.debug("Getting all countries ");
 		LOGGER.debug("Country query : " + query);
@@ -140,14 +143,20 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 
 		try {
 			countries = prestoJdbcTempate.query(query, new RowMapper<Country>(){
-				public Country mapRow(ResultSet rs, int rowNumber) throws SQLException {
-					Country country = new Country();
+				@Override
+				public Country mapRow(final ResultSet rs, final int rowNumber) throws SQLException {
+					final Country country = new Country();
 					country.setCountryName(rs.getString("countryName"));
 					country.setBordering(rs.getByte("bordering"));
+					country.setLeisure(rs.getByte("leisure"));
+					country.setLeisurePremium(rs.getByte("leisurePremium"));
+					country.setLowGDP(rs.getByte("lowGDP"));
+					country.setCountryId(rs.getByte("countryId"));
+					
 					return country;
 				}
 			});
-		} catch(DataAccessException dae) {
+		} catch(final DataAccessException dae) {
 			LOGGER.error("Error occurred while getting all countries: ", dae);
 			throw new RADataAccessException(dae);
 		}
@@ -165,70 +174,58 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 */
 	@Override
 	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(final long networkAttrId, 
-			final long networkGroupAttrId,String roamType) throws RADataAccessException {
-		String query = PrestoQueryBuilder.queryForDistinctNetworkGroups(roamType);
+			final long networkGroupAttrId,final String roamType) throws RADataAccessException {
+		final String query = PrestoQueryBuilder.queryForDistinctNetworkGroups(roamType);
 		LOGGER.debug("Getting all networks groups ");
 		LOGGER.debug("Network Group Query : " + query);
 
-		List<AttributeCategory> networkGroupCategories = new ArrayList<AttributeCategory>(50);
+		final List<AttributeCategory> networkGroupCategories = new ArrayList<AttributeCategory>(50);
 		final List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
 		final Map<String,StringBuilder> networkGroupMap = new TreeMap<String, StringBuilder>();
-		Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
+		final Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
 		try {
 			this.prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
 				@Override
-				public AttributeCategory mapRow(ResultSet rs, int rowNum)
+				public AttributeCategory mapRow(final ResultSet rs, final int rowNum)
 						throws SQLException {
-					String groupString = rs.getString("network_group");
-					String networkName = rs.getString("network_name");
+					final String group = rs.getString("group");
+					final String networkName = rs.getString("network_name");
+					final String networkMnc = rs.getString("mnc");
+					final String networkMcc = rs.getString("mcc");
+					final String network = networkMcc + "-" + networkMnc;
 					if (networkName != null && !networkName.isEmpty()) {
-						if (groupString.contains(RAConstants.COMMA)) {
-							String[] groups = groupString.split(RAConstants.COMMA);
-							for (String group : groups) {
-								StringBuilder networkNames = networkGroupMap.get(group);
-								if (networkNames == null) {
-									networkNames = new StringBuilder(); 
-									networkGroupMap.put(group, networkNames);
-									networkNames.append(networkName);
-								} else {
-									networkNames.append(RAConstants.COMMA).append(networkName);
-								}
-							}
+						StringBuilder networks = networkGroupMap.get(group);
+						if (networks == null) {
+							networks = new StringBuilder(); 
+							networkGroupMap.put(group, networks);
+							networks.append(network);
 						} else {
-							StringBuilder networkNames = networkGroupMap.get(groupString);
-							if (networkNames == null) {
-								networkNames = new StringBuilder(); 
-								networkGroupMap.put(groupString, networkNames);
-								networkNames.append(networkName);
-							} else {
-								networkNames.append(RAConstants.COMMA).append(networkName);
-							}
+							networks.append(RAConstants.COMMA).append(network);
 						}
-						
-						AttributeCategory attributeCategory = new AttributeCategory();
+						final AttributeCategory attributeCategory = new AttributeCategory();
 						attributeCategory.setCategName(networkName);
 						attributeCategory.setAttrId(networkAttrId);
 						attributeCategory.setId(rowNum);
-						attributeCategory.setCategValue(networkName);
+						attributeCategory.setCategValue(network);
 						RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).put(attributeCategory.getCategValue(),
 								attributeCategory.getCategName());
 						networkCategories.add(attributeCategory);
-						}
+					}
 					return null;
 				}
 			});
-		} catch(DataAccessException dae) {
+		} catch(final DataAccessException dae) {
 			LOGGER.error("Error occurred while getting all network groups: ", dae);
 			throw new RADataAccessException(dae);
 		}
-		int catId = 1;
-		for (String group : networkGroupMap.keySet()) {
-			AttributeCategory attrCat = new AttributeCategory();
-			attrCat.setCategName(group);
-			attrCat.setAttrId(networkGroupAttrId);
-			attrCat.setId(catId++);
-			attrCat.setCategValue(networkGroupMap.get(group).toString());
-			networkGroupCategories.add(attrCat);
+		int index = 1;
+		for (final String group : networkGroupMap.keySet()) {
+			final AttributeCategory attrCategory = new AttributeCategory();
+			attrCategory.setCategName(group);
+			attrCategory.setAttrId(networkGroupAttrId);
+			attrCategory.setId(index++);
+			attrCategory.setCategValue(networkGroupMap.get(group).toString());
+			networkGroupCategories.add(attrCategory);
 		}
 		result.put(networkGroupAttrId, networkGroupCategories);
 		result.put(networkAttrId, networkCategories);
@@ -239,9 +236,9 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	
 
 	@Override
-	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter, String roamType) throws RADataAccessException {
-		StringBuilder query = new StringBuilder();
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
+	public List<AttributeCategory> getOtherCountriesTraveled(final Filter filter, final String roamType) throws RADataAccessException {
+		final StringBuilder query = new StringBuilder();
+		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		PrestoQueryBuilder.populateQueryForOtherCountriesTraveled(filter, query, parameterMap, roamType);
 		LOGGER.debug("Getting other countries traveled ");
 		LOGGER.debug("Other Countries Traveled query : " + query.toString());
@@ -251,9 +248,9 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 			otherCountries = prestoJdbcTempate.query(query.toString(), 
 					new RowMapper<AttributeCategory>() {
 				@Override
-				public AttributeCategory mapRow(ResultSet rs, int rowNum)
+				public AttributeCategory mapRow(final ResultSet rs, final int rowNum)
 						throws SQLException {
-					AttributeCategory attributeCategory = new AttributeCategory();
+					final AttributeCategory attributeCategory = new AttributeCategory();
 					attributeCategory.setCategName(rs.getString("othercountry"));
 					attributeCategory.setId(rowNum);
 					attributeCategory.setCategValue(attributeCategory.getCategName());
@@ -262,7 +259,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 					return attributeCategory;
 				}
 			});
-		} catch (DataAccessException dae) {
+		} catch (final DataAccessException dae) {
 			LOGGER.error("Error occurred while getting other countries traveled: ", dae);
 			throw new RADataAccessException(dae);
 		}

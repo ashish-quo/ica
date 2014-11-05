@@ -4,20 +4,14 @@
 package com.mobileum.roameranalytics.repository;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -35,44 +29,28 @@ import com.mobileum.roameranalytics.model.Country;
 @ContextConfiguration(locations = { "/spring-jdbc-test.xml"})
 public class MetaDataRepositoryImplTest {
 
-	/** The jdbc template. */
+	/** The common dao. */
 	@Autowired
-	@Qualifier("prestoJdbcTempate")
-	private JdbcTemplate prestoJdbcTempate;
-	
-	/** The named parameter jdbc template. */
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-	
-	/** The named parameter jdbc template. */
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate2;
+	@Qualifier("prestoMetadataRepository")
+	private MetaDataRepository metaDataRepository;
 	
 	@Test
 	public void testGetCountries() throws RADataAccessException {
-		String query = PrestoQueryBuilder.queryForDistinctNetworks();
+		final String queryIn = PrestoQueryBuilder.queryForAllCountries("in");
+		final String queryOut = PrestoQueryBuilder.queryForAllCountries("out");
+		System.out.println(queryOut);
+		System.out.println(queryIn);
+		final List<Country> countriesOut = metaDataRepository.getAllCountries("out");
+		final List<Country> countriesIn = metaDataRepository.getAllCountries("out");
 
-		List<Country> countries = new ArrayList<Country>(200);
-
-		try {
-			prestoJdbcTempate.query(query, new ResultSetExtractor<List<Country>>(){
-
-				@Override
-				public List<Country> extractData(ResultSet rs) throws SQLException,
-						DataAccessException {
-					while(rs.next()) {
-						System.out.println(rs.getString(1));
-					}
-					return countries;
-				}
-				
-			});
-		} catch(DataAccessException dae) {
-			throw new RADataAccessException(dae);
+		assertNotNull(countriesOut);
+		assertNotNull(countriesIn);
+		if (countriesOut.isEmpty()) {
+			fail("Out countries are empty");
 		}
-		
-		System.out.println(countries.size());
-		assertNotNull(countries);
+		if (countriesOut.isEmpty()) {
+			fail("In countries are empty");
+		}
 	}
 
 }
