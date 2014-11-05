@@ -28,6 +28,27 @@ $j(document).on( "change", ".country-chk", function() {
 		$j(this).removeAttr('checked');
 	}
 });
+
+
+//Select country
+$j(document).on( "change", "input#All-countries", function() {
+	if($j(this).is(':checked')) {
+		$j("input.select-all-country").attr("checked","checked");
+	} else {
+		$j("input.select-all-country").removeAttr("checked");
+	}
+});
+
+//Select country
+$j(document).on( "change", ".select-all-country", function() {
+	var checked = $j("input.select-all-country:checked");
+	var total = $j("input.select-all-country");
+	if (checked.length == total.length) {
+		$j("input#All-countries").attr('checked', 'checked');
+	} else {
+		$j("input#All-countries").removeAttr("checked");
+	}
+});
 	
 // Resize the scroll bar on mouse over
 $j(document).on('mouseover',".sidebar" ,function(){

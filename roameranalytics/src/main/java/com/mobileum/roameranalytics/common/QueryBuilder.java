@@ -24,7 +24,7 @@ public class QueryBuilder {
 	 * @return query
 	 */
 	public static String queryForAttributes() {
-		StringBuilder query = new StringBuilder();
+		final StringBuilder query = new StringBuilder();
 		
 		query.append("select attr.id attrId, attr.attribute_name attrName, attr.module_id moduleId, ")
 				.append(" attr.db_column db_column,  attr.column_type column_type, attr.chart_type chart_type, ")
@@ -43,7 +43,7 @@ public class QueryBuilder {
 	 * @return the string
 	 */
 	public static String queryForAllCountries() {
-		StringBuilder query = new StringBuilder();
+		final StringBuilder query = new StringBuilder();
 		query.append(" select visitedcountry countryName, ")
 			.append(" case when bordering = 'Distant' then 0 else 1 end bordering from ")
 			.append(Relation.COUNTRY)
@@ -60,8 +60,8 @@ public class QueryBuilder {
 	 * @param query the query
 	 * @param parameterMap the parameter map
 	 */
-	public static void populateQueryForOtherCountriesTraveled(Filter filter, StringBuilder query,
-			Map<String, Object> parameterMap) {
+	public static void populateQueryForOtherCountriesTraveled(final Filter filter, final StringBuilder query,
+			final Map<String, Object> parameterMap) {
 		query.append(" select distinct trip.visitedcountryname othercountry from ")
 			.append(Relation.TRIP).append(" trip ")
 			.append(" where trip.starttime >= :startDate and trip.endtime <= :endDate and trip.endtime != 0 ")
@@ -75,7 +75,7 @@ public class QueryBuilder {
 			query.append(" and trip.visitedcountryname not in (:excludedCountries) ");
 			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
 		}
-		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		final Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 	}
@@ -87,7 +87,7 @@ public class QueryBuilder {
 	 * @param parameterMap the parameter map - will have parameter and its value used in query
 	 * @throws ClassNotFoundException 
 	 */
-	public static void populateQueryForTrends(Filter filter, StringBuilder query, Map<String, Object> parameterMap)  {
+	public static void populateQueryForTrends(final Filter filter, final StringBuilder query, final Map<String, Object> parameterMap)  {
 		
 		query.append(" select sum(1) imsicount, sum(triptime.mocallminutes) mocallminutes, ")
 			.append(" sum(triptime.mtcallminutes) mtcallminutes, sum(triptime.mosmscount) mosmscount,")
@@ -106,8 +106,8 @@ public class QueryBuilder {
 			parameterMap.put("countries", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		} 
 		if (!filter.getExcludedCountries().isEmpty()){
-			List<String> countries = (List<String>) parameterMap.get("countriesNotIn"); 
-			List<String> parameterList = Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA));
+			final List<String> countries = (List<String>) parameterMap.get("countriesNotIn"); 
+			final List<String> parameterList = Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA));
 			if (countries == null) {
 				query.append(" and trip.visitedcountryname not in (:countriesNotIn) ");
 				parameterMap.put("countriesNotIn",parameterList);
@@ -116,7 +116,7 @@ public class QueryBuilder {
 			}
 
 		}
-		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		final Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		query.append(" group by  triptime.usagebintime, trip.overalltripcategory ");
@@ -132,8 +132,8 @@ public class QueryBuilder {
 	 * @param columnType the column type
 	 * @param parameterMap the parameter map
 	 */
-	public static void populateQueryForMicrosegmentChart(Filter filter, StringBuilder query, 
-			String column,  Map<String, Object> parameterMap) {
+	public static void populateQueryForMicrosegmentChart(final Filter filter, final StringBuilder query, 
+			final String column,  final Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes,")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ");
@@ -152,7 +152,7 @@ public class QueryBuilder {
 			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
 		}
 		
-		Map<String,String> filterParameters = filter.getSelectedAttributes();
+		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
 
 		query.append(" group by trip.").append(column);
@@ -169,12 +169,12 @@ public class QueryBuilder {
 	 * @param columnType the column type
 	 * @param parameterMap the parameter map
 	 */
-	public static void populateQueryForNetworkGroupChart(Filter filter, StringBuilder query, 
-			Map<String, Object> parameterMap) {
+	public static void populateQueryForNetworkGroupChart(final Filter filter, final StringBuilder query, 
+			final Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" network.network_group networkGroup from ")
+			.append(" network.networkgrouplist networkGroup from ")
 			.append(Relation.TRIP).append(" trip ").append(" inner join ")
 			.append(Relation.TADIGNETWORK).append(" network ")
 			.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
@@ -190,10 +190,10 @@ public class QueryBuilder {
 			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
 		}
 		
-		Map<String,String> filterParameters = filter.getSelectedAttributes();
+		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
 		
-		query.append(" group by network.network_group ");
+		query.append(" group by network.networkgrouplist ");
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
 	}
@@ -208,8 +208,8 @@ public class QueryBuilder {
 	 * @param columnType the column type
 	 * @param parameterMap the parameter map
 	 */
-	public static void populateQueryForOtherCountriesTraveledChart(Filter filter, StringBuilder query, 
-			Map<String, Object> parameterMap) {
+	public static void populateQueryForOtherCountriesTraveledChart(final Filter filter, final StringBuilder query, 
+			final Map<String, Object> parameterMap) {
 		query.append(" select sum(1) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
@@ -223,20 +223,20 @@ public class QueryBuilder {
 			parameterMap.put("countriesNotIn", Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		} 
 		if (!filter.getExcludedCountries().isEmpty()){
-			List<String> countries = (List<String>) parameterMap.get("countriesNotIn"); 
-			List<String> parameterList = Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA));
+			final List<String> countries = (List<String>) parameterMap.get("countriesNotIn"); 
+			final List<String> parameterList = Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA));
 			if (countries == null) {
 				query.append(" and trip.visitedcountryname not in (:countriesNotIn) ");
 				parameterMap.put("countriesNotIn",parameterList);
 			} else {
-				List<String> newList = new ArrayList<String>(countries);
+				final List<String> newList = new ArrayList<String>(countries);
 				newList.addAll(parameterList);
 				parameterMap.put("countriesNotIn",newList);
 			}
 
 		}
 		
-		Map<String,String> filterParameters = filter.getSelectedAttributes();
+		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
 		
 		query.append(" group by trip.visitedcountryname ");
@@ -244,7 +244,7 @@ public class QueryBuilder {
 	}
 	
 	public static String queryForLabelVsValue() {
-		StringBuilder query = new StringBuilder();
+		final StringBuilder query = new StringBuilder();
 		query.append("select attr.attribute_name attrName, cat.categ_name catName, cat.categ_value catValue from ")
 			.append(Relation.ATTRIBUTE)
 			.append(" attr inner join ").append(Relation.ATTRIBUTE_CATEGORY).append(" cat  on ")
@@ -258,7 +258,7 @@ public class QueryBuilder {
 	 * @return the string
 	 */
 	public static String queryForDistinctNetworks() {
-		StringBuilder query = new StringBuilder();
+		final StringBuilder query = new StringBuilder();
 		query.append("select distinct visitednetworkname from ").append(Relation.TRIP).append(" trip where ")
 			.append(" trip.homecountryname = :homeCountry and trip.roamtype = :roamType order by visitednetworkname ");
 		return query.toString();
@@ -270,9 +270,9 @@ public class QueryBuilder {
 	 * @return the string
 	 */
 	public static String queryForDistinctNetworkGroups() {
-		StringBuilder query = new StringBuilder();
-		query.append("select distinct network_name , network_group from ").append(Relation.TADIGNETWORK)
-			.append(" tadignetwork where network_name in (:networks) order by network_group");
+		final StringBuilder query = new StringBuilder();
+		query.append("select distinct network_name , networkgrouplist from ").append(Relation.TADIGNETWORK)
+			.append(" tadignetwork where network_name in (:networks) order by networkgrouplist");
 		return query.toString();
 	}
 	
@@ -285,25 +285,25 @@ public class QueryBuilder {
 	 * @param attributeMap the attribute map
 	 * @throws ClassNotFoundException 
 	 */
-	private static void appendClauseForAttributes(StringBuilder query,
-			Map<String, Object> parameterMap, Map<String, String> attributeMap) {
+	private static void appendClauseForAttributes(final StringBuilder query,
+			final Map<String, Object> parameterMap, final Map<String, String> attributeMap) {
 		int index = 0;
-		for (String columnName : attributeMap.keySet()) {
-			String value = attributeMap.get(columnName);
-			String[] valueArr = value.split(RAConstants.COLON);
-			String type = valueArr[0];
-			String values = valueArr[1];
-			List<Object> parameterList = CommonUtil.convertToList(values, type);
+		for (final String columnName : attributeMap.keySet()) {
+			final String value = attributeMap.get(columnName);
+			final String[] valueArr = value.split(RAConstants.COLON);
+			final String type = valueArr[0];
+			final String values = valueArr[1];
+			final List<Object> parameterList = CommonUtil.convertToList(values, type);
 			if ("networkgroup".equals(columnName)) {
 				query.append(" and network.network_name in (:networknames) ");
 				parameterMap.put("networknames",parameterList);
 			} else if ("visitedcountryname".equalsIgnoreCase(columnName)) {
-				List<Object> countries = (List<Object>)parameterMap.get("countries"); 
+				final List<Object> countries = (List<Object>)parameterMap.get("countries"); 
 				if (countries == null) {
 					query.append(" and trip.visitedcountryname in (:countries)");
 					parameterMap.put("countries",parameterList);
 				} else {
-					List<Object> newList = new ArrayList<Object>(countries);
+					final List<Object> newList = new ArrayList<Object>(countries);
 					newList.addAll(parameterList);
 					parameterMap.put("countries",newList);
 				}
@@ -327,7 +327,7 @@ public class QueryBuilder {
 	 * @param parameterMap the parameter map - will have parameter and its value used in query
 	 * @throws ClassNotFoundException 
 	 */
-	public static void populateQueryForRoamingStatistics(Filter filter, StringBuilder query, Map<String, Object> parameterMap)  {
+	public static void populateQueryForRoamingStatistics(final Filter filter, final StringBuilder query, final Map<String, Object> parameterMap)  {
 		
 		query.append(" select visitedcountryname,sum(1) roamercount, sum(mocallminutes) mocallminutes, ")
 			.append(" sum(mtcallminutes) mtcallminutes, sum(mosmscount) mosmscount,")
@@ -348,20 +348,20 @@ public class QueryBuilder {
 			parameterMap.put("excludedCountries", Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
 		}
 		
-		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		final Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		query.append(" group by  visitedcountryname ");
 		
 	}
-	public static void populateQueryForRoamingCategoryCount(Filter filter, StringBuilder query, Map<String, Object> parameterMap)  {
+	public static void populateQueryForRoamingCategoryCount(final Filter filter, final StringBuilder query, final Map<String, Object> parameterMap)  {
 		query.append(" select visitedcountryname, overalltripcategory as roamingcategory,count(imsi) roamercount  from ")
 		.append(Relation.TRIP)
 		.append(" where trip.starttime >= :startDate ")
 		.append(" and trip.homecountryname = :homeCountry")
 		.append(" and trip.endtime <= :endDate and trip.endtime != 0 and trip.roamtype = 'OUT' ");
 		
-		Map<String, String> attributeMap = filter.getSelectedAttributes();
+		final Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
 		if (!filter.getSelectedCountries().isEmpty()) {

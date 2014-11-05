@@ -21,10 +21,10 @@ public class CommonUtil {
 	 * @param css - comma separated string
 	 * @return object array
 	 */
-	public static <T> List<Object> convertToList(String css, String type ) {
-		String[] strArray =  css.split(RAConstants.COMMA);
-		List<Object> list = new ArrayList<Object>(5);
-		for(String str : strArray) {
+	public static <T> List<Object> convertToList(final String css, final String type ) {
+		final String[] strArray =  css.split(RAConstants.COMMA);
+		final List<Object> list = new ArrayList<Object>(5);
+		for(final String str : strArray) {
 			if (Integer.class.getName().equalsIgnoreCase(type))
 				list.add(Integer.valueOf(str));
 			else 
@@ -40,24 +40,24 @@ public class CommonUtil {
 	 * @param attributes the attributes
 	 * @return the map <attribute indicator, comma separated string of sub attribute indicators>
 	 */
-	public static  Map<String,String> parseSelectedAttributes(String attributes) {
-		String[] attrArray = attributes.split(RAConstants.HASH);
-		Map<String,String> attributeMap = new HashMap<String, String>();
+	public static  Map<String,String> parseSelectedAttributes(final String attributes) {
+		final String[] attrArray = attributes.split(RAConstants.HASH);
+		final Map<String,String> attributeMap = new HashMap<String, String>();
 		
-		for (String attrInd : attrArray) {
-			String[] currentAttribute = attrInd.split(":");
-			String attributeKey[] =  currentAttribute[0].trim().split(",");
-			String key = attributeKey[1];
-			String value = attributeKey[2] + ":" + currentAttribute[1].trim();
+		for (final String attrInd : attrArray) {
+			final String[] currentAttribute = attrInd.split(":");
+			final String attributeKey[] =  currentAttribute[0].trim().split(",");
+			final String key = attributeKey[1];
+			final String value = attributeKey[2] + ":" + currentAttribute[1].trim();
 			attributeMap.put(key,value );
 		}
 		return attributeMap;
 	}
 	
-	public static String covnertToCommaSeparatedString(Collection<? extends Object> list) {
-		StringBuilder result = new StringBuilder();
+	public static String covnertToCommaSeparatedString(final Collection<? extends Object> list) {
+		final StringBuilder result = new StringBuilder();
 		boolean first = true;
-		for (Object object : list) {
+		for (final Object object : list) {
 			if (first) {
 				first = false;
 			} else {
@@ -71,5 +71,24 @@ public class CommonUtil {
 			
 		}
 		return result.toString();
+	}
+	
+	public static String covnertToCommaSeparatedString(final String css, final String type) {
+		final StringBuilder result = new StringBuilder();
+		if (String.class.getName().equalsIgnoreCase(type)) {
+			final String[] strArray =  css.split(RAConstants.COMMA);
+			boolean first = true;
+			for(final String str : strArray) {
+				if (first) {
+					first = false;
+				} else {
+					result.append(",");
+				}
+				result.append("'").append(str).append("'");
+			}
+			return result.toString();
+		} else {
+			return css;
+		}
 	}
 }
