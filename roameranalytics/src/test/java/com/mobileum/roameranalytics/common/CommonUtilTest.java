@@ -58,27 +58,8 @@ public class CommonUtilTest {
 		assertEquals(expected, actual);
 		
 		final String css = "1,2,3";
+		assertEquals(css, CommonUtil.covnertToCommaSeparatedString(css,"java.lang.Integer"));
+		assertEquals(expected, CommonUtil.covnertToCommaSeparatedString(css,"java.lang.String"));
 		
-//		actual = CommonUtil.covnertToCommaSeparatedString(list);
-//		expected = "'1','2','3'";
-		assertEquals(expected, actual);
-		
-		
-		//assertEquals(css,css)
 	}
-
-	/**
-	 * Test method for {@link com.mobileum.roameranalytics.common.CommonUtil#covnertToCommaSeparatedInteger(java.util.List)}.
-	 */
-	@Test
-	public void testCovnertToCommaSeparatedInteger() {
-		final List<String> list = new ArrayList<String>();
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		//final String actual = CommonUtil.covnertToCommaSeparatedInteger(list);
-		final String expected = "1,2,3";
-		//assertEquals(expected, actual);
-	}
-
 }

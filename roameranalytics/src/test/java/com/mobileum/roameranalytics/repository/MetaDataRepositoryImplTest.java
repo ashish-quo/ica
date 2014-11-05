@@ -52,5 +52,9 @@ public class MetaDataRepositoryImplTest {
 			fail("In countries are empty");
 		}
 	}
+	
+	public void testGetAllNetworkAndNetworkGroups() throws RADataAccessException {
+		
+	}
 
 }
