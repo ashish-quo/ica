@@ -5,7 +5,7 @@
 	 * are defined here.
 	 */
 	sidebar.controller('SidebarController',
-			['$scope','$rootScope', '$http', 'util', '$location', function($scope,$rootScope,$http,util,$location) {
+			['$scope','$rootScope', '$http', 'util', '$location', 'httpService', 'pendingRequests', function($scope,$rootScope,$http,util,$location,httpService, pendingRequests) {
 		
 		// filters object, it will contain the information of selected attributes, countries 
 		$rootScope.filters = {
@@ -24,6 +24,8 @@
 		
 		//Custom Date range selector
 		$j('#date-range').daterangepicker(null, function(start, end, label) {
+			
+			
 			$rootScope.filters.dateRangeFrom = start.format('DD/MM/YY');
 			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
@@ -67,12 +69,13 @@
 		 * Function for calculating current week's date range
 		 */
 		$scope.thisWeekRange = function() {
+			
 			var dateRange = util.getDateRangeOfWeek(new Date().getWeek());
 			$rootScope.filters.dateRangeFrom = dateRange.from;
 			$rootScope.filters.dateRangeTo = dateRange.to;
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
-				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-heatmap-home",{pendingRequests:pendingRequests,httpService:httpService});
 				$rootScope.$broadcast("refresh-bubblechart-home");
 				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
@@ -513,7 +516,6 @@
 			removePersonaFilter(id);
 			$rootScope.$broadcast("refresh-roaming-trends");
 		};
-		
 		/**
 		 * Refreshes charts and data when an attribute filter is removed from filter area
 		 */

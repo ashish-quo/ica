@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.enums.RoamType;
@@ -21,7 +20,7 @@ import com.mobileum.roameranalytics.model.Filter;
  */
 public class PrestoQueryBuilder {
 
-	private static ResourceBundle resourseBundle = ResourceBundle.getBundle("application");
+	
 	
 	/**
 	 * Creates query for getting all attributes for left panel

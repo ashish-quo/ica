@@ -79,7 +79,7 @@
 	
 	
 	trends.controller('RoamingTrendController',
-			['$scope','$rootScope','$http', 'util', function($scope,$rootScope,$http,util) {
+			['$scope','$rootScope','$http', 'util', 'httpService', 'pendingRequests', function($scope,$rootScope,$http,util,httpService, pendingRequests) {
 				$scope.trends = {}; 
 				$j('#roamer-ft-zoom').modalPopLite({ openButton: '.zoom-btn', closeButton: '.tre-close-btn', isModal: true });
 				$scope.roamerCountChartConfig = emptyChart;
@@ -94,7 +94,7 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get($scope.roamType + "/getRoamingTrendsData", data).success(function(result) {
+				httpService.get($scope.roamType + "/getRoamingTrendsData", data).success(function(result) {
 					$scope.trends = result;
 					$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
 					$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
@@ -122,7 +122,7 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get($scope.roamType + "/getRoamingTrendsData", latestData).success(function(result) {
+					httpService.get($scope.roamType + "/getRoamingTrendsData", latestData).success(function(result) {
 						$scope.trends = result;
 						$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);
 						$scope.roamerVoiceChartConfig = getChart($scope.trends.roamersMTMOChart, $scope.dow, 'false');
@@ -208,7 +208,7 @@
 	
 	
 	trends.controller('RoamingStatisticsControllerTrend',
-			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
+			['$scope','$rootScope','$http','util','httpService', 'pendingRequests',  function($scope,$rootScope,$http,util,httpService, pendingRequests) {
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
 				$scope.valueRoamer = 0;
@@ -226,7 +226,7 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get($scope.roamType + "/getRoamingStatistics", data).success(function(result) {
+				httpService.get($scope.roamType + "/getRoamingStatistics", data).success(function(result) {
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -261,7 +261,7 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get($rootScope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
+					httpService.get($rootScope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;
