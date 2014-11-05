@@ -529,14 +529,6 @@ public class PrestoQueryBuilder {
 	public static void populateQueryForRoamingStatistics(final Filter filter, final StringBuilder query, 
 			final Map<String, Object> parameterMap, final String roamType)  {
 		
-		/*
-		 * select country, count(imsi) roamercount, sum(mocallminutes) mocallminutes, sum(mtcallminutes) mtcallminutes, 
-		 * sum(mosmscount) mosmscount, sum(uplink + downlink) datausage, sum(mocallminuteslocal) mocallminuteslocal, 
-		 * sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from 
-		 * tripnew t inner join networkib n on t.visitedmcc=n.mcc 
-		 * inner join countryib c on c.countryid=n.countryid 
-		 * where n.countryid in(select distinct countryid from countryib) group by country;
-		 * */
 		
 		query.append("select country visitedcountryname, count(imsi) roamercount, sum(mocallminutes) mocallminutes, sum(mtcallminutes) mtcallminutes,"+ 
 				 "sum(mosmscount) mosmscount, sum(uplink + downlink) datausage, sum(mocallminuteslocal) mocallminuteslocal, "+ 
@@ -558,20 +550,11 @@ public class PrestoQueryBuilder {
 			
 		query.append(" group by  country ");
 		
-		System.out.print("query"+query.toString());
-		
 		
 	}
 	public static void populateQueryForRoamingCategoryCount(final Filter filter, final StringBuilder query,
 			final Map<String, Object> parameterMap, final String roamType)  {
 		
-		/*
-		 *  select country visitedcountryname,overalltripcategory as roamingcategory, count(imsi) roamercount from tripnew 
-		 *  trip inner join networkib network on trip.visitedmcc=network.mcc inner 
-		 *  join countryib country on country.countryid=network.countryid 
-		 *  where trip.starttime >= 1405036800 and trip.endtime <= 1405209599 and trip.endtime != 0 
-		 *  and network.countryid in (select distinct countryid from countryib) group by trip.overalltripcategory,country;
-		 */
 		query.append("select country visitedcountryname,overalltripcategory as roamingcategory, count(imsi) roamercount  from ");
 		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.trip") : RAPropertyUtil.getProperty("in.table.trip") );
 		query.append(" trip inner join networkib network on trip.").append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedmcc" : "homemcc");
@@ -590,7 +573,6 @@ public class PrestoQueryBuilder {
 			
 		query.append(" group by  overalltripcategory,country ");
 		
-		System.out.print("query"+query.toString());
 	
 	}
 
