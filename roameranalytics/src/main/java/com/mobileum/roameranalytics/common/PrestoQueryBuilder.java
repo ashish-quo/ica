@@ -185,8 +185,8 @@ public class PrestoQueryBuilder {
 	 * @param parameterMap the parameter map - will have parameter and its value used in query
 	 * @throws ClassNotFoundException 
 	 */
-	public static void populateQueryForTrends(final Filter filter, final StringBuilder query, final Map<String, Object> parameterMap, 
-			final String roamType)  {
+	public static void populateQueryForTrends(final Filter filter, final StringBuilder query, 
+			final Map<String, Object> parameterMap, final String roamType)  {
 		
 		query.append(" select count(trip.imsi) imsicount, sum(triptime.mocallminutes) mocallminutes, ")
 			.append(" sum(triptime.mtcallminutes) mtcallminutes, sum(triptime.mosmscount) mosmscount,")
@@ -205,7 +205,9 @@ public class PrestoQueryBuilder {
 		} else {
 			query.append(" and trip.homecountryname = triptime.homecountryname ");
 		}
-			
+		if (!filter.getSelectedCountries().isEmpty()) {
+			getClauseForCountryJoin(filter.getSelectedCountries(), roamType);
+		}	
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
 			.append(" and trip.endtime != 0 ")
@@ -213,26 +215,8 @@ public class PrestoQueryBuilder {
 			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
 			.append(") ");
 
-		
-		final List<String> exculdeCountryList = new ArrayList<String>();
-		final List<String> selectedCountryList = new ArrayList<String>();
-		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			selectedCountryList.addAll(Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		} 
-		if (!filter.getExcludedCountries().isEmpty()){
-			exculdeCountryList.addAll(Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
-		}
-		
 		final Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
-		
-		final List<String> countriesIn = (List<String>) parameterMap.get("countries");
-		if (countriesIn != null && !countriesIn.isEmpty()) {
-			selectedCountryList.addAll(countriesIn);
-		}
-		appendCountryClause(query, roamType, exculdeCountryList,
-				selectedCountryList);
 		
 		query.append(" group by  triptime.usagebintime, trip.overalltripcategory ");
 		query.append("  order by triptime.usagebintime ");
@@ -319,7 +303,7 @@ public class PrestoQueryBuilder {
 			.append(" and trip.endtime != 0 ");
 
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" network.countryid in (").append(filter.getSelectedCountries()).append(")");
+			query.append(" and network.countryid in (").append(filter.getSelectedCountries()).append(")");
 		} 
 
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
@@ -366,7 +350,7 @@ public class PrestoQueryBuilder {
 			.append(" and trip.endtime != 0 ");
 
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" network.countryid in (").append(filter.getSelectedCountries()).append(")");
+			query.append(" and network.countryid in (").append(filter.getSelectedCountries()).append(")");
 		} 
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
@@ -428,17 +412,17 @@ public class PrestoQueryBuilder {
 		query.append(" select count(trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ");
-			if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-				query.append(" trip.visitedcountryname country from ");
-				query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ");
-			} else {
-				query.append(" trip.homecountryname country from ");
-				query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ");
-			}
-			
-			query.append(" where trip.starttime >= ").append(filter.getDateFrom())
-				.append(" and trip.endtime <= ").append(filter.getDateTo())
-				.append(" and trip.endtime != 0 ");
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			query.append(" trip.visitedcountryname country from ");
+			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ");
+		} else {
+			query.append(" trip.homecountryname country from ");
+			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ");
+		}
+		
+		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
+			.append(" and trip.endtime <= ").append(filter.getDateTo())
+			.append(" and trip.endtime != 0 ");
 
 		final List<String> exculdeCountryList = new ArrayList<String>();
 		final List<String> selectedCountryList = new ArrayList<String>();
