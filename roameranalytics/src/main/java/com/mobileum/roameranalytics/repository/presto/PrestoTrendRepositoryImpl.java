@@ -56,7 +56,7 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 	}
 	
 	@Override
-	public List<RoamingStatistics> getRoamingStatisticsRepository(Filter filter,  String roamType) {
+	public List<RoamingStatistics> getRoamingStatistics(Filter filter,  String roamType) {
 		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();
@@ -84,7 +84,7 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 	}
 
 	@Override
-	public List<RoamingCategory> getRoamingCategoryRepository(Filter filter, String roamType) {
+	public List<RoamingCategory> getRoamingCategory(Filter filter, String roamType) {
 		
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		StringBuilder query = new StringBuilder();

@@ -33,13 +33,13 @@ public interface TrendRepository {
 	 * @param filter the filter
 	 * @return the trends charts
 	 */
-	public List<RoamingStatistics> getRoamingStatisticsRepository(Filter filter,String roamType);
+	public List<RoamingStatistics> getRoamingStatistics(Filter filter,String roamType);
 
 	/**
 	 * Gets the trip category count
 	 * @param filter
 	 * @return
 	 */
-	List<RoamingCategory> getRoamingCategoryRepository(Filter filter, String roamType);
+	List<RoamingCategory> getRoamingCategory(Filter filter, String roamType);
 
 }
