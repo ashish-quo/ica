@@ -205,7 +205,7 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		
 		final StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForNetworkGroupChart(filter, query,parameterMap,roamType);
+		PrestoQueryBuilder.populateQueryForNetworkChart(filter, query,parameterMap,roamType);
 		
 		LOGGER.debug("Getting microsegment chart data for attribute : Network ");
 		LOGGER.debug(" Network  query : " + query.toString());
