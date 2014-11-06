@@ -1,14 +1,13 @@
     
-Insert into attribute values (1,'Network','',1,'visitednetworkname','java.lang.String',2,'homenetworkname');
+Insert into attribute values (1,'Network','',1,'visitednetwork','java.lang.String',2,'homenetwork');
 Insert into attribute values (2,'Roaming Category','',3,'overalltripcategory','java.lang.Integer',1,'overalltripcategory');
 Insert into attribute values (3,'Domestic ARPU','',8,'overalldomesticcategory','java.lang.Integer',1,'overalldomesticcategory');
 Insert into attribute values (4,'Payment Type','',9,'chargingplan','java.lang.Integer',1,'chargingplan');
-Insert into attribute values (5,'Other Countries Traveled','',10,'visitedcountryname','java.lang.String',2,'othercountriestraveled');
 Insert into attribute values (6,'Roaming MO','',4,'mocallminutesquadroam','java.lang.Integer',1,'mocallminutesquadroam');
 Insert into attribute values (7,'Roaming MT','',5,'mtcallminutesquadroam','java.lang.Integer',1,'mtcallminutesquadroam');
 Insert into attribute values (8,'Roaming Data','',6,'tonnagequadroam','java.lang.Integer',1,'tonnagequadroam');
 Insert into attribute values (9,'Roaming SMS ','',7,'mosmscountquadroam','java.lang.Integer',1,'mosmscountquadroam');
-Insert into attribute values (10,'Network Group','',2,'visitednetworkname','java.lang.String',3,'homenetworkname');
+Insert into attribute values (10,'Network Group','',2,'visitednetwork','java.lang.String',3,'homenetwork');
     
 
 

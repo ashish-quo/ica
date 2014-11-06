@@ -37,6 +37,18 @@
 		    }
 		};
 		
+		utilityService.getDateRangeOfCurrentMonth = function getDateRangeOfCurrentMonth() {
+			var now = new Date();
+			var startTemp = new Date(now.getFullYear(),now.getMonth(),1);
+			var endTemp = new Date(now.getFullYear(),now.getMonth() + 1,0);
+			var rangeIsFrom =  utilityService.getDateString(startTemp.getDate(),startTemp.getMonth()+1,startTemp.getFullYear());
+			var rangeIsTo = utilityService.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
+			return {
+	    		"from":rangeIsFrom,
+	    		"to": rangeIsTo
+			}
+		};
+		
 		/**
 		 * Transforms filters so that they are ready to be sent in requrest
 		 */
