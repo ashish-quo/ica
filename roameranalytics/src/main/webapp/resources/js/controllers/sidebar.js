@@ -23,8 +23,6 @@
 		
 		//Custom Date range selector
 		$j('#date-range').daterangepicker(null, function(start, end, label) {
-			
-			
 			$rootScope.filters.dateRangeFrom = start.format('DD/MM/YY');
 			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
@@ -44,7 +42,7 @@
 		
 		// Setting default date range to current week
 		var currentWeek = new Date().getWeek();
-		var defaultDateRange = util.getDateRangeOfWeek(currentWeek);
+		var defaultDateRange = util.getDateRangeOfCurrentMonth();
 		$rootScope.filters.dateRangeFrom = defaultDateRange.from;
 		$rootScope.filters.dateRangeTo = defaultDateRange.to;
 		
@@ -114,9 +112,9 @@
 		$scope.thisMonth = function() {
 			var now = new Date();
 			var startTemp = new Date(now.getFullYear(),now.getMonth(),1);
-			
+			var endTemp = new Date(now.getFullYear(),now.getMonth() + 1,0);
 			$rootScope.filters.dateRangeFrom =  util.getDateString(startTemp.getDate(),startTemp.getMonth()+1,startTemp.getFullYear());
-			$rootScope.filters.dateRangeTo = util.getDateString(now.getDate(),now.getMonth()+1,now.getFullYear());
+			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {

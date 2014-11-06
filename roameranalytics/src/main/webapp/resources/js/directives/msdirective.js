@@ -71,8 +71,6 @@
     		  horizontalChart.html('');
     		  
     		  if (dataToPlot != null && dataToPlot.length > 0) {
-    			 
-    			  element.removeClass("no-data-found")
 	    		  if (attrs.charttype == '1') {
 	    			  this.drawMorrisChart(element,dataToPlot);
 	    		  } else if (attrs.charttype == '2') {
@@ -80,6 +78,9 @@
 		    		  var columnData;
 		    		  columnData = dataToPlot.slice(0,2);
 		    		  donutData = dataToPlot.slice(2);
+		    		  if (donutData.length >= 3) {
+		    			  donutData = donutData.slice(0,3);
+		    		  }
 		    		  element.removeClass("big-donutchart").addClass("medium-donutchart")
 		    		  this.drawHorizontalBarChart(horizontalChart,columnData);
 		    		  this.drawMorrisChart(element,donutData);
@@ -111,7 +112,7 @@
 	      replace: true,
 	        // observe and manipulate the DOM
 	      link: function($scope, element, attrs) {
-	    	  
+	    	  $scope.title[attrs.chartname] = attrs.chartname;
 	    	  // gets data initially and draws all charts
 	    	  var getDataAndDraw = function()  {
 	    		  var data = {
@@ -139,9 +140,8 @@
 	    		  element.addClass("loading");
 		    	  $http.get($scope.roamType + url , data).success(function(result) {
 		    		  $scope.msdata = result.data;
-		    		  
 		    		  $scope.title[attrs.chartname] = result.attrName;
-		    		 
+		    		  element.removeClass("no-data-found");
 		    		  msChartService.changeAttributeMeasure(result.data,$rootScope.attributemeasure, attrs, element);
 		    		  element.removeClass("loading");
 		    	  }).error(function(data, status, headers, config) {

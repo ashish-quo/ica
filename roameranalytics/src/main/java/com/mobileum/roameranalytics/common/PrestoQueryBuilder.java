@@ -58,13 +58,13 @@ public class PrestoQueryBuilder {
 		final String countryIB = RAPropertyUtil.getProperty("common.table.country");
 		final String countryRelationIB = RAPropertyUtil.getProperty("common.table.country.relation");
 		final String tadigNetworkIB = RAPropertyUtil.getProperty("common.table.tadignetwork");
-		
+		final String gdpThreshold = RAPropertyUtil.getProperty("low.gdp.threshold");
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
 			query.append(" select distinct countryIB.country countryName, countryIB.countryId countryId, ")
 				.append(" countryRelationIB.isBordering bordering, ")
 				.append(" countryIB.IsLeisureDestination leisure, ")
 				.append(" countryIB.IsPremiumLeisureDestination leisurePremium, ")
-				.append(" case when countryIB.gdp < 10000 then 1 else 0 end lowGDP  ")
+				.append(" case when countryIB.gdp < ").append(gdpThreshold).append(" then 1 else 0 end lowGDP  ")
 				.append(" from ").append(tadigNetworkIB).append(" tadigNetworkIB ")
 				.append(" inner join ").append(countryIB).append(" countryIB ")
 				.append(" on countryIB.countryid = tadigNetworkIB.countryid ")
@@ -75,8 +75,6 @@ public class PrestoQueryBuilder {
 				.append(" ) and countryRelationIB.homecountryid in (select distinct countryid from ")
 				.append(tadigNetworkIB).append(" where mcc in (select  homemcc from ")
 				.append(RAPropertyUtil.getProperty("out.table.trip")).append(" limit 1) limit 1)  ");
-			
-				
 		} else {
 			query.append(" select distinct  countryIB.country countryName, countryIB.countryId countryId, ")
 				.append(" countryRelationIB.isBordering bordering, ")
