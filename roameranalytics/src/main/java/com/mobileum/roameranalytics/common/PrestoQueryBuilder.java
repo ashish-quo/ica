@@ -124,9 +124,9 @@ public class PrestoQueryBuilder {
 		if (!filter.getSelectedCountries().isEmpty()) {
 			selectedCountryList.addAll(Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		} 
-		if (!filter.getExcludedCountries().isEmpty()){
-			exculdeCountryList.addAll(Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
-		}
+//		if (!filter.getExcludedCountries().isEmpty()){
+//			exculdeCountryList.addAll(Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
+//		}
 		final Map<String, String> attributeMap = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, attributeMap);
 		
@@ -430,9 +430,9 @@ public class PrestoQueryBuilder {
 		if (!filter.getSelectedCountries().isEmpty()) {
 			selectedCountryList.addAll(Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
 		} 
-		if (!filter.getExcludedCountries().isEmpty()){
-			exculdeCountryList.addAll(Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
-		}
+//		if (!filter.getExcludedCountries().isEmpty()){
+//			exculdeCountryList.addAll(Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
+//		}
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
@@ -477,7 +477,7 @@ public class PrestoQueryBuilder {
 	public static String queryForDistinctNetworkGroups(final String roamType) {
 		final StringBuilder query = new StringBuilder();
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append("select distinct network_name ,mcc, mnc, networkgroup.NetworkGroupName group from ")
+			query.append("select distinct network_name ,mcc, mnc, networkgroup.NetworkGroupName groupName from ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.visitedmcc as mcc, trip.visitedmnc as mnc from ")
@@ -488,7 +488,7 @@ public class PrestoQueryBuilder {
 				.append(" networkgroup on tadignetwork.network_id =  networkgroup.NetworkId ")
 				.append(" order by network_name ");
 		} else {
-			query.append("select distinct network_name ,mnc, networkgroup.NetworkGroupName group from ")
+			query.append("select distinct network_name ,mnc, networkgroup.NetworkGroupName groupName from ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.homemcc as mcc, trip.homemnc as mnc from ")

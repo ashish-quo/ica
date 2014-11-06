@@ -12,7 +12,6 @@
 				attributes : {},
 				personas : new Array(),
 				countries : new Array(),
-				excludedCountries : new Array(),
 				dateRangeFrom : '',
 				dateRangeTo : ''
 		};

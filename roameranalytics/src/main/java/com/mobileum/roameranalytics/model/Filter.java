@@ -17,18 +17,8 @@ public class Filter {
 	/** The selected countries. */
 	private String selectedCountries;
 	
-	/** The excluded countries. */
-	private String excludedCountries;
-	
 	/** The selected attributes. */
 	private Map<String,String> selectedAttributes = new HashMap<String, String>(1);
-	
-	/** The microsegment attributes. */
-	private Map<String, String> microsegmentAttributes = new HashMap<String,String>(1);
-	
-	
-	/** The other countries travelled. */
-	private String otherCountriesTravelled;
 	
 	/** The date from. */
 	private long dateFrom;
@@ -46,7 +36,7 @@ public class Filter {
 	/**
 	 * @param selectedCountries the selectedCountries to set
 	 */
-	public void setSelectedCountries(String selectedCountries) {
+	public void setSelectedCountries(final String selectedCountries) {
 		this.selectedCountries = selectedCountries;
 	}
 
@@ -60,7 +50,7 @@ public class Filter {
 	/**
 	 * @param selectedAttributes the selectedAttributes to set
 	 */
-	public void setSelectedAttributes(Map<String, String> selectedAttributes) {
+	public void setSelectedAttributes(final Map<String, String> selectedAttributes) {
 		this.selectedAttributes = selectedAttributes;
 	}
 
@@ -74,7 +64,7 @@ public class Filter {
 	/**
 	 * @param dateFrom the dateFrom to set
 	 */
-	public void setDateFrom(long dateFrom) {
+	public void setDateFrom(final long dateFrom) {
 		this.dateFrom = dateFrom/1000;
 	}
 
@@ -88,22 +78,8 @@ public class Filter {
 	/**
 	 * @param dateTo the dateTo to set
 	 */
-	public void setDateTo(long dateTo) {
+	public void setDateTo(final long dateTo) {
 		this.dateTo = dateTo/1000 + 86399;
-	}
-
-	/**
-	 * @return the microsegmentAttributes
-	 */
-	public Map<String, String> getMicrosegmentAttributes() {
-		return microsegmentAttributes;
-	}
-
-	/**
-	 * @param microsegmentAttributes the microsegmentAttributes to set
-	 */
-	public void setMicrosegmentAttributes(Map<String, String> microsegmentAttributes) {
-		this.microsegmentAttributes = microsegmentAttributes;
 	}
 
 	/* (non-Javadoc)
@@ -113,35 +89,7 @@ public class Filter {
 	public String toString() {
 		return "Filter [selectedCountries=" + selectedCountries
 				+ ", selectedAttributes=" + selectedAttributes
-				+ ", microsegmentAttributes=" + microsegmentAttributes
 				+ ", dateFrom=" + dateFrom + ", dateTo=" + dateTo + "]";
 	}
 
-	/**
-	 * @return the otherCountriesTravelled
-	 */
-	public String getOtherCountriesTravelled() {
-		return otherCountriesTravelled;
-	}
-
-	/**
-	 * @param otherCountriesTravelled the otherCountriesTravelled to set
-	 */
-	public void setOtherCountriesTravelled(String otherCountriesTravelled) {
-		this.otherCountriesTravelled = otherCountriesTravelled;
-	}
-
-	/**
-	 * @return the excludedCountries
-	 */
-	public String getExcludedCountries() {
-		return excludedCountries;
-	}
-
-	/**
-	 * @param excludedCountries the excludedCountries to set
-	 */
-	public void setExcludedCountries(String excludedCountries) {
-		this.excludedCountries = excludedCountries;
-	}
 }

@@ -88,8 +88,7 @@ public class MicroSegmentController {
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
-		final String excludedCountries = request.getParameter("excludedCountries");
-		filter.setExcludedCountries(excludedCountries);
+
 		final String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
 		
 		if (!attributes.isEmpty()) {
@@ -147,8 +146,7 @@ public class MicroSegmentController {
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
-		final String excludedCountries = req.getParameter("excludedCountries");
-		filter.setExcludedCountries(excludedCountries);
+
 		final String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
 		
 		if (!attributes.isEmpty()) {
@@ -178,8 +176,7 @@ public class MicroSegmentController {
 		filter.setDateFrom(dateFormat.parse(startdate).getTime());
 		filter.setDateTo(dateFormat.parse(endDate).getTime());
 		filter.setSelectedCountries(countries);
-		final String excludedCountries = req.getParameter("excludedCountries");
-		filter.setExcludedCountries(excludedCountries);
+
 		final String chartInfo[] = chartMetaData.split(RAConstants.COMMA);
 		
 		if (!attributes.isEmpty()) {

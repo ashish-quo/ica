@@ -188,7 +188,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 				@Override
 				public AttributeCategory mapRow(final ResultSet rs, final int rowNum)
 						throws SQLException {
-					final String group = rs.getString("group");
+					final String group = rs.getString("groupName");
 					final String networkName = rs.getString("network_name");
 					final String networkMnc = rs.getString("mnc");
 					final String networkMcc = rs.getString("mcc");

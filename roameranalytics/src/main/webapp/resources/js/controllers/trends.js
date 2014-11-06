@@ -63,7 +63,8 @@
 	            	type: logScale == 'true' ? 'logarithmic' : 'linear',
 	                title: {
 	                    text: ''
-	                }
+	                },
+	                min : 0
 	            },
 	            
 		        series: isDoW == 'true' ? chartData.dowSeriesList : chartData.perDaySeriesList,

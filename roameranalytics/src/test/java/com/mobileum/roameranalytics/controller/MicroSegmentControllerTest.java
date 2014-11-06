@@ -69,13 +69,12 @@ public class MicroSegmentControllerTest {
 	@Test
 	public void testGetMicroSegmentCharts() {
 		//controller.getMicroSegmentCharts(req)
-		Filter filter = new Filter();
-		filter.setOtherCountriesTravelled("");
+		final Filter filter = new Filter();
 		filter.setSelectedAttributes(new HashMap<String, String>());
 		filter.setSelectedCountries("China");
 		filter.setDateFrom(1412121600);
 		filter.setDateTo(1419984000);
-		Map<String, List<Object[]>>  data = msService.getMSChartData(filter, "Network", "visitednetworkname", "", new HashMap<String, String>(),"IN");
+		final Map<String, List<Object[]>>  data = msService.getMSChartData(filter, "Network", "visitednetworkname", "", new HashMap<String, String>(),"IN");
 	}
 
 	/**
