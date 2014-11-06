@@ -201,12 +201,12 @@ public class PrestoQueryBuilder {
 		}
 		query.append(" trip on triptime.imsi = trip.imsi and triptime.tripstarttime = trip.starttime ");
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(" and trip.visitedcountryname = triptime.visitedcountryname ");
+			query.append(" and trip.visitedmcc = triptime.visitedmcc and trip.visitedmnc = triptime.visitedmnc ");
 		} else {
-			query.append(" and trip.homecountryname = triptime.homecountryname ");
+			query.append(" and trip.homemcc = triptime.homemcc and trip.homemnc = triptime.homemnc ");
 		}
 		if (!filter.getSelectedCountries().isEmpty()) {
-			getClauseForCountryJoin(filter.getSelectedCountries(), roamType);
+			query.append(getClauseForCountryJoin(filter.getSelectedCountries(), roamType));
 		}	
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
@@ -243,7 +243,7 @@ public class PrestoQueryBuilder {
 			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ");
 		}
 		if (!filter.getSelectedCountries().isEmpty()) {
-			getClauseForCountryJoin(filter.getSelectedCountries(), roamType);
+			query.append(getClauseForCountryJoin(filter.getSelectedCountries(), roamType));
 		}
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
@@ -362,43 +362,6 @@ public class PrestoQueryBuilder {
 	}
 
 	/**
-	 * @param query
-	 * @param roamType
-	 * @param exculdeCountryList
-	 * @param selectedCountryList
-	 */
-	private static void appendCountryClause(final StringBuilder query,
-			final String roamType, final List<String> exculdeCountryList,
-			final List<String> selectedCountryList) {
-		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			if (!exculdeCountryList.isEmpty()) {
-				query.append(" and trip.visitedcountryname not in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(exculdeCountryList))
-					.append(")");
-			}
-			
-			if (!selectedCountryList.isEmpty()) {
-				query.append(" and trip.visitedcountryname in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(selectedCountryList))
-					.append(")");
-			}
-		} else {
-			if (!exculdeCountryList.isEmpty()) {
-				query.append(" and trip.homecountryname not in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(exculdeCountryList))
-					.append(")");
-			}
-			
-			if (!selectedCountryList.isEmpty()) {
-				query.append(" and trip.homecountryname in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(selectedCountryList))
-					.append(")");
-			}
-		}
-	}
-	
-	
-	/**
 	 * Populate query for network group chart.
 	 *
 	 * @param filter the filter
@@ -477,7 +440,7 @@ public class PrestoQueryBuilder {
 	public static String queryForDistinctNetworkGroups(final String roamType) {
 		final StringBuilder query = new StringBuilder();
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append("select distinct network_name ,mcc, mnc, networkgroup.NetworkGroupName groupName from ")
+			query.append("select distinct tadignetwork.network_id networkId, network_name networkName ,T.mcc mcc, T.mnc mnc, networkgroup.NetworkGroupName groupName from ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.visitedmcc as mcc, trip.visitedmnc as mnc from ")
@@ -485,10 +448,10 @@ public class PrestoQueryBuilder {
 				.append(" trip ") 
 				.append(" ) T on T.mcc = tadignetwork.mcc and T.mnc = tadignetwork.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkgroup on tadignetwork.network_id =  networkgroup.NetworkId ")
+				.append(" networkgroup on tadignetwork.network_id =  networkgroup.network_id ")
 				.append(" order by network_name ");
 		} else {
-			query.append("select distinct network_name ,mnc, networkgroup.NetworkGroupName groupName from ")
+			query.append("select distinct tadignetwork.network_id networkId, network_name networkName ,T.mcc mcc, T.mnc mnc, networkgroup.NetworkGroupName groupName from ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.homemcc as mcc, trip.homemnc as mnc from ")
@@ -496,7 +459,7 @@ public class PrestoQueryBuilder {
 				.append(" trip ") 
 				.append(" ) T on T.mcc = tadignetwork.mcc and T.mnc = tadignetwork.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkgroup on tadignetwork.network_id =  networkgroup.NetworkId ")
+				.append(" networkgroup on tadignetwork.network_id =  networkgroup.network_id ")
 				.append(" order by network_name ");
 		}
 		return query.toString();

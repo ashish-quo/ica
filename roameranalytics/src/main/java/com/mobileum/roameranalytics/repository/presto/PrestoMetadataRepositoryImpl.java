@@ -7,9 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -183,16 +185,19 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 		final List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
 		final Map<String,StringBuilder> networkGroupMap = new TreeMap<String, StringBuilder>();
 		final Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
+		final Set<Long> distinctNetworks = new HashSet<Long>(200);
 		try {
 			this.prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(final ResultSet rs, final int rowNum)
 						throws SQLException {
 					final String group = rs.getString("groupName");
-					final String networkName = rs.getString("network_name");
+					final String networkName = rs.getString("networkName");
+					final Long networkId = rs.getLong("networkId");
 					final String networkMnc = rs.getString("mnc");
 					final String networkMcc = rs.getString("mcc");
 					final String network = networkMcc + "-" + networkMnc;
+					
 					if (networkName != null && !networkName.isEmpty()) {
 						StringBuilder networks = networkGroupMap.get(group);
 						if (networks == null) {
@@ -202,14 +207,15 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 						} else {
 							networks.append(RAConstants.COMMA).append(network);
 						}
-						final AttributeCategory attributeCategory = new AttributeCategory();
-						attributeCategory.setCategName(networkName);
-						attributeCategory.setAttrId(networkAttrId);
-						attributeCategory.setId(rowNum);
-						attributeCategory.setCategValue(network);
-						RAConstants.attributeNameValueCache.get(RAConstants.ATTR_NETWORK).put(attributeCategory.getCategValue(),
-								attributeCategory.getCategName());
-						networkCategories.add(attributeCategory);
+						if (!distinctNetworks.contains(networkId)) {
+							final AttributeCategory attributeCategory = new AttributeCategory();
+							attributeCategory.setCategName(networkName);
+							attributeCategory.setAttrId(networkAttrId);
+							attributeCategory.setId(rowNum);
+							attributeCategory.setCategValue(network);
+							networkCategories.add(attributeCategory);
+							distinctNetworks.add(networkId);
+						}
 					}
 					return null;
 				}

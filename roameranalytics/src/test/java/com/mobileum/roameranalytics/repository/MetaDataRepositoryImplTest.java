@@ -53,6 +53,7 @@ public class MetaDataRepositoryImplTest {
 	
 	@Test
 	public void testGetAllNetworkAndNetworkGroups() throws RADataAccessException {
+		metaDataRepository.getAttributeList("out");
 		final Map<Long,List<AttributeCategory>> in = metaDataRepository.getAllNetworkAndNetworkGroups(1,10,"in");
 		final Map<Long,List<AttributeCategory>> out = metaDataRepository.getAllNetworkAndNetworkGroups(1,10,"out");
 		
