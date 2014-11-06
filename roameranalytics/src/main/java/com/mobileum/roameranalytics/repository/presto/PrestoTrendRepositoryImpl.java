@@ -45,10 +45,10 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 	private static Logger LOGGER = LogManager.getLogger(PrestoTrendRepositoryImpl.class.getName());
 
 	@Override
-	public RoamingTrend getTrendsCharts(Filter filter, String roamType) {
+	public RoamingTrend getTrendsCharts(final Filter filter, final String roamType) {
 
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		StringBuilder query = new StringBuilder();
+		final Map<String, Object> parameterMap = new HashMap<String, Object>();
+		final StringBuilder query = new StringBuilder();
 		
 		PrestoQueryBuilder.populateQueryForTrends(filter,query,parameterMap, roamType);
 		LOGGER.debug("Roaming Trends query : " + query.toString());
@@ -56,26 +56,26 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 	}
 	
 	@Override
-	public List<RoamingStatistics> getRoamingStatistics(Filter filter,  String roamType) {
+	public List<RoamingStatistics> getRoamingStatistics(final Filter filter,  final String roamType) {
 		
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		StringBuilder query = new StringBuilder();
+		final Map<String, Object> parameterMap = new HashMap<String, Object>();
+		final StringBuilder query = new StringBuilder();
 		PrestoQueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap, roamType);
 		LOGGER.debug(query.toString());
 
 		return prestoJdbcTempate.query(query.toString(), new RowMapper<RoamingStatistics>() {
 
 			@Override
-			public RoamingStatistics mapRow(ResultSet rs, int rowNum) throws SQLException {
+			public RoamingStatistics mapRow(final ResultSet rs, final int rowNum) throws SQLException {
 				
-				RoamingStatistics roamingStatistics = new RoamingStatistics();
+				final RoamingStatistics roamingStatistics = new RoamingStatistics();
 				roamingStatistics.setCountryCode(rs.getString("visitedcountryname"));
 				roamingStatistics.setRoamerTotal(rs.getLong("roamercount"));
 				roamingStatistics.setMoTotal(rs.getLong("mocallminutes"));
 				roamingStatistics.setMoLocal(rs.getLong("mocallminuteslocal"));
 				roamingStatistics.setMoHome(rs.getLong("mocallminuteshome"));
 				roamingStatistics.setMoIntl(rs.getLong("mocallminutesother"));
-				roamingStatistics.setDataUsage(rs.getLong("datausage")/(1024*1024));
+				roamingStatistics.setDataUsage(rs.getLong("datausage"));
 				roamingStatistics.setMt(rs.getLong("mtcallminutes"));
 				roamingStatistics.setSmsUsage(rs.getLong("mosmscount"));
 				return roamingStatistics;
@@ -84,20 +84,20 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 	}
 
 	@Override
-	public List<RoamingCategory> getRoamingCategory(Filter filter, String roamType) {
+	public List<RoamingCategory> getRoamingCategory(final Filter filter, final String roamType) {
 		
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		StringBuilder query = new StringBuilder();
+		final Map<String, Object> parameterMap = new HashMap<String, Object>();
+		final StringBuilder query = new StringBuilder();
 		PrestoQueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap, roamType);
 		
 		LOGGER.info(query.toString());
 		
 		return prestoJdbcTempate.query(query.toString(), new RowMapper<RoamingCategory>() {
 			@Override
-			public RoamingCategory mapRow(ResultSet resultSet, int rowNum)
+			public RoamingCategory mapRow(final ResultSet resultSet, final int rowNum)
 					throws SQLException {
 				
-				RoamingCategory roamingCategory = new RoamingCategory();
+				final RoamingCategory roamingCategory = new RoamingCategory();
 				roamingCategory.setVisitedCountryName(resultSet.getString("visitedcountryname"));
 				
 				if(resultSet.getInt("roamingcategory")==1)
