@@ -279,8 +279,8 @@ public class PrestoQueryBuilder {
 	 * @param columnType the column type
 	 * @param parameterMap the parameter map
 	 */
-	public static void populateQueryForNetworkChart(final Filter filter, final StringBuilder query, 
-			final String column,  final Map<String, Object> parameterMap, final String roamType) {
+	public static void populateQueryForNetworkChart(final Filter filter, final StringBuilder query,  
+			final Map<String, Object> parameterMap, final String roamType) {
 		query.append(" select count(trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
@@ -309,7 +309,7 @@ public class PrestoQueryBuilder {
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
 
-		query.append(" group by networkName ");
+		query.append(" group by network.network_name ");
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
 	}
@@ -335,14 +335,14 @@ public class PrestoQueryBuilder {
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
 				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkGroup on networkGroup.NetworkId = network.network_id ");
+				.append(" networkGroup on networkGroup.network_id = network.network_id ");
 		} else {
 			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ")
 				.append(" inner join ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
 				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkGroup on networkGroup.NetworkId = network.network_id ");
+				.append(" networkGroup on networkGroup.network_id = network.network_id ");
 		}
 		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
@@ -356,7 +356,7 @@ public class PrestoQueryBuilder {
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
 		
-		query.append(" group by networkGroup ");
+		query.append(" group by networkGroup.NetworkGroupName ");
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
 	}

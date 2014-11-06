@@ -261,7 +261,7 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					httpService.get($rootScope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
+					httpService.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;
