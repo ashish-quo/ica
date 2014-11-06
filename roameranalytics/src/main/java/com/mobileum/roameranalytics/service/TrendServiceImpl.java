@@ -41,18 +41,19 @@ public class TrendServiceImpl implements TrendService {
 	/** The logger. */
 	private static Logger LOGGER = LogManager.getLogger(TrendServiceImpl.class.getName());
 
-	public List<RoamingStatistics> getHeatMap(Filter filter, String roamType){
+	@Override
+	public List<RoamingStatistics> getHeatMap(final Filter filter, final String roamType){
 
-		List<RoamingStatistics> roamingStatisticsList = trendRepository
+		final List<RoamingStatistics> roamingStatisticsList = trendRepository
 				.getRoamingStatistics(filter, roamType);
 
-		List<RoamingCategory> roamingCategoryList = trendRepository
+		final List<RoamingCategory> roamingCategoryList = trendRepository
 				.getRoamingCategory(filter, roamType);
-		for (RoamingCategory roamingCategory : roamingCategoryList) {
+		for (final RoamingCategory roamingCategory : roamingCategoryList) {
 			LOGGER.info(roamingCategory.getCategory()
 					+ roamingCategory.getVisitedCountryName()
 					+ roamingCategory.getCount());
-			for (RoamingStatistics roamingStatistics : roamingStatisticsList) {
+			for (final RoamingStatistics roamingStatistics : roamingStatisticsList) {
 
 				if (roamingCategory.getCategory().equals("silentRoamer")
 						&& roamingCategory.getVisitedCountryName().equals(
@@ -84,9 +85,9 @@ public class TrendServiceImpl implements TrendService {
 	}
 	
 	@Override
-	public  AggregatedCountryStatistics getTopCountry(Filter filter, String roamType){
-		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatistics(filter, roamType);
-		AggregatedCountryStatistics topCountry=new AggregatedCountryStatistics();
+	public  AggregatedCountryStatistics getTopCountry(final Filter filter, final String roamType){
+		final List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatistics(filter, roamType);
+		final AggregatedCountryStatistics topCountry=new AggregatedCountryStatistics();
 		
 		/**	Get Top 10 Country List **/
 		
@@ -94,35 +95,35 @@ public class TrendServiceImpl implements TrendService {
 			Collections.sort(roamingStatisticslist, ROAMER_COUNT_COMPARATOR);
 			topCountry.setTopRoamer(roamingStatisticslist.subList(0, 10));
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 		try {
 			Collections.sort(roamingStatisticslist, MO_COUNT_COMPARATOR);
 			topCountry.setTopMo(roamingStatisticslist.subList(0, 10));
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 		try {
 			Collections.sort(roamingStatisticslist, MT_COUNT_COMPARATOR);
 			topCountry.setTopMt(roamingStatisticslist.subList(0, 10));
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 		try {
 			Collections.sort(roamingStatisticslist, DATA_COUNT_COMPARATOR);
 			topCountry.setTopData(roamingStatisticslist.subList(0, 10));
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 		try {
 
 			// topCountry.setTopSms(getTopRoamer(startDate,endDate,"mosmscount desc limit 10"));
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 		
@@ -133,15 +134,15 @@ public class TrendServiceImpl implements TrendService {
 	 * @see com.mobileum.roameranalytics.service.TrendServiceI#getTrendsCharts(com.mobileum.roameranalytics.model.Fitler)
 	 */
 	@Override
-	public RoamingTrend getTrendsCharts(Filter filter, String roamType) {
+	public RoamingTrend getTrendsCharts(final Filter filter, final String roamType) {
 		LOGGER.trace("Getting trend chart's data - Roamer Count, MT & MO, SMS and Data");
 		return this.trendRepository.getTrendsCharts(filter, roamType);
 	}
 	
 	@Override
-	public HashMap<String,Long> getRoamingStatistics(Filter filter, String roamType)
+	public HashMap<String,Long> getRoamingStatistics(final Filter filter, final String roamType)
 	{
-		HashMap<String,Long> roamingStatisticsMap=new LinkedHashMap<String,Long>();
+		final HashMap<String,Long> roamingStatisticsMap=new LinkedHashMap<String,Long>();
 		roamingStatisticsMap.put("totalRoamer", new Long(0));
 		roamingStatisticsMap.put("silentRoamer", new Long(0));
 		roamingStatisticsMap.put("valueRoamer", new Long(0));
@@ -154,9 +155,9 @@ public class TrendServiceImpl implements TrendService {
 		roamingStatisticsMap.put("totalData", new Long(0));
 		roamingStatisticsMap.put("totalSms", new Long(0));
 		
-		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatistics(filter, roamType);
+		final List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatistics(filter, roamType);
 		
-		for(RoamingStatistics roamingStatistics : roamingStatisticslist ){
+		for(final RoamingStatistics roamingStatistics : roamingStatisticslist ){
 			roamingStatisticsMap.put("totalRoamer",roamingStatisticsMap.get("totalRoamer")+roamingStatistics.getRoamerTotal() );
 			roamingStatisticsMap.put("silentRoamer", roamingStatisticsMap.get("silentRoamer")+roamingStatistics.getRoamerSilent());
 			roamingStatisticsMap.put("valueRoamer", roamingStatisticsMap.get("valueRoamer")+roamingStatistics.getRoamerValue());
@@ -170,10 +171,11 @@ public class TrendServiceImpl implements TrendService {
 			roamingStatisticsMap.put("totalSms", roamingStatisticsMap.get("totalSms")+roamingStatistics.getSmsUsage());
 			
 		}
+		roamingStatisticsMap.put("totalData", roamingStatisticsMap.get("totalData")/(1024*1024));
 		
 		
-		List<RoamingCategory> roamingCategoryList= trendRepository.getRoamingCategory(filter, roamType);
-		for(RoamingCategory roamingCategory : roamingCategoryList ){
+		final List<RoamingCategory> roamingCategoryList= trendRepository.getRoamingCategory(filter, roamType);
+		for(final RoamingCategory roamingCategory : roamingCategoryList ){
 			if(roamingStatisticsMap.get(roamingCategory.getCategory())!=null){
 				roamingStatisticsMap.put(roamingCategory.getCategory(),roamingStatisticsMap.get(roamingCategory.getCategory())+ roamingCategory.getCount());
 			}
@@ -185,7 +187,7 @@ public class TrendServiceImpl implements TrendService {
 	private final Comparator<RoamingStatistics> ROAMER_COUNT_COMPARATOR = new Comparator<RoamingStatistics>() {
 
 		@Override
-		public int compare(RoamingStatistics o1, RoamingStatistics o2) {
+		public int compare(final RoamingStatistics o1, final RoamingStatistics o2) {
 
 			return new Long(o2.getRoamerTotal()).compareTo(new Long(o1
 					.getRoamerTotal()));
@@ -196,7 +198,7 @@ public class TrendServiceImpl implements TrendService {
 	private final Comparator<RoamingStatistics> MO_COUNT_COMPARATOR = new Comparator<RoamingStatistics>() {
 
 		@Override
-		public int compare(RoamingStatistics o1, RoamingStatistics o2) {
+		public int compare(final RoamingStatistics o1, final RoamingStatistics o2) {
 
 			return new Long(o2.getMoTotal())
 					.compareTo(new Long(o1.getMoTotal()));
@@ -207,7 +209,7 @@ public class TrendServiceImpl implements TrendService {
 	private final Comparator<RoamingStatistics> MT_COUNT_COMPARATOR = new Comparator<RoamingStatistics>() {
 
 		@Override
-		public int compare(RoamingStatistics o1, RoamingStatistics o2) {
+		public int compare(final RoamingStatistics o1, final RoamingStatistics o2) {
 
 			return new Long(o2.getMt()).compareTo(new Long(o1.getMt()));
 		}
@@ -217,7 +219,7 @@ public class TrendServiceImpl implements TrendService {
 	private final Comparator<RoamingStatistics> DATA_COUNT_COMPARATOR = new Comparator<RoamingStatistics>() {
 
 		@Override
-		public int compare(RoamingStatistics o1, RoamingStatistics o2) {
+		public int compare(final RoamingStatistics o1, final RoamingStatistics o2) {
 
 			return new Long(o2.getDataUsage()).compareTo(new Long(o1
 					.getDataUsage()));

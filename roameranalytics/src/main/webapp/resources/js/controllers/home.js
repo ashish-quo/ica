@@ -519,7 +519,7 @@ console.log("Inside mapcore");
 						+','+countryData[i].roamerSilent+','+countryData[i].roamerValue+','
 						+countryData[i].roamerPremium+','+countryData[i].moTotal+','
 						+countryData[i].moLocal+','+countryData[i].moHome+','+countryData[i].moIntl+','
-						+countryData[i].mt+','+countryData[i].dataUsage+','+countryData[i].smsUsage+'\r\n';
+						+countryData[i].mt+','+countryData[i].dataUsage/(1024*1024)+','+countryData[i].smsUsage+'\r\n';
 					}
 					
 					$scope.top10CsvText=header;
@@ -713,7 +713,7 @@ console.log("Inside mapcore");
 						
 						dataJsonMap.push({
 					        'countryName': countryData.countryCode,
-					        value: countryData.dataUsage
+					        value: countryData.dataUsage/(1024*1024)
 					    });
 						
 						sortedRoamer.push(countryData);
@@ -737,7 +737,7 @@ console.log("Inside mapcore");
 						$scope.totalSms=$scope.totalSms + parseInt(countryData.smsUsage, 10);
 						
 					});
-					
+					$scope.totalData=$scope.totalData/(1024*1024);
 					/* Added by cheshta for roamernalytics text size issue */
 					if($scope.totalRoamer.toString().length > 4){
 						$j($j("div.dashboard-statics")[0]).find("p.lightblue-text").addClass("smallsize");
