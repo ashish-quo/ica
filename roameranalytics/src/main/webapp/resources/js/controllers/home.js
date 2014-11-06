@@ -713,8 +713,9 @@ console.log("Inside mapcore");
 						
 						dataJsonMap.push({
 					        'countryName': countryData.countryCode,
-					        value: countryData.dataUsage/(1024*1024)
+					        value: Math.round(parseInt(countryData.dataUsage,10)/(1024*1024))
 					    });
+						
 						
 						sortedRoamer.push(countryData);
 						sortedMo.push(countryData);
@@ -737,7 +738,9 @@ console.log("Inside mapcore");
 						$scope.totalSms=$scope.totalSms + parseInt(countryData.smsUsage, 10);
 						
 					});
-					$scope.totalData=$scope.totalData/(1024*1024);
+					
+					$scope.totalData=Math.round(parseInt($scope.totalData,10)/(1024*1024));
+					
 					/* Added by cheshta for roamernalytics text size issue */
 					if($scope.totalRoamer.toString().length > 4){
 						$j($j("div.dashboard-statics")[0]).find("p.lightblue-text").addClass("smallsize");
