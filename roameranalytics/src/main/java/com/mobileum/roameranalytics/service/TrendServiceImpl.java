@@ -44,10 +44,10 @@ public class TrendServiceImpl implements TrendService {
 	public List<RoamingStatistics> getHeatMap(Filter filter, String roamType){
 
 		List<RoamingStatistics> roamingStatisticsList = trendRepository
-				.getRoamingStatisticsRepository(filter, roamType);
+				.getRoamingStatistics(filter, roamType);
 
 		List<RoamingCategory> roamingCategoryList = trendRepository
-				.getRoamingCategoryRepository(filter, roamType);
+				.getRoamingCategory(filter, roamType);
 		for (RoamingCategory roamingCategory : roamingCategoryList) {
 			LOGGER.info(roamingCategory.getCategory()
 					+ roamingCategory.getVisitedCountryName()
@@ -85,7 +85,7 @@ public class TrendServiceImpl implements TrendService {
 	
 	@Override
 	public  AggregatedCountryStatistics getTopCountry(Filter filter, String roamType){
-		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatisticsRepository(filter, roamType);
+		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatistics(filter, roamType);
 		AggregatedCountryStatistics topCountry=new AggregatedCountryStatistics();
 		
 		/**	Get Top 10 Country List **/
@@ -154,7 +154,7 @@ public class TrendServiceImpl implements TrendService {
 		roamingStatisticsMap.put("totalData", new Long(0));
 		roamingStatisticsMap.put("totalSms", new Long(0));
 		
-		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatisticsRepository(filter, roamType);
+		List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatistics(filter, roamType);
 		
 		for(RoamingStatistics roamingStatistics : roamingStatisticslist ){
 			roamingStatisticsMap.put("totalRoamer",roamingStatisticsMap.get("totalRoamer")+roamingStatistics.getRoamerTotal() );
@@ -172,7 +172,7 @@ public class TrendServiceImpl implements TrendService {
 		}
 		
 		
-		List<RoamingCategory> roamingCategoryList= trendRepository.getRoamingCategoryRepository(filter, roamType);
+		List<RoamingCategory> roamingCategoryList= trendRepository.getRoamingCategory(filter, roamType);
 		for(RoamingCategory roamingCategory : roamingCategoryList ){
 			if(roamingStatisticsMap.get(roamingCategory.getCategory())!=null){
 				roamingStatisticsMap.put(roamingCategory.getCategory(),roamingStatisticsMap.get(roamingCategory.getCategory())+ roamingCategory.getCount());

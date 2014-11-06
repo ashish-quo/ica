@@ -512,134 +512,52 @@ public class PrestoQueryBuilder {
 	 */
 	public static void populateQueryForRoamingStatistics(final Filter filter, final StringBuilder query, 
 			final Map<String, Object> parameterMap, final String roamType)  {
-		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(" select visitedcountryname as visitedcountryname,count(imsi) roamercount, sum(mocallminutes) mocallminutes, ");
-		} else {
-			query.append(" select homecountryname as visitedcountryname,count(imsi) roamercount, sum(mocallminutes) mocallminutes, ");
-		}
-		query.append(" sum(mtcallminutes) mtcallminutes, sum(mosmscount) mosmscount,")
-			.append(" sum(uplink + downlink)  datausage, ")
-			.append(" sum(mocallminuteslocal) mocallminuteslocal, sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ");
-		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ");
-		} else {
-			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ");
-		}
+		
+		
+		query.append("select country visitedcountryname, count(imsi) roamercount, sum(mocallminutes) mocallminutes, sum(mtcallminutes) mtcallminutes,"+ 
+				 "sum(mosmscount) mosmscount, sum(uplink + downlink) datausage, sum(mocallminuteslocal) mocallminuteslocal, "+ 
+				 " sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ");
+		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.trip") : RAPropertyUtil.getProperty("in.table.trip") );
+		query.append(" trip inner join networkib network on trip.").append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedmcc" : "homemcc");
+		query.append("=network.mcc inner join countryib country on country.countryid=network.countryid");
 		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
 			.append(" and trip.endtime != 0 ");
 		
-		final List<String> exculdeCountryList = new ArrayList<String>();
-		final List<String> selectedCountryList = new ArrayList<String>();
+		query.append(" and network.countryid in ")
+		.append(!filter.getSelectedCountries().isEmpty() ? "("+filter.getSelectedCountries()+")" :  "(select distinct countryid from countryib) ");
 		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			selectedCountryList.addAll(Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		} 
-		if (!filter.getExcludedCountries().isEmpty()){
-			exculdeCountryList.addAll(Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
-		}
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
-
-		final List<String> countriesIn = (List<String>) parameterMap.get("countries");
-		if (countriesIn != null && !countriesIn.isEmpty()) {
-			selectedCountryList.addAll(countriesIn);
-		}
-		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			if (!exculdeCountryList.isEmpty()) {
-				query.append(" and trip.visitedcountryname not in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(exculdeCountryList))
-					.append(")");
-			}
 			
-			if (!selectedCountryList.isEmpty()) {
-				query.append(" and trip.visitedcountryname in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(selectedCountryList))
-					.append(")");
-			}
-			query.append(" group by  visitedcountryname ");
-		} else {
-			if (!exculdeCountryList.isEmpty()) {
-				query.append(" and trip.homecountryname not in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(exculdeCountryList))
-					.append(")");
-			}
-			
-			if (!selectedCountryList.isEmpty()) {
-				query.append(" and trip.homecountryname in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(selectedCountryList))
-					.append(")");
-			}
-			query.append(" group by  homecountryname ");
-		}
+		query.append(" group by  country ");
 		
 		
 	}
 	public static void populateQueryForRoamingCategoryCount(final Filter filter, final StringBuilder query,
 			final Map<String, Object> parameterMap, final String roamType)  {
-		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(" select visitedcountryname as visitedcountryname, overalltripcategory as roamingcategory,count(imsi) roamercount  from ");
-		} else {
-			query.append(" select homecountryname as visitedcountryname, overalltripcategory as roamingcategory,count(imsi) roamercount  from ");
-		}
-		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ");
-		} else {
-			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ");
-		}
+		
+		query.append("select country visitedcountryname,overalltripcategory as roamingcategory, count(imsi) roamercount  from ");
+		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.trip") : RAPropertyUtil.getProperty("in.table.trip") );
+		query.append(" trip inner join networkib network on trip.").append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedmcc" : "homemcc");
+		query.append("=network.mcc inner join countryib country on country.countryid=network.countryid");
+		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
 			.append(" and trip.endtime != 0 ");
-			
 		
-		final List<String> exculdeCountryList = new ArrayList<String>();
-		final List<String> selectedCountryList = new ArrayList<String>();
+		query.append(" and network.countryid in ")
+		.append(!filter.getSelectedCountries().isEmpty() ? "("+filter.getSelectedCountries()+")" :  "(select distinct countryid from countryib) ");
 		
-		if (!filter.getSelectedCountries().isEmpty()) {
-			selectedCountryList.addAll(Arrays.asList(filter.getSelectedCountries().split(RAConstants.COMMA)));
-		} 
-		if (!filter.getExcludedCountries().isEmpty()){
-			exculdeCountryList.addAll(Arrays.asList(filter.getExcludedCountries().split(RAConstants.COMMA)));
-		}
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
-
-		final List<String> countriesIn = (List<String>) parameterMap.get("countries");
-		if (countriesIn != null && !countriesIn.isEmpty()) {
-			selectedCountryList.addAll(countriesIn);
-		}
-		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			if (!exculdeCountryList.isEmpty()) {
-				query.append(" and trip.visitedcountryname not in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(exculdeCountryList))
-					.append(")");
-			}
 			
-			if (!selectedCountryList.isEmpty()) {
-				query.append(" and trip.visitedcountryname in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(selectedCountryList))
-					.append(")");
-			}
-			query.append(" group by  overalltripcategory,visitedcountryname");
-			query.append(" order by visitedcountryname,roamingcategory");
-		} else {
-			if (!exculdeCountryList.isEmpty()) {
-				query.append(" and trip.homecountryname not in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(exculdeCountryList))
-					.append(")");
-			}
-			
-			if (!selectedCountryList.isEmpty()) {
-				query.append(" and trip.homecountryname in (")
-					.append(CommonUtil.covnertToCommaSeparatedString(selectedCountryList))
-					.append(")");
-			}
-			query.append(" group by  overalltripcategory,homecountryname");
-			query.append(" order by homecountryname,roamingcategory");
-		}
+		query.append(" group by  overalltripcategory,country ");
+		
+	
 	}
 
 

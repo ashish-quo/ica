@@ -2,7 +2,7 @@
 <Configuration status="warn" name="MyApp" packages="com.mobileum">
   <Appenders>
    <RollingFile name="RollingFile" fileName="file:${user.home}/RAlogs/application.log" 
-     filePattern="file:${user.home}/RAlogs/application-%d{MM-dd-yyyy}.log">
+     filePattern="file:${home}/RAlogs/application-%d{MM-dd-yyyy}.log">
       <PatternLayout>
         <Pattern>%d %p %c{1.} %m%n</Pattern>
       </PatternLayout>

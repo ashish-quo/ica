@@ -409,8 +409,9 @@ console.log("Inside mapcore");
        
        
 	homeC.controller('RoamingStatisticsControllerHome',
-			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
+			['$scope','$rootScope','$http','util','httpService','$http', 'pendingRequests',  function($scope,$rootScope,$http,util,httpService,$http, pendingRequests) {
 				console.log("Call inside2");
+				//pendingRequests.cancelAll();
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
 				$scope.valueRoamer = 0;
@@ -429,7 +430,7 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				
-				$http.get($scope.roamType +"/getRoamingStatistics", data).success(function(result) {
+				httpService.get($scope.roamType +"/getRoamingStatistics", data).success(function(result) {
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -490,8 +491,8 @@ console.log("Inside mapcore");
 	
 	
 	homeC.controller('HeatMapControllerHome',
-			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
-		
+			['$scope','$rootScope','$http','util','httpService', 'pendingRequests',  function($scope,$rootScope,$http,util,httpService, pendingRequests) {
+				//pendingRequests.cancelAll();
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
 				$scope.valueRoamer = 0;
@@ -812,15 +813,15 @@ console.log("Inside mapcore");
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				$http.get($scope.roamType +"/getHeatMap", data).success(function(result) {
+				httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
 							
 					setHeatMapJson(result);
 					initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
 					
 				});
-				
-				$rootScope.$on('refresh-heatmap-home', function (event) {
-					
+				//pendingRequests.cancelAll();
+				$rootScope.$on('refresh-heatmap-home', function (event,args) {
+					//args.pendingRequests.cancelAll();
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -838,7 +839,7 @@ console.log("Inside mapcore");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$http.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
+					httpService.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
 						
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
