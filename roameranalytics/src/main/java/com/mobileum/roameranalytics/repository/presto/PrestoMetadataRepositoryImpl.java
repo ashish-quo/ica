@@ -153,7 +153,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 					country.setLeisure(rs.getByte("leisure"));
 					country.setLeisurePremium(rs.getByte("leisurePremium"));
 					country.setLowGDP(rs.getByte("lowGDP"));
-					country.setCountryId(rs.getByte("countryId"));
+					country.setCountryId(rs.getLong("countryId"));
 					
 					return country;
 				}
