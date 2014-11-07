@@ -321,6 +321,7 @@
 									<div class="clearfix"></div>
 								</h4>
 							</div>
+							 <div class="scrolldiv">
 							<div id="countrycoll" class="panel-collapse collapse">
 								<div class="panel-body">
 									<div class="panel_category sub_panel_category">
@@ -343,6 +344,7 @@
 									</div>
 								</div>
 							</div>
+							</div> <!-- End of scrolldiv -->
 						</div>
 					</div>
 				</li>
