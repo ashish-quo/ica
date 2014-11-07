@@ -335,6 +335,86 @@
 			} 
 		};
 		
+		$scope.updateNetworkFilter = function (attrId, catId) {
+			var element = $j('input#'+attrId+'_'+catId);
+			
+			if($j(element).is(':checked')) {
+				$j(element).attr('checked', 'checked');
+			} else {
+				$j(element).removeAttr('checked');
+			}
+			var parent = $j(element).closest('form');
+			if($j(parent).find('.sub-check').length == $j(parent).find(".sub-check:checked").length) {
+				$j(parent).find('.Select-all').attr("checked", "checked");
+			} else {
+				$j(parent).find('.Select-all').removeAttr("checked");
+			}
+		}
+		
+		$scope.applyNetworkFilter  = function () {
+			$j("input.network_sub:checked").each(function () {
+				var id = $j(this).attr("id").split("_");
+				var name = $j(this).attr("name");
+				var value = $j(this).attr("categ-value");
+				var attributeId = id[0];
+				var catId = id[1];
+				var parentElement = $j('input#attr_'+attributeId);
+				var columnName = parentElement.attr("db-column");
+				var columnType = parentElement.attr("column-type");
+				var elementName = parentElement.attr("attr-name");
+				var key = elementName + "," + columnName + "," + columnType;
+				var attrArray = $rootScope.filters.attributes[key];
+				if (attrArray == null) {
+					$rootScope.filters.attributes[key] = new Array();
+				}
+				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name, 'value':value, 'attrId' : attributeId });
+			});
+			
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}  else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment-attribute");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+			}
+		}
+		
+		$scope.applyNetworkGroupFilter  = function () {
+			$j("input.network_group_sub:checked").each(function () {
+				var id = $j(this).attr("id").split("_");
+				var name = $j(this).attr("name");
+				var value = $j(this).attr("categ-value");
+				var attributeId = id[0];
+				var catId = id[1];
+				var parentElement = $j('input#attr_'+attributeId);
+				var columnName = parentElement.attr("db-column");
+				var columnType = parentElement.attr("column-type");
+				var elementName = parentElement.attr("attr-name");
+				var key = elementName + "," + columnName + "," + columnType;
+				var attrArray = $rootScope.filters.attributes[key];
+				if (attrArray == null) {
+					$rootScope.filters.attributes[key] = new Array();
+				}
+				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name, 'value':value, 'attrId' : attributeId });
+			});
+			
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			}else if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			}  else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment-attribute");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+			}
+		}
+		
 		/**
 		 * Refreshes data when an attribute is checked or unchecked
 		 */

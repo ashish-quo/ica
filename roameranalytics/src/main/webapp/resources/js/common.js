@@ -58,6 +58,12 @@ $j(document).on('mouseover',".sidebar .scrolldiv" ,function(){
 	$j(".scrolldiv").getNiceScroll().resize();
 });
 
+//Resize the scroll bar on mouse over
+$j(document).on('mouseover',".scrolldiv" ,function(){
+	$j(".scrolldiv").niceScroll({cursorcolor:"#2a3542",background: "#2a3542",cursorfixedheight: 0,scrollspeed :150}).resize();
+	$j(".scrolldiv").getNiceScroll().resize();
+});
+
 $j(document).on("mouseover", "#mainContent" , function(){
     //$j("body").css("overflow", "auto");        
     $j("html").getNiceScroll().resize();

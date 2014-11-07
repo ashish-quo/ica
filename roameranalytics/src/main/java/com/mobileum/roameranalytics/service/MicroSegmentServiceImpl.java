@@ -38,11 +38,6 @@ public class MicroSegmentServiceImpl implements MicroSegmentService {
 	}
 
 	@Override
-	public Map<String, Map<String, String>> getAttributeLabelAndValue() {
-		return microsegmentDao.getAttributeLabelAndValue();
-	}
-
-	@Override
 	public Map<String, List<Object[]>> getNetworkGroupData(final Filter filter,
 			final String column, final String columnType, final Map<String, String> catNameValue, final String roamType) {
 		try {

@@ -18,11 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.mobileum.roameranalytics.common.PrestoQueryBuilder;
+import com.mobileum.roameranalytics.common.MicroSegmentQueryBuilder;
 import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.repository.MicroSegmentRepository;
@@ -62,7 +61,7 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 			final Map<String,String> catNameValue, final String roamType) throws RADataAccessException {
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		final StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, parameterMap, roamType);
+		MicroSegmentQueryBuilder.populateQueryForMicrosegmentChart(filter, query, column, parameterMap, roamType);
 		
 		LOGGER.debug("Getting microsegment chart data for attribute : " + attributeName);
 		LOGGER.debug(attributeName + " query : " + query.toString());
@@ -135,7 +134,7 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		
 		final StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForNetworkGroupChart(filter, query,parameterMap,roamType);
+		MicroSegmentQueryBuilder.populateQueryForNetworkGroupChart(filter, query,parameterMap,roamType);
 		
 		LOGGER.debug("Getting microsegment chart data for attribute : Network Group");
 		LOGGER.debug(" Network Group query : " + query.toString());
@@ -205,7 +204,7 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		
 		final StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForNetworkChart(filter, query,parameterMap,roamType);
+		MicroSegmentQueryBuilder.populateQueryForNetworkChart(filter, query,parameterMap,roamType);
 		
 		LOGGER.debug("Getting microsegment chart data for attribute : Network ");
 		LOGGER.debug(" Network  query : " + query.toString());
@@ -268,35 +267,6 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 		return dataMap;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.mobileum.roameranalytics.dao.MicroSegmentDaoI#getAttributeLabelAndValue()
-	 */
-	@Override
-	public Map<String, Map<String, String>> getAttributeLabelAndValue() {
-		final String query = PrestoQueryBuilder.queryForLabelVsValue();
-		return this.jdbcTemplate.query(query, new ResultSetExtractor<Map<String, Map<String, String>>>() {
-			@Override
-			public Map<String, Map<String, String>> extractData(final ResultSet rs)
-					throws SQLException, DataAccessException {
-				final Map<String, Map<String, String>> result = new HashMap<String, Map<String,String>>();
-				while(rs.next()) {
-					final String attrName = rs.getString("attrName");
-					final String catName = rs.getString("catName");
-					final String catValue = rs.getString("catValue");
-					Map<String,String> catValueMap = result.get(attrName);
-					if (catValueMap == null) {
-						catValueMap = new HashMap<String, String>(3);
-						result.put(attrName, catValueMap);
-						catValueMap.put("-1", "Unknown");
-					} 
-					catValueMap.put(catValue, catName);
-				}
-				return result;
-			}
-		});
-	}
-
 	@Override
 	public Map<String, List<Object[]>> getOtherCountriesTraveledData(
 			final Filter filter, final String column, final String columnType, 
@@ -304,7 +274,7 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		
 		final StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForOtherCountriesTraveledChart(filter, query,parameterMap, roamType);
+		//PrestoQueryBuilder.populateQueryForOtherCountriesTraveledChart(filter, query,parameterMap, roamType);
 		
 		final Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
 		dataMap.put("roamers",new ArrayList<Object[]>());
