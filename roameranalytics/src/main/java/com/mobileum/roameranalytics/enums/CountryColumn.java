@@ -8,12 +8,11 @@ package com.mobileum.roameranalytics.enums;
  *
  */
 public enum CountryColumn {
-	HOMEID("homeid"),
-	HOMECOUNTRY("homecountry"),
-	VISITEDCOUNTRY("visitedcountry"),
-	VISITORID("visitorid"),
-	BORDERING("bordering"),
-	SAMECONTINENT("samecontinent");
+	COUNTRYID("countryid"),
+	COUNTRY("country"),
+	ISLEISUREDESTINATION("isleisuredestination"),
+	ISPREMIUMLEISUREDESTINATION("ispremiumleisuredestination"),
+	GDP("gdp");
 
 	private String name;
 	private CountryColumn(final String name) {

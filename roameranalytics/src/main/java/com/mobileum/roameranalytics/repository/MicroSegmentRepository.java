@@ -51,11 +51,4 @@ public interface MicroSegmentRepository {
 	 */
 	Map<String,List<Object[]>> getOtherCountriesTraveledData(Filter filter, String column, String columnType,
 			Map<String,String> catNameValue, String roamType) throws RADataAccessException;
-	
-	/**
-	 * Gets the attribute label and value.
-	 *
-	 * @return the attribute label and value
-	 */
-	Map<String,Map<String,String>> getAttributeLabelAndValue();
 }

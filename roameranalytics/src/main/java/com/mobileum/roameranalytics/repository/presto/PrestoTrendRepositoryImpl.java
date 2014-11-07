@@ -17,7 +17,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.mobileum.roameranalytics.common.PrestoQueryBuilder;
+import com.mobileum.roameranalytics.common.StatsQueryBuilder;
+import com.mobileum.roameranalytics.common.TrendQueryBuilder;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.RoamingCategory;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
@@ -50,7 +51,7 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		final StringBuilder query = new StringBuilder();
 		
-		PrestoQueryBuilder.populateQueryForTrends(filter,query,parameterMap, roamType);
+		TrendQueryBuilder.populateQueryForTrends(filter,query,parameterMap, roamType);
 		LOGGER.debug("Roaming Trends query : " + query.toString());
 		return prestoJdbcTempate.query(query.toString(), new RoamingTrendResultSetExtractor());
 	}
@@ -60,7 +61,7 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 		
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		final StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap, roamType);
+		StatsQueryBuilder.populateQueryForRoamingStatistics(filter,query,parameterMap, roamType);
 		LOGGER.debug(query.toString());
 
 		return prestoJdbcTempate.query(query.toString(), new RowMapper<RoamingStatistics>() {
@@ -88,7 +89,7 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 		
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		final StringBuilder query = new StringBuilder();
-		PrestoQueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap, roamType);
+		StatsQueryBuilder.populateQueryForRoamingCategoryCount(filter,query,parameterMap, roamType);
 		
 		LOGGER.info(query.toString());
 		

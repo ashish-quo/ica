@@ -13,8 +13,7 @@ public enum TadignetworkColumn {
 	TADIG("tadig"),
 	MCC("mcc"),
 	MNC("mnc"),
-	NETWORK_NAME("network_name"),
-	NETWORK_GROUP("networkgrouplist");
+	NETWORK_NAME("network_name");
 
 	private String name;
 	private TadignetworkColumn(final String name) {

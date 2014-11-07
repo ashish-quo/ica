@@ -16,7 +16,7 @@ Insert into attribute_category values (2,'Value',2,2,'2');
 Insert into attribute_category values (3,'Premium',3,2,'3');
 Insert into attribute_category values (4,'Low',1,3,'4');
 Insert into attribute_category values (5,'Medium',2,3,'5');
-Insert into attribute_category values (6,'High',3,3,'6'),
+Insert into attribute_category values (6,'High',3,3,'6');
 Insert into attribute_category values (7,'Pre Paid',1,4,'1');
 Insert into attribute_category values (8,'Post Paid',2,4,'0');
 Insert into attribute_category values (9,'MO Zero',1,6,'1');

@@ -322,8 +322,8 @@
 								</h4>
 							</div>
 							<div id="countrycoll" class="panel-collapse collapse">
-								<div class="panel-body">
-									<div class="panel_category sub_panel_category">
+								<div class="panel-body scrolldiv">
+									<div class="panel_category sub_panel_category ">
 
 										<div class="country_area" ng-repeat="country in countries"
 											ng-show="countryQuery.countryName == null || countryQuery.countryName == '' 
@@ -343,6 +343,7 @@
 									</div>
 								</div>
 							</div>
+							
 						</div>
 					</div>
 				</li>
@@ -501,7 +502,56 @@
 									</h4>
 								</div>
 								<div id="collapse{{$index}}" class="panel-collapse collapse"
+									ng-if="attr.attributeName == 'Network'">
+									
+									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
+										<div class="panel_category"
+											ng-repeat="catAttr in attr.attributeCategoryList">
+											<p class="i-checks displyclass">
+												<label class="input-label" for="{{attr.id}}_{{catAttr.id}}">
+													<input type="checkbox"
+													ng-click="updateNetworkFilter(attr.id, catAttr.id)"
+													name="{{catAttr.categName}}"
+													id="{{attr.id}}_{{catAttr.id}}" value=""
+													categ-value="{{catAttr.categValue}}" class="sub-check network_sub">
+													<i></i>
+												</label> <label class="input-label1"
+													for="{{attr.id}}_{{catAttr.id}}"
+													title="{{catAttr.categName}}">{{catAttr.categName}}</label>
+											</p>
+										</div>
+									</div>
+									<div class="menu-select-btn network">
+										<input type="button" name="applyNetwork" value="Apply" ng-click="applyNetworkFilter()">
+									</div>
+								</div>
+								<div id="collapse{{$index}}" class="panel-collapse collapse"
+									ng-if="attr.attributeName == 'Network Group'">
+									
+									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }">
+										<div class="panel_category"
+											ng-repeat="catAttr in attr.attributeCategoryList">
+											<p class="i-checks displyclass">
+												<label class="input-label" for="{{attr.id}}_{{catAttr.id}}">
+													<input type="checkbox"
+													ng-click="updateNetworkFilter(attr.id, catAttr.id)"
+													name="{{catAttr.categName}}"
+													id="{{attr.id}}_{{catAttr.id}}" value=""
+													categ-value="{{catAttr.categValue}}" class="sub-check network_group_sub">
+													<i></i>
+												</label> <label class="input-label1"
+													for="{{attr.id}}_{{catAttr.id}}"
+													title="{{catAttr.categName}}">{{catAttr.categName}}</label>
+											</p>
+										</div>
+									</div>
+									<div class="menu-select-btn network">
+										<input type="button" name="applyNetworkGroup" value="Apply" ng-click="applyNetworkGroupFilter()">
+									</div>
+								</div>
+								<div id="collapse{{$index}}" class="panel-collapse collapse"
 									ng-if="attr.attributeName != 'Other Countries Traveled'">
+									
 									<div class="panel-body">
 										<div class="panel_category"
 											ng-repeat="catAttr in attr.attributeCategoryList">
@@ -520,7 +570,6 @@
 										</div>
 									</div>
 								</div>
-
 								<div id="collapse{{$index}}" class="panel-collapse collapse"
 									ng-if="attr.attributeName == 'Other Countries Traveled'">
 									<div class="panel-body">

@@ -24,7 +24,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.mobileum.roameranalytics.common.PrestoQueryBuilder;
+import com.mobileum.roameranalytics.common.MetaDataQueryBuilder;
 import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.enums.RoamType;
 import com.mobileum.roameranalytics.exception.RADataAccessException;
@@ -58,7 +58,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 */
 	@Override
 	public List<Attribute> getAttributeList(final String roamType) throws RADataAccessException {
-		final String query = PrestoQueryBuilder.queryForAttributes(roamType);
+		final String query = MetaDataQueryBuilder.queryForAttributes(roamType);
 		LOGGER.debug("Getting all attributes");
 		LOGGER.debug(query);
 		
@@ -136,7 +136,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	
 	@Override
 	public List<Country> getAllCountries(final String roamType) throws RADataAccessException {
-		final String query = PrestoQueryBuilder.queryForAllCountries(roamType);
+		final String query = MetaDataQueryBuilder.queryForAllCountries(roamType);
 		
 		LOGGER.debug("Getting all countries ");
 		LOGGER.debug("Country query : " + query);
@@ -177,7 +177,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	@Override
 	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(final long networkAttrId, 
 			final long networkGroupAttrId,final String roamType) throws RADataAccessException {
-		final String query = PrestoQueryBuilder.queryForDistinctNetworkGroups(roamType);
+		final String query = MetaDataQueryBuilder.queryForDistinctNetworkGroups(roamType);
 		LOGGER.debug("Getting all networks groups ");
 		LOGGER.debug("Network Group Query : " + query);
 
@@ -245,7 +245,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	public List<AttributeCategory> getOtherCountriesTraveled(final Filter filter, final String roamType) throws RADataAccessException {
 		final StringBuilder query = new StringBuilder();
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
-		PrestoQueryBuilder.populateQueryForOtherCountriesTraveled(filter, query, parameterMap, roamType);
+		//PrestoQueryBuilder.populateQueryForOtherCountriesTraveled(filter, query, parameterMap, roamType);
 		LOGGER.debug("Getting other countries traveled ");
 		LOGGER.debug("Other Countries Traveled query : " + query.toString());
 		

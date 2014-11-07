@@ -18,6 +18,8 @@ $j( document ).ready(function() {
 	// Scroll
 	$j("html").niceScroll();
 	$j(".sidebar").niceScroll({cursorcolor:"#3fabdf",background: "#0d1218",cursorfixedheight: 100,scrollspeed :150}).resize();
+	$j(".scrolldiv").niceScroll({cursorcolor:"#2a3542",background: "#2a3542",cursorfixedheight: 0,scrollspeed :150}).resize();
+	$j(".scrolldiv").getNiceScroll().hide();
 });
 
 //Select country
@@ -51,8 +53,15 @@ $j(document).on( "change", ".select-all-country", function() {
 });
 	
 // Resize the scroll bar on mouse over
-$j(document).on('mouseover',".sidebar" ,function(){
+$j(document).on('mouseover',".sidebar .scrolldiv" ,function(){
 	$j(".sidebar").getNiceScroll().resize();
+	$j(".scrolldiv").getNiceScroll().resize();
+});
+
+//Resize the scroll bar on mouse over
+$j(document).on('mouseover',".scrolldiv" ,function(){
+	$j(".scrolldiv").niceScroll({cursorcolor:"#2a3542",background: "#2a3542",cursorfixedheight: 0,scrollspeed :150}).resize();
+	$j(".scrolldiv").getNiceScroll().resize();
 });
 
 $j(document).on("mouseover", "#mainContent" , function(){
