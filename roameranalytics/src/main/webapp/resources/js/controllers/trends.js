@@ -241,6 +241,7 @@
 					$scope.totalMt = result.totalMt;
 					$scope.totalData=result.totalData;
 					$scope.totalSms=result.totalSms;
+					setRoaminstatisticsFontSize();
 				});
 				
 				$rootScope.$on('refresh-roaming-statistics-trends', function (event) {
@@ -277,34 +278,63 @@
 						$scope.totalData=result.totalData;
 						$scope.totalSms=result.totalSms;
 
-						/* Added by cheshta for roamernalytics text size issue */
-						if ($scope.totalRoamer.toString().length > 4) {
-							$j($j("div.dashboard-statics")[0]).find("p.lightblue-text")
-									.addClass("smallsize");
-						} else {
-							var roamersElement = $j($j("div.dashboard-statics")[0])
-									.find("p.lightblue-text");
-							if (roamersElement.hasClass("smallsize")) {
-								roamersElement.removeClass("smallsize");
-							}
-						}	
 						
-						if ($scope.totalMo.toString().length > 4) {
-							$j($j("div.dashboard-statics")[0]).find("p.purple-text")
-									.addClass("smallsize");
-						} else {
-							var roamersElement = $j($j("div.dashboard-statics")[0])
-									.find("p.purple-text");
-							if (roamersElement.hasClass("smallsize")) {
-								roamersElement.removeClass("smallsize");
-							}
-						}	
 						
 					});
-					
+					setRoaminstatisticsFontSize();
 					
 					
 				});
+				
+				function setRoaminstatisticsFontSize()
+				{
+					/* Added by Smruti for roamernalytics text size issue */
+					if($scope.totalRoamer.toString().length > 4){
+						$j($j("div.dashboard-statics")[0]).find("p.lightblue-text").addClass("smallsize");
+					}
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.lightblue-text");
+						if(roamersElement.hasClass("smallsize")) {
+							roamersElement.removeClass("smallsize");
+						}
+					}					
+					if($scope.totalMo.toString().length > 4){
+						$j($j("div.dashboard-statics")[0]).find("p.purple-text").addClass("smallsize");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.purple-text");
+						if(roamersElement.hasClass("smallsize")) {
+							roamersElement.removeClass("smallsize");
+						}
+					}
+					if($scope.totalMt.toString().length > 6){
+						$j($j("div.dashboard-statics")[1]).find("p.green-text").addClass("smallsizemiddle");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[1]).find("p.green-text");
+						if(roamersElement.hasClass("smallsizemiddle")) {
+							roamersElement.removeClass("smallsizemiddle");
+						}
+					}
+					if($scope.totalData.toString().length > 6){
+						$j($j("div.dashboard-statics")[1]).find("p.orange-text").addClass("smallsizemiddle");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[1]).find("p.orange-text");
+						if(roamersElement.hasClass("smallsizemiddle")) {
+							roamersElement.removeClass("smallsizemiddle");
+						}
+					}
+					if($scope.totalSms.toString().length > 6){
+						$j($j("div.dashboard-statics")[1]).find("p.yellow-text").addClass("smallsizemiddle");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[1]).find("p.yellow-text");
+						if(roamersElement.hasClass("smallsizemiddle")) {
+							roamersElement.removeClass("smallsizemiddle");
+						}
+					}
+				}
 				
 
 				

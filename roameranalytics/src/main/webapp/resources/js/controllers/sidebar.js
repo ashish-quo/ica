@@ -51,8 +51,11 @@
 		// Get all the attributes to be shown in left panel
 		$http.get($scope.roamType + '/getAttributes').success(function(data) {
 			$scope.attributes = data;
+			$rootScope.$broadcast("refresh-heatmap-home");
+			$j('.home-backdrop').hide();
 		}).error(function(data, status, headers, config) {
 	        $rootScope.error = data.message;
+	        $j('.home-backdrop').hide();
 	    });
 		
 		// Getl all the countries to be shown in left panel

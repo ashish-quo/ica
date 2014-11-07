@@ -33,14 +33,16 @@
 
 
 <body class="full-width" ng-controller="MainController" ng-init="roamType = '${roamType}'">
-	
+	<div class="home-backdrop">
+        <div class="loader"></div>
+</div>
 	<header class="clearfix">
 		<tiles:insertAttribute name="header" />
 	</header>
 	<div class="page-wrapper" id="leftPanel">
 		<tiles:insertAttribute name="leftpanel" />
 	</div>
-	<div class="main-content clearfix" id="mainContent">
+	<div class="main-content section-backdrop clearfix" id="mainContent">
 		<tiles:insertAttribute name="body" />
 	</div>
 	<tiles:insertAttribute name="footer" />

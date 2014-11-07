@@ -493,6 +493,8 @@ console.log("Inside mapcore");
 	homeC.controller('HeatMapControllerHome',
 			['$scope','$rootScope','$http','util','httpService', 'pendingRequests',  function($scope,$rootScope,$http,util,httpService, pendingRequests) {
 				//pendingRequests.cancelAll();
+				
+				
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
 				$scope.valueRoamer = 0;
@@ -678,6 +680,56 @@ console.log("Inside mapcore");
 					
 				}
 				
+				function setRoaminstatisticsFontSize()
+				{
+					/* Added by cheshta for roamernalytics text size issue */
+					if($scope.totalRoamer.toString().length > 4){
+						$j($j("div.dashboard-statics")[0]).find("p.lightblue-text").addClass("smallsize");
+					}
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.lightblue-text");
+						if(roamersElement.hasClass("smallsize")) {
+							roamersElement.removeClass("smallsize");
+						}
+					}					
+					if($scope.totalMo.toString().length > 4){
+						$j($j("div.dashboard-statics")[0]).find("p.purple-text").addClass("smallsize");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.purple-text");
+						if(roamersElement.hasClass("smallsize")) {
+							roamersElement.removeClass("smallsize");
+						}
+					}
+					if($scope.totalMt.toString().length > 6){
+						$j($j("div.dashboard-statics")[1]).find("p.green-text").addClass("smallsizemiddle");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[1]).find("p.green-text");
+						if(roamersElement.hasClass("smallsizemiddle")) {
+							roamersElement.removeClass("smallsizemiddle");
+						}
+					}
+					if($scope.totalData.toString().length > 6){
+						$j($j("div.dashboard-statics")[1]).find("p.orange-text").addClass("smallsizemiddle");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[1]).find("p.orange-text");
+						if(roamersElement.hasClass("smallsizemiddle")) {
+							roamersElement.removeClass("smallsizemiddle");
+						}
+					}
+					if($scope.totalSms.toString().length > 6){
+						$j($j("div.dashboard-statics")[1]).find("p.yellow-text").addClass("smallsizemiddle");
+					}					
+					else{
+						var roamersElement = $j($j("div.dashboard-statics")[1]).find("p.yellow-text");
+						if(roamersElement.hasClass("smallsizemiddle")) {
+							roamersElement.removeClass("smallsizemiddle");
+						}
+					}
+				}
+				
 				function setHeatMapJson(result)
 				{
 					
@@ -741,26 +793,7 @@ console.log("Inside mapcore");
 					
 					$scope.totalData=Math.round(parseInt($scope.totalData,10)/(1024*1024));
 					
-					/* Added by cheshta for roamernalytics text size issue */
-					if($scope.totalRoamer.toString().length > 4){
-						$j($j("div.dashboard-statics")[0]).find("p.lightblue-text").addClass("smallsize");
-					}
-					else{
-						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.lightblue-text");
-						if(roamersElement.hasClass("smallsize")) {
-							roamersElement.removeClass("smallsize");
-						}
-					}
-					
-					if($scope.totalMo.toString().length > 4){
-						$j($j("div.dashboard-statics")[0]).find("p.purple-text").addClass("smallsize");
-					}
-					else{
-						var roamersElement = $j($j("div.dashboard-statics")[0]).find("p.purple-text");
-						if(roamersElement.hasClass("smallsize")) {
-							roamersElement.removeClass("smallsize");
-						}
-					}
+					setRoaminstatisticsFontSize(); // function to set font size as per text length
 					 
 					 
 					 sortedRoamer.sort(function(a, b){
@@ -816,15 +849,29 @@ console.log("Inside mapcore");
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
-				httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
-							
+				/*Commented by smruti to stop loading before left panel load */
+				if(!$j('.home-backdrop').is(':visible'))
+				{
+					if(!$j("#mainContent").hasClass("section-backdrop")){
+						$j("#mainContent").addClass("section-backdrop");
+						$j("#map-container").css("background","url(./images/loader.gif) no-repeat center center");
+					}
+					httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
+						if($j("#mainContent").hasClass("section-backdrop"))
+							$j("#mainContent").removeClass("section-backdrop");
 					setHeatMapJson(result);
 					initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
 					
-				});
+					});
+				}
 				//pendingRequests.cancelAll();
 				$rootScope.$on('refresh-heatmap-home', function (event,args) {
 					//args.pendingRequests.cancelAll();
+					if(!$j("#mainContent").hasClass("section-backdrop")){
+						$j("#mainContent").addClass("section-backdrop");
+						$j("#map-container").css("background","url(./images/loader.gif) no-repeat center center");
+
+					}
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -844,6 +891,8 @@ console.log("Inside mapcore");
 					};
 					httpService.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
 						
+						if($j("#mainContent").hasClass("section-backdrop"))
+							$j("#mainContent").removeClass("section-backdrop");
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
@@ -860,7 +909,7 @@ console.log("Inside mapcore");
 				});
 				
 				$scope.$watch("mapUnit", function (newValue, oldValue) {
-					if ($scope.mapUnit=='roamers') {
+					if ($scope.mapUnit=='roamers' && !$j("#mainContent").hasClass("section-backdrop")) {
 						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
 					}else if ($scope.mapUnit=='mt') {
 						initiateMap(mtJsonMap,colorAxisRange,'','MT Count');
@@ -868,8 +917,6 @@ console.log("Inside mapcore");
 						initiateMap(moJsonMap,colorAxisRange,'','MO Count');
 					}else if ($scope.mapUnit=='data') {
 						initiateMap(dataJsonMap,colorAxisRange,' MB','Data Usage');
-					}else{
-						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
 					}
 					
 				});

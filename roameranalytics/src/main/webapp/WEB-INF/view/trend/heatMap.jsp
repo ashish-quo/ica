@@ -94,14 +94,14 @@
           
          
           <div class="map-container">
-          <div id="map-container">
+          <div id="map-container" >
             <div class="map-loading">
-              <i class="icon-spinner icon-spin icon-large"></i> Loading data from Google Spreadsheets... </div>
+              <i class="icon-spinner icon-spin icon-large"></i>  </div>
           </div>
           
           <div id="map-container-roamer" class="clearfix">
             <div class="map-loading">
-              <i class="icon-spinner icon-spin icon-large"></i> Loading data from Google Spreadsheets... </div>
+              <i class="icon-spinner icon-spin icon-large"></i> </div>
           </div>
           </div>
           </div>
