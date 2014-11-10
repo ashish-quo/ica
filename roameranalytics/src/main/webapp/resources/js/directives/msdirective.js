@@ -136,7 +136,7 @@
 	    		  var horizontalChart = $j('#bar-chart-'+attrs.chartname.replace(/ /g,''));
 	    		  verticalChart.html('');
 	    		  horizontalChart.html('');
-	    		  element.removeClass("loading");
+	    		  element.removeClass("no-data-found");
 	    		  element.addClass("loading");
 		    	  $http.get($scope.roamType + url , data).success(function(result) {
 		    		  $scope.msdata = result.data;
@@ -145,6 +145,7 @@
 		    		  msChartService.changeAttributeMeasure(result.data,$rootScope.attributemeasure, attrs, element);
 		    		  element.removeClass("loading");
 		    	  }).error(function(data, status, headers, config) {
+		    		  element.removeClass("no-data-found");
 		    		  element.removeClass("loading");
 		    		  element.addClass("internal-error");
 		    	  });
