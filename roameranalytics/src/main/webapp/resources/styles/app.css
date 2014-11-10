@@ -15,6 +15,18 @@
   background-repeat: no-repeat;
 }
 
+.donut.loading-right {
+  background-image: url(../images/loader.gif);
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+.donut.loading-bottom {
+  background-image: url(../images/loader.gif);
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
 .donut.no-data-found:before {
 	content: 'No data found';
 }

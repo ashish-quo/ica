@@ -51,7 +51,6 @@
 		// Get all the attributes to be shown in left panel
 		$http.get($scope.roamType + '/getAttributes').success(function(data) {
 			$scope.attributes = data;
-			$j("#map-container").addClass("donut").addClass("loading");
 			$rootScope.$broadcast("refresh-heatmap-home");
 			$j('.home-backdrop').hide();
 		}).error(function(data, status, headers, config) {

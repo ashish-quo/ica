@@ -226,7 +226,9 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
+				$j(".value").addClass("donut").addClass("loading-right");
 				httpService.get($scope.roamType + "/getRoamingStatistics", data).success(function(result) {
+					$j(".value").removeClass("donut").removeClass("loading-right");
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -245,6 +247,7 @@
 				});
 				
 				$rootScope.$on('refresh-roaming-statistics-trends', function (event) {
+					
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -262,7 +265,9 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
+					$j(".value").addClass("donut").addClass("loading-right");
 					httpService.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
+						$j(".value").removeClass("donut").removeClass("loading-right");
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;

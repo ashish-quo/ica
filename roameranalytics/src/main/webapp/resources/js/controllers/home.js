@@ -850,21 +850,20 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				/*Commented by smruti to stop loading before left panel load */
-				$j("#map-container").html("");
+				
+				console.log("map-container");
 				
 				if(!$j('.home-backdrop').is(':visible'))
 				{
-					$j("#map-container").addClass("donut").addClass("loading");
-					if(!$j("#mainContent").hasClass("section-backdrop")){
-						$j("#mainContent").addClass("section-backdrop");
-						
-					}
+					$j("#map-container").html("");
+					console.log("map-container-if");
+					$j("#map-container").addClass("donut").addClass("loading"); 
+					$j(".value").addClass("donut").addClass("loading-right");
 					httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
-						if($j("#mainContent").hasClass("section-backdrop"))
-							$j("#mainContent").removeClass("section-backdrop");
 						$j("#map-container").removeClass("donut").removeClass("loading");
-					setHeatMapJson(result);
-					initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
+						$j(".value").removeClass("donut").removeClass("loading-right");
+						setHeatMapJson(result);
+						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
 					
 					});
 				}
@@ -873,12 +872,8 @@ console.log("Inside mapcore");
 					//args.pendingRequests.cancelAll();
 					$j("#map-container").html("");
 					$j("#map-container").addClass("donut").addClass("loading");
-					$j("#map-container").addClass("inner-loader");
-					if(!$j("#mainContent").hasClass("section-backdrop")){
-						$j("#mainContent").addClass("section-backdrop");
-						
-					}
-					
+					$j(".value").addClass("donut").addClass("loading-right");
+					 
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -897,11 +892,8 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
 					httpService.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
-						
-						if($j("#mainContent").hasClass("section-backdrop"))
-							$j("#mainContent").removeClass("section-backdrop");
-						$j("#map-container").removeClass("inner-loader");
 						$j("#map-container").removeClass("donut").removeClass("loading");
+						$j(".value").removeClass("donut").removeClass("loading-right");
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
@@ -918,8 +910,8 @@ console.log("Inside mapcore");
 				});
 				
 				$scope.$watch("mapUnit", function (newValue, oldValue) {
-					if ($scope.mapUnit=='roamers' && !$j(".home-backdrop").is(':visible')) {
-						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
+					if ($scope.mapUnit=='roamers' && !$j('.home-backdrop').is(':visible')) {
+						$rootScope.$broadcast("refresh-heatmap-home");
 					}else if ($scope.mapUnit=='mt') {
 						initiateMap(mtJsonMap,colorAxisRange,'','MT Count');
 					}else if ($scope.mapUnit=='mo') {
