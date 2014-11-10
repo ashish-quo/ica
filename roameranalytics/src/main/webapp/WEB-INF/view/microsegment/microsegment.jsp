@@ -205,7 +205,7 @@
 							class="bookmark-unactive cust-tooltip" original-title="Bookmark"></a>
 					</div>
 					<div id="bar-chart-{{graph.id}}"></div>
-					<donutchart id='donut-{{graph.id}}' class="big-donutchart" attributeid='{{graph.attributeId}}' columnname="{{graph.column}}" columntype="{{graph.columnType}}" charttype='{{graph.chartType}}' chartname="{{graph.title}}" daterange='daterange'/>
+					<donutchart id='donut-{{graph.id}}' class="big-donutchart loading" attributeid='{{graph.attributeId}}' columnname="{{graph.column}}" columntype="{{graph.columnType}}" charttype='{{graph.chartType}}' chartname="{{graph.title}}" daterange='daterange'/>
 					<div id="column-chart-{{graph.id}}"></div>
 				</div>
 				<div class="bookmark-panel">
