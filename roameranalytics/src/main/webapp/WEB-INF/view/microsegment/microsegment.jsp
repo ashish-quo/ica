@@ -236,6 +236,9 @@
 		</div>
 		
 		<div class="col-lg-3 dashboard-statics microsegment-statics">
+		<div class="section-backdrop">
+        <div class="loader"></div>
+			</div>
 		
 		<div ng-controller="RoamingStatisticsControllerMicrosegment">
 		

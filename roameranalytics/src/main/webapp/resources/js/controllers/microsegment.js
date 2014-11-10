@@ -87,7 +87,11 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
+				
+				
+				$j(".section-backdrop").show();
 				$http.get($scope.roamType  + "/getRoamingStatistics", data).success(function(result) {
+					$j(".section-backdrop").hide();
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;

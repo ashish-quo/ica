@@ -850,15 +850,17 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				/*Commented by smruti to stop loading before left panel load */
+				$j("#map-container").addClass("inner-loader");
 				if(!$j('.home-backdrop').is(':visible'))
 				{
 					if(!$j("#mainContent").hasClass("section-backdrop")){
 						$j("#mainContent").addClass("section-backdrop");
-						$j("#map-container").css("background","url(./images/loader.gif) no-repeat center center");
+						
 					}
 					httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
 						if($j("#mainContent").hasClass("section-backdrop"))
 							$j("#mainContent").removeClass("section-backdrop");
+						$j("#map-container").removeClass("inner-loader");
 					setHeatMapJson(result);
 					initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
 					
@@ -867,11 +869,13 @@ console.log("Inside mapcore");
 				//pendingRequests.cancelAll();
 				$rootScope.$on('refresh-heatmap-home', function (event,args) {
 					//args.pendingRequests.cancelAll();
+					$j("#map-container").html("");
+					$j("#map-container").addClass("inner-loader");
 					if(!$j("#mainContent").hasClass("section-backdrop")){
 						$j("#mainContent").addClass("section-backdrop");
-						$j("#map-container").css("background","url(./images/loader.gif) no-repeat center center");
-
+						
 					}
+					
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -893,6 +897,7 @@ console.log("Inside mapcore");
 						
 						if($j("#mainContent").hasClass("section-backdrop"))
 							$j("#mainContent").removeClass("section-backdrop");
+						$j("#map-container").removeClass("inner-loader");
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
@@ -909,7 +914,7 @@ console.log("Inside mapcore");
 				});
 				
 				$scope.$watch("mapUnit", function (newValue, oldValue) {
-					if ($scope.mapUnit=='roamers' && !$j("#mainContent").hasClass("section-backdrop")) {
+					if ($scope.mapUnit=='roamers' && !$j(".home-backdrop").is(':visible')) {
 						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
 					}else if ($scope.mapUnit=='mt') {
 						initiateMap(mtJsonMap,colorAxisRange,'','MT Count');

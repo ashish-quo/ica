@@ -14,7 +14,7 @@ Date.prototype.getWeek = function() {
 $j( document ).ready(function() {
 	// Main Nav
 	$j("#demo1").navgoco({accordion: true});
-	
+	$j(".home-backdrop").show();
 	// Scroll
 	$j("html").niceScroll();
 	$j(".sidebar").niceScroll({cursorcolor:"#3fabdf",background: "#0d1218",cursorfixedheight: 100,scrollspeed :150}).resize();
