@@ -850,9 +850,11 @@ console.log("Inside mapcore");
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
 				/*Commented by smruti to stop loading before left panel load */
-				$j("#map-container").addClass("inner-loader");
+				$j("#map-container").html("");
+				
 				if(!$j('.home-backdrop').is(':visible'))
 				{
+					$j("#map-container").addClass("donut").addClass("loading");
 					if(!$j("#mainContent").hasClass("section-backdrop")){
 						$j("#mainContent").addClass("section-backdrop");
 						
@@ -860,7 +862,7 @@ console.log("Inside mapcore");
 					httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
 						if($j("#mainContent").hasClass("section-backdrop"))
 							$j("#mainContent").removeClass("section-backdrop");
-						$j("#map-container").removeClass("inner-loader");
+						$j("#map-container").removeClass("donut").removeClass("loading");
 					setHeatMapJson(result);
 					initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
 					
@@ -870,6 +872,7 @@ console.log("Inside mapcore");
 				$rootScope.$on('refresh-heatmap-home', function (event,args) {
 					//args.pendingRequests.cancelAll();
 					$j("#map-container").html("");
+					$j("#map-container").addClass("donut").addClass("loading");
 					$j("#map-container").addClass("inner-loader");
 					if(!$j("#mainContent").hasClass("section-backdrop")){
 						$j("#mainContent").addClass("section-backdrop");
@@ -898,6 +901,7 @@ console.log("Inside mapcore");
 						if($j("#mainContent").hasClass("section-backdrop"))
 							$j("#mainContent").removeClass("section-backdrop");
 						$j("#map-container").removeClass("inner-loader");
+						$j("#map-container").removeClass("donut").removeClass("loading");
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
