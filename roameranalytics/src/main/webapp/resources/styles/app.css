@@ -46,3 +46,48 @@
 	text-align: center;
 	content: 'Internal server error';
 }
+
+ .statics-num.smallsize {
+     font-size: 30px;
+	display: block;
+	line-height: 20px;
+	margin-bottom: 10px;
+}
+.statics-num.smallsizemiddle {
+     font-size: 30px;
+	display: block;
+	line-height: 20px;
+	margin-top: 20px;
+}
+/****** 21-oct******/
+
+.nodata{display: block;
+vertical-align: middle;
+text-align: center;
+margin-top:58%;
+}
+ .remove-hitter{
+	font-size: 14px
+}
+
+/* Added by Surya for - Left panel inner scroll*/
+.scrolldiv{overflow-y:scroll;overflow-x:hidden;display:inline-block;width:100%;max-height:150px;}
+.menu-select-btn.network {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+/***Added for homepage loader****/
+.home-backdrop{position:fixed;width:100%;height:100%;z-index:
+99999999;background:#000000;opacity: 0.5;display:table;top:0;left:0;}
+.home-backdrop .loader{margin:0;width:100%;height:100%;text-align:center;display:table-cell;
+vertical-align: middle;background:url(../images/loader.gif) no-repeat center center;}
+
+.value.donut.loading-right .inner-backdrop{position:absolute;width:100%;height:100%;z-index:
+99999999;background:#fff;opacity: 1;display:table;top:0;left:0;}
+.inner-backdrop .loader{margin:0;width:100%;height:100%;text-align:center;display:table-cell;
+vertical-align: middle;background:url(../images/loader.gif) no-repeat center center;}
+.dashboard-statics .symbol, .dashboard-statics .value {
+	position:relative;
+}
+
