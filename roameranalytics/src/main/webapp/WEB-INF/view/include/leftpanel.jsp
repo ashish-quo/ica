@@ -301,15 +301,7 @@
 							for="Lowgdp">Low GDP</label>
 					</p>
 				</li>
-				<li style="display: none">
-					<p class="i-checks selectall-check displyclass">
-						<label class="input-label"> <input type="checkbox"
-							name="excludeNeighbours" id="excludeNeighbours" ng-model-onblur
-							ng-model='excludeNbrs' value=""> <i></i></label> <label
-							class="input-label1 " for="excludeNeighbours"><fmt:message
-								key="exclude.neigbhours" /></label>
-					</p>
-				</li>
+				
 				<li>
 					<div class="country-accordion panel-group clearfix">
 						<div class="panel-default">
@@ -354,20 +346,7 @@
 						<input type="button" name="applyCountry" value="Apply" ng-click="applyCountryFilter()">
 					</div>
 				</li>
-				<li style="display: none" ng-repeat="country in countries"
-					ng-if='(excludeNbrs && country.bordering == 0) || !excludeNbrs'
-					ng-show="countryQuery.countryName == null || countryQuery.countryName == '' 
-					|| country.countryName.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1">
-
-					<p class="i-checks  displyclass">
-						<label class="input-label"> <input type="checkbox"
-							name="{{country.countryName}}" class="country-chk"
-							id="country_{{$index}}" ng-click="updateCountryFilter()"
-							bordering='{{country.bordering}}' value=""> <i></i></label> <label
-							class="input-label1" for="{{country.countryName}}"
-							title="{{country.countryName}}">{{country.countryName}}</label>
-					</p>
-				</li>
+				
 			</ul></li>
 		<li class="nav-dropdown open" style="display: none"><a href="#"><i
 				class="persona-icon"></i> Personas</a>
