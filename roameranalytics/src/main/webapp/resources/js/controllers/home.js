@@ -389,8 +389,9 @@ console.log("Inside mapcore");
     		    chart: {
     		        renderTo: selector
     		    },
-
     		    xAxis: {
+    		    	min : 0,
+    		    	max : 2,
     		        categories: xAxis
     		    },
     		    series: [{
@@ -400,6 +401,9 @@ console.log("Inside mapcore");
     		        data: dataTop10Bar,
     				color: '#51bfe3',
     		    }],
+    		    scrollbar: {
+			        enabled: true
+			    },
     		    credits: {
     		        enabled: false
     		    }
