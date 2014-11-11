@@ -516,37 +516,19 @@
 		 */
 		$scope.applyCountryFilter = function () {
 			$rootScope.filters.countries = new Array();
-			var $checkedCountries = $j("input.country-chk:checked");
-			$checkedCountries.each(function () {
-				countryChecked = true;
-				var id = $j(this).attr("id");
-				var countryId = $j(this).attr("countryId");
-				var name = $j(this).attr("name");
-				var brodering = $j(this).attr('bordering');
-				$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering,"countryId" : countryId});
-			});
-			
-			
-			/**var countryChecked = false;
-			if ($checkedCountries.length > 0) {
-				countryChecked = true;
+			var allCountries = $j("#All-countries");
+			if (!allCountries.is(":checked")) {
+				var $checkedCountries = $j("input.country-chk:checked");
+				$checkedCountries.each(function () {
+					countryChecked = true;
+					var id = $j(this).attr("id");
+					var countryId = $j(this).attr("countryId");
+					var name = $j(this).attr("name");
+					var brodering = $j(this).attr('bordering');
+					$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering,"countryId" : countryId});
+				});
 			}
-			if (countryChecked) {
-				var latestData = {
-						'params' : util.getParamsFromFilter($rootScope.filters)
-				};
-				$rootScope.otherCountriesTraveled = {};
-				// Getl all the countries to be shown in left panel
-				$http.get($scope.roamType + "/getOtherCountriesTraveled", latestData).success(function (data) {
-					$rootScope.otherCountriesTraveled = data;
-				}).error(function(data, status, headers, config) {
-					 $rootScope.error = data.message;
-			    });
-			} else {
-				$rootScope.otherCountriesTraveled = {};
-			}
-			var key = 'Other Countries Traveled,visitedcountryname,java.lang.String';
-			delete $rootScope.filters.attributes[key];*/
+
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
 				$rootScope.$broadcast("refresh-bubblechart-home");
