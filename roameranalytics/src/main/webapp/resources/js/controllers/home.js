@@ -767,6 +767,23 @@ console.log("Inside mapcore");
 						 sortedSms =[];
 					 
 			}
+				function resetBefore(){
+					
+
+					$j("#map-container").html("");
+					$j(".highcharts-container").html("");
+					$j("#map-container").addClass("donut").addClass("loading"); 
+					$j(".value").addClass("donut").addClass("loading-right");
+					$j(".top10chart-panel").addClass("donut").addClass("loading");
+				}
+				
+				function resetAfter(){
+				
+					$j("#map-container").removeClass("donut").removeClass("loading");
+					$j(".value").removeClass("donut").removeClass("loading-right");
+					$j(".top10chart-panel").removeClass("donut").removeClass("loading");
+					
+				}
 				
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
@@ -777,16 +794,9 @@ console.log("Inside mapcore");
 				
 				if(!$j('.home-backdrop').is(':visible'))
 				{
-					$j("#map-container").html("");
-					console.log("map-container-if");
-					$j("#map-container").addClass("donut").addClass("loading"); 
-					$j(".value").addClass("donut").addClass("loading-right");
-					$j(".top10chart-panel").addClass("donut").addClass("loading");
-					
+					resetBefore();
 					$http.get($scope.roamType +"/getHeatMap", data).success(function(result) {
-						$j("#map-container").removeClass("donut").removeClass("loading");
-						$j(".value").removeClass("donut").removeClass("loading-right");
-						$j(".top10chart-panel").removeClass("donut").removeClass("loading");
+						resetAfter();
 						setHeatMapJson(result);
 						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
 					
@@ -795,11 +805,6 @@ console.log("Inside mapcore");
 				//pendingRequests.cancelAll();
 				$rootScope.$on('refresh-heatmap-home', function (event,args) {
 					//args.pendingRequests.cancelAll();
-					$j("#map-container").html("");
-					$j("#map-container").addClass("donut").addClass("loading");
-					$j(".value").addClass("donut").addClass("loading-right");
-					$j(".top10chart-panel").addClass("donut").addClass("loading");
-					
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -817,11 +822,9 @@ console.log("Inside mapcore");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
+					resetBefore()
 					$http.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
-						$j("#map-container").removeClass("donut").removeClass("loading");
-						$j(".value").removeClass("donut").removeClass("loading-right");
-						$j(".top10chart-panel").removeClass("donut").removeClass("loading");
-						
+						resetAfter();
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
