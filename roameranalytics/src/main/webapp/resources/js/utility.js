@@ -162,13 +162,17 @@
 					text : ''
 				},
 				xAxis : {
+					min : 0,
+					max : 3,
 					categories : categories,
 					title : {
 						text : null
 					}
 				},
+				scrollbar: {
+			        enabled: true
+			    },
 				yAxis : {
-
 					min : 0,
 					gridLineWidth : 0,
 					minorGridLineWidth : 0,
