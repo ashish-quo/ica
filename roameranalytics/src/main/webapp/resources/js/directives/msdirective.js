@@ -18,6 +18,8 @@
 	    	          columns: c3Columns,
 	    	          type : 'donut',
 	    	          onclick: function (d, i) {
+	    	        	  if (d.id == 'Unknown' || d.id == 'null' || d.id == 'NULL') 
+	    	        		  return;
 	    	        	  var target = $j( "input[name='" + d.id + "']")[0];
 	    	        	  var filterId = $j(target).attr("id").split('_');
 	    	        	  if (filterId[0] == 'country') {
