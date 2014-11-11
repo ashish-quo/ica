@@ -270,31 +270,31 @@
 								|| 'Neighbours'.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1">
 					<p class="i-checks">
 						<label> <input type="checkbox" name="Neighbours" ng-click="checkNeighbours('Neighbours')"
-							id="Neighbours" class="country-select select-all-country" value=""> <i></i></label>
+							id="Neighbours" lvalue="Neighbours" class="country-select select-all-country country-category" value="" identifier="bordering"> <i></i></label>
 						<label for="Neighbours">Neighbours</label>
 					</p>
 				</li>
 				<li ng-show="countryQuery.countryName == null || countryQuery.countryName == '' 
 								|| 'Leisure'.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1">
 					<p class="i-checks">
-						<label> <input type="checkbox" name="Leisure" id="Leisure" ng-click="checkLeisure('Leisure')"
-							class="country-select select-all-country" value=""> <i></i></label> <label
+						<label> <input type="checkbox" name="Leisure" id="Leisure" lvalue="Leisure" ng-click="checkLeisure('Leisure')"
+							class="country-select select-all-country country-category" value="" identifier="leisure"> <i></i></label> <label
 							for="Leisure">Leisure</label>
 					</p>
 				</li>
 				<li ng-show="countryQuery.countryName == null || countryQuery.countryName == '' 
 								|| 'Leisure Premium'.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1">
 					<p class="i-checks">
-						<label> <input type="checkbox" name="Leisurepre"  ng-click="checkLeisurePermium('Leisurepre')"
-							id="Leisurepre" class="country-select select-all-country" value=""> <i></i></label>
+						<label> <input type="checkbox" name="Leisurepre" lvalue="Leisure Premium"  ng-click="checkLeisurePermium('Leisurepre')"
+							id="Leisurepre" class="country-select select-all-country country-category" value="" identifier="leisurepremium"> <i></i></label>
 						<label for="Leisurepre">Leisure Premium</label>
 					</p>
 				</li>
 				<li ng-show="countryQuery.countryName == null || countryQuery.countryName == ''  
 								|| 'Low GDP'.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1">
 					<p class="i-checks">
-						<label> <input type="checkbox" name="Lowgdp" id="Lowgdp" ng-click="checkLowGDP('Lowgdp')"
-							class="country-select select-all-country" value=""> <i></i></label> <label
+						<label> <input type="checkbox" name="Lowgdp" id="Lowgdp" lvalue="Low GDP" ng-click="checkLowGDP('Lowgdp')"
+							class="country-select select-all-country country-category" value="" identifier="lowgdp"> <i></i></label> <label
 							for="Lowgdp">Low GDP</label>
 					</p>
 				</li>
@@ -320,6 +320,7 @@
 												|| country.countryName.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1">
 											<p class="i-checks">
 												<label> <input type="checkbox" countryId="{{country.countryId}}"
+													ng-click="updateCountryCategory('country_'+$index)"
 													name="{{country.countryName}}" class="country-chk select-all-country" 
 													lowgdp='{{country.lowGDP}}'
 													leisure='{{country.leisure}}'

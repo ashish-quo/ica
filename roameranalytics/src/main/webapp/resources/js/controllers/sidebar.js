@@ -17,7 +17,8 @@
 		};
 		// initialize other countries traveled
 		$rootScope.otherCountriesTraveled = {};
-		
+		$rootScope.countryCategories = new Array();
+		$rootScope.countriesFromList = new Array();
 		$rootScope.attributeQuery = {};
 		$rootScope.countryQuery = {};
 		
@@ -471,8 +472,36 @@
 		/**
 		 * Refreshes the data when country is changed
 		 */
-		$scope.updateCountryFilter = function(exclude) {
-			
+		$scope.updateCountryCategory = function(id) {
+			var element = $j("#"+id);
+			if(element.is(':checked')) {
+				if ($j("input[bordering = '1']").length == $j("input[bordering = '1']:checked").length) {
+					$j("input#Neighbours").attr("checked","checked");
+				}
+				if ($j("input[leisure = '1']").length == $j("input[leisure = '1']:checked").length) {
+					$j("input#Leisure").attr("checked","checked");
+				}
+				if ($j("input[leisurepremium = '1']").length == $j("input[leisurepremium = '1']:checked").length) {
+					$j("input#Leisurepre").attr("checked","checked");
+				}
+				if ($j("input[lowgdp = '1']").length == $j("input[lowgdp = '1']:checked").length) {
+					$j("input#Lowgdp").attr("checked","checked");
+				}
+				
+			} else {
+				if ($j("input[bordering = '1']").length != $j("input[bordering = '1']:checked").length) {
+					$j("input#Neighbours").removeAttr("checked");
+				}
+				if ($j("input[leisure = '1']").length != $j("input[leisure = '1']:checked").length) {
+					$j("input#Leisure").removeAttr("checked");
+				}
+				if ($j("input[leisurepremium = '1']").length != $j("input[leisurepremium = '1']:checked").length) {
+					$j("input#Leisurepre").removeAttr("checked");
+				}
+				if ($j("input[lowgdp = '1']").length != $j("input[lowgdp = '1']:checked").length) {
+					$j("input#Lowgdp").removeAttr("checked");
+				}
+			}
 		};
 		
 		$scope.checkLeisure = function(id) {
@@ -518,14 +547,53 @@
 			$rootScope.filters.countries = new Array();
 			var allCountries = $j("#All-countries");
 			if (!allCountries.is(":checked")) {
-				var $checkedCountries = $j("input.country-chk:checked");
-				$checkedCountries.each(function () {
-					countryChecked = true;
+				
+				$rootScope.countryCategories = new Array();
+				var identifiers = new Array();
+				var selectedCategories = $j("input.country-category:checked");
+				selectedCategories.each(function() {
+					var id = $j(this).attr("id");
+					var identifier = $j(this).attr("identifier");
+					var name = $j(this).attr("lvalue");
+					identifiers[identifier] = true;
+					$rootScope.countryCategories.push({'id':id,'name':name,'identifier':identifier});
+				});
+				var checkedCountries = $j("input.country-chk:checked");
+				checkedCountries.each(function () {
 					var id = $j(this).attr("id");
 					var countryId = $j(this).attr("countryId");
 					var name = $j(this).attr("name");
-					var brodering = $j(this).attr('bordering');
-					$rootScope.filters.countries.push({'id':id,'name':name,'bordering':brodering,"countryId" : countryId});
+					var bordering = $j(this).attr('bordering');
+					var leisure = $j(this).attr('leisure');
+					var leisurepremium = $j(this).attr('leisurepremium');
+					var lowgdp = $j(this).attr('lowgdp');
+					var countryIncluded = false;
+					if (bordering == '1' && identifiers.bordering == true) {
+						countryIncluded = true;
+					}
+					if ( !countryIncluded && leisure == '1' && identifiers.leisure == true) {
+						countryIncluded = true;
+					}
+					if (!countryIncluded && leisurepremium == '1' && identifiers.leisurepremium == true) {
+						countryIncluded = true;
+					}
+					if (!countryIncluded && lowgdp == '1' && identifiers.lowgdp == true) {
+						countryIncluded = true;
+					}
+					$rootScope.filters.countries.push({'id':id,'name':name,
+						'bordering':bordering,
+						'leisure':leisure,
+						'leisurepremium':leisurepremium,
+						'lowgdp':lowgdp,
+						"countryId" : countryId});
+					
+					if (!countryIncluded)
+						$rootScope.countriesFromList.push({'id':id,'name':name,
+							'bordering':bordering,
+							'leisure':leisure,
+							'leisurepremium':leisurepremium,
+							'lowgdp':lowgdp,
+							"countryId" : countryId});
 				});
 			}
 
@@ -549,9 +617,10 @@
 			$rootScope.filters.countries = $j.map($rootScope.filters.countries, function(obj) {
 				return obj.id == id ? null : obj; 
 			});
+			$rootScope.countriesFromList = $j.map($rootScope.countriesFromList, function(obj) {
+				return obj.id == id ? null : obj; 
+			});
 			
-			var key = 'Other Countries Traveled,visitedcountryname,java.lang.String';
-			delete $rootScope.filters.attributes[key];
 		};
 		
 		/**
@@ -596,6 +665,30 @@
 			}	
 		};
 		
+		$rootScope.removeCountryCategoryFilter = function(id,identifier) {
+			$j('#'+id).removeAttr('checked');
+			$j('input['+identifier +"= '1']").removeAttr('checked');
+			
+			$rootScope.countryCategories = $j.map($rootScope.countryCategories, function(obj) {
+				return obj['identifier'] == identifier ? null : obj; 
+			});
+			
+			$rootScope.filters.countries = $j.map($rootScope.filters.countries, function(obj) {
+				return obj[identifier] == '1' ? null : obj; 
+			});
+			
+			if ($rootScope.tabIndex == 0) {
+				$rootScope.$broadcast("refresh-heatmap-home");
+				$rootScope.$broadcast("refresh-bubblechart-home");
+				$rootScope.$broadcast("refresh-roaming-statistics-home");
+			} else if ($rootScope.tabIndex == 1) {
+				$rootScope.$broadcast("refresh-roaming-trends");
+				$rootScope.$broadcast("refresh-roaming-statistics-trends");
+			} else if ($rootScope.tabIndex == 2) {
+				$rootScope.$broadcast("refresh-microsegment-attribute");
+				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+			}
+		}
 		/**
 		 * Refreshes charts and data when a persona filter is removed from filter area
 		 */
@@ -621,12 +714,6 @@
 			}	
 		};
 		
-		/**
-		 * Call when exclude neighbors is checked
-		 */
-		$scope.$watch('excludeNbrs', function () {
-			$scope.updateCountryFilter(true);
-		});
 		
 		$rootScope.$on("add-filter-from-microsegment", function (data, event) {
 			$scope.updateAttributeFilter(data.attributeId, data.categoryId);
