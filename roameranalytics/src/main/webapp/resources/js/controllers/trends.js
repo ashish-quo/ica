@@ -243,6 +243,7 @@
 					$scope.totalMt = result.totalMt;
 					$scope.totalData=result.totalData;
 					$scope.totalSms=result.totalSms;
+					
 					setRoaminstatisticsFontSize();
 				});
 				

@@ -308,6 +308,7 @@
 	   // Initiate the HeatMap
        function initiateMap(data,colorAxisJson,suffixLable,nameLable)
        {
+    	   if(!$j("#map-container").hasClass("donut")); 
        $j('#map-container').highcharts('Map', {
            chart : {
                borderWidth : 0
@@ -411,85 +412,6 @@ console.log("Inside mapcore");
     	   
        }
        
-       
-	homeC.controller('RoamingStatisticsControllerHome',
-			['$scope','$rootScope','$http','util','httpService','$http', 'pendingRequests',  function($scope,$rootScope,$http,util,httpService,$http, pendingRequests) {
-				console.log("Call inside2");
-				//pendingRequests.cancelAll();
-				$scope.totalRoamer = 0;
-				$scope.silentRoamer = 0;
-				$scope.valueRoamer = 0;
-				$scope.premiumRoamer = 0;
-				
-				$scope.totalMo = 0;
-				$scope.homeMo=0;
-				$scope.localMo = 0;
-				$scope.intlMo=0;
-				
-				$scope.totalMt = 0;
-				$scope.totalData=0;
-				$scope.totalSms=0;
-				
-				var data = {
-						'params' : util.getParamsFromFilter($rootScope.filters)
-				};
-				
-				httpService.get($scope.roamType +"/getRoamingStatistics", data).success(function(result) {
-					$scope.roamingStatistics = result;
-					$scope.totalRoamer = result.totalRoamer;
-					$scope.silentRoamer = result.silentRoamer;
-					$scope.valueRoamer = result.valueRoamer;
-					$scope.premiumRoamer = result.premiumRoamer;
-					
-					$scope.totalMo = result.totalMo;
-					$scope.homeMo=result.homeMo;
-					$scope.localMo = result.localMo;
-					$scope.intlMo=result.intlMo;
-					
-					$scope.totalMt = result.totalMt;
-					$scope.totalData=result.totalData;
-					$scope.totalSms=result.totalSms;
-				});
-				
-				
-				$rootScope.$on('refresh-roaming-statistics', function (event) {
-					
-					
-					$scope.totalRoamer = 0;
-					$scope.silentRoamer = 0;
-					$scope.valueRoamer = 0;
-					$scope.premiumRoamer = 0;
-					
-					$scope.totalMo = 0;
-					$scope.homeMo=0;
-					$scope.localMo = 0;
-					$scope.intlMo=0;
-					
-					$scope.totalMt = 0;
-					$scope.totalData=0;
-					$scope.totalSms=0;
-					var latestData = {
-						'params' : util.getParamsFromFilter($rootScope.filters)
-					};
-					$http.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
-						$scope.roamingStatistics = result;
-						$scope.totalRoamer = result.totalRoamer;
-						$scope.silentRoamer = result.silentRoamer;
-						$scope.valueRoamer = result.valueRoamer;
-						$scope.premiumRoamer = result.premiumRoamer;
-						
-						$scope.totalMo = result.totalMo;
-						$scope.homeMo=result.homeMo;
-						$scope.localMo = result.localMo;
-						$scope.intlMo=result.intlMo;
-						
-						$scope.totalMt = result.totalMt;
-						$scope.totalData=result.totalData;
-						$scope.totalSms=result.totalSms;
-					});
-					
-				});
-	}]);
 	
 	
 	
@@ -849,6 +771,23 @@ console.log("Inside mapcore");
 						 sortedSms =[];
 					 
 			}
+				function resetBefore(){
+					
+
+					$j("#map-container").html("");
+					$j(".highcharts-container").html("");
+					$j("#map-container").addClass("donut").addClass("loading"); 
+					$j(".value").addClass("donut").addClass("loading-right");
+					$j(".top10chart-panel").addClass("donut").addClass("loading");
+				}
+				
+				function resetAfter(){
+				
+					$j("#map-container").removeClass("donut").removeClass("loading");
+					$j(".value").removeClass("donut").removeClass("loading-right");
+					$j(".top10chart-panel").removeClass("donut").removeClass("loading");
+					
+				}
 				
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
@@ -859,13 +798,9 @@ console.log("Inside mapcore");
 				
 				if(!$j('.home-backdrop').is(':visible'))
 				{
-					$j("#map-container").html("");
-					console.log("map-container-if");
-					$j("#map-container").addClass("donut").addClass("loading"); 
-					$j(".value").addClass("donut").addClass("loading-right");
-					httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
-						$j("#map-container").removeClass("donut").removeClass("loading");
-						$j(".value").removeClass("donut").removeClass("loading-right");
+					resetBefore();
+					$http.get($scope.roamType +"/getHeatMap", data).success(function(result) {
+						resetAfter();
 						setHeatMapJson(result);
 						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
 					
@@ -874,10 +809,6 @@ console.log("Inside mapcore");
 				//pendingRequests.cancelAll();
 				$rootScope.$on('refresh-heatmap-home', function (event,args) {
 					//args.pendingRequests.cancelAll();
-					$j("#map-container").html("");
-					$j("#map-container").addClass("donut").addClass("loading");
-					$j(".value").addClass("donut").addClass("loading-right");
-					 
 					$scope.totalRoamer = 0;
 					$scope.silentRoamer = 0;
 					$scope.valueRoamer = 0;
@@ -895,9 +826,9 @@ console.log("Inside mapcore");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					httpService.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
-						$j("#map-container").removeClass("donut").removeClass("loading");
-						$j(".value").removeClass("donut").removeClass("loading-right");
+					resetBefore()
+					$http.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
+						resetAfter();
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
@@ -914,8 +845,10 @@ console.log("Inside mapcore");
 				});
 				
 				$scope.$watch("mapUnit", function (newValue, oldValue) {
-					if ($scope.mapUnit=='roamers' && !$j('.home-backdrop').is(':visible')) {
-						$rootScope.$broadcast("refresh-heatmap-home");
+					console.log("newValue"+newValue);
+					console.log("oldValue"+oldValue);
+					if ($scope.mapUnit=='roamers' && !$j('.home-backdrop').is(':visible') && newValue!=oldValue) {
+						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
 					}else if ($scope.mapUnit=='mt') {
 						initiateMap(mtJsonMap,colorAxisRange,'','MT Count');
 					}else if ($scope.mapUnit=='mo') {

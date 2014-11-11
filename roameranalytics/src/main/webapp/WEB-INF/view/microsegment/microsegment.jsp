@@ -274,7 +274,7 @@
 
               <li>
 
-                <p class="subnum-text">Premium</p>
+                <p class="subnum-text"  title="Premium">Prem</p>
 
                 <p class="subnum-number">{{premiumRoamer}}</p>
 
@@ -322,7 +322,7 @@
 
               <li>
 
-                <p class="subnum-text">Intl</p>
+                <p class="subnum-text" title="International">Intl</p>
 
                 <p class="subnum-number"><span class="arr-space"><img style="display:none" src="images/up-icon.png"></span>{{intlMo}}</p>
 
