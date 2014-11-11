@@ -506,7 +506,7 @@ console.log("Inside mapcore");
 							if(countryData.dataUsage>0){
 								top10dataJsonMap.push({
 									name : countryData.countryCode,
-									count : countryData.dataUsage
+									count : parseInt(countryData.dataUsage,10)/(1024*1024)
 								});
 								top10dataBarX.push(countryData.countryCode);
 								top10dataBarData.push(countryData.dataUsage);

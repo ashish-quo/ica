@@ -232,10 +232,7 @@
 				style="display: none">{{filters.dateRangeFrom}} -
 					{{filters.dateRangeTo}}</span></a>
 			<ul class="nav-sub">
-				<li><a href ng-click="thisWeekRange()"><fmt:message
-							key="date.range.this.week" /></a></li>
-				<li><a href ng-click="lastWeekRange()"><fmt:message
-							key="date.range.last.week" /></a></li>
+				
 				<li><a href ng-click="thisMonth()"><fmt:message
 							key="date.range.this.month" /></a></li>
 				<li><a href ng-click="lastMonth()"><fmt:message
