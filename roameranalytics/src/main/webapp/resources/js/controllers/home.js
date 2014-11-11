@@ -774,18 +774,32 @@ console.log("Inside mapcore");
 				function resetBefore(){
 					
 
+					top10roamerBarX = [];
+					top10moBarX = [];
+					top10mtBarX = [];
+					top10dataBarX = [];
+					
+					top10roamerBarData = [];
+					top10moBarData = [];
+					top10mtBarData = [];
+					top10dataBarData = [];
 					$j("#map-container").html("");
 					$j(".highcharts-container").html("");
 					$j("#map-container").addClass("donut").addClass("loading"); 
 					$j(".value").addClass("donut").addClass("loading-right");
-					$j(".top10chart-panel").addClass("donut").addClass("loading");
+					$j("#container,#container2,#container3,#container4").html("");
+					$j("#vis,#vis2,#vis3,#vis4").html("").addClass("donut").addClass("loading");
+					$j(".linechart-box").addClass("donut").addClass("loading");
+					$j(".top10-chart-btn").hide();
 				}
 				
 				function resetAfter(){
 				
 					$j("#map-container").removeClass("donut").removeClass("loading");
 					$j(".value").removeClass("donut").removeClass("loading-right");
-					$j(".top10chart-panel").removeClass("donut").removeClass("loading");
+					$j(".linechart-box").removeClass("donut").removeClass("loading");
+					$j("#vis,#vis2,#vis3,#vis4").removeClass("donut").removeClass("loading");
+					$j(".top10-chart-btn").show();
 					
 				}
 				
