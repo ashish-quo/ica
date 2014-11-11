@@ -3,7 +3,11 @@
         <h1 class="maincontent-heading">Home</h1>
       </div>
       <div class="col-lg-7">
-		<div class="tag-div" ng-repeat="filter in filters.countries">
+     		 <div class="tag-div" ng-repeat="filter in countryCategories">
+				{{filter.name}} <a href
+					ng-click='removeCountryCategoryFilter(filter.id,filter.identifier)' class="delete-tag"></a>
+			</div>
+			<div class="tag-div" ng-repeat="filter in countriesFromList">
 				{{filter.name}} <a href
 					ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
 			</div>
