@@ -71,10 +71,22 @@
     		  var horizontalChart = $j('#bar-chart-'+attrs.chartname.replace(/ /g,''));
     		  verticalChart.html('');
     		  horizontalChart.html('');
-    		  
+    		  element.html('');
+    		  element.removeClass("no-data-found");
     		  if (dataToPlot != null && dataToPlot.length > 0) {
 	    		  if (attrs.charttype == '1') {
-	    			  this.drawMorrisChart(element,dataToPlot);
+	    			  var donutDataAvailable = false;
+		    		  for (var i = 0; i < dataToPlot.length;i++) {
+		    			  if (dataToPlot[i][1] != 0) {
+		    				  donutDataAvailable = true;
+		    				  break;
+		    			  }
+		    		  }
+		    		  if (donutDataAvailable)
+		    			  this.drawMorrisChart(element,dataToPlot);	
+		    		  else 
+		    			  element.addClass("no-data-found");
+		    		  
 	    		  } else if (attrs.charttype == '2') {
 	    			  var donutData ;
 		    		  var columnData;
@@ -83,19 +95,62 @@
 		    		  if (donutData.length >= 3) {
 		    			  donutData = donutData.slice(0,3);
 		    		  }
+		    		  var columnDataAvailable = false;
+		    		  for (var i = 0; i < columnData.length;i++) {
+		    			  if (columnData[i][1] != 0) {
+		    				  columnDataAvailable = true;
+		    				  break;
+		    			  }
+		    		  }
+		    		  var donutDataAvailable = false;
+		    		  for (var i = 0; i < donutData.length;i++) {
+		    			  if (donutData[i][1] != 0) {
+		    				  donutDataAvailable = true;
+		    				  break;
+		    			  }
+		    		  }
+		    		  
 		    		  element.removeClass("big-donutchart").addClass("medium-donutchart")
-		    		  this.drawHorizontalBarChart(horizontalChart,columnData);
-		    		  this.drawMorrisChart(element,donutData);
+		    		  if (columnDataAvailable)
+		    			  this.drawHorizontalBarChart(horizontalChart,columnData);
+		    		  if (donutDataAvailable)
+		    			  this.drawMorrisChart(element,donutData);
+		    		  if (!donutDataAvailable && !columnDataAvailable) {
+		    			  element.addClass("no-data-found");
+		    		  }
 	    		  } else if (attrs.charttype == '3') {
 		    		  var donutData ;
 		    		  var columnData;
 	    			  donutData = dataToPlot.slice(0,3);
 	    			  columnData = dataToPlot.slice(3);
-	    			  if (columnData.length > 0) {
-	    				  element.removeClass("big-donutchart").addClass("medium-donutchart");
-	    				  this.drawVerticalBarChart(verticalChart,columnData);
-	    			  }
-		    		  this.drawMorrisChart(element,donutData);
+	    			  
+	    			  var columnDataAvailable = false;
+		    		  for (var i = 0; i < columnData.length;i++) {
+		    			  if (columnData[i][1] != 0) {
+		    				  columnDataAvailable = true;
+		    				  break;
+		    			  }
+		    		  }
+		    		  var donutDataAvailable = false;
+		    		  for (var i = 0; i < donutData.length;i++) {
+		    			  if (donutData[i][1] != 0) {
+		    				  donutDataAvailable = true;
+		    				  break;
+		    			  }
+		    		  }
+		    		  
+		    		  if (columnDataAvailable) {
+		    			  if (columnData.length > 0) {
+		    				  element.removeClass("big-donutchart").addClass("medium-donutchart");
+		    				  this.drawVerticalBarChart(verticalChart,columnData);
+		    			  }
+		    		  }
+		    		  if (donutDataAvailable)
+		    			  this.drawMorrisChart(element,donutData);
+		    		  if (!donutDataAvailable && !columnDataAvailable) {
+		    			  element.addClass("no-data-found");
+		    		  }
+		    		  
 	    		  }
     		  } else {
     			  element.addClass("no-data-found");
