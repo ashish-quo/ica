@@ -10,8 +10,8 @@ package com.mobileum.roameranalytics.enums;
  */
 public enum NetworkGroupColumn {
 
-	NETWORK_ID("network_id"),
-	NETWORK_GROUP("networkgroupname");
+	NETWORK_ID("networkId"),
+	NETWORK_GROUP("networkgroup");
 
 	private String name;
 	private NetworkGroupColumn(final String name) {

@@ -64,7 +64,7 @@ public class MicroSegmentQueryBuilder {
 		query.append(" select count(trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" network.network_name networkName from ");
+			.append(" network.networkname networkName from ");
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
 			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ")
 				.append(" inner join ")
@@ -89,7 +89,7 @@ public class MicroSegmentQueryBuilder {
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		StatsQueryBuilder.appendClauseForAttributes(query, parameterMap, filterParameters);
 	
-		query.append(" group by network.network_name ");
+		query.append(" group by network.networkname ");
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
 	}
@@ -108,7 +108,7 @@ public class MicroSegmentQueryBuilder {
 		query.append(" select count(trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" networkGroup.NetworkGroupName networkGroup from ");
+			.append(" networkGroup.networkgroup networkGroup from ");
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
 			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ")
 				.append(" inner join ")
@@ -136,7 +136,7 @@ public class MicroSegmentQueryBuilder {
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		StatsQueryBuilder.appendClauseForAttributes(query, parameterMap, filterParameters);
 		
-		query.append(" group by networkGroup.NetworkGroupName ");
+		query.append(" group by networkGroup.networkgroup ");
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
 	}

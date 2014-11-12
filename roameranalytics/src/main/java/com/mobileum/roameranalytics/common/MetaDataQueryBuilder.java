@@ -96,7 +96,7 @@ public class MetaDataQueryBuilder {
 	public static String queryForDistinctNetworkGroups(final String roamType) {
 		final StringBuilder query = new StringBuilder();
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append("select distinct tadignetwork.network_id networkId, network_name networkName ,T.mcc mcc, T.mnc mnc, networkgroup.NetworkGroupName groupName from ")
+			query.append("select distinct tadignetwork.networkId networkId, networkname networkName ,T.mcc mcc, T.mnc mnc, networkgroup.networkgroup groupName from ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.visitedmcc as mcc, trip.visitedmnc as mnc from ")
@@ -104,10 +104,10 @@ public class MetaDataQueryBuilder {
 				.append(" trip ") 
 				.append(" ) T on T.mcc = tadignetwork.mcc and T.mnc = tadignetwork.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkgroup on tadignetwork.network_id =  networkgroup.network_id ")
-				.append(" order by network_name ");
+				.append(" networkgroup on tadignetwork.networkId =  networkgroup.networkId ")
+				.append(" order by networkname ");
 		} else {
-			query.append("select distinct tadignetwork.network_id networkId, network_name networkName ,T.mcc mcc, T.mnc mnc, networkgroup.NetworkGroupName groupName from ")
+			query.append("select distinct tadignetwork.networkId networkId, networkname networkName ,T.mcc mcc, T.mnc mnc, networkgroup.networkgroup groupName from ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
 				.append(" tadignetwork inner join (")
 				.append(" select distinct trip.homemcc as mcc, trip.homemnc as mnc from ")
@@ -115,8 +115,8 @@ public class MetaDataQueryBuilder {
 				.append(" trip ") 
 				.append(" ) T on T.mcc = tadignetwork.mcc and T.mnc = tadignetwork.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkgroup on tadignetwork.network_id =  networkgroup.network_id ")
-				.append(" order by network_name ");
+				.append(" networkgroup on tadignetwork.networkId =  networkgroup.networkId ")
+				.append(" order by networkname ");
 		}
 		return query.toString();
 	}

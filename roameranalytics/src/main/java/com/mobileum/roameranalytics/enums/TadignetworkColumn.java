@@ -9,11 +9,11 @@ package com.mobileum.roameranalytics.enums;
  *
  */
 public enum TadignetworkColumn {
-	NETWORK_ID("network_id"),
+	NETWORK_ID("networkId"),
 	TADIG("tadig"),
 	MCC("mcc"),
 	MNC("mnc"),
-	NETWORK_NAME("network_name");
+	NETWORK_NAME("networkname");
 
 	private String name;
 	private TadignetworkColumn(final String name) {
