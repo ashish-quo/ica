@@ -789,6 +789,8 @@ console.log("Inside mapcore");
 					$j(".value").addClass("donut").addClass("loading-right");
 					$j("#container,#container2,#container3,#container4").html("");
 					$j("#vis,#vis2,#vis3,#vis4").html("").addClass("donut").addClass("loading");
+					$j("#vis1,#vis2n,#vis3n,#vis4n").html("").addClass("donut").addClass("loading");
+
 					$j(".linechart-box").addClass("donut").addClass("loading");
 					$j(".top10-chart-btn").hide();
 				}
@@ -799,6 +801,7 @@ console.log("Inside mapcore");
 					$j(".value").removeClass("donut").removeClass("loading-right");
 					$j(".linechart-box").removeClass("donut").removeClass("loading");
 					$j("#vis,#vis2,#vis3,#vis4").removeClass("donut").removeClass("loading");
+					$j("#vis1,#vis2n,#vis3n,#vis4n").removeClass("donut").removeClass("loading");
 					$j(".top10-chart-btn").show();
 					
 				}
