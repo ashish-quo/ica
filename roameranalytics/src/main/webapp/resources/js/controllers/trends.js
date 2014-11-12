@@ -94,6 +94,7 @@
 				var data = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 				};
+				$j(".dashboard-scroll").niceScroll();
 				httpService.get($scope.roamType + "/getRoamingTrendsData", data).success(function(result) {
 					$scope.trends = result;
 					$scope.roamerCountChartConfig = getChart($scope.trends.roamersCountChart, $scope.dow, $scope.logScale);

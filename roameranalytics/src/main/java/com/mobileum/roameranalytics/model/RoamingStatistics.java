@@ -66,6 +66,11 @@ public class RoamingStatistics {
 	 * Sms count
 	 */
 	long smsUsage;
+	
+	/**
+	 * Sms count
+	 */
+	long overAllTripCategory;
 
 	/**
 	 * @return the roamerTotal
@@ -77,7 +82,7 @@ public class RoamingStatistics {
 	/**
 	 * @param roamerTotal the roamerTotal to set
 	 */
-	public void setRoamerTotal(long roamerTotal) {
+	public void setRoamerTotal(final long roamerTotal) {
 		this.roamerTotal = roamerTotal;
 	}
 
@@ -91,7 +96,7 @@ public class RoamingStatistics {
 	/**
 	 * @param countryCode the countryCode to set
 	 */
-	public void setCountryCode(String countryCode) {
+	public void setCountryCode(final String countryCode) {
 		this.countryCode = countryCode;
 	}
 
@@ -105,7 +110,7 @@ public class RoamingStatistics {
 	/**
 	 * @param roamerSilent the roamerSilent to set
 	 */
-	public void setRoamerSilent(long roamerSilent) {
+	public void setRoamerSilent(final long roamerSilent) {
 		this.roamerSilent = roamerSilent;
 	}
 
@@ -119,7 +124,7 @@ public class RoamingStatistics {
 	/**
 	 * @param roamerPremium the roamerPremium to set
 	 */
-	public void setRoamerPremium(long roamerPremium) {
+	public void setRoamerPremium(final long roamerPremium) {
 		this.roamerPremium = roamerPremium;
 	}
 
@@ -133,7 +138,7 @@ public class RoamingStatistics {
 	/**
 	 * @param roamerValue the roamerValue to set
 	 */
-	public void setRoamerValue(long roamerValue) {
+	public void setRoamerValue(final long roamerValue) {
 		this.roamerValue = roamerValue;
 	}
 
@@ -147,7 +152,7 @@ public class RoamingStatistics {
 	/**
 	 * @param mt the mt to set
 	 */
-	public void setMt(long mt) {
+	public void setMt(final long mt) {
 		this.mt = mt;
 	}
 
@@ -161,7 +166,7 @@ public class RoamingStatistics {
 	/**
 	 * @param moTotal the moTotal to set
 	 */
-	public void setMoTotal(long moTotal) {
+	public void setMoTotal(final long moTotal) {
 		this.moTotal = moTotal;
 	}
 
@@ -175,7 +180,7 @@ public class RoamingStatistics {
 	/**
 	 * @param moLocal the moLocal to set
 	 */
-	public void setMoLocal(long moLocal) {
+	public void setMoLocal(final long moLocal) {
 		this.moLocal = moLocal;
 	}
 
@@ -189,7 +194,7 @@ public class RoamingStatistics {
 	/**
 	 * @param moHome the moHome to set
 	 */
-	public void setMoHome(long moHome) {
+	public void setMoHome(final long moHome) {
 		this.moHome = moHome;
 	}
 
@@ -203,7 +208,7 @@ public class RoamingStatistics {
 	/**
 	 * @param moIntl the moIntl to set
 	 */
-	public void setMoIntl(long moIntl) {
+	public void setMoIntl(final long moIntl) {
 		this.moIntl = moIntl;
 	}
 
@@ -217,7 +222,7 @@ public class RoamingStatistics {
 	/**
 	 * @param dataUsage the dataUsage to set
 	 */
-	public void setDataUsage(long dataUsage) {
+	public void setDataUsage(final long dataUsage) {
 		this.dataUsage = dataUsage;
 	}
 
@@ -231,8 +236,22 @@ public class RoamingStatistics {
 	/**
 	 * @param smsUsage the smsUsage to set
 	 */
-	public void setSmsUsage(long smsUsage) {
+	public void setSmsUsage(final long smsUsage) {
 		this.smsUsage = smsUsage;
+	}
+
+	/**
+	 * @return the overAllTripCategory
+	 */
+	public long getOverAllTripCategory() {
+		return overAllTripCategory;
+	}
+
+	/**
+	 * @param overAllTripCategory the overAllTripCategory to set
+	 */
+	public void setOverAllTripCategory(final long overAllTripCategory) {
+		this.overAllTripCategory = overAllTripCategory;
 	}
 	
 	

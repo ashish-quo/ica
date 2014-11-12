@@ -3,27 +3,6 @@
         <h1 class="maincontent-heading">TRENDS</h1>
       </div>
 	<div class="col-lg-7">
-		<div class="tag-div" ng-repeat="filter in countryCategories">
-			{{filter.name}} <a href
-				ng-click='removeCountryCategoryFilter(filter.id,filter.identifier)'
-				class="delete-tag"></a>
-		</div>
-		<div class="tag-div" ng-repeat="filter in countriesFromList">
-			{{filter.name}} <a href ng-click='removeCounryFilter(filter.id,true)'
-				class="delete-tag"></a>
-		</div>
-		<div class="tag-div" ng-repeat="filter in filters.personas">
-			{{filter.name}} <a href
-				ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
-		</div>
-		<span ng-repeat="(key, value) in filters.attributes">
-			<div class="tag-div" ng-repeat="filter in value">
-				{{filter.name}} <a href
-					ng-click='removeAttributeFilter(key,filter.attrId, filter.catId,true)'
-					class="delete-tag"></a>
-			</div>
-		</span>
-
 	</div>
 	<div class="col-lg-2 pull-right">
         <div class="commentshare-icon" style="display:none">
@@ -47,6 +26,34 @@
         </div>
       </div>
 </div>
+
+ <div class="row dashboard dashboard-scroll">
+      <div class="col-lg-12">
+     		 <div class="tag-div" ng-repeat="filter in countryCategories">
+				{{filter.name}} <a href
+					ng-click='removeCountryCategoryFilter(filter.id,filter.identifier)' class="delete-tag"></a>
+			</div>
+			<div class="tag-div" ng-repeat="filter in countriesFromList">
+				{{filter.name}} <a href
+					ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
+			</div>
+			<div class="tag-div" ng-repeat="filter in filters.personas">
+				{{filter.name}} <a href
+					ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
+			</div>
+			<span ng-repeat="(key, value) in filters.attributes">
+				<div class="tag-div" ng-repeat="filter in value">
+					{{filter.name}} <a href
+						ng-click='removeAttributeFilter(key,filter.attrId, filter.catId,true)'
+						class="delete-tag"></a>
+				</div>
+			</span>
+		
+	</div> 
+  </div>
+
+
+
 
 <div class="top10chart-view clearfix" ng-controller="RoamingTrendController">
 	 <div class="col-lg-12">

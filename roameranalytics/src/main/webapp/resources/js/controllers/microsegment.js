@@ -89,9 +89,10 @@
 				};
 				
 				
-				$j(".value").addClass("donut").addClass("loading-bottom");
+				$j(".value").addClass("donut").addClass("loading-right");
+				$j(".dashboard-scroll").niceScroll();
 				$http.get($scope.roamType  + "/getRoamingStatistics", data).success(function(result) {
-					$j(".value").removeClass("donut").removeClass("loading-bottom");
+					$j(".value").removeClass("donut").removeClass("loading-right");
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -127,9 +128,9 @@
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					$j(".value").addClass("donut").addClass("loading-bottom");
+					$j(".value").addClass("donut").addClass("loading-right");
 					$http.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
-						$j(".value").removeClass("donut").removeClass("loading-bottom");
+						$j(".value").removeClass("donut").removeClass("loading-right");
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;

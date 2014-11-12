@@ -793,6 +793,8 @@ console.log("Inside mapcore");
 
 					$j(".linechart-box").addClass("donut").addClass("loading");
 					$j(".top10-chart-btn").hide();
+					
+					$j(".dashboard-scroll").niceScroll();
 				}
 				
 				function resetAfter(){

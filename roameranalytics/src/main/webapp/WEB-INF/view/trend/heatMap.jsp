@@ -1,29 +1,8 @@
 <div class="row dashboard-top">
-      <div class="col-lg-3">
+      <div class="col-lg-10">
         <h1 class="maincontent-heading">Home</h1>
       </div>
-      <div class="col-lg-7">
-     		 <div class="tag-div" ng-repeat="filter in countryCategories">
-				{{filter.name}} <a href
-					ng-click='removeCountryCategoryFilter(filter.id,filter.identifier)' class="delete-tag"></a>
-			</div>
-			<div class="tag-div" ng-repeat="filter in countriesFromList">
-				{{filter.name}} <a href
-					ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
-			</div>
-			<div class="tag-div" ng-repeat="filter in filters.personas">
-				{{filter.name}} <a href
-					ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
-			</div>
-			<span ng-repeat="(key, value) in filters.attributes">
-				<div class="tag-div" ng-repeat="filter in value">
-					{{filter.name}} <a href
-						ng-click='removeAttributeFilter(key,filter.attrId, filter.catId,true)'
-						class="delete-tag"></a>
-				</div>
-			</span>
-		
-	</div>
+ 
       <div class="col-lg-2">
         <div class="commentshare-icon" style="display:none">
           <span class="dropdown">
@@ -44,8 +23,32 @@
           </span>
           <a href="javascript:void(0)" class="share-icon cust-tooltip" original-title="Share"></a>
         </div>
-      </div>
+      </div>  
     </div>
+  <div class="row dashboard dashboard-scroll">
+      <div class="col-lg-12">
+     		 <div class="tag-div" ng-repeat="filter in countryCategories">
+				{{filter.name}} <a href
+					ng-click='removeCountryCategoryFilter(filter.id,filter.identifier)' class="delete-tag"></a>
+			</div>
+			<div class="tag-div" ng-repeat="filter in countriesFromList">
+				{{filter.name}} <a href
+					ng-click='removeCounryFilter(filter.id,true)' class="delete-tag"></a>
+			</div>
+			<div class="tag-div" ng-repeat="filter in filters.personas">
+				{{filter.name}} <a href
+					ng-click='removePersonaFilter(filter.id,true)' class="delete-tag"></a>
+			</div>
+			<span ng-repeat="(key, value) in filters.attributes">
+				<div class="tag-div" ng-repeat="filter in value">
+					{{filter.name}} <a href
+						ng-click='removeAttributeFilter(key,filter.attrId, filter.catId,true)'
+						class="delete-tag"></a>
+				</div>
+			</span>
+		
+	</div> 
+  </div>
     
      <div ng-controller="HeatMapControllerHome">
     <div class="row map-view clearfix">
