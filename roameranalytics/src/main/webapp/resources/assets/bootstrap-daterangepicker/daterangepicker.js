@@ -548,8 +548,11 @@
             this.element.removeClass('active');
             this.container.hide();
 
-            if (!this.startDate.isSame(this.oldStartDate) || !this.endDate.isSame(this.oldEndDate))
-                this.notify();
+            //if (!this.startDate.isSame(this.oldStartDate) || !this.endDate.isSame(this.oldEndDate))
+            if (this.applyClicked) {
+            	this.applyClicked = false;
+            	this.notify();
+            }
 
             this.oldStartDate = this.startDate.clone();
             this.oldEndDate = this.endDate.clone();
@@ -713,8 +716,10 @@
 
         clickApply: function (e) {
             this.updateInputText();
+            this.applyClicked = true;
             this.hide();
             this.element.trigger('apply.daterangepicker', this);
+            
         },
 
         clickCancel: function (e) {
