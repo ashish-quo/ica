@@ -115,14 +115,14 @@ public class MicroSegmentQueryBuilder {
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
 				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkGroup on networkGroup.network_id = network.network_id ");
+				.append(" networkGroup on networkGroup.networkid = network.networkid ");
 		} else {
 			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ")
 				.append(" inner join ")
 				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
 				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
 				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkGroup on networkGroup.network_id = network.network_id ");
+				.append(" networkGroup on networkGroup.networkid = network.networkid ");
 		}
 		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())

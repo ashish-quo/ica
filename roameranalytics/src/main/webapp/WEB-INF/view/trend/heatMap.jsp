@@ -123,6 +123,7 @@
             <p>Roamers</p>
           </div>
           <div class="value">
+         	
             <p class="statics-num lightblue-text">{{totalRoamer}}</p>
             <ul class="statics-subnum">
               <li class="cust-tooltip-dn" original-title="Projected: 350">

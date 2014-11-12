@@ -232,10 +232,7 @@
 				style="display: none">{{filters.dateRangeFrom}} -
 					{{filters.dateRangeTo}}</span></a>
 			<ul class="nav-sub">
-				<li><a href ng-click="thisWeekRange()"><fmt:message
-							key="date.range.this.week" /></a></li>
-				<li><a href ng-click="lastWeekRange()"><fmt:message
-							key="date.range.last.week" /></a></li>
+				
 				<li><a href ng-click="thisMonth()"><fmt:message
 							key="date.range.this.month" /></a></li>
 				<li><a href ng-click="lastMonth()"><fmt:message
@@ -504,7 +501,7 @@
 										</div>
 									</div>
 									<div class="menu-select-btn network">
-										<input type="button" name="applyNetwork" value="Apply" ng-click="applyNetworkFilter()">
+										<input type="button" name="applyNetwork" value="Apply" ng-click="applyNetworkFilter('attr_'+attr.id)">
 									</div>
 								</div>
 								<div id="collapse{{$index}}" class="panel-collapse collapse"
@@ -528,7 +525,7 @@
 										</div>
 									</div>
 									<div class="menu-select-btn network">
-										<input type="button" name="applyNetworkGroup" value="Apply" ng-click="applyNetworkGroupFilter()">
+										<input type="button" name="applyNetworkGroup" value="Apply" ng-click="applyNetworkGroupFilter('attr_'+attr.id)">
 									</div>
 								</div>
 								<div id="collapse{{$index}}" class="panel-collapse collapse"
