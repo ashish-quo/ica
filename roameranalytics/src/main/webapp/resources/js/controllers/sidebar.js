@@ -546,9 +546,10 @@
 		$scope.applyCountryFilter = function () {
 			$rootScope.filters.countries = new Array();
 			var allCountries = $j("#All-countries");
+			$rootScope.filters.countries = new Array();
+			$rootScope.countriesFromList = new Array();
+			$rootScope.countryCategories = new Array();
 			if (!allCountries.is(":checked")) {
-				
-				$rootScope.countryCategories = new Array();
 				var identifiers = new Array();
 				var selectedCategories = $j("input.country-category:checked");
 				selectedCategories.each(function() {
@@ -595,7 +596,7 @@
 							'lowgdp':lowgdp,
 							"countryId" : countryId});
 				});
-			}
+			} 
 
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
