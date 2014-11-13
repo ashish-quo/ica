@@ -12,7 +12,7 @@ public enum AttributeCategoryColumn {
 	categ_name("categ_name"),
 	display_order("display_order"),
 	attr_id("attr_id"),
-	categ_value("categ_value");
+	category_value("categ_value");
 
 
 	private String name;

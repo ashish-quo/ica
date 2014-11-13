@@ -360,7 +360,7 @@
 
           </div>
 
-          <div class="value">
+          <div class="value mt7">
 
             <p class="statics-num light-green-text">{{totalMt}}</p>
 
@@ -378,7 +378,7 @@
 
           </div>
 
-          <div class="value">
+          <div class="value mt7">
 
             <p class="statics-num light-orange-text">{{totalData}}</p>
 
@@ -396,7 +396,7 @@
 
           </div>
 
-          <div class="value">
+          <div class="value mt7">
 
             <p class="statics-num yellow-text">{{totalSms}}</p>
 

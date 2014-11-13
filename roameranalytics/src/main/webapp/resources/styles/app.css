@@ -80,6 +80,12 @@ vertical-align: middle;background:url(../images/loader.gif) no-repeat center cen
   background: url(../images/loader.gif) no-repeat center center;
   height: 70px;
 }
+.value.mt6.donut.loading-right {
+  height: 80px;
+}
+.value.mt7.donut.loading-right {
+  height: 50px;
+}
 .value.donut.loading-right p{display:none;}
 .value.donut.loading-right ul{display:none;}
 
