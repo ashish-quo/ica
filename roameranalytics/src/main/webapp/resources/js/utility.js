@@ -102,10 +102,16 @@
 					categories : categories,
 					title : {
 						text : null
+					},
+					labels: {
+		                enabled: true,
+		                formatter: function() {
+		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 10) ?(this.value.toString().substring(0,7) + '...'):this.value) + '</span>';
+		                },
+		                useHTML: true
 					}
 				},
 				yAxis : {
-
 					min : 0,
 					gridLineWidth : 0,
 					minorGridLineWidth : 0,
@@ -167,6 +173,13 @@
 					categories : categories,
 					title : {
 						text : null
+					},
+					labels: {
+		                enabled: true,
+		                formatter: function() {
+		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 10) ?(this.value.toString().substring(0,7) + '...'):this.value) + '</span>';
+		                },
+		                useHTML: true
 					}
 				},
 				scrollbar: {
