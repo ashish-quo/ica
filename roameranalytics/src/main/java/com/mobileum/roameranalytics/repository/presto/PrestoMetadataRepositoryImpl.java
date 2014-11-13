@@ -93,6 +93,8 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 							attribute.setAttributeCategoryList(new ArrayList<AttributeCategory>());
 							nameValueMap = new HashMap<String,String>();
 							nameValueMap.put("-1", "Unknown");
+							nameValueMap.put(null, "Unknown");
+							nameValueMap.put("NULL", "Unknown");
 							RAConstants.attributeNameValueCache.put(attribute.getAttributeName(),nameValueMap);
 							
 							if (otherCountriesTravelledAttrId != null && 
