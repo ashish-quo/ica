@@ -393,7 +393,14 @@ console.log("Inside mapcore");
     		    xAxis: {
     		    	min : 0,
     		    	max : 2,
-    		        categories: xAxis
+    		        categories: xAxis,
+    		        labels: {
+		                enabled: true,
+		                formatter: function() {
+		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 10) ?(this.value.toString().substring(0,7) + '...'):this.value) + '</span>';
+		                },
+		                useHTML: true
+					}
     		    },
     		    series: [{
     				showInLegend:false,
@@ -403,13 +410,14 @@ console.log("Inside mapcore");
     				color: '#51bfe3',
     		    }],
     		    scrollbar: {
-			        enabled: true
+			        enabled: true,
+			        height: 5
 			    },
     		    credits: {
     		        enabled: false
     		    }
     		});
-    	   
+    	   $j(".highcharts-scrollbar").niceScroll();
        }
        
 	
