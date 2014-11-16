@@ -79,6 +79,24 @@ public class PrestoTrendRepositoryImpl implements TrendRepository {
 				roamingStatistics.setDataUsage(rs.getLong("datausage"));
 				roamingStatistics.setMt(rs.getLong("mtcallminutes"));
 				roamingStatistics.setSmsUsage(rs.getLong("mosmscount"));
+				roamingStatistics.setOverAllTripCategory(rs.getInt("roamingcategory"));
+				if(rs.getInt("roamingcategory")==1)
+				{
+					roamingStatistics.setRoamerSilent(rs.getLong("roamercount"));
+					roamingStatistics.setOverAllTripCategory(rs.getInt("roamingcategory")*1);
+					
+					
+				}else if(rs.getInt("roamingcategory")==2)
+				{
+					roamingStatistics.setRoamerValue(rs.getLong("roamercount"));
+					roamingStatistics.setOverAllTripCategory(rs.getInt("roamingcategory")*10);
+					
+				}else if(rs.getInt("roamingcategory")==3)
+				{
+					roamingStatistics.setRoamerPremium(rs.getLong("roamercount"));
+					roamingStatistics.setOverAllTripCategory(rs.getInt("roamingcategory")*100);
+				}
+				
 				return roamingStatistics;
 			}
 		});

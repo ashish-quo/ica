@@ -3,11 +3,14 @@
  */
 package com.mobileum.roameranalytics.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import com.mobileum.roameranalytics.model.AggregatedCountryStatistics;
 import com.mobileum.roameranalytics.model.Filter;
-import com.mobileum.roameranalytics.model.RoamingCategory;
 import com.mobileum.roameranalytics.model.RoamingStatistics;
 import com.mobileum.roameranalytics.model.chart.RoamingTrend;
 import com.mobileum.roameranalytics.repository.TrendRepository;
@@ -44,44 +46,45 @@ public class TrendServiceImpl implements TrendService {
 	@Override
 	public List<RoamingStatistics> getHeatMap(final Filter filter, final String roamType){
 
-		final List<RoamingStatistics> roamingStatisticsList = trendRepository
+	 final List<RoamingStatistics> roamingStatisticsList = trendRepository
 				.getRoamingStatistics(filter, roamType);
-
-		final List<RoamingCategory> roamingCategoryList = trendRepository
-				.getRoamingCategory(filter, roamType);
-		for (final RoamingCategory roamingCategory : roamingCategoryList) {
-			LOGGER.info(roamingCategory.getCategory()
-					+ roamingCategory.getVisitedCountryName()
-					+ roamingCategory.getCount());
-			for (final RoamingStatistics roamingStatistics : roamingStatisticsList) {
-
-				if (roamingCategory.getCategory().equals("silentRoamer")
-						&& roamingCategory.getVisitedCountryName().equals(
-								roamingStatistics.getCountryCode())) {
-
-					roamingStatistics.setRoamerSilent(roamingCategory
-							.getCount());
-
-				} else if (roamingCategory.getCategory().equals("valueRoamer")
-						&& roamingCategory.getVisitedCountryName().equals(
-								roamingStatistics.getCountryCode())) {
-
-					roamingStatistics
-							.setRoamerValue(roamingCategory.getCount());
-
-				} else if (roamingCategory.getCategory()
-						.equals("premiumRoamer")
-						&& roamingCategory.getVisitedCountryName().equals(
-								roamingStatistics.getCountryCode())) {
-
-					roamingStatistics.setRoamerPremium(roamingCategory
-							.getCount());
-
-				}
-			}
-		}
 		
-		return roamingStatisticsList;
+		final HashMap<String, RoamingStatistics> RoamingStatisticsMap=new LinkedHashMap<String, RoamingStatistics>();
+		
+		for (final RoamingStatistics roamingStatistics : roamingStatisticsList) {
+						 
+				if(RoamingStatisticsMap.get(roamingStatistics.getCountryCode())==null){
+					
+					RoamingStatisticsMap.put(roamingStatistics.getCountryCode(), roamingStatistics);
+				}else{
+					 final RoamingStatistics roamingStats=RoamingStatisticsMap.get(roamingStatistics.getCountryCode());
+					roamingStats.setMoHome(roamingStats.getMoHome()+roamingStatistics.getMoHome());
+					roamingStats.setMoLocal(roamingStats.getMoLocal()+roamingStatistics.getMoLocal());
+					roamingStats.setMoIntl(roamingStats.getMoIntl()+roamingStatistics.getMoIntl());
+					roamingStats.setMoTotal(roamingStats.getMoTotal()+roamingStatistics.getMoTotal());
+					roamingStats.setRoamerTotal(roamingStats.getRoamerTotal()+roamingStatistics.getRoamerTotal());
+					roamingStats.setRoamerSilent(roamingStats.getRoamerSilent()+roamingStatistics.getRoamerSilent());
+					roamingStats.setRoamerValue(roamingStats.getRoamerValue()+roamingStatistics.getRoamerValue());
+					roamingStats.setRoamerPremium(roamingStats.getRoamerPremium()+roamingStatistics.getRoamerPremium());
+					roamingStats.setMt(roamingStats.getMt()+roamingStatistics.getMt());
+					roamingStats.setDataUsage(roamingStats.getDataUsage()+roamingStatistics.getDataUsage());
+					roamingStats.setSmsUsage(roamingStats.getSmsUsage()+roamingStatistics.getSmsUsage());
+					roamingStats.setOverAllTripCategory(roamingStats.getOverAllTripCategory()+roamingStatistics.getOverAllTripCategory());
+					RoamingStatisticsMap.put(roamingStatistics.getCountryCode(), roamingStats);
+				}
+				
+			}
+
+		final List<RoamingStatistics> finalRoamingStatisticsList =new ArrayList<RoamingStatistics>(RoamingStatisticsMap.size());
+		
+		final Iterator<Map.Entry<String, RoamingStatistics>> it = RoamingStatisticsMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	        final Map.Entry pairs = it.next();
+	        finalRoamingStatisticsList.add((RoamingStatistics)pairs.getValue());
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
+		
+				return finalRoamingStatisticsList;
 	}
 	
 	@Override
@@ -155,7 +158,7 @@ public class TrendServiceImpl implements TrendService {
 		roamingStatisticsMap.put("totalData", new Long(0));
 		roamingStatisticsMap.put("totalSms", new Long(0));
 		
-		final List<RoamingStatistics> roamingStatisticslist= trendRepository.getRoamingStatistics(filter, roamType);
+		final List<RoamingStatistics> roamingStatisticslist= getHeatMap(filter, roamType);
 		
 		for(final RoamingStatistics roamingStatistics : roamingStatisticslist ){
 			roamingStatisticsMap.put("totalRoamer",roamingStatisticsMap.get("totalRoamer")+roamingStatistics.getRoamerTotal() );
@@ -172,14 +175,6 @@ public class TrendServiceImpl implements TrendService {
 			
 		}
 		roamingStatisticsMap.put("totalData", roamingStatisticsMap.get("totalData")/(1024*1024));
-		
-		
-		final List<RoamingCategory> roamingCategoryList= trendRepository.getRoamingCategory(filter, roamType);
-		for(final RoamingCategory roamingCategory : roamingCategoryList ){
-			if(roamingStatisticsMap.get(roamingCategory.getCategory())!=null){
-				roamingStatisticsMap.put(roamingCategory.getCategory(),roamingStatisticsMap.get(roamingCategory.getCategory())+ roamingCategory.getCount());
-			}
-		}
 		
 		return roamingStatisticsMap;
 	}

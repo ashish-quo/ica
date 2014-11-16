@@ -44,7 +44,7 @@ public class StatsQueryBuilder {
 			final Map<String, Object> parameterMap, final String roamType)  {
 		
 		
-		query.append("select country visitedcountryname, count(imsi) roamercount, sum(mocallminutes) mocallminutes, sum(mtcallminutes) mtcallminutes,"+ 
+		query.append("select country visitedcountryname,overalltripcategory roamingcategory, count(imsi) roamercount, sum(mocallminutes) mocallminutes, sum(mtcallminutes) mtcallminutes,"+ 
 				 "sum(mosmscount) mosmscount, sum(uplink + downlink) datausage, sum(mocallminuteslocal) mocallminuteslocal, "+ 
 				 " sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ");
 		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.trip") : RAPropertyUtil.getProperty("in.table.trip") );
@@ -62,7 +62,7 @@ public class StatsQueryBuilder {
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
 			
-		query.append(" group by  country ");
+		query.append(" group by  overalltripcategory,country ");
 		
 		
 	}
