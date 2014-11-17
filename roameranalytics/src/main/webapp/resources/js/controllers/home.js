@@ -397,7 +397,7 @@ console.log("Inside mapcore");
     		        labels: {
 		                enabled: true,
 		                formatter: function() {
-		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 10) ?(this.value.toString().substring(0,7) + '...'):this.value) + '</span>';
+		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 8) ?(this.value.toString().substring(0,5) + '...'):this.value) + '</span>';
 		                },
 		                useHTML: true
 					}
