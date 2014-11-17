@@ -157,10 +157,6 @@
 		 */
 		utilityService.getMSColumnChart = function (categories, data) {
 			return {
-				chart : {
-					type : 'column',
-					height : 170,
-				},
 				title : {
 					text : ''
 				},
@@ -169,11 +165,8 @@
 				},
 				xAxis : {
 					min : 0,
-					max : 3,
+					max : categories.length == 2 ? 1 : (categories.length == 1 ? 0 : 2),
 					categories : categories,
-					title : {
-						text : null
-					},
 					labels: {
 		                enabled: true,
 		                formatter: function() {
@@ -183,7 +176,8 @@
 					}
 				},
 				scrollbar: {
-			        enabled: true
+					enabled: categories.length > 3 ? true : false,
+			        height: 11
 			    },
 				yAxis : {
 					min : 0,
@@ -196,14 +190,6 @@
 					labels : {
 						overflow : 'justify'
 					}
-				},
-				plotOptions : {
-					bar : {
-						dataLabels : {
-							enabled : true
-						}
-					}
-
 				},
 				tooltip : {
 					shared : false,
@@ -219,6 +205,7 @@
 				series : [ {
 					showInLegend : false,
 					data : data,
+					type : "column"
 
 				} ],
 				colors : [ '#5dadb2' ]

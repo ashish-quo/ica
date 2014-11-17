@@ -392,7 +392,7 @@ console.log("Inside mapcore");
     		    },
     		    xAxis: {
     		    	min : 0,
-    		    	max : 2,
+    		    	max : xAxis.length == 2 ? 1 : (xAxis.length == 1 ? 0 : 2),
     		        categories: xAxis,
     		        labels: {
 		                enabled: true,
@@ -410,8 +410,8 @@ console.log("Inside mapcore");
     				color: '#51bfe3',
     		    }],
     		    scrollbar: {
-			        enabled: true,
-			        height: 5
+			        enabled: xAxis.length > 3 ? true : false,
+			        height: 11
 			    },
     		    credits: {
     		        enabled: false

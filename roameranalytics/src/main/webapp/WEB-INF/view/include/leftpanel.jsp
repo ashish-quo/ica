@@ -453,9 +453,6 @@
 							ng-model="attributeQuery.attributeName" placeholder="Search...">
 					</div>
 				</li>
-				<li>
-					<p class="select-txt">Select from the list</p>
-				</li>
 				<li class="categoryArea">
 					<div class="panel-group" id="accordion">
 
