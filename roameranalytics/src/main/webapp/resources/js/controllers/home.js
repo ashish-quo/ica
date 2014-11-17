@@ -511,13 +511,15 @@ console.log("Inside mapcore");
 							}
 							});
 						angular.forEach(top10DataJson, function(countryData) {
-							if(countryData.dataUsage>0){
+							if(parseInt(parseInt(countryData.dataUsage,10)/(1024*1024))>=1){
 								top10dataJsonMap.push({
 									name : countryData.countryCode,
 									count : parseInt(countryData.dataUsage,10)/(1024*1024)
 								});
+								
 								top10dataBarX.push(countryData.countryCode);
-								top10dataBarData.push(countryData.dataUsage);
+								top10dataBarData.push(parseInt(parseInt(countryData.dataUsage,10)/(1024*1024)));
+							
 							}
 							});
 						
@@ -699,7 +701,7 @@ console.log("Inside mapcore");
 						
 						dataJsonMap.push({
 					        'countryName': countryData.countryCode,
-					        value: Math.round(parseInt(countryData.dataUsage,10)/(1024*1024))
+					        value: parseInt(parseInt(countryData.dataUsage,10)/(1024*1024),10)
 					    });
 						
 						
