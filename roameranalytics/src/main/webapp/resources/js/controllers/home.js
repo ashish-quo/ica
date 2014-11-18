@@ -291,7 +291,7 @@
 			  return d3.select(selector).datum(data).call(plot);
 		  }
 		  else{
-			  $j(selector).append('<p class="nodata">No data Found</p>');
+			  $j(selector).append('<p class="nodata">No data found</p>');
 		  }
 		};
 
@@ -374,7 +374,7 @@ console.log("Inside mapcore");
     	   $j(selector).html("");
     	   var subtitle='';
     	   if(dataTop10Bar.length <= 0){
-    		   subtitle = 'No Data Found';
+    		   subtitle = 'No Data found';
     	   }
     	   
     	   var chart = new Highcharts.Chart({

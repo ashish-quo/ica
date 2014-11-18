@@ -483,6 +483,7 @@ header {
 	position: relative;
 	text-transform: uppercase;
 	display: inline-block;
+	width:100%;
 }
 .persona-menu li {
 	padding: 10px 10px 10px 25px;
@@ -2831,7 +2832,12 @@ p.displyclass{display: block !important;}
     line-height: 15px;
 }
 
+#countrycoll .input-label{width:14%}
+#countrycoll .input-label1{width:86%}
 
+@media all and (-webkit-min-device-pixel-ratio:0) {
+   #countrycoll .country_area{padding: 2px 15px;}
+}
 
 
  #map-container .inner-loader{background:url(../images/loader.gif) no-repeat center center;}
