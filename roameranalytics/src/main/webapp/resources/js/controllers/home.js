@@ -425,10 +425,9 @@ console.log("Inside mapcore");
 	
 	
 	homeC.controller('HeatMapControllerHome',
-			['$scope','$rootScope','$http','util','httpService', 'pendingRequests',  function($scope,$rootScope,$http,util,httpService, pendingRequests) {
-				//pendingRequests.cancelAll();
-				
-				
+			['$scope','$rootScope','$http','util','httpService', 'pendingRequests','$q',  function($scope,$rootScope,$http,util,httpService, pendingRequests,$q) {
+					
+				$scope.canceller = $q.defer();
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
 				$scope.valueRoamer = 0;
@@ -606,6 +605,28 @@ console.log("Inside mapcore");
 						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10moJsonMap.slice(removeHitterCount,moJsonMap.length)), displayMoHitter);
 						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10mtJsonMap.slice(removeHitterCount,mtJsonMap.length)), displayMtHitter);
 						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
+						
+						console.log("top10roamerBarData"+top10roamerBarData.length);
+						$j("div.top10-chart-btn.light-blue-checked").hide();
+						if(top10roamerBarData.lengt>1){
+							$j("div.top10-chart-btn.light-blue-checked").hide();
+						}else
+							//$j("div.top10-chart-btn.light-blue-checked").show();
+						
+						if(top10moBarData.length<=1){
+							$j(".light-purple-checked").hide();
+						}else
+							$j(".light-purple-checked").show();
+						
+						if(top10mtBarData.length<=1){
+							$j(".light-green-checked").hide();
+						}else
+							$j(".light-green-checked").show();
+							
+						if(top10dataBarData.length<=1){
+							$j(".top10-chart-btn .light-orange-checked").hide();
+						}else
+							$j(".top10-chart-btn .light-orange-checked").show();
 						
 						initiateTop10Bar('container',top10roamerBarData,top10roamerBarX,'Roamer Count');
 						initiateTop10Bar('container2',top10moBarData,top10moBarX,'MO (Minute)');
@@ -800,7 +821,7 @@ console.log("Inside mapcore");
 					$j("#container,#container2,#container3,#container4").html("");
 					$j("#vis,#vis2,#vis3,#vis4").html("").addClass("donut").addClass("loading");
 					$j("#vis1,#vis2n,#vis3n,#vis4n").html("").addClass("donut").addClass("loading");
-
+					$j("#roamer-chart,#mo-chart,#mt-chart,#data-chart").prop('checked', false);
 					$j(".linechart-box").addClass("donut").addClass("loading");
 					$j(".top10-chart-btn").hide();
 					
@@ -828,10 +849,12 @@ console.log("Inside mapcore");
 				if(!$j('.home-backdrop').is(':visible'))
 				{
 					resetBefore();
-					$http.get($scope.roamType +"/getHeatMap", data).success(function(result) {
-						resetAfter();
+					pendingRequests.cancelAll();//added by smruti for pending request cancel
+					
+					httpService.get($scope.roamType +"/getHeatMap", data).success(function(result) {
 						setHeatMapJson(result);
 						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer count');
+						resetAfter();
 					
 					});
 				}
@@ -855,9 +878,9 @@ console.log("Inside mapcore");
 					var latestData = {
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
-					resetBefore()
-					$http.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
-						resetAfter();
+					resetBefore();
+					
+					httpService.get($scope.roamType  + "/getHeatMap", latestData).success(function(result) {
 						setHeatMapJson(result);
 						if ($scope.mapUnit=='roamers') {
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
@@ -870,12 +893,14 @@ console.log("Inside mapcore");
 						}else{
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
 						}
+						resetAfter();
 					});
+					
+					
 				});
 				
 				$scope.$watch("mapUnit", function (newValue, oldValue) {
-					console.log("newValue"+newValue);
-					console.log("oldValue"+oldValue);
+				
 					if ($scope.mapUnit=='roamers' && !$j('.home-backdrop').is(':visible') && newValue!=oldValue) {
 						initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
 					}else if ($scope.mapUnit=='mt') {

@@ -5,7 +5,7 @@
 	 * are defined here.
 	 */
 	sidebar.controller('SidebarController',
-			['$scope','$rootScope', '$http', 'util', '$location', 'httpService', 'pendingRequests', function($scope,$rootScope,$http,util,$location,httpService, pendingRequests) {
+			['$scope','$rootScope', '$http', 'util', '$location', 'httpService','httpNoDataService', 'pendingRequests', function($scope,$rootScope,$http,util,$location,httpService,httpNoDataService, pendingRequests) {
 		
 		// filters object, it will contain the information of selected attributes, countries 
 		$rootScope.filters = {
@@ -24,6 +24,7 @@
 		
 		//Custom Date range selector
 		$j('#date-range').daterangepicker(null, function(start, end, label) {
+			pendingRequests.cancelAll();
 			$rootScope.filters.dateRangeFrom = start.format('DD/MM/YY');
 			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
@@ -50,7 +51,7 @@
 		// added by cheshta for hide and show angular {{}}
 		$j("#display-cutdate").show();
 		// Get all the attributes to be shown in left panel
-		$http.get($scope.roamType + '/getAttributes').success(function(data) {
+		httpNoDataService.get($scope.roamType + '/getAttributes').success(function(data) {
 			$scope.attributes = data;
 			$rootScope.$broadcast("refresh-heatmap-home");
 			$j('.home-backdrop').hide();
@@ -61,12 +62,13 @@
 	    });
 		
 		// Getl all the countries to be shown in left panel
-		$http.get($scope.roamType + "/getCountries").success(function (data) {
+		httpNoDataService.get($scope.roamType + "/getCountries").success(function (data) {
 			$scope.countries = data;
 		}).error(function(data, status, headers, config) {
 			 $rootScope.error = data.message;
 	    });
-		
+		console.log("pending request length"+ pendingRequests.get().length);
+		//pendingRequests.cancelAll();
 		/**
 		 * Function for calculating current week's date range
 		 */
@@ -77,7 +79,7 @@
 			$rootScope.filters.dateRangeTo = dateRange.to;
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
-				$rootScope.$broadcast("refresh-heatmap-home",{pendingRequests:pendingRequests,httpService:httpService});
+				$rootScope.$broadcast("refresh-heatmap-home");
 				$rootScope.$broadcast("refresh-bubblechart-home");
 				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
@@ -115,6 +117,7 @@
 		 * Function for calculating this month's date range
 		 */
 		$scope.thisMonth = function() {
+			pendingRequests.cancelAll();
 			var now = new Date();
 			var startTemp = new Date(now.getFullYear(),now.getMonth(),1);
 			var endTemp = new Date(now.getFullYear(),now.getMonth() + 1,0);
@@ -139,6 +142,7 @@
 		 * Function for calculating last months's date range
 		 */
 		$scope.lastMonth = function() {
+			pendingRequests.cancelAll();
 			var now = new Date();
 			var startTemp = new Date(now.getFullYear(),now.getMonth()-1,1);
 			var endTemp = new Date(now.getFullYear(),now.getMonth(),0);
@@ -164,6 +168,7 @@
 		 * Function for calculating this quarter's date range
 		 */
 		$scope.thisQuarter = function() {
+			pendingRequests.cancelAll();
 			var now = new Date();
 			var quarter = Math.floor((now.getMonth() + 3) / 3);
 			var quarterEndMonth = quarter * 3;
@@ -193,6 +198,7 @@
 		 * Function for calculating last quarter's date range
 		 */
 		$scope.lastQuarter = function() {
+			pendingRequests.cancelAll();
 			var now = new Date();
 			var quarter = Math.floor((now.getMonth() + 3) / 3);
 			var lastQuarter = quarter - 1;
@@ -244,6 +250,7 @@
 		 * Actions for select all checkbox of personas
 		 */
 		$scope.selectAllPersonas = function(id) {
+			
 			var element = $j("input#"+id);
 			var checkboxes = $j(element).closest('form').find(':checkbox');
 			if($j(element).is(':checked')) {

@@ -75,17 +75,17 @@
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="mt" class="all-blue-map" value="mt" ng-model="mapUnit">
+                  <input type="radio" name="project" id="mo" class="all-blue-map" value="mo" ng-model="mapUnit">
                   <i></i></label>
-                <label for="mt">MT (Min)</label>
+                <label for="mo">MO (Min)</label>
               </p>
             </li>
             <li>
               <p class="i-checks">
                 <label>
-                  <input type="radio" name="project" id="mo" class="all-blue-map" value="mo" ng-model="mapUnit">
+                  <input type="radio" name="project" id="mt" class="all-blue-map" value="mt" ng-model="mapUnit">
                   <i></i></label>
-                <label for="mo">MO (Min)</label>
+                <label for="mt">MT (Min)</label>
               </p>
             </li>
             <li>

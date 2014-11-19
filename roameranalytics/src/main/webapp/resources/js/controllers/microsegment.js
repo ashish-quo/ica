@@ -1,8 +1,8 @@
 (function() {
 	var microsegment = angular.module("app.microsegment",[]);
 	microsegment.controller('MicroSegmentController', [ '$scope', '$rootScope',
-			'$http', 'util', function($scope, $rootScope, $http, util) {
-		
+			'$http', 'util','httpService', 'pendingRequests',  function($scope, $rootScope, $http, util,httpService, pendingRequests ) {
+		pendingRequests.cancelAll(); //added by smruti for pending request cancel
 		$scope.microsegmentrefresh = true;
 		$rootScope.attributemeasure = 'roamers';
 		$rootScope.microsegmentSetting = 'roamers';
@@ -37,7 +37,7 @@
 				}
 			});
 			data.params.microsegmentcharts = cahrtArray.join(":");	
-			$http.get($scope.roamType + "/microsegment/graphs", data).success(function(result) {
+			httpService.get($scope.roamType + "/microsegment/graphs", data).success(function(result) {
 				$scope.graphToBeShown = result;
 				$scope.graphToBeShown = $scope.graphToBeShown.map(function (obj) {
 					obj.id = obj.title.replace(/ /g,'');
@@ -68,7 +68,7 @@
 	 * 
 	 */
 	microsegment.controller('RoamingStatisticsControllerMicrosegment',
-			['$scope','$rootScope','$http','util',  function($scope,$rootScope,$http,util) {
+			['$scope','$rootScope','$http','util','httpService', 'pendingRequests',  function($scope,$rootScope,$http,util,httpService, pendingRequests) {
 		
 				$scope.totalRoamer = 0;
 				$scope.silentRoamer = 0;
@@ -91,8 +91,8 @@
 				
 				$j(".value").addClass("donut").addClass("loading-right");
 				$j(".dashboard-scroll").niceScroll();
-				$http.get($scope.roamType  + "/getRoamingStatistics", data).success(function(result) {
-					$j(".value").removeClass("donut").removeClass("loading-right");
+				httpService.get($scope.roamType  + "/getRoamingStatistics", data).success(function(result) {
+					
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -108,6 +108,7 @@
 					$scope.totalData=result.totalData;
 					$scope.totalSms=result.totalSms;
 					setRoaminstatisticsFontSize();
+					$j(".value").removeClass("donut").removeClass("loading-right");
 				});
 				
 				$rootScope.$on('refresh-roaming-statistics-microsegment', function (event) {
@@ -129,8 +130,8 @@
 						'params' : util.getParamsFromFilter($rootScope.filters)
 					};
 					$j(".value").addClass("donut").addClass("loading-right");
-					$http.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
-						$j(".value").removeClass("donut").removeClass("loading-right");
+					httpService.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
+						
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;
@@ -145,9 +146,11 @@
 						$scope.totalMt = result.totalMt;
 						$scope.totalData=result.totalData;
 						$scope.totalSms=result.totalSms;
+						setRoaminstatisticsFontSize();
+						$j(".value").removeClass("donut").removeClass("loading-right");
 					});
 					
-					setRoaminstatisticsFontSize();
+					
 				});
 				
 				function setRoaminstatisticsFontSize()

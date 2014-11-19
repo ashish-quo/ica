@@ -80,6 +80,8 @@
 	
 	trends.controller('RoamingTrendController',
 			['$scope','$rootScope','$http', 'util', 'httpService', 'pendingRequests', function($scope,$rootScope,$http,util,httpService, pendingRequests) {
+				pendingRequests.cancelAll(); //added by smruti for pending request cancel
+				
 				$scope.trends = {}; 
 				$j('#roamer-ft-zoom').modalPopLite({ openButton: '.zoom-btn', closeButton: '.tre-close-btn', isModal: true });
 				$scope.roamerCountChartConfig = emptyChart;
@@ -229,7 +231,7 @@
 				};
 				$j(".value").addClass("donut").addClass("loading-right");
 				httpService.get($scope.roamType + "/getRoamingStatistics", data).success(function(result) {
-					$j(".value").removeClass("donut").removeClass("loading-right");
+					
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -246,6 +248,7 @@
 					$scope.totalSms=result.totalSms;
 					
 					setRoaminstatisticsFontSize();
+					$j(".value").removeClass("donut").removeClass("loading-right");
 				});
 				
 				$rootScope.$on('refresh-roaming-statistics-trends', function (event) {
@@ -269,7 +272,7 @@
 					};
 					$j(".value").addClass("donut").addClass("loading-right");
 					httpService.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
-						$j(".value").removeClass("donut").removeClass("loading-right");
+						
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;
@@ -285,10 +288,10 @@
 						$scope.totalData=result.totalData;
 						$scope.totalSms=result.totalSms;
 
-						
-						
+						setRoaminstatisticsFontSize();
+						$j(".value").removeClass("donut").removeClass("loading-right");		
 					});
-					setRoaminstatisticsFontSize();
+					
 					
 					
 				});

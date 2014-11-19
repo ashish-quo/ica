@@ -28,6 +28,7 @@
 				    	  this.cancelAll = function() {
 				    	    angular.forEach(pending, function(p) {
 				    	      p.canceller.resolve();
+				    	      console.log(p.url+p.canceller);
 				    	    });
 				    	    pending.length = 0;
 				    	  };
@@ -40,15 +41,34 @@
 				    	      url: url,
 				    	      canceller: canceller
 				    	    });
+				    	    data.timeout = canceller.promise;
+				    	    
 				    	    //Request gets cancelled if the timeout-promise is resolved
-				    	    var requestPromise = $http.get(url,data, { timeout: canceller.promise });
+				    	    var requestPromise = $http.get(url,data);
 				    	    //Once a request has failed or succeeded, remove it from the pending list
 				    	    requestPromise.finally(function() {
 				    	      pendingRequests.remove(url);
 				    	    });
 				    	    return requestPromise;
 				    	  }
-				    	}]);
+				    	}]).service('httpNoDataService', ['$http', '$q', 'pendingRequests', function($http, $q, pendingRequests) {
+					    	  this.get = function(url) {
+						    	    var canceller = $q.defer();
+						    	    pendingRequests.add({
+						    	      url: url,
+						    	      canceller: canceller
+						    	    });
+						    	    //Request gets cancelled if the timeout-promise is resolved
+						    	    var requestPromise = $http.get(url, { timeout: canceller.promise });
+						    	    //Once a request has failed or succeeded, remove it from the pending list
+						    	    requestPromise.finally(function() {
+						    	      pendingRequests.remove(url);
+						    	    });
+						    	    return requestPromise;
+						    	  }
+						    	}]);
+				    	// The controller just helps generate requests and keep a visual track of pending ones
+				    	
 				   
 })();
 

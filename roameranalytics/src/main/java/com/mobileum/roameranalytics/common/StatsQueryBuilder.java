@@ -49,7 +49,8 @@ public class StatsQueryBuilder {
 				 " sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ");
 		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.trip") : RAPropertyUtil.getProperty("in.table.trip") );
 		query.append(" trip inner join networkib network on trip.").append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedmcc" : "homemcc");
-		query.append("=network.mcc inner join countryib country on country.countryid=network.countryid");
+		query.append("=network.mcc and trip.").append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedmnc" : "homemnc");
+		query.append("=network.mnc inner join countryib country on country.countryid=network.countryid");
 		
 		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
 			.append(" and trip.endtime <= ").append(filter.getDateTo())
