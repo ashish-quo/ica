@@ -157,6 +157,10 @@
 		 */
 		utilityService.getMSColumnChart = function (categories, data) {
 			return {
+				chart : {
+					type : 'column',
+					height : 170
+				},
 				title : {
 					text : ''
 				},
@@ -170,7 +174,7 @@
 					labels: {
 		                enabled: true,
 		                formatter: function() {
-		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 10) ?(this.value.toString().substring(0,7) + '...'):this.value) + '</span>';
+		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 8) ?(this.value.toString().substring(0,5) + '...'):this.value) + '</span>';
 		                },
 		                useHTML: true
 					}
@@ -191,6 +195,12 @@
 						overflow : 'justify'
 					}
 				},
+				plotOptions: {
+	                column: {
+	                    pointPadding: 0.2,
+	                    borderWidth: 0
+	                }
+	            },
 				tooltip : {
 					shared : false,
 					useHTML : true,
@@ -204,9 +214,7 @@
 				},
 				series : [ {
 					showInLegend : false,
-					data : data,
-					type : "column"
-
+					data : data
 				} ],
 				colors : [ '#5dadb2' ]
 			};

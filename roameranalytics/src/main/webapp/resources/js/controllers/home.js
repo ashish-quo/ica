@@ -291,7 +291,7 @@
 			  return d3.select(selector).datum(data).call(plot);
 		  }
 		  else{
-			  $j(selector).append('<p class="nodata">No data Found</p>');
+			  $j(selector).append('<p class="nodata">No data found</p>');
 		  }
 		};
 
@@ -374,7 +374,7 @@ console.log("Inside mapcore");
     	   $j(selector).html("");
     	   var subtitle='';
     	   if(dataTop10Bar.length <= 0){
-    		   subtitle = 'No Data Found';
+    		   subtitle = 'No Data found';
     	   }
     	   
     	   var chart = new Highcharts.Chart({
@@ -397,7 +397,7 @@ console.log("Inside mapcore");
     		        labels: {
 		                enabled: true,
 		                formatter: function() {
-		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 10) ?(this.value.toString().substring(0,7) + '...'):this.value) + '</span>';
+		                    return "<span title='"+this.value+"'>" + ((this.value.toString().length > 8) ?(this.value.toString().substring(0,5) + '...'):this.value) + '</span>';
 		                },
 		                useHTML: true
 					}

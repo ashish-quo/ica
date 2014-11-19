@@ -23,11 +23,18 @@
 
 .donut.no-data-found:before {
 	content: 'No data found';
+	vertical-align: middle;
+	text-align: center;
+	display: inline-block;
+	width: 100%;
+	padding-top: 130px;
 }
 
 .no-data:before {
 	content: 'No data found';
-	text-align: center;
+}
+.no-data {
+	content: 'No data found';
 }
 
 .donut.no-data-found {

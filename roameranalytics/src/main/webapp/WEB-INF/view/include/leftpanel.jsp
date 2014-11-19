@@ -319,7 +319,7 @@
 											ng-show="countryQuery.countryName == null || countryQuery.countryName == '' 
 												|| country.countryName.toLowerCase().indexOf(countryQuery.countryName.toLowerCase()) != -1">
 											<p class="i-checks">
-												<label> <input type="checkbox" countryId="{{country.countryId}}"
+												<label class="input-label"> <input type="checkbox" countryId="{{country.countryId}}"
 													ng-click="updateCountryCategory('country_'+$index)"
 													name="{{country.countryName}}" class="country-chk select-all-country" 
 													lowgdp='{{country.lowGDP}}'
@@ -327,7 +327,7 @@
 													leisurepremium='{{country.leisurePremium}}'
 													id="country_{{$index}}" 
 													bordering='{{country.bordering}}' value=""> <i></i></label>
-												<label for="{{country.countryName}}"
+												<label class="input-label1" for="{{country.countryName}}"
 													title="{{country.countryName}}">{{country.countryName}}</label>
 											</p>
 										</div>

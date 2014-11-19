@@ -5,6 +5,18 @@
 	 * Controller for trend actions
 	 */
 	var emptyChart = {
+			options : {
+				lang : {
+	            	loading : ''
+	            },
+				loading : {
+	                style : {
+	                    backgroundImage: 'url("./images/loader.gif")',
+	                    backgroundPosition: 'center',
+	                	backgroundRepeat: 'no-repeat'
+	                }
+	            }
+			},
 			title: {
                 text: ''
             },
@@ -14,7 +26,7 @@
             subtitle: {
                 text: ''
             },
-            loading: true
+            loading : true
 	};
 	function getChart(chartData, isDoW, logScale) {
 		return  {
@@ -39,13 +51,14 @@
 	                text: ''
 	            },
 	            subtitle: {
-	                text: ''
+	                text: '',
+	                verticalAlign:'middle'
 	            },
 		        xAxis: (function (){
 		        	if (isDoW == 'true') {
 		        		return {
 			               categories :  chartData.dowCategoryList.map(function(value) {
-	            			   		return value.substring(0,3);
+	            			   		return value.charAt(0) + value.substring(1,3).toLowerCase();
 		            	   		}) 
 		        		}
 		        	} else {

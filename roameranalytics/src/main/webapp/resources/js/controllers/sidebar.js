@@ -283,12 +283,22 @@
 			var columnName = element.attr("db-column");
 			var columnType = element.attr("column-type");
 			var elementName = element.attr("name");
+			
+			var checked =  $j(element).closest('form').find('input.sub-check:checked');
+			var allsubcheck =  $j(element).closest('form').find('input.sub-check');
+			
+			var refresh = true;
+			if (checked.length == 0 || allsubcheck.length == checked.length) {
+				refresh = false;
+			}
+			
 			var checkboxes = $j(element).closest('form').find(':checkbox');
 			if($j(element).is(':checked')) {
 				checkboxes.attr('checked', 'checked');
 			} else {
 				checkboxes.removeAttr('checked');
 			}
+			
 			$rootScope.filters.attributes = {};
 			var selectAll = $j("input.all-attr:not(:checked)");
 			$j(selectAll).closest("form").find("input.sub-check:checked").each(function () {
@@ -305,7 +315,19 @@
 				$rootScope.filters.attributes[key].push({'catId':catId, 'name':name,'value':value, 'attrId':attrId });
 			});
 			
-			
+			if (refresh) {
+				if ($rootScope.tabIndex == 0) {
+					$rootScope.$broadcast("refresh-heatmap-home");
+					$rootScope.$broadcast("refresh-bubblechart-home");
+					$rootScope.$broadcast("refresh-roaming-statistics-home");
+				}else if ($rootScope.tabIndex == 1) {
+					$rootScope.$broadcast("refresh-roaming-trends");
+					$rootScope.$broadcast("refresh-roaming-statistics-trends");
+				}  else if ($rootScope.tabIndex == 2) {
+					$rootScope.$broadcast("refresh-microsegment-attribute");
+					$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+				}
+			}
 		};
 		
 		/**
