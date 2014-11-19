@@ -58,7 +58,7 @@
 		        	if (isDoW == 'true') {
 		        		return {
 			               categories :  chartData.dowCategoryList.map(function(value) {
-	            			   		return value.substring(0,3);
+	            			   		return value.charAt(0) + value.substring(1,3).toLowerCase();
 		            	   		}) 
 		        		}
 		        	} else {
