@@ -44,27 +44,22 @@ public class StatsQueryBuilder {
 			final Map<String, Object> parameterMap, final String roamType)  {
 		
 		
-		query.append("select country visitedcountryname,overalltripcategory roamingcategory, count(imsi) roamercount, sum(mocallminutes) mocallminutes, sum(mtcallminutes) mtcallminutes,"+ 
+		query.append("select ");
+		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedcountry" : "homecountry" );
+		query .append(" visitedcountryname,overalltripcategory roamingcategory, count(distinct imsi) roamercount, sum(mocallminutes) mocallminutes, sum(mtcallminutes) mtcallminutes,"+ 
 				 "sum(mosmscount) mosmscount, sum(uplink + downlink) datausage, sum(mocallminuteslocal) mocallminuteslocal, "+ 
 				 " sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ");
-		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.trip") : RAPropertyUtil.getProperty("in.table.trip") );
-		query.append(" trip inner join networkib network on trip.").append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedmcc" : "homemcc");
-		query.append("=network.mcc and trip.").append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedmnc" : "homemnc");
-		query.append("=network.mnc inner join countryib country on country.countryid=network.countryid");
-		
-		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
-			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ");
-		
-		query.append(" and network.countryid in ")
-		.append(!filter.getSelectedCountries().isEmpty() ? "("+filter.getSelectedCountries()+")" :  "(select distinct countryid from countryib) ");
-		
+		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.business") : RAPropertyUtil.getProperty("in.table.business") );
+		query.append(" trip where (trip.usagebintime >= ").append(filter.getDateFrom())
+			.append(" and trip.usagebintime <= ").append(filter.getDateTo())
+			.append(" ");
+		//((endtime >= t1 || endtime == 0) && starttime <= t2)
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		appendClauseForAttributes(query, parameterMap, filterParameters);
 			
-		query.append(" group by  overalltripcategory,country ");
-		
+		query.append(" group by  overalltripcategory,");
+		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? "visitedcountry" : "homecountry" );
 		
 	}
 	public static void populateQueryForRoamingCategoryCount(final Filter filter, final StringBuilder query,
