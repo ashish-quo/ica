@@ -25,6 +25,7 @@
 		
 		//Custom Date range selector
 		$j('#date-range').daterangepicker(null, function(start, end, label) {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			$rootScope.filters.dateRangeFrom = start.format('DD/MM/YY');
 			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
@@ -64,7 +65,7 @@
 		httpNoDataService.get($scope.roamType + "/getCountries").success(function (data) {
 			$scope.countries = data;
 		}).error(function(data, status, headers, config) {
-			 $rootScope.error = data.message;
+			 $rootScope.error = 'Internal server error';
 	    });
 		/**
 		 * Function for calculating current week's date range
@@ -110,6 +111,7 @@
 		 * Function for calculating this month's date range
 		 */
 		$scope.thisMonth = function() {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			var now = new Date();
 			var startTemp = new Date(now.getFullYear(),now.getMonth(),1);
@@ -133,6 +135,7 @@
 		 * Function for calculating last months's date range
 		 */
 		$scope.lastMonth = function() {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			var now = new Date();
 			var startTemp = new Date(now.getFullYear(),now.getMonth()-1,1);
@@ -157,6 +160,7 @@
 		 * Function for calculating this quarter's date range
 		 */
 		$scope.thisQuarter = function() {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			var now = new Date();
 			var quarter = Math.floor((now.getMonth() + 3) / 3);
@@ -185,6 +189,7 @@
 		 * Function for calculating last quarter's date range
 		 */
 		$scope.lastQuarter = function() {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			var now = new Date();
 			var quarter = Math.floor((now.getMonth() + 3) / 3);
@@ -264,6 +269,7 @@
 		 * Actions for select/de-select all checkbox of attributes
 		 */
 		$scope.clearSelectAllAttribute = function (attrId) {
+			$rootScope.error = '';
 			var element = $j('input#attr_'+attrId);
 			var columnName = element.attr("db-column");
 			var columnType = element.attr("column-type");
@@ -301,6 +307,7 @@
 			});
 			
 			if (refresh) {
+				
 				pendingRequests.cancelAll();
 				if ($rootScope.tabIndex == 0) {
 					$rootScope.$broadcast("refresh-heatmap-home");
@@ -367,6 +374,7 @@
 		}
 		
 		$scope.applyNetworkFilter  = function (id) {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			var parentElement = $j('input#'+id);
 			var columnName = parentElement.attr("db-column");
@@ -406,6 +414,7 @@
 		}
 		
 		$scope.applyNetworkGroupFilter  = function (id) {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();// cancell previous requests and start fresh request
 			var parentElement = $j('input#'+id);
 			var columnName = parentElement.attr("db-column");
@@ -449,6 +458,7 @@
 		 * Refreshes data when an attribute is checked or unchecked
 		 */
 		$scope.updateAttributeFilter = function(attrId,catId) {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			$rootScope.filters.attributes = {};
 			var element = $j('input#'+attrId+'_'+catId);
@@ -571,6 +581,7 @@
 		 * Action for apply button on country filter
 		 */
 		$scope.applyCountryFilter = function () {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			$rootScope.filters.countries = new Array();
 			var allCountries = $j("#All-countries");
@@ -590,7 +601,7 @@
 				var checkedCountries = $j("input.country-chk:checked");
 				checkedCountries.each(function () {
 					var id = $j(this).attr("id");
-					var countryId = $j(this).attr("countryId");
+					var mcc = $j(this).attr("mcc");
 					var name = $j(this).attr("name");
 					var bordering = $j(this).attr('bordering');
 					var leisure = $j(this).attr('leisure');
@@ -614,7 +625,7 @@
 						'leisure':leisure,
 						'leisurepremium':leisurepremium,
 						'lowgdp':lowgdp,
-						"countryId" : countryId});
+						"mcc" : mcc});
 					
 					if (!countryIncluded)
 						$rootScope.countriesFromList.push({'id':id,'name':name,
@@ -622,7 +633,7 @@
 							'leisure':leisure,
 							'leisurepremium':leisurepremium,
 							'lowgdp':lowgdp,
-							"countryId" : countryId});
+							"mcc" : mcc});
 				});
 			} 
 
@@ -678,6 +689,7 @@
 		 * Refreshes charts and data when a country filter is removed from filter area
 		 */
 		$rootScope.removeCounryFilter = function(id,refresh) {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			removeCounryFilter(id);
 			if ($rootScope.tabIndex == 0) {
@@ -692,6 +704,7 @@
 		};
 		
 		$rootScope.removeCountryCategoryFilter = function(id,identifier) {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			$j('#'+id).removeAttr('checked');
 			$j('input['+identifier +"= '1']").removeAttr('checked');
@@ -725,6 +738,7 @@
 		 * Refreshes charts and data when an attribute filter is removed from filter area
 		 */
 		$rootScope.removeAttributeFilter = function(key,attrId,catId,refresh) {
+			$rootScope.error = '';
 			pendingRequests.cancelAll();
 			removeAttributeFilter(key,attrId,catId);
 			if ($rootScope.tabIndex == 0) {

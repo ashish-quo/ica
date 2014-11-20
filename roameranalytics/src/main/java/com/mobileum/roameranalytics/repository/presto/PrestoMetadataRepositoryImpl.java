@@ -138,7 +138,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	
 	@Override
 	public List<Country> getAllCountries(final String roamType) throws RADataAccessException {
-		final String query = MetaDataQueryBuilder.queryForAllCountries(roamType);
+		final String query = MetaDataQueryBuilder.queryForCountries(roamType);
 		
 		LOGGER.debug("Getting all countries ");
 		LOGGER.debug("Country query : " + query);
@@ -155,7 +155,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 					country.setLeisure(rs.getByte("leisure"));
 					country.setLeisurePremium(rs.getByte("leisurePremium"));
 					country.setLowGDP(rs.getByte("lowGDP"));
-					country.setCountryId(rs.getLong("countryId"));
+					country.setMcc(rs.getInt("mcc"));
 					
 					return country;
 				}
@@ -179,44 +179,63 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	@Override
 	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(final long networkAttrId, 
 			final long networkGroupAttrId,final String roamType) throws RADataAccessException {
-		final String query = MetaDataQueryBuilder.queryForDistinctNetworkGroups(roamType);
+		final String query = MetaDataQueryBuilder.queryForNetworkGroups(roamType);
 		LOGGER.debug("Getting all networks groups ");
 		LOGGER.debug("Network Group Query : " + query);
 
 		final List<AttributeCategory> networkGroupCategories = new ArrayList<AttributeCategory>(50);
 		final List<AttributeCategory> networkCategories = new ArrayList<AttributeCategory>(100);
 		final Map<String,StringBuilder> networkGroupMap = new TreeMap<String, StringBuilder>();
+		final Map<String,StringBuilder> networkMap = new TreeMap<String, StringBuilder>();
 		final Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
-		final Set<Long> distinctNetworks = new HashSet<Long>(200);
+		final Set<String> distinctNetworks = new HashSet<String>(200);
 		try {
 			this.prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
 				@Override
 				public AttributeCategory mapRow(final ResultSet rs, final int rowNum)
 						throws SQLException {
-					final String group = rs.getString("groupName");
+					final String group = rs.getString("networkGroup");
 					final String networkName = rs.getString("networkName");
-					final Long networkId = rs.getLong("networkId");
 					final String networkMnc = rs.getString("mnc");
 					final String networkMcc = rs.getString("mcc");
 					final String network = networkMcc + "-" + networkMnc;
 					
 					if (networkName != null && !networkName.isEmpty()) {
-						StringBuilder networks = networkGroupMap.get(group);
-						if (networks == null) {
-							networks = new StringBuilder(); 
-							networkGroupMap.put(group, networks);
-							networks.append(network);
+						if (group != null && !group.isEmpty() && group.contains(RAConstants.PIPE)) {
+							final String[] groupArray = group.split("\\"+RAConstants.PIPE);
+							
+							for (final String groupName : groupArray) {
+								StringBuilder networks = networkGroupMap.get(groupName);
+								if (networks == null) {
+									networks = new StringBuilder(); 
+									networkGroupMap.put(groupName, networks);
+									networks.append(network);
+								} else {
+									networks.append(RAConstants.COMMA).append(network);
+								}
+							}
+							
 						} else {
-							networks.append(RAConstants.COMMA).append(network);
+							StringBuilder networks = networkGroupMap.get(group);
+							if (networks == null) {
+								networks = new StringBuilder(); 
+								networkGroupMap.put(group, networks);
+								networks.append(network);
+							} else {
+								networks.append(RAConstants.COMMA).append(network);
+							}
 						}
-						if (!distinctNetworks.contains(networkId)) {
-							final AttributeCategory attributeCategory = new AttributeCategory();
-							attributeCategory.setCategName(networkName);
-							attributeCategory.setAttrId(networkAttrId);
-							attributeCategory.setId(rowNum);
-							attributeCategory.setCategValue(network);
-							networkCategories.add(attributeCategory);
-							distinctNetworks.add(networkId);
+						
+						if (!distinctNetworks.contains(network)) {
+							StringBuilder networks = networkMap.get(networkName);
+							if (networks == null) {
+								networks = new StringBuilder(); 
+								networkMap.put(networkName, networks);
+								networks.append(network);
+							} else {
+								networks.append(RAConstants.COMMA).append(network);
+							}
+							distinctNetworks.add(network);
 						}
 					}
 					return null;
@@ -235,10 +254,26 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 			attrCategory.setCategValue(networkGroupMap.get(group).toString());
 			networkGroupCategories.add(attrCategory);
 		}
+		
+		index = 1;
+		for (final String networkName : networkMap.keySet()) {
+			final AttributeCategory attrCategory = new AttributeCategory();
+			attrCategory.setCategName(networkName);
+			attrCategory.setAttrId(networkAttrId);
+			attrCategory.setId(index++);
+			attrCategory.setCategValue(networkMap.get(networkName).toString());
+			networkCategories.add(attrCategory);
+		}
+
+		
 		result.put(networkGroupAttrId, networkGroupCategories);
 		result.put(networkAttrId, networkCategories);
+		LOGGER.debug("networks  found : " + networkCategories.size());
+		LOGGER.debug("networks  : " + networkCategories);
+		
 		LOGGER.debug("networks groups found : " + networkGroupCategories.size());
 		LOGGER.debug("networks groups : " + networkGroupCategories);
+		
 		return result;
 	}
 	

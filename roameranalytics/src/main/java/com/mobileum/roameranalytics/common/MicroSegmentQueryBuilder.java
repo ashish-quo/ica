@@ -25,22 +25,24 @@ public class MicroSegmentQueryBuilder {
 	 */
 	public static void populateQueryForMicrosegmentChart(final Filter filter, final StringBuilder query, 
 			final String column,  final Map<String, Object> parameterMap, final String roamType) {
-		query.append(" select count(imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
+		query.append(" select count(distinct trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes,")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" trip.").append(column).append(" categoryValue from ");
+			.append(" trip.").append(column).append(" categoryValue ");
+			
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ");
+			query.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
 		} else {
-			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ");
+			query.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ");
 		}
+		
+		query.append(" where (trip.usagebintime between ")
+			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+			.append(") ");
+
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(StatsQueryBuilder.getClauseForCountryJoin(filter.getSelectedCountries(), roamType));
-		}
-		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
-			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ");
-	
+			query.append(StatsQueryBuilder.getClauseForCountry(filter.getSelectedCountries(), roamType));
+		}	
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		StatsQueryBuilder.appendClauseForAttributes(query, parameterMap, filterParameters);
@@ -61,35 +63,37 @@ public class MicroSegmentQueryBuilder {
 	 */
 	public static void populateQueryForNetworkChart(final Filter filter, final StringBuilder query,  
 			final Map<String, Object> parameterMap, final String roamType) {
-		query.append(" select count(trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
+		query.append(" select count(distinct trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
-			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" network.networkname networkName from ");
+			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ");
+			
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ")
-				.append(" inner join ")
-				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
-				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ");
+			query.append("trip.visitednetwork networkName ")
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
 				
 		} else {
-			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ")
-				.append(" inner join ")
-				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
-				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ");
+			query.append("trip.homenetwork networkName ")
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
 		}
 	
-		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
-			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ");
+		query.append(" where (trip.usagebintime between ")
+			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+			.append(") ");
 	
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and network.countryid in (").append(filter.getSelectedCountries()).append(")");
+			query.append(StatsQueryBuilder.getClauseForCountry(filter.getSelectedCountries(), roamType));
 		} 
 	
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		StatsQueryBuilder.appendClauseForAttributes(query, parameterMap, filterParameters);
 	
-		query.append(" group by network.networkname ");
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			query.append(" group by trip.visitednetwork ");
+				
+		} else {
+			query.append(" group by trip.homenetwork ");
+		}
+		
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
 	}
@@ -105,38 +109,38 @@ public class MicroSegmentQueryBuilder {
 	 */
 	public static void populateQueryForNetworkGroupChart(final Filter filter, final StringBuilder query, 
 			final Map<String, Object> parameterMap, final String roamType) {
-		query.append(" select count(trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
+		query.append(" select count(distinct trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes, ")
-			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" networkGroup.networkgroup networkGroup from ");
+			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ");
+		
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ")
-				.append(" inner join ")
-				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
-				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
-				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkGroup on networkGroup.networkid = network.networkid ");
+			query.append("trip.visitednetworkgroup networkGroup ")
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
+				
 		} else {
-			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ")
-				.append(" inner join ")
-				.append(RAPropertyUtil.getProperty("common.table.tadignetwork")).append(" network ")
-				.append(" on trip.visitedmcc = network.mcc and trip.visitedmnc = network.mnc ")
-				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkGroup on networkGroup.networkid = network.networkid ");
+			query.append("trip.homenetworkgroup networkGroup ")
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
 		}
 		
-		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
-			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ");
-	
+		query.append(" where (trip.usagebintime between ")
+			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+			.append(") ");
+
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(" and network.countryid in (").append(filter.getSelectedCountries()).append(")");
+			query.append(StatsQueryBuilder.getClauseForCountry(filter.getSelectedCountries(), roamType));
 		} 
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		StatsQueryBuilder.appendClauseForAttributes(query, parameterMap, filterParameters);
 		
-		query.append(" group by networkGroup.networkgroup ");
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			query.append(" group by trip.visitednetworkgroup ");
+				
+		} else {
+			query.append(" group by trip.homenetworkgroup ");
+		}
+		
+		
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
 	}

@@ -22,6 +22,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.mobileum.roameranalytics.common.MicroSegmentQueryBuilder;
+import com.mobileum.roameranalytics.common.RAConstants;
 import com.mobileum.roameranalytics.exception.RADataAccessException;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.repository.MicroSegmentRepository;
@@ -147,6 +148,9 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 		dataMap.put("mt",new ArrayList<Object[]>());
 		dataMap.put("mo",new ArrayList<Object[]>());
 		dataMap.put("data",new ArrayList<Object[]>());
+		
+		final Map<String, Map<String, Double>> networkGroupMap = new HashMap<String, Map<String,Double>>(200);
+		
 		try {
 			this.prestoJdbcTempate.query(query.toString(), new RowMapper<Object>() {
 				String networkGroup = null;
@@ -155,30 +159,69 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 						throws SQLException {
 					
 					networkGroup = rs.getString("networkGroup");
+					final double imsicount = rs.getDouble("imsicount");
+					final double mocallminutes = rs.getDouble("mocallminutes");
+					final double mtcallminutes = rs.getDouble("mtcallminutes");
+					final double datausage = rs.getDouble("datausage");
 					
-					final Object[] roamersObject = new Object[2];
-					roamersObject[0] = networkGroup;
-					roamersObject[1] = rs.getDouble("imsicount");
+					if (networkGroup != null && !networkGroup.isEmpty() && networkGroup.contains(RAConstants.PIPE)) {
+						final String[] groupArray = networkGroup.split("\\"+RAConstants.PIPE);
+						for (final String groupName : groupArray) {
+							Map<String,Double> groupDataMap = networkGroupMap.get(groupName);
+							if (groupDataMap == null) {
+								groupDataMap = new HashMap<String,Double>(4);
+								groupDataMap.put("roamers", 0d);
+								groupDataMap.put("mt", 0d);
+								groupDataMap.put("mo", 0d);
+								groupDataMap.put("data", 0d);
+								networkGroupMap.put(groupName, groupDataMap);
+							}
+							groupDataMap.put("roamers", imsicount + groupDataMap.get("roamers"));
+							groupDataMap.put("mt", mtcallminutes + groupDataMap.get("mt"));
+							groupDataMap.put("mo", mocallminutes + groupDataMap.get("mo"));
+							groupDataMap.put("data", datausage + groupDataMap.get("data"));
+						}
+						
+					} else {
+						Map<String,Double> groupDataMap = networkGroupMap.get(networkGroup);
+						if (groupDataMap == null) {
+							groupDataMap = new HashMap<String,Double>(4);
+							groupDataMap.put("roamers", 0d);
+							groupDataMap.put("mt", 0d);
+							groupDataMap.put("mo", 0d);
+							groupDataMap.put("data", 0d);
+							networkGroupMap.put(networkGroup, groupDataMap);
+						}
+						groupDataMap.put("roamers", imsicount + groupDataMap.get("roamers"));
+						groupDataMap.put("mt", mtcallminutes + groupDataMap.get("mt"));
+						groupDataMap.put("mo", mocallminutes + groupDataMap.get("mo"));
+						groupDataMap.put("data", datausage + groupDataMap.get("data"));
+					}
 					
-					final Object[] moObject = new Object[2];
-					moObject[0] = networkGroup;
-					moObject[1] = rs.getDouble("mocallminutes");
-				
-					
-					final Object[] mtObject = new Object[2];
-					mtObject[0] = networkGroup;
-					mtObject[1] = rs.getDouble("mtcallminutes");
-					
-					
-					final Object[] dataObject = new Object[2];
-					dataObject[0] = networkGroup;
-					dataObject[1] = rs.getDouble("datausage");
-					
-					
-					dataMap.get("mt").add(mtObject);
-					dataMap.get("mo").add(moObject);
-					dataMap.get("roamers").add(roamersObject);
-					dataMap.get("data").add(dataObject);
+//					
+//					final Object[] roamersObject = new Object[2];
+//					roamersObject[0] = networkGroup;
+//					roamersObject[1] = rs.getDouble("imsicount");
+//					
+//					final Object[] moObject = new Object[2];
+//					moObject[0] = networkGroup;
+//					moObject[1] = rs.getDouble("mocallminutes");
+//				
+//					
+//					final Object[] mtObject = new Object[2];
+//					mtObject[0] = networkGroup;
+//					mtObject[1] = rs.getDouble("mtcallminutes");
+//					
+//					
+//					final Object[] dataObject = new Object[2];
+//					dataObject[0] = networkGroup;
+//					dataObject[1] = rs.getDouble("datausage");
+//					
+//					
+//					dataMap.get("mt").add(mtObject);
+//					dataMap.get("mo").add(moObject);
+//					dataMap.get("roamers").add(roamersObject);
+//					dataMap.get("data").add(dataObject);
 					
 					return null;
 				}
@@ -187,6 +230,33 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 			LOGGER.error("Exception While getting network group data in microsegment : ", dae);
 			throw new RADataAccessException(dae);
 		}
+		
+		for (final String group : networkGroupMap.keySet()) {
+			final Object[] roamersObject = new Object[2];
+			roamersObject[0] = group;
+			roamersObject[1] = networkGroupMap.get(group).get("roamers");
+			
+			final Object[] moObject = new Object[2];
+			moObject[0] = group;
+			moObject[1] = networkGroupMap.get(group).get("mo");
+		
+			
+			final Object[] mtObject = new Object[2];
+			mtObject[0] = group;
+			mtObject[1] = networkGroupMap.get(group).get("mt");
+			
+			
+			final Object[] dataObject = new Object[2];
+			dataObject[0] = group;
+			dataObject[1] = networkGroupMap.get(group).get("data");
+			
+			
+			dataMap.get("mt").add(mtObject);
+			dataMap.get("mo").add(moObject);
+			dataMap.get("roamers").add(roamersObject);
+			dataMap.get("data").add(dataObject);
+		}
+		
 		
 		Collections.sort(dataMap.get("mo"),COUNT_SORT_DESC);
 		Collections.sort(dataMap.get("mt"),COUNT_SORT_DESC);

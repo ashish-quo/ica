@@ -28,13 +28,16 @@
 		};
 		
 		$rootScope.showHome = function() {
+			$rootScope.error = '';
 			$rootScope.tabIndex = 0;
 		};
 		$rootScope.showTrends = function() {
+			$rootScope.error = '';
 			pendingRequests.cancelAll(); //added by smruti for pending request cancel
 			$rootScope.tabIndex = 1;
 		};
 		$rootScope.showMicroSegment = function() {
+			$rootScope.error = '';
 			pendingRequests.cancelAll(); //added by smruti for pending request cancel
 			$rootScope.tabIndex = 2;
 		};
