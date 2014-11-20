@@ -3,6 +3,7 @@
  */
 package com.mobileum.roameranalytics.common;
 
+import com.mobileum.roameranalytics.enums.BusinessTableColumn;
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.enums.RoamType;
 
@@ -45,80 +46,55 @@ public class MetaDataQueryBuilder {
 	 *
 	 * @return the string
 	 */
-	public static String queryForAllCountries(final String roamType) {
+	public static String queryForCountries(final String roamType) {
 		final StringBuilder query = new StringBuilder();
-		final String countryIB = RAPropertyUtil.getProperty("common.table.country");
-		final String countryRelationIB = RAPropertyUtil.getProperty("common.table.country.relation");
-		final String tadigNetworkIB = RAPropertyUtil.getProperty("common.table.tadignetwork");
-		final String gdpThreshold = RAPropertyUtil.getProperty("low.gdp.threshold");
+
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(" select distinct countryIB.country countryName, countryIB.countryId countryId, ")
-				.append(" countryRelationIB.isBordering bordering, ")
-				.append(" countryIB.IsLeisureDestination leisure, ")
-				.append(" countryIB.IsPremiumLeisureDestination leisurePremium, ")
-				.append(" case when countryIB.gdp < ").append(gdpThreshold).append(" then 1 else 0 end lowGDP  ")
-				.append(" from ").append(tadigNetworkIB).append(" tadigNetworkIB ")
-				.append(" inner join ").append(countryIB).append(" countryIB ")
-				.append(" on countryIB.countryid = tadigNetworkIB.countryid ")
-				.append(" inner join ").append(countryRelationIB).append(" countryRelationIB ")
-				.append(" on countryRelationIB.visitedcountryid = countryIB.countryid ")
-				.append(" where tadigNetworkIB.mcc in (select distinct visitedmcc from ")
-				.append(RAPropertyUtil.getProperty("out.table.trip"))
-				.append(" ) and countryRelationIB.homecountryid in (select distinct countryid from ")
-				.append(tadigNetworkIB).append(" where mcc in (select  homemcc from ")
-				.append(RAPropertyUtil.getProperty("out.table.trip")).append(" limit 1) limit 1)  ");
+			query.append(" select distinct trip.").append(BusinessTableColumn.VISITEDCOUNTRY).append(" countryName,")
+				.append(" trip.").append(BusinessTableColumn.VISITEDMCC).append(" mcc, ")
+				.append(" trip.").append(BusinessTableColumn.ISNEIGHBOURING).append(" bordering, ")
+				.append(" trip.").append(BusinessTableColumn.ISVISITEDCOUNTRYLEISURE).append(" leisure, ")
+				.append(" trip.").append(BusinessTableColumn.ISVISITEDCOUNTRYLEISUREPREMIUM).append(" leisurePremium, ")
+				.append(" trip.").append(BusinessTableColumn.VISITEDCOUNTRYGDP).append(" lowGDP ")
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
+			query.append(" order by trip.").append(BusinessTableColumn.VISITEDCOUNTRY);
 		} else {
-			query.append(" select distinct  countryIB.country countryName, countryIB.countryId countryId, ")
-				.append(" countryRelationIB.isBordering bordering, ")
-				.append(" countryIB.IsLeisureDestination leisure, ")
-				.append(" countryIB.IsPremiumLeisureDestination leisurePremium, ")
-				.append(" case when countryIB.gdp < 10000 then 1 else 0 end lowGDP  ")
-				.append(" from  ").append(tadigNetworkIB).append(" tadigNetworkIB ")
-				.append(" inner join ").append(countryIB).append(" countryIB ")
-				.append(" on countryIB.countryid = tadigNetworkIB.countryid ")
-				.append(" inner join ").append(countryRelationIB).append(" countryRelationIB ")
-				.append(" on countryRelationIB.homecountryid = countryIB.countryid ")
-				.append(" where tadigNetworkIB.mcc in (select distinct homemcc from ")
-				.append(RAPropertyUtil.getProperty("in.table.trip"))
-				.append(" ) and countryRelationIB.visitedcountryid in (select countryid from ")
-				.append(tadigNetworkIB).append(" where mcc in (select  visitedmcc from ")
-				.append(RAPropertyUtil.getProperty("in.table.trip")).append(" limit 1) limit 1) ");
+			query.append(" select distinct trip.").append(BusinessTableColumn.HOMECOUNTRY).append(" countryName,")
+				.append(" trip.").append(BusinessTableColumn.HOMEMCC).append(" mcc, ")
+				.append(" trip.").append(BusinessTableColumn.ISNEIGHBOURING).append(" bordering, ")
+				.append(" trip.").append(BusinessTableColumn.ISHOMECOUNTRYLEISURE).append(" leisure, ")
+				.append(" trip.").append(BusinessTableColumn.ISHOMECOUNTRYLEISUREPREMIUM).append(" leisurePremium, ")
+				.append(" trip.").append(BusinessTableColumn.HOMECOUNTRYGDP).append(" lowGDP ")
+				.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ");
+			query.append(" order by trip.").append(BusinessTableColumn.HOMECOUNTRY);
+				
 		}
-		query.append(" order by countryName ");
+		
 		return query.toString();
 	}
-
+	
 	/**
 	 * Query for distinct networks.
 	 *
 	 * @return the string
 	 */
-	public static String queryForDistinctNetworkGroups(final String roamType) {
+	public static String queryForNetworkGroups(final String roamType) {
 		final StringBuilder query = new StringBuilder();
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append("select distinct tadignetwork.networkId networkId, networkname networkName ,T.mcc mcc, T.mnc mnc, networkgroup.networkgroup groupName from ")
-				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
-				.append(" tadignetwork inner join (")
-				.append(" select distinct trip.visitedmcc as mcc, trip.visitedmnc as mnc from ")
-				.append(RAPropertyUtil.getProperty("out.table.trip"))
-				.append(" trip ") 
-				.append(" ) T on T.mcc = tadignetwork.mcc and T.mnc = tadignetwork.mnc ")
-				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkgroup on tadignetwork.networkId =  networkgroup.networkId ")
-				.append(" order by networkname ");
+			query.append("select distinct trip.").append(BusinessTableColumn.VISITEDMCC).append(" mcc, ")
+				.append(" trip.").append(BusinessTableColumn.VISITEDMNC).append(" mnc, ")
+				.append(" trip.").append(BusinessTableColumn.VISITEDNETWORK).append(" networkName, ")
+				.append(" trip.").append(BusinessTableColumn.VISITEDNETWORKGROUP).append(" networkGroup ")
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ")
+				.append(" order by trip.").append(BusinessTableColumn.VISITEDNETWORK);
 		} else {
-			query.append("select distinct tadignetwork.networkId networkId, networkname networkName ,T.mcc mcc, T.mnc mnc, networkgroup.networkgroup groupName from ")
-				.append(RAPropertyUtil.getProperty("common.table.tadignetwork"))
-				.append(" tadignetwork inner join (")
-				.append(" select distinct trip.homemcc as mcc, trip.homemnc as mnc from ")
-				.append(RAPropertyUtil.getProperty("in.table.trip"))
-				.append(" trip ") 
-				.append(" ) T on T.mcc = tadignetwork.mcc and T.mnc = tadignetwork.mnc ")
-				.append(" inner join ").append(RAPropertyUtil.getProperty("common.table.networkgroup"))
-				.append(" networkgroup on tadignetwork.networkId =  networkgroup.networkId ")
-				.append(" order by networkname ");
+			query.append("select distinct trip.").append(BusinessTableColumn.HOMEMCC).append(" mcc, ")
+				.append(" trip.").append(BusinessTableColumn.HOMEMNC).append(" mnc, ")
+				.append(" trip.").append(BusinessTableColumn.HOMENETWORK).append(" networkName, ")
+				.append(" trip.").append(BusinessTableColumn.HOMENETWORKGROUP).append(" networkGroup ")
+				.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ")
+				.append(" order by trip.").append(BusinessTableColumn.HOMENETWORK);
 		}
 		return query.toString();
 	}
-
 }

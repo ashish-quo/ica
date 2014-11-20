@@ -64,7 +64,7 @@
 		httpNoDataService.get($scope.roamType + "/getCountries").success(function (data) {
 			$scope.countries = data;
 		}).error(function(data, status, headers, config) {
-			 $rootScope.error = data.message;
+			 $rootScope.error = 'Internal server error';
 	    });
 		/**
 		 * Function for calculating current week's date range
@@ -590,7 +590,7 @@
 				var checkedCountries = $j("input.country-chk:checked");
 				checkedCountries.each(function () {
 					var id = $j(this).attr("id");
-					var countryId = $j(this).attr("countryId");
+					var mcc = $j(this).attr("mcc");
 					var name = $j(this).attr("name");
 					var bordering = $j(this).attr('bordering');
 					var leisure = $j(this).attr('leisure');
@@ -614,7 +614,7 @@
 						'leisure':leisure,
 						'leisurepremium':leisurepremium,
 						'lowgdp':lowgdp,
-						"countryId" : countryId});
+						"mcc" : mcc});
 					
 					if (!countryIncluded)
 						$rootScope.countriesFromList.push({'id':id,'name':name,
@@ -622,7 +622,7 @@
 							'leisure':leisure,
 							'leisurepremium':leisurepremium,
 							'lowgdp':lowgdp,
-							"countryId" : countryId});
+							"mcc" : mcc});
 				});
 			} 
 

@@ -128,6 +128,8 @@
 					if ($scope.roamerSMSChartConfig.series.length == 0) {
 						$scope.roamerSMSChartConfig.subtitle.text = 'No data found'
 					}
+				}).error(function () {
+					 $rootScope.error = 'Internal server error';
 				});
 				
 				$rootScope.$on('refresh-roaming-trends', function (event) {
@@ -156,6 +158,8 @@
 						if ($scope.roamerSMSChartConfig.series.length == 0) {
 							$scope.roamerSMSChartConfig.subtitle.text = 'No data found'
 						}
+					}).error(function () {
+						 $rootScope.error = 'Internal server error';
 					});
 				});
 				

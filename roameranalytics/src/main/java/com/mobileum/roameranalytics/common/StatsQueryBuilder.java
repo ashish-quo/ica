@@ -30,6 +30,16 @@ public class StatsQueryBuilder {
 		return clause.toString();
 	}
 	
+	static String getClauseForCountry(final String selectedCountries, final String roamType) {
+		final StringBuilder clause = new StringBuilder();
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			clause.append(" and  trip.visitedmcc in (").append(selectedCountries).append(") ");
+		} else {
+			clause.append(" and  trip.homemcc in (").append(selectedCountries).append(") ");
+		}
+		return clause.toString();
+	}
+	
 	
 	
 	/**
