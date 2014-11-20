@@ -8,14 +8,20 @@
       </PatternLayout>
       <TimeBasedTriggeringPolicy />
     </RollingFile>
-    
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
     <Async name="rollingFileAppender">
       <AppenderRef ref="RollingFile"/>
+    </Async>
+    <Async name="consoleAppender">
+      <AppenderRef ref="Console"/>
     </Async>
   </Appenders>
   <Loggers>
     <Root level="trace">
       <AppenderRef ref="rollingFileAppender"/>
+      <AppenderRef ref="consoleAppender"/>
     </Root>
   </Loggers>
 </Configuration>
