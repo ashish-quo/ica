@@ -81,7 +81,7 @@
     <ul>
         <li class="dropdown">
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
-          <!--  <img src="images/user.png" class="user-img" alt="user-img">--> ${userName} <span class="caret"></span>
+          <img src="images/useravatar.png" class="user-img" alt="user-img"> ${userName} <span class="caret"></span>
           </a>
           <ul class="dropdown-menu notify-dropdown popover bottom">
             <div class="arrow"></div>

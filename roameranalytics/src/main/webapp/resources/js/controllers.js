@@ -5,7 +5,7 @@
 	 * Main Controller for global actions
 	 */
 	appControllers.controller('MainController',
-			['$scope', '$rootScope', function($scope, $rootScope) {
+			['$scope', '$rootScope','httpService', 'pendingRequests', function($scope, $rootScope,httpService, pendingRequests) {
 		
 		
 		$rootScope.tabIndex = 0;
@@ -31,9 +31,11 @@
 			$rootScope.tabIndex = 0;
 		};
 		$rootScope.showTrends = function() {
+			pendingRequests.cancelAll(); //added by smruti for pending request cancel
 			$rootScope.tabIndex = 1;
 		};
 		$rootScope.showMicroSegment = function() {
+			pendingRequests.cancelAll(); //added by smruti for pending request cancel
 			$rootScope.tabIndex = 2;
 		};
 		$rootScope.showBeforeTravel = function() {

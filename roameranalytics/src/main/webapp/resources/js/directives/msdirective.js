@@ -161,8 +161,9 @@
 	/**
 	 * Directive for HeatMap
 	 */
-	msDirective.directive('donutchart', ['$rootScope','$http', 'util', 'msChartService',
-	                                     function($rootScope,$http,util,msChartService) {
+	msDirective.directive('donutchart', ['$rootScope','$http',  'util', 'msChartService','httpService',
+	                                     'httpNoDataService', 'pendingRequests',  function($rootScope,$http,util,msChartService,httpService,
+	    	                                     httpNoDataService, pendingRequests) {
 	    return {
 	      restrict: 'E',
 	      template: "<div class='donut loading'></div>",
@@ -195,7 +196,7 @@
 	    		  horizontalChart.html('');
 	    		  element.removeClass("no-data-found");
 	    		  element.addClass("loading");
-		    	  $http.get($scope.roamType + url , data).success(function(result) {
+	    		  httpService.get($scope.roamType + url , data).success(function(result) {
 		    		  $scope.msdata = result.data;
 		    		  $scope.title[attrs.chartname] = result.attrName;
 		    		  element.removeClass("no-data-found");

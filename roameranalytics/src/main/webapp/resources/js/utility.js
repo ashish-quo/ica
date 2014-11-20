@@ -71,7 +71,7 @@
 			
 			// transform countries filter
 			var countries = $j.map(filters.countries, function(obj) {
-		    	return obj.countryId;
+		    	return obj.mcc;
 		    }).join(",");
 			
 			var params = { 'dateRangeFrom' : filters.dateRangeFrom,

@@ -16,7 +16,7 @@ public class Country {
 	/** The bordring. */
 	private byte bordering;
 	
-	private long countryId;
+	private int mcc;
 	
 	private byte lowGDP;
 	
@@ -50,29 +50,6 @@ public class Country {
 	 */
 	public void setBordering(final byte bordring) {
 		this.bordering = bordring;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Country [countryName=" + countryName + ", bordering="
-				+ bordering + "]";
-	}
-
-	/**
-	 * @return the countryId
-	 */
-	public long getCountryId() {
-		return countryId;
-	}
-
-	/**
-	 * @param countryId the countryId to set
-	 */
-	public void setCountryId(final long countryId) {
-		this.countryId = countryId;
 	}
 
 	/**
@@ -115,6 +92,31 @@ public class Country {
 	 */
 	public void setLeisurePremium(final byte leisurePremium) {
 		this.leisurePremium = leisurePremium;
+	}
+
+	/**
+	 * @return the mcc
+	 */
+	public int getMcc() {
+		return mcc;
+	}
+
+	/**
+	 * @param mcc the mcc to set
+	 */
+	public void setMcc(final int mcc) {
+		this.mcc = mcc;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Country [countryName=" + countryName + ", bordering="
+				+ bordering + ", mcc=" + mcc + ", lowGDP=" + lowGDP
+				+ ", leisure=" + leisure + ", leisurePremium=" + leisurePremium
+				+ "]";
 	}
 	
 }

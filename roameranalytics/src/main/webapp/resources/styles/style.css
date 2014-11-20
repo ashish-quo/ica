@@ -230,7 +230,7 @@ header {
 }
 .user-dropdown {
 	display: inline-block;
-	padding: 0 20px;
+	padding: 0 45px; /* temporary setting previous 0 20px*/
 	vertical-align: top;
 	margin-top: 18px;
 }

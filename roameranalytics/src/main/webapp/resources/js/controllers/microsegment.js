@@ -2,7 +2,7 @@
 	var microsegment = angular.module("app.microsegment",[]);
 	microsegment.controller('MicroSegmentController', [ '$scope', '$rootScope',
 			'$http', 'util','httpService', 'pendingRequests',  function($scope, $rootScope, $http, util,httpService, pendingRequests ) {
-		pendingRequests.cancelAll(); //added by smruti for pending request cancel
+		
 		$scope.microsegmentrefresh = true;
 		$rootScope.attributemeasure = 'roamers';
 		$rootScope.microsegmentSetting = 'roamers';

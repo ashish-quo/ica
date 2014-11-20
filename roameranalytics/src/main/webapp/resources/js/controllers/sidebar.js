@@ -5,7 +5,8 @@
 	 * are defined here.
 	 */
 	sidebar.controller('SidebarController',
-			['$scope','$rootScope', '$http', 'util', '$location', 'httpService','httpNoDataService', 'pendingRequests', function($scope,$rootScope,$http,util,$location,httpService,httpNoDataService, pendingRequests) {
+			['$scope','$rootScope', '$http', 'util', '$location', 'httpService','httpNoDataService', 'pendingRequests',
+			 function($scope,$rootScope,$http,util,$location,httpService,httpNoDataService, pendingRequests) {
 		
 		// filters object, it will contain the information of selected attributes, countries 
 		$rootScope.filters = {
@@ -31,8 +32,6 @@
 			$rootScope.$apply();
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -65,10 +64,8 @@
 		httpNoDataService.get($scope.roamType + "/getCountries").success(function (data) {
 			$scope.countries = data;
 		}).error(function(data, status, headers, config) {
-			 $rootScope.error = data.message;
+			 $rootScope.error = 'Internal server error';
 	    });
-		console.log("pending request length"+ pendingRequests.get().length);
-		//pendingRequests.cancelAll();
 		/**
 		 * Function for calculating current week's date range
 		 */
@@ -80,8 +77,6 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -102,8 +97,6 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -127,8 +120,6 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -153,8 +144,6 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -183,8 +172,6 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -218,8 +205,6 @@
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -316,10 +301,9 @@
 			});
 			
 			if (refresh) {
+				pendingRequests.cancelAll();
 				if ($rootScope.tabIndex == 0) {
 					$rootScope.$broadcast("refresh-heatmap-home");
-					$rootScope.$broadcast("refresh-bubblechart-home");
-					$rootScope.$broadcast("refresh-roaming-statistics-home");
 				}else if ($rootScope.tabIndex == 1) {
 					$rootScope.$broadcast("refresh-roaming-trends");
 					$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -383,6 +367,7 @@
 		}
 		
 		$scope.applyNetworkFilter  = function (id) {
+			pendingRequests.cancelAll();
 			var parentElement = $j('input#'+id);
 			var columnName = parentElement.attr("db-column");
 			var columnType = parentElement.attr("column-type");
@@ -411,8 +396,6 @@
 			}
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -423,6 +406,7 @@
 		}
 		
 		$scope.applyNetworkGroupFilter  = function (id) {
+			pendingRequests.cancelAll();// cancell previous requests and start fresh request
 			var parentElement = $j('input#'+id);
 			var columnName = parentElement.attr("db-column");
 			var columnType = parentElement.attr("column-type");
@@ -452,8 +436,6 @@
 			
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -467,6 +449,7 @@
 		 * Refreshes data when an attribute is checked or unchecked
 		 */
 		$scope.updateAttributeFilter = function(attrId,catId) {
+			pendingRequests.cancelAll();
 			$rootScope.filters.attributes = {};
 			var element = $j('input#'+attrId+'_'+catId);
 			
@@ -504,8 +487,6 @@
 			
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			}else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -590,6 +571,7 @@
 		 * Action for apply button on country filter
 		 */
 		$scope.applyCountryFilter = function () {
+			pendingRequests.cancelAll();
 			$rootScope.filters.countries = new Array();
 			var allCountries = $j("#All-countries");
 			$rootScope.filters.countries = new Array();
@@ -608,7 +590,7 @@
 				var checkedCountries = $j("input.country-chk:checked");
 				checkedCountries.each(function () {
 					var id = $j(this).attr("id");
-					var countryId = $j(this).attr("countryId");
+					var mcc = $j(this).attr("mcc");
 					var name = $j(this).attr("name");
 					var bordering = $j(this).attr('bordering');
 					var leisure = $j(this).attr('leisure');
@@ -632,7 +614,7 @@
 						'leisure':leisure,
 						'leisurepremium':leisurepremium,
 						'lowgdp':lowgdp,
-						"countryId" : countryId});
+						"mcc" : mcc});
 					
 					if (!countryIncluded)
 						$rootScope.countriesFromList.push({'id':id,'name':name,
@@ -640,15 +622,13 @@
 							'leisure':leisure,
 							'leisurepremium':leisurepremium,
 							'lowgdp':lowgdp,
-							"countryId" : countryId});
+							"mcc" : mcc});
 				});
 			} 
 
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
-			}else if ($rootScope.tabIndex == 1) {
+			} else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
 			}  else if ($rootScope.tabIndex == 2) {
@@ -698,11 +678,10 @@
 		 * Refreshes charts and data when a country filter is removed from filter area
 		 */
 		$rootScope.removeCounryFilter = function(id,refresh) {
+			pendingRequests.cancelAll();
 			removeCounryFilter(id);
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			} else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -713,6 +692,7 @@
 		};
 		
 		$rootScope.removeCountryCategoryFilter = function(id,identifier) {
+			pendingRequests.cancelAll();
 			$j('#'+id).removeAttr('checked');
 			$j('input['+identifier +"= '1']").removeAttr('checked');
 			
@@ -726,8 +706,6 @@
 			
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			} else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");
@@ -747,11 +725,10 @@
 		 * Refreshes charts and data when an attribute filter is removed from filter area
 		 */
 		$rootScope.removeAttributeFilter = function(key,attrId,catId,refresh) {
+			pendingRequests.cancelAll();
 			removeAttributeFilter(key,attrId,catId);
 			if ($rootScope.tabIndex == 0) {
 				$rootScope.$broadcast("refresh-heatmap-home");
-				$rootScope.$broadcast("refresh-bubblechart-home");
-				$rootScope.$broadcast("refresh-roaming-statistics-home");
 			} else if ($rootScope.tabIndex == 1) {
 				$rootScope.$broadcast("refresh-roaming-trends");
 				$rootScope.$broadcast("refresh-roaming-statistics-trends");

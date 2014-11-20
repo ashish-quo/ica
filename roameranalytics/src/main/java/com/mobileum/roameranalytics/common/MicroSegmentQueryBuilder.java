@@ -25,22 +25,24 @@ public class MicroSegmentQueryBuilder {
 	 */
 	public static void populateQueryForMicrosegmentChart(final Filter filter, final StringBuilder query, 
 			final String column,  final Map<String, Object> parameterMap, final String roamType) {
-		query.append(" select count(imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
+		query.append(" select count(distinct trip.imsi) imsicount, sum(trip.mocallminutes) mocallminutes, ")
 			.append(" sum(trip.mtcallminutes) mtcallminutes,")
 			.append(" sum(trip.uplink + trip.downlink)/1048576.0  datausage, ")
-			.append(" trip.").append(column).append(" categoryValue from ");
+			.append(" trip.").append(column).append(" categoryValue ");
+			
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
-			query.append(RAPropertyUtil.getProperty("out.table.trip")).append(" trip ");
+			query.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
 		} else {
-			query.append(RAPropertyUtil.getProperty("in.table.trip")).append(" trip ");
+			query.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ");
 		}
+		
+		query.append(" where (trip.usagebintime between ")
+			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+			.append(") ");
+
 		if (!filter.getSelectedCountries().isEmpty()) {
-			query.append(StatsQueryBuilder.getClauseForCountryJoin(filter.getSelectedCountries(), roamType));
-		}
-		query.append(" where trip.starttime >= ").append(filter.getDateFrom())
-			.append(" and trip.endtime <= ").append(filter.getDateTo())
-			.append(" and trip.endtime != 0 ");
-	
+			query.append(StatsQueryBuilder.getClauseForCountry(filter.getSelectedCountries(), roamType));
+		}	
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
 		StatsQueryBuilder.appendClauseForAttributes(query, parameterMap, filterParameters);
