@@ -350,7 +350,7 @@
                    name: nameLable,
                    states: {
                        hover: {
-                           color: '#BADA55'
+                    	   color: '#ccc'
                        }
                    },
                    dataLabels: {
@@ -607,16 +607,17 @@ console.log("Inside mapcore");
 						d3.json($scope.roamType + '/getBubbleChartJson?data='+ JSON.stringify(top10dataJsonMap.slice(removeHitterCount,dataJsonMap.length)),displayDataHitter);
 						
 						console.log("top10roamerBarData"+top10roamerBarData.length);
-						$j("div.top10-chart-btn.light-blue-checked").hide();
-						if(top10roamerBarData.lengt>1){
-							$j("div.top10-chart-btn.light-blue-checked").hide();
+						
+						
+						if(top10roamerBarData.length<=1){
+							$j(".lightblue-checked").hide();
 						}else
-							//$j("div.top10-chart-btn.light-blue-checked").show();
+							$j(".lightblue-checked").show();
 						
 						if(top10moBarData.length<=1){
-							$j(".light-purple-checked").hide();
+							$j(".purple-checked").hide();
 						}else
-							$j(".light-purple-checked").show();
+							$j(".purple-checked").show();
 						
 						if(top10mtBarData.length<=1){
 							$j(".light-green-checked").hide();
@@ -624,9 +625,9 @@ console.log("Inside mapcore");
 							$j(".light-green-checked").show();
 							
 						if(top10dataBarData.length<=1){
-							$j(".top10-chart-btn .light-orange-checked").hide();
+							$j(".light-orange-checked").hide();
 						}else
-							$j(".top10-chart-btn .light-orange-checked").show();
+							$j(".light-orange-checked").show();
 						
 						initiateTop10Bar('container',top10roamerBarData,top10roamerBarX,'Roamer Count');
 						initiateTop10Bar('container2',top10moBarData,top10moBarX,'MO (Minute)');
@@ -835,7 +836,7 @@ console.log("Inside mapcore");
 					$j(".linechart-box").removeClass("donut").removeClass("loading");
 					$j("#vis,#vis2,#vis3,#vis4").removeClass("donut").removeClass("loading");
 					$j("#vis1,#vis2n,#vis3n,#vis4n").removeClass("donut").removeClass("loading");
-					$j(".top10-chart-btn").show();
+					//$j(".top10-chart-btn").show();
 					
 				}
 				
