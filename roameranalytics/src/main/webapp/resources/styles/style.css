@@ -2836,7 +2836,7 @@ p.displyclass{display: block !important;}
 #countrycoll .input-label1{width:86%}
 
 @media all and (-webkit-min-device-pixel-ratio:0) {
-   #countrycoll .country_area{padding: 2px 15px;}
+   #countrycoll .country_area{padding: 10px 15px;}
 }
 
 
