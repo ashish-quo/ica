@@ -38,11 +38,27 @@
 			});
 			data.params.microsegmentcharts = cahrtArray.join(":");	
 			httpService.get($scope.roamType + "/microsegment/graphs", data).success(function(result) {
-				$scope.graphToBeShown = result;
-				$scope.graphToBeShown = $scope.graphToBeShown.map(function (obj) {
-					obj.id = obj.title.replace(/ /g,'');
-					return obj;
-				});
+				if (result.length > 4) {
+					$scope.graphToBeShownFirst = result.slice(0,4);
+					$scope.graphToBeShownMore = result.slice(4);
+					$scope.graphToBeShownFirst = $scope.graphToBeShownFirst.map(function (obj) {
+						obj.id = obj.title.replace(/ /g,'');
+						return obj;
+					});
+					$scope.graphToBeShownMore = $scope.graphToBeShownMore.map(function (obj) {
+						obj.id = obj.title.replace(/ /g,'');
+						return obj;
+					});
+				} else {
+					$scope.graphToBeShownFirst = result;
+					$scope.graphToBeShownFirst = $scope.graphToBeShownFirst.map(function (obj) {
+						obj.id = obj.title.replace(/ /g,'');
+						return obj;
+					});
+				}
+				$rootScope.mschartcount = 0;
+				$rootScope.showmore = false;
+				
 			}).error(function(data, status, headers, config) {
 		        $rootScope.error = 'Internal server error';
 		    });
@@ -55,6 +71,7 @@
 		});
 		
 		$rootScope.$on("refresh-microsegment-country", function(event) {
+			console.log("refresh-microsegment-country");
 			getMircosegmentCharts();
 		});
 		
@@ -92,7 +109,7 @@
 				$j(".value").addClass("donut").addClass("loading-right");
 				$j(".dashboard-scroll").niceScroll();
 				httpService.get($scope.roamType  + "/getRoamingStatistics", data).success(function(result) {
-					
+					console.log('first')
 					$scope.roamingStatistics = result;
 					$scope.totalRoamer = result.totalRoamer;
 					$scope.silentRoamer = result.silentRoamer;
@@ -131,7 +148,7 @@
 					};
 					$j(".value").addClass("donut").addClass("loading-right");
 					httpService.get($scope.roamType + "/getRoamingStatistics", latestData).success(function(result) {
-						
+						console.log('refresh-roaming-statistics-microsegment')
 						$scope.roamingStatistics = result;
 						$scope.totalRoamer = result.totalRoamer;
 						$scope.silentRoamer = result.silentRoamer;

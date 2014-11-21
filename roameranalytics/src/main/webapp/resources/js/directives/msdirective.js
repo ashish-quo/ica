@@ -202,10 +202,18 @@
 		    		  element.removeClass("no-data-found");
 		    		  msChartService.changeAttributeMeasure(result.data,$rootScope.attributemeasure, attrs, element);
 		    		  element.removeClass("loading");
+		    		  $rootScope.mschartcount = $rootScope.mschartcount + 1;
+		    		  if ($rootScope.mschartcount == 4) {
+		    			  $rootScope.showmore = true;
+		    		  }
 		    	  }).error(function(data, status, headers, config) {
 		    		  element.removeClass("no-data-found");
 		    		  element.removeClass("loading");
 		    		  element.addClass("internal-error");
+		    		  $rootScope.mschartcount = $rootScope.mschartcount + 1;
+		    		  if ($rootScope.mschartcount == 4) {
+		    			  $rootScope.showmore = true;
+		    		  }
 		    	  });
 	    	  };
 	    	  
@@ -214,12 +222,16 @@
 	    	  
 	    	  $scope.$watch('microsegmentdaterange', function(oldValue, newValue) {
 	    		  if (oldValue != newValue) {
+	    			  $rootScope.mschartcount = 0;
+	  				  $rootScope.showmore = false;
 	    			  getDataAndDraw();
 	    		  } 
 	    	  },true);
 	    	  
 	    	  $scope.$watch('microsegmentrefresh', function(oldValue, newValue) {
 	    		  if (oldValue != newValue && oldValue != null) {
+	    			  $rootScope.mschartcount = 0;
+	  				  $rootScope.showmore = false;
 	    			  getDataAndDraw();
 	    		  } 
 	    	  },true);

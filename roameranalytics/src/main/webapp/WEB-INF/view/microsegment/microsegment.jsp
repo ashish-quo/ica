@@ -210,7 +210,42 @@
 	
 	<div class="row microsegment-charts" ng-controller="MicroSegmentController">
 		<div class="col-lg-9 clearfix">
-			<div class="microchart-panel" ng-repeat="graph in graphToBeShown">
+			<div class="microchart-panel" ng-repeat="graph in graphToBeShownFirst">
+				<div class="segment-charts">
+					<div class="microchart-heading">
+						{{title[graph.title]}} <a href="javascript:void(0)" style="display:none"
+							class="bookmark-unactive cust-tooltip" original-title="Bookmark"></a>
+					</div>
+					<div id="bar-chart-{{graph.id}}"></div>
+					<donutchart id='donut-{{graph.id}}' class="big-donutchart loading" attributeid='{{graph.attributeId}}' columnname="{{graph.column}}" columntype="{{graph.columnType}}" charttype='{{graph.chartType}}' chartname="{{graph.title}}" daterange='daterange'/>
+					<div id="column-chart-{{graph.id}}"></div>
+				</div>
+				<div class="bookmark-panel">
+					<a href="javascript:void(0)" class="close-bookmark" style="display:none"><i
+						class="fa close-icon"></i></a>
+					<div class="bookmarkpnl-content">
+						<div class="clearfix">
+							<p class="bookmarkpnl-title">Select Bookmark Tray</p>
+							<select id="basic" class="select">
+								<option value="">July Business Roamers</option>
+								<option value="tray1">Tray 2</option>
+								<option value="tray2">Tray 3</option>
+								<option value="tray3">Tray 4</option>
+								<option value="tray4">Tray 5</option>
+								<option value="tray5">Tray 6</option>
+							</select> <input type="button" class="select-btn" value="Select">
+						</div>
+						<p class="or-text">OR</p>
+						<div class="clearfix">
+							<p class="bookmarkpnl-title">Create New Tray</p>
+							<input type="text" class="bookmarkpnl-textbox" value=""
+								placeholder="Create New"> <input type="button"
+								class="select-btn" value="Create">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="microchart-panel" ng-repeat="graph in graphToBeShownMore" ng-if="showmore">
 				<div class="segment-charts">
 					<div class="microchart-heading">
 						{{title[graph.title]}} <a href="javascript:void(0)" style="display:none"
