@@ -121,8 +121,19 @@ public class TrendController {
 	 * @return the attributes
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getAttributes")
-	public @ResponseBody List<Attribute> getAttributes(@PathVariable("roamType") final String roamType) {
-		return metaDataService.getAttributes(roamType);
+	public @ResponseBody List<Attribute> getAttributes(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request)  throws ParseException  {
+		
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
+		final Filter filter = new Filter();
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		
+		return metaDataService.getAttributes(filter,roamType);
 	}
 	
 	/**
@@ -131,8 +142,18 @@ public class TrendController {
 	 * @return the attributes
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{roamType}/getCountries")
-	public @ResponseBody List<Country> getCountries(@PathVariable("roamType") final String roamType) {
-		return metaDataService.getAllCountries(roamType);
+	public @ResponseBody List<Country> getCountries(@PathVariable("roamType") final String roamType,
+			final HttpServletRequest request)  throws ParseException  {
+		final String startdate = request.getParameter("dateRangeFrom");
+		final String endDate = request.getParameter("dateRangeTo");
+		final DateFormat dateFormat = new SimpleDateFormat(RAConstants.DEFAULT_DATE_FORMAT);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
+		final Filter filter = new Filter();
+		filter.setDateFrom(dateFormat.parse(startdate).getTime());
+		filter.setDateTo(dateFormat.parse(endDate).getTime());
+		
+		return metaDataService.getAllCountries(filter,roamType);
 	}
 	
 	

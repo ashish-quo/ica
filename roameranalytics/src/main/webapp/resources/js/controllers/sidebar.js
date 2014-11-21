@@ -22,6 +22,7 @@
 		$rootScope.countriesFromList = new Array();
 		$rootScope.attributeQuery = {};
 		$rootScope.countryQuery = {};
+		$scope.requestCount=0;
 		
 		//Custom Date range selector
 		$j('#date-range').daterangepicker(null, function(start, end, label) {
@@ -30,15 +31,7 @@
 			$rootScope.filters.dateRangeTo = end.format('DD/MM/YY');
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
 			$rootScope.$apply();
-			if ($rootScope.tabIndex == 0) {
-				$rootScope.$broadcast("refresh-heatmap-home");
-			}else if ($rootScope.tabIndex == 1) {
-				$rootScope.$broadcast("refresh-roaming-trends");
-				$rootScope.$broadcast("refresh-roaming-statistics-trends");
-			} else if ($rootScope.tabIndex == 2) {
-				$rootScope.$broadcast("refresh-microsegment-daterange",'custom');
-				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
-			}
+			PopulateAttributeOnDateChange();
 		});
 		
 		// Setting default date range to current week
@@ -49,8 +42,12 @@
 		
 		// added by cheshta for hide and show angular {{}}
 		$j("#display-cutdate").show();
+		$j("#logolable").show();
 		// Get all the attributes to be shown in left panel
-		httpNoDataService.get($scope.roamType + '/getAttributes').success(function(data) {
+		var data = {
+				'params' : util.getParamsFromFilter($rootScope.filters)
+		};
+		httpService.get($scope.roamType + '/getAttributes', data).success(function(data) {
 			$scope.attributes = data;
 			$rootScope.$broadcast("refresh-heatmap-home");
 			$j('.home-backdrop').hide();
@@ -61,11 +58,96 @@
 	    });
 		
 		// Getl all the countries to be shown in left panel
-		httpNoDataService.get($scope.roamType + "/getCountries").success(function (data) {
+		httpService.get($scope.roamType + "/getCountries", data).success(function (data) {
 			$scope.countries = data;
 		}).error(function(data, status, headers, config) {
 			 $rootScope.error = 'Internal server error';
 	    });
+		
+		/*Function to populate attributes on selected date range - added by smruti*/
+		function PopulateAttributeOnDateChange()
+		{
+			$j('.home-backdrop').show();
+			
+			// Reset filters on refresh of attributes
+			$rootScope.filters.attribute= {};
+			$rootScope.filters.personas= new Array();
+			$rootScope.filters.countries= new Array();
+			
+			var data = {
+					'params' : util.getParamsFromFilter($rootScope.filters)
+			};
+			
+			
+			
+			// Getl all the countries to be shown in left panel
+			httpService.get($scope.roamType + "/getCountries", data).success(function (countryData) {
+				$scope.countries = countryData;
+				httpService.get($scope.roamType + '/getAttributes', data).success(function(attributeData) {
+					$j('.home-backdrop').hide();
+					$scope.attributes = attributeData;
+					if ($rootScope.tabIndex == 0) {
+						$rootScope.$broadcast("refresh-heatmap-home");
+					}else if ($rootScope.tabIndex == 1) {
+						$rootScope.$broadcast("refresh-roaming-trends");
+						$rootScope.$broadcast("refresh-roaming-statistics-trends");
+					} else if ($rootScope.tabIndex == 2) {
+						$rootScope.$broadcast("refresh-microsegment-daterange",'thismonth');
+						$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+					}
+						
+				}).error(function(data, status, headers, config) {
+					$j('.home-backdrop').hide();
+			        $rootScope.error = 'Internal server error';
+			        if ($rootScope.tabIndex == 0) {
+						$rootScope.$broadcast("refresh-heatmap-home");
+					}else if ($rootScope.tabIndex == 1) {
+						$rootScope.$broadcast("refresh-roaming-trends");
+						$rootScope.$broadcast("refresh-roaming-statistics-trends");
+					} else if ($rootScope.tabIndex == 2) {
+						$rootScope.$broadcast("refresh-microsegment-daterange",'thismonth');
+						$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+					}
+			       
+			    });
+				
+			}).error(function(data, status, headers, config) {
+				 $rootScope.error = 'Internal server error';
+				 httpService.get($scope.roamType + '/getAttributes', data).success(function(data) {
+					 $j('.home-backdrop').hide();
+						$scope.attributes = data;
+						 if ($rootScope.tabIndex == 0) {
+								$rootScope.$broadcast("refresh-heatmap-home");
+							}else if ($rootScope.tabIndex == 1) {
+								$rootScope.$broadcast("refresh-roaming-trends");
+								$rootScope.$broadcast("refresh-roaming-statistics-trends");
+							} else if ($rootScope.tabIndex == 2) {
+								$rootScope.$broadcast("refresh-microsegment-daterange",'thismonth');
+								$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+							}
+					
+					}).error(function(data, status, headers, config) {
+						$j('.home-backdrop').hide();
+				        $rootScope.error = data.message;
+				        if ($rootScope.tabIndex == 0) {
+							$rootScope.$broadcast("refresh-heatmap-home");
+						}else if ($rootScope.tabIndex == 1) {
+							$rootScope.$broadcast("refresh-roaming-trends");
+							$rootScope.$broadcast("refresh-roaming-statistics-trends");
+						} else if ($rootScope.tabIndex == 2) {
+							$rootScope.$broadcast("refresh-microsegment-daterange",'thismonth');
+							$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
+						}
+				       
+				    });
+				 
+		    });
+			
+			
+			
+			
+		}
+		
 		/**
 		 * Function for calculating current week's date range
 		 */
@@ -116,17 +198,8 @@
 			var endTemp = new Date(now.getFullYear(),now.getMonth() + 1,0);
 			$rootScope.filters.dateRangeFrom =  util.getDateString(startTemp.getDate(),startTemp.getMonth()+1,startTemp.getFullYear());
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
-			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0) {
-				$rootScope.$broadcast("refresh-heatmap-home");
-			}else if ($rootScope.tabIndex == 1) {
-				$rootScope.$broadcast("refresh-roaming-trends");
-				$rootScope.$broadcast("refresh-roaming-statistics-trends");
-			} else if ($rootScope.tabIndex == 2) {
-				$rootScope.$broadcast("refresh-microsegment-daterange",'thismonth');
-				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
-			}
+			PopulateAttributeOnDateChange();			
 		};
 		
 		/**
@@ -142,15 +215,7 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0) {
-				$rootScope.$broadcast("refresh-heatmap-home");
-			}else if ($rootScope.tabIndex == 1) {
-				$rootScope.$broadcast("refresh-roaming-trends");
-				$rootScope.$broadcast("refresh-roaming-statistics-trends");
-			}else if ($rootScope.tabIndex == 2) {
-				$rootScope.$broadcast("refresh-microsegment-daterange",'lastmonth');
-				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
-			}
+			PopulateAttributeOnDateChange();		
 		};
 		
 		/**
@@ -170,15 +235,7 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0) {
-				$rootScope.$broadcast("refresh-heatmap-home");
-			}else if ($rootScope.tabIndex == 1) {
-				$rootScope.$broadcast("refresh-roaming-trends");
-				$rootScope.$broadcast("refresh-roaming-statistics-trends");
-			}  else if ($rootScope.tabIndex == 2) {
-				$rootScope.$broadcast("refresh-microsegment-daterange",'thisquarter');
-				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
-			}
+			PopulateAttributeOnDateChange();		
 		};
 		
 		/**
@@ -203,15 +260,7 @@
 			$rootScope.filters.dateRangeTo = util.getDateString(endTemp.getDate(),endTemp.getMonth()+1,endTemp.getFullYear());
 			
 			$rootScope.filters.dateRange = $rootScope.dateRangeFrom + $rootScope.dateRangeTo;
-			if ($rootScope.tabIndex == 0) {
-				$rootScope.$broadcast("refresh-heatmap-home");
-			}else if ($rootScope.tabIndex == 1) {
-				$rootScope.$broadcast("refresh-roaming-trends");
-				$rootScope.$broadcast("refresh-roaming-statistics-trends");
-			}  else if ($rootScope.tabIndex == 2) {
-				$rootScope.$broadcast("refresh-microsegment-daterange",'lastquarter');
-				$rootScope.$broadcast("refresh-roaming-statistics-microsegment");
-			}
+			PopulateAttributeOnDateChange();
 		};
 		
 		/**

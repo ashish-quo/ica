@@ -6,6 +6,7 @@ package com.mobileum.roameranalytics.common;
 import com.mobileum.roameranalytics.enums.BusinessTableColumn;
 import com.mobileum.roameranalytics.enums.Relation;
 import com.mobileum.roameranalytics.enums.RoamType;
+import com.mobileum.roameranalytics.model.Filter;
 
 /**
  * @author sarvesh
@@ -46,7 +47,7 @@ public class MetaDataQueryBuilder {
 	 *
 	 * @return the string
 	 */
-	public static String queryForCountries(final String roamType) {
+	public static String queryForCountries(final Filter filter,final String roamType) {
 		final StringBuilder query = new StringBuilder();
 
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
@@ -56,7 +57,10 @@ public class MetaDataQueryBuilder {
 				.append(" trip.").append(BusinessTableColumn.ISVISITEDCOUNTRYLEISURE).append(" leisure, ")
 				.append(" trip.").append(BusinessTableColumn.ISVISITEDCOUNTRYLEISUREPREMIUM).append(" leisurePremium, ")
 				.append(" trip.").append(BusinessTableColumn.VISITEDCOUNTRYGDP).append(" lowGDP ")
-				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ")
+				.append(" where trip.usagebintime >= ").append(filter.getDateFrom())
+				.append(" and trip.usagebintime <= ").append(filter.getDateTo()).append(" ");
+			
 			query.append(" order by trip.").append(BusinessTableColumn.VISITEDCOUNTRY);
 		} else {
 			query.append(" select distinct trip.").append(BusinessTableColumn.HOMECOUNTRY).append(" countryName,")
@@ -65,7 +69,9 @@ public class MetaDataQueryBuilder {
 				.append(" trip.").append(BusinessTableColumn.ISHOMECOUNTRYLEISURE).append(" leisure, ")
 				.append(" trip.").append(BusinessTableColumn.ISHOMECOUNTRYLEISUREPREMIUM).append(" leisurePremium, ")
 				.append(" trip.").append(BusinessTableColumn.HOMECOUNTRYGDP).append(" lowGDP ")
-				.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ");
+				.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ")
+				.append(" where trip.usagebintime >= ").append(filter.getDateFrom())
+				.append(" and trip.usagebintime <= ").append(filter.getDateTo()).append(" ");
 			query.append(" order by trip.").append(BusinessTableColumn.HOMECOUNTRY);
 				
 		}
@@ -78,7 +84,7 @@ public class MetaDataQueryBuilder {
 	 *
 	 * @return the string
 	 */
-	public static String queryForNetworkGroups(final String roamType) {
+	public static String queryForNetworkGroups(final Filter filter,final String roamType) {
 		final StringBuilder query = new StringBuilder();
 		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
 			query.append("select distinct trip.").append(BusinessTableColumn.VISITEDMCC).append(" mcc, ")
@@ -86,6 +92,8 @@ public class MetaDataQueryBuilder {
 				.append(" trip.").append(BusinessTableColumn.VISITEDNETWORK).append(" networkName, ")
 				.append(" trip.").append(BusinessTableColumn.VISITEDNETWORKGROUP).append(" networkGroup ")
 				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ")
+				.append(" where trip.usagebintime >= ").append(filter.getDateFrom())
+				.append(" and trip.usagebintime <= ").append(filter.getDateTo()).append(" ")
 				.append(" order by trip.").append(BusinessTableColumn.VISITEDNETWORK);
 		} else {
 			query.append("select distinct trip.").append(BusinessTableColumn.HOMEMCC).append(" mcc, ")
@@ -93,6 +101,8 @@ public class MetaDataQueryBuilder {
 				.append(" trip.").append(BusinessTableColumn.HOMENETWORK).append(" networkName, ")
 				.append(" trip.").append(BusinessTableColumn.HOMENETWORKGROUP).append(" networkGroup ")
 				.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ")
+				.append(" where trip.usagebintime >= ").append(filter.getDateFrom())
+				.append(" and trip.usagebintime <= ").append(filter.getDateTo()).append(" ")
 				.append(" order by trip.").append(BusinessTableColumn.HOMENETWORK);
 		}
 		return query.toString();

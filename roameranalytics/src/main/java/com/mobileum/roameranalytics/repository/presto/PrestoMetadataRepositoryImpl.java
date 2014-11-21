@@ -57,7 +57,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 * @see com.mobileum.roameranalytics.dao.CommonDaoI#getAttributeList()
 	 */
 	@Override
-	public List<Attribute> getAttributeList(final String roamType) throws RADataAccessException {
+	public List<Attribute> getAttributeList(final Filter filter,final String roamType) throws RADataAccessException {
 		final String query = MetaDataQueryBuilder.queryForAttributes(roamType);
 		LOGGER.debug("Getting all attributes");
 		LOGGER.debug(query);
@@ -137,8 +137,8 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 */
 	
 	@Override
-	public List<Country> getAllCountries(final String roamType) throws RADataAccessException {
-		final String query = MetaDataQueryBuilder.queryForCountries(roamType);
+	public List<Country> getAllCountries(final Filter filter,final String roamType) throws RADataAccessException {
+		final String query = MetaDataQueryBuilder.queryForCountries(filter,roamType);
 		
 		LOGGER.debug("Getting all countries ");
 		LOGGER.debug("Country query : " + query);
@@ -177,9 +177,9 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getAllNetworkAndNetworkGroups(long, long)
 	 */
 	@Override
-	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(final long networkAttrId, 
+	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(final Filter filter,final long networkAttrId, 
 			final long networkGroupAttrId,final String roamType) throws RADataAccessException {
-		final String query = MetaDataQueryBuilder.queryForNetworkGroups(roamType);
+		final String query = MetaDataQueryBuilder.queryForNetworkGroups(filter,roamType);
 		LOGGER.debug("Getting all networks groups ");
 		LOGGER.debug("Network Group Query : " + query);
 

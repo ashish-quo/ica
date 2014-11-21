@@ -43,15 +43,16 @@ public class MetaDataServiceImpl implements MetaDataService {
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.TrendServiceI#getAttributes()
 	 */
-	public List<Attribute> getAttributes(String roamType) {
+	@Override
+	public List<Attribute> getAttributes(final Filter filter,final String roamType) {
 		List<Attribute> commonAttributes = null;
 		try {
-			commonAttributes = this.metaDataRepository.getAttributeList(roamType);
+			commonAttributes = this.metaDataRepository.getAttributeList(filter,roamType);
 			long networkAttrId = 0;
 			long networkGroupAttrId = 0;
 			Attribute networkAttr = null ;
 			Attribute neworkgGrpupAttr = null;
-			for (Attribute attribute : commonAttributes) {
+			for (final Attribute attribute : commonAttributes) {
 				if (RAConstants.ATTR_NETWORK.equalsIgnoreCase(attribute.getAttributeName())) {
 					networkAttrId = attribute.getId();
 					networkAttr = attribute;
@@ -61,11 +62,11 @@ public class MetaDataServiceImpl implements MetaDataService {
 				}
 			}
 			
-			Map<Long,List<AttributeCategory>> networkAndGroupMap = 
-					this.metaDataRepository.getAllNetworkAndNetworkGroups(networkAttrId, networkGroupAttrId,roamType);
+			final Map<Long,List<AttributeCategory>> networkAndGroupMap = 
+					this.metaDataRepository.getAllNetworkAndNetworkGroups(filter,networkAttrId, networkGroupAttrId,roamType);
 			networkAttr.setAttributeCategoryList(networkAndGroupMap.get(networkAttrId));
 			neworkgGrpupAttr.setAttributeCategoryList(networkAndGroupMap.get(networkGroupAttrId));
-		} catch (RADataAccessException dae) {
+		} catch (final RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 		return commonAttributes;
@@ -75,19 +76,20 @@ public class MetaDataServiceImpl implements MetaDataService {
 	/* (non-Javadoc)
 	 * @see com.mobileum.roameranalytics.service.CommonServiceI#getAllCountries()
 	 */
-	public List<Country> getAllCountries(String roamType) {
+	@Override
+	public List<Country> getAllCountries(final Filter filter,final String roamType) {
 		try {
-			return this.metaDataRepository.getAllCountries(roamType);
-		} catch (RADataAccessException dae) {
+			return this.metaDataRepository.getAllCountries(filter,roamType);
+		} catch (final RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 	}
 	
 	@Override
-	public List<AttributeCategory> getOtherCountriesTraveled(Filter filter,String roamType) {
+	public List<AttributeCategory> getOtherCountriesTraveled(final Filter filter,final String roamType) {
 		try {
 			return this.metaDataRepository.getOtherCountriesTraveled(filter, roamType);
-		} catch (RADataAccessException dae) {
+		} catch (final RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}
 	}
@@ -97,16 +99,17 @@ public class MetaDataServiceImpl implements MetaDataService {
 	 * @param str_date
 	 * @return
 	 */
-	public long dateToTimestamp(String str_date)
+	@Override
+	public long dateToTimestamp(final String str_date)
 	{
 		try{
 
 			Date date;
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			date = (Date) formatter.parse(str_date);
+			final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			date = formatter.parse(str_date);
 			return date.getTime()/1000;
 
-		} catch (ParseException e)
+		} catch (final ParseException e)
 		{
 			LOGGER.error("Parsing exception in dateToTimestamp for date:"+str_date);
 
@@ -114,7 +117,8 @@ public class MetaDataServiceImpl implements MetaDataService {
 		return 0;
 	}
 	
-	public Object[] listToObjectArray(List<Object> list)
+	@Override
+	public Object[] listToObjectArray(final List<Object> list)
 	{
 		Object[] whereCriteria = new Object[list.size()];
 		whereCriteria = list.toArray(whereCriteria);

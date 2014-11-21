@@ -60,9 +60,14 @@ public class StatsQueryBuilder {
 				 "sum(mosmscount) mosmscount, sum(uplink + downlink) datausage, sum(mocallminuteslocal) mocallminuteslocal, "+ 
 				 " sum(mocallminuteshome) mocallminuteshome,sum(mocallminutesothers) mocallminutesother from ");
 		query.append(RoamType.OUT.getRoamType().equalsIgnoreCase(roamType) ? RAPropertyUtil.getProperty("out.table.business") : RAPropertyUtil.getProperty("in.table.business") );
-		query.append(" trip where (trip.usagebintime >= ").append(filter.getDateFrom())
+		query.append(" trip where trip.usagebintime >= ").append(filter.getDateFrom())
 			.append(" and trip.usagebintime <= ").append(filter.getDateTo())
 			.append(" ");
+		
+		if (!filter.getSelectedCountries().isEmpty()) {
+			query.append(getClauseForCountry(filter.getSelectedCountries(), roamType));
+		}
+		   
 		//((endtime >= t1 || endtime == 0) && starttime <= t2)
 		
 		final Map<String,String> filterParameters = filter.getSelectedAttributes();
