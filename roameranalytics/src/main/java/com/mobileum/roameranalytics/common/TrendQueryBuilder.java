@@ -40,8 +40,8 @@ public class TrendQueryBuilder {
 				.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ");
 		}
 		
-		query.append(" where (trip.usagebintime between ")
-			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+		query.append(" where (trip.usagebintime >= ")
+			.append(filter.getDateFrom()).append(" and trip.usagebintime <= ").append(filter.getDateTo())
 			.append(") ");
 	
 		if (!filter.getSelectedCountries().isEmpty()) {

@@ -36,8 +36,8 @@ public class MicroSegmentQueryBuilder {
 			query.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ");
 		}
 		
-		query.append(" where (trip.usagebintime between ")
-			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+		query.append(" where (trip.usagebintime >= ")
+			.append(filter.getDateFrom()).append(" and trip.usagebintime <= ").append(filter.getDateTo())
 			.append(") ");
 
 		if (!filter.getSelectedCountries().isEmpty()) {
@@ -76,8 +76,8 @@ public class MicroSegmentQueryBuilder {
 				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
 		}
 	
-		query.append(" where (trip.usagebintime between ")
-			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+		query.append(" where (trip.usagebintime >= ")
+			.append(filter.getDateFrom()).append(" and trip.usagebintime <= ").append(filter.getDateTo())
 			.append(") ");
 	
 		if (!filter.getSelectedCountries().isEmpty()) {
@@ -122,8 +122,8 @@ public class MicroSegmentQueryBuilder {
 				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ");
 		}
 		
-		query.append(" where (trip.usagebintime between ")
-			.append(filter.getDateFrom()).append(" and ").append(filter.getDateTo())
+		query.append(" where (trip.usagebintime >= ")
+			.append(filter.getDateFrom()).append(" and trip.usagebintime <= ").append(filter.getDateTo())
 			.append(") ");
 
 		if (!filter.getSelectedCountries().isEmpty()) {
@@ -139,7 +139,6 @@ public class MicroSegmentQueryBuilder {
 		} else {
 			query.append(" group by trip.homenetworkgroup ");
 		}
-		
 		
 		query.append(" order by imsicount desc, mocallminutes desc, mtcallminutes desc, ")
 			.append("  datausage desc ");
