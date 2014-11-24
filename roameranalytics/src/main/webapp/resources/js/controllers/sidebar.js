@@ -561,16 +561,16 @@
 		$scope.updateCountryCategory = function(id) {
 			var element = $j("#"+id);
 			if(element.is(':checked')) {
-				if ($j("input[bordering = '1']").length == $j("input[bordering = '1']:checked").length) {
+				if ($j("input[bordering = '1']").length > 0 && $j("input[bordering = '1']").length == $j("input[bordering = '1']:checked").length) {
 					$j("input#Neighbours").attr("checked","checked");
 				}
-				if ($j("input[leisure = '1']").length == $j("input[leisure = '1']:checked").length) {
+				if ($j("input[leisure = '1']").length > 0 && $j("input[leisure = '1']").length == $j("input[leisure = '1']:checked").length) {
 					$j("input#Leisure").attr("checked","checked");
 				}
-				if ($j("input[leisurepremium = '1']").length == $j("input[leisurepremium = '1']:checked").length) {
+				if ($j("input[leisurepremium = '1']").length > 0 && $j("input[leisurepremium = '1']").length == $j("input[leisurepremium = '1']:checked").length) {
 					$j("input#Leisurepre").attr("checked","checked");
 				}
-				if ($j("input[lowgdp = '1']").length == $j("input[lowgdp = '1']:checked").length) {
+				if ($j("input[lowgdp = '1']").length > 0 && $j("input[lowgdp = '1']").length == $j("input[lowgdp = '1']:checked").length) {
 					$j("input#Lowgdp").attr("checked","checked");
 				}
 				
