@@ -31,6 +31,9 @@
 	    	        	  $rootScope.$broadcast('add-filter-from-microsegment',filter);
 	    	          },
 	    	        },
+	    	        color: {
+	    	            pattern: ['#fbe591', '#88d4cd', '#fa9092', '#f59dbe', '#beb6ee']
+	    	        },
 	    	        donut: {
 	    	          title: "",
 	    	          width:50

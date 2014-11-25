@@ -4,7 +4,7 @@
 	/**
 	 * Utility service. Contains some utility methods that can be used in any controller
 	 */
-	utillity.factory("util", [function () {
+	utillity.factory("util", ['$rootScope',function ($rootScope) {
 		utilityService = {};
 		
 		utilityService.normalizeDate = function(num) {
@@ -137,8 +137,29 @@
 						dataLabels : {
 							enabled : true
 						}
-					}
-
+					},
+					series: {
+	                    cursor: 'pointer',
+	                    point: {
+	                        events: {
+	                            click: function () {
+	                              if (this.category == 'Unknown' || this.category == 'null' || this.category == 'NULL') 
+	       	    	        		  return;
+	       	    	        	  var target = $j( "input[name='" + this.category + "']")[0];
+	       	    	        	  var filterId = $j(target).attr("id").split('_');
+	       	    	        	  if (filterId[0] == 'country') {
+	       	    	        		  target = $j( "input[name='" + this.category + "']")[1];
+	       	    	        		  filterId = $j(target).attr("id").split('_');
+	       	    	        	  }
+	       	    	        	  $j(target).attr('checked', 'checked');
+	       	    	        	  var filter = {'attributeId':filterId[0],'categoryId':filterId[1]};
+	       	    	        	  $rootScope.$broadcast('add-filter-from-microsegment',filter);
+	       	    	        	  
+	                               // alert('Category: ' + this.category + ', value: ' + this.y);
+	                            }
+	                        }
+	                    }
+	                }
 				},
 				credits : {
 					enabled : false
@@ -199,6 +220,28 @@
 	                column: {
 	                    pointPadding: 0.2,
 	                    borderWidth: 0
+	                },
+	                series: {
+	                    cursor: 'pointer',
+	                    point: {
+	                        events: {
+	                            click: function () {
+	                              if (this.category == 'Unknown' || this.category == 'null' || this.category == 'NULL') 
+	       	    	        		  return;
+	       	    	        	  var target = $j( "input[name='" + this.category + "']")[0];
+	       	    	        	  var filterId = $j(target).attr("id").split('_');
+	       	    	        	  if (filterId[0] == 'country') {
+	       	    	        		  target = $j( "input[name='" + this.category + "']")[1];
+	       	    	        		  filterId = $j(target).attr("id").split('_');
+	       	    	        	  }
+	       	    	        	  $j(target).attr('checked', 'checked');
+	       	    	        	  var filter = {'attributeId':filterId[0],'categoryId':filterId[1]};
+	       	    	        	  $rootScope.$broadcast('add-filter-from-microsegment',filter);
+	       	    	        	  
+	                               // alert('Category: ' + this.category + ', value: ' + this.y);
+	                            }
+	                        }
+	                    }
 	                }
 	            },
 				tooltip : {
