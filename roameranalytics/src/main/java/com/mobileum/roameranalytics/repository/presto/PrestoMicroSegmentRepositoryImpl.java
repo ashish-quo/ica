@@ -346,52 +346,130 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 		final Map<String, Object> parameterMap = new HashMap<String, Object>();
 		
 		final StringBuilder query = new StringBuilder();
-		//PrestoQueryBuilder.populateQueryForOtherCountriesTraveledChart(filter, query,parameterMap, roamType);
+		MicroSegmentQueryBuilder.populateQueryForOtherCountriesTraveledChart(filter, query,parameterMap, roamType);
 		
 		final Map<String,List<Object[]>> dataMap = new HashMap<String, List<Object[]>>();
 		dataMap.put("roamers",new ArrayList<Object[]>());
 		dataMap.put("mt",new ArrayList<Object[]>());
 		dataMap.put("mo",new ArrayList<Object[]>());
 		dataMap.put("data",new ArrayList<Object[]>());
+		final Map<String, Map<String,Double>> countryDataMap = new HashMap<String, Map<String,Double>>();
 		try {
 			this.prestoJdbcTempate.query(query.toString(), new RowMapper<Object>() {
-				String country = null;
 				@Override
 				public Object mapRow(final ResultSet rs, final int rowNum)
 						throws SQLException {
 					
-					country = rs.getString("country");
+					final int bordering = rs.getInt("bordering");
+					final int leisure = rs.getInt("leisure");
+					final int leisurePremium = rs.getInt("leisurePremium");
+					final int lowGDP = rs.getInt("lowGDP");
 					
-					final Object[] roamersObject = new Object[2];
-					roamersObject[0] = country;
-					roamersObject[1] = rs.getDouble("imsicount");
+					final double imsicount = rs.getDouble("imsicount");
+					final double mocallminutes = rs.getDouble("mocallminutes");
+					final double mtcallminutes = rs.getDouble("mtcallminutes");
+					final double datausage = rs.getDouble("datausage");
 					
-					final Object[] moObject = new Object[2];
-					moObject[0] = country;
-					moObject[1] = rs.getDouble("mocallminutes");
-				
-					
-					final Object[] mtObject = new Object[2];
-					mtObject[0] = country;
-					mtObject[1] = rs.getDouble("mtcallminutes");
-					
-					
-					final Object[] dataObject = new Object[2];
-					dataObject[0] = country;
-					dataObject[1] = rs.getDouble("datausage");
-					
-					
-					dataMap.get("mt").add(mtObject);
-					dataMap.get("mo").add(moObject);
-					dataMap.get("roamers").add(roamersObject);
-					dataMap.get("data").add(dataObject);
-					
+					if (bordering > 0) {
+						Map<String, Double> borderingData = countryDataMap.get(RAConstants.NEIGHBOURS);
+						if (borderingData == null) {
+							borderingData = new HashMap<String, Double>();
+							borderingData.put("imsicount", imsicount);
+							borderingData.put("mocallminutes", mocallminutes);
+							borderingData.put("mtcallminutes", mtcallminutes);
+							borderingData.put("datausage", datausage);
+							countryDataMap.put(RAConstants.NEIGHBOURS, borderingData);
+						} else {
+							borderingData.put("imsicount", imsicount + borderingData.get("imsicount"));
+							borderingData.put("mocallminutes", mocallminutes + borderingData.get("mocallminutes"));
+							borderingData.put("mtcallminutes", mtcallminutes + borderingData.get("mtcallminutes"));
+							borderingData.put("datausage", datausage + borderingData.get("datausage"));
+							
+						}
+					}
+					if (leisure > 0) {
+						Map<String, Double> borderingData = countryDataMap.get(RAConstants.LEISURE);
+						if (borderingData == null) {
+							borderingData = new HashMap<String, Double>();
+							borderingData.put("imsicount", imsicount);
+							borderingData.put("mocallminutes", mocallminutes);
+							borderingData.put("mtcallminutes", mtcallminutes);
+							borderingData.put("datausage", datausage);
+							countryDataMap.put(RAConstants.LEISURE, borderingData);
+						} else {
+							borderingData.put("imsicount", imsicount + borderingData.get("imsicount"));
+							borderingData.put("mocallminutes", mocallminutes + borderingData.get("mocallminutes"));
+							borderingData.put("mtcallminutes", mtcallminutes + borderingData.get("mtcallminutes"));
+							borderingData.put("datausage", datausage + borderingData.get("datausage"));
+							
+						}
+					}
+					if (leisurePremium > 0) {
+						Map<String, Double> borderingData = countryDataMap.get(RAConstants.LEISURE_PREMIUM);
+						if (borderingData == null) {
+							borderingData = new HashMap<String, Double>();
+							borderingData.put("imsicount", imsicount);
+							borderingData.put("mocallminutes", mocallminutes);
+							borderingData.put("mtcallminutes", mtcallminutes);
+							borderingData.put("datausage", datausage);
+							countryDataMap.put(RAConstants.LEISURE_PREMIUM, borderingData);
+						} else {
+							borderingData.put("imsicount", imsicount + borderingData.get("imsicount"));
+							borderingData.put("mocallminutes", mocallminutes + borderingData.get("mocallminutes"));
+							borderingData.put("mtcallminutes", mtcallminutes + borderingData.get("mtcallminutes"));
+							borderingData.put("datausage", datausage + borderingData.get("datausage"));
+							
+						}
+					}
+					if (lowGDP > 0) {
+						Map<String, Double> borderingData = countryDataMap.get(RAConstants.LOW_GDP);
+						if (borderingData == null) {
+							borderingData = new HashMap<String, Double>();
+							borderingData.put("imsicount", imsicount);
+							borderingData.put("mocallminutes", mocallminutes);
+							borderingData.put("mtcallminutes", mtcallminutes);
+							borderingData.put("datausage", datausage);
+							countryDataMap.put(RAConstants.LOW_GDP, borderingData);
+						} else {
+							borderingData.put("imsicount", imsicount + borderingData.get("imsicount"));
+							borderingData.put("mocallminutes", mocallminutes + borderingData.get("mocallminutes"));
+							borderingData.put("mtcallminutes", mtcallminutes + borderingData.get("mtcallminutes"));
+							borderingData.put("datausage", datausage + borderingData.get("datausage"));
+							
+						}
+					}
 					return null;
 				}
 			});
 		} catch (final DataAccessException dae) {
 			LOGGER.error("Exception While getting Other Countries traveled data in microsegment : ", dae);
 			throw new RADataAccessException(dae);
+		}
+		
+		for (final String group : countryDataMap.keySet()) {
+			final Object[] roamersObject = new Object[2];
+			roamersObject[0] = group;
+			roamersObject[1] = countryDataMap.get(group).get("imsicount");
+			
+			final Object[] moObject = new Object[2];
+			moObject[0] = group;
+			moObject[1] = countryDataMap.get(group).get("mocallminutes");
+		
+			
+			final Object[] mtObject = new Object[2];
+			mtObject[0] = group;
+			mtObject[1] = countryDataMap.get(group).get("mtcallminutes");
+			
+			
+			final Object[] dataObject = new Object[2];
+			dataObject[0] = group;
+			dataObject[1] = countryDataMap.get(group).get("datausage");
+			
+			
+			dataMap.get("mt").add(mtObject);
+			dataMap.get("mo").add(moObject);
+			dataMap.get("roamers").add(roamersObject);
+			dataMap.get("data").add(dataObject);
 		}
 		
 		Collections.sort(dataMap.get("mo"),COUNT_SORT_DESC);

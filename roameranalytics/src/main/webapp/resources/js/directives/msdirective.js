@@ -4,7 +4,7 @@
 	
 	msDirective.service('msChartService', ['$http', '$rootScope','util', function($http,$rootScope, util) {
     	  
-    	  this.drawMorrisChart = function(element, data) {
+    	  this.drawMorrisChart = function(element, data,chartname,width) {
     		  var c3Columns = data;
     		  
     		  // for more than 3 chart will be distorted
@@ -18,7 +18,8 @@
 	    	          columns: c3Columns,
 	    	          type : 'donut',
 	    	          onclick: function (d, i) {
-	    	        	  if (d.id == 'Unknown' || d.id == 'null' || d.id == 'NULL') 
+	    	        	  
+	    	        	  if (d.id == 'Unknown' || d.id == 'null' || d.id == 'NULL' || chartname == 'Other Countries Traveled') 
 	    	        		  return;
 	    	        	  var target = $j( "input[name='" + d.id + "']")[0];
 	    	        	  var filterId = $j(target).attr("id").split('_');
@@ -35,14 +36,17 @@
 	    	            pattern: ['#fbe591', '#88d4cd', '#fa9092', '#f59dbe', '#beb6ee']
 	    	        },
 	    	        donut: {
+	    	          label: {
+    	                format: function (d, ratio) { return ""; }
+    	              },
 	    	          title: "",
-	    	          width:50
+	    	          width:width
 	    	        },
 	    	        tooltip: {
 	    	            format: {
 	    	                value: function (value, ratio, id) {
 	    	                    var format = d3.format(',');
-	    	                    return format(value);
+	    	                    return d3.round(value,1);
 	    	                }
 	    	            }
 	    	        }
@@ -86,7 +90,7 @@
 		    			  }
 		    		  }
 		    		  if (donutDataAvailable)
-		    			  this.drawMorrisChart(element,dataToPlot);	
+		    			  this.drawMorrisChart(element,dataToPlot, attrs.chartname,50);	
 		    		  else 
 		    			  element.addClass("no-data-found");
 		    		  
@@ -117,7 +121,7 @@
 		    		  if (columnDataAvailable)
 		    			  this.drawHorizontalBarChart(horizontalChart,columnData);
 		    		  if (donutDataAvailable)
-		    			  this.drawMorrisChart(element,donutData);
+		    			  this.drawMorrisChart(element,donutData,25);
 		    		  if (!donutDataAvailable && !columnDataAvailable) {
 		    			  element.addClass("no-data-found");
 		    		  }
@@ -149,7 +153,7 @@
 		    			  }
 		    		  }
 		    		  if (donutDataAvailable)
-		    			  this.drawMorrisChart(element,donutData);
+		    			  this.drawMorrisChart(element,donutData,25);
 		    		  if (!donutDataAvailable && !columnDataAvailable) {
 		    			  element.addClass("no-data-found");
 		    		  }

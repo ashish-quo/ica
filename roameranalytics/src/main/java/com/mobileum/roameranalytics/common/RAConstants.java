@@ -44,4 +44,10 @@ public class RAConstants {
 	/** The Constant ATTR_OTHER_COUNTRIES_TRAVLED. */
 	public static final String ATTR_OTHER_COUNTRIES_TRAVLED = "Other Countries Traveled";
 	
+	public static final String NEIGHBOURS = "Neighbours";
+	public static final String LEISURE = "Leisure";
+	public static final String LEISURE_PREMIUM = "Leisure Premium";
+	public static final String LOW_GDP = "Low GDP";
+	
+	
 }

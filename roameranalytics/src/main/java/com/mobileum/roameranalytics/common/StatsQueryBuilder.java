@@ -40,6 +40,16 @@ public class StatsQueryBuilder {
 		return clause.toString();
 	}
 	
+	static String getClauseForCountryNotIn(final String selectedCountries, final String roamType) {
+		final StringBuilder clause = new StringBuilder();
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			clause.append(" and  trip.visitedmcc not in (").append(selectedCountries).append(") ");
+		} else {
+			clause.append(" and  trip.homemcc not in (").append(selectedCountries).append(") ");
+		}
+		return clause.toString();
+	}
+	
 	
 	
 	/**

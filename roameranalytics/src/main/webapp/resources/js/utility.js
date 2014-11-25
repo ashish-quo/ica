@@ -135,7 +135,8 @@
 					bar : {
 						colorByPoint : true,
 						dataLabels : {
-							enabled : true
+							enabled : true,
+							format : "{point.y:.1f}"
 						}
 					},
 					series: {

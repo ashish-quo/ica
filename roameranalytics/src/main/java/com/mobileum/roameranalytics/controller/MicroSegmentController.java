@@ -69,6 +69,15 @@ public class MicroSegmentController {
 			}
 		}
 		
+		if (!countries.isEmpty()) {
+			final MSChartMetadata msChart = new MSChartMetadata();
+			msChart.setColumn("othercountriestraveled");
+			msChart.setTitle(RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED);
+			msChart.setColumnType("java.lang.String");
+			msChart.setChartType((byte)1);
+			msChart.setAttributeId(0);
+			list.add(msChart);
+		}
 		return list;
 	}
 	
