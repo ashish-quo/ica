@@ -249,7 +249,7 @@
 				<ul class="nav-sub leftmenu-hover" ng-if ="countries.length == 0">
 					<li>
 						<div class="panel-heading">
-							<h4 class="panel-title"><p class="tray-text">No country found</p>
+							<h4 class="panel-title"><p class="tray-text"><fmt:message key="no.country.found" /></p>
 								<div class="clearfix"></div>
 							</h4>
 						</div>
@@ -492,7 +492,7 @@
 									
 									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
 										<div ng-if = "attr.attributeCategoryList.length == 0">
-											<label class="tray-text" style="font-weight:normal">No value found</label>
+											<label class="tray-text" style="font-weight:normal"><fmt:message key="no.value.found" /></label>
 										</div>
 										<div class="panel_category"
 											ng-repeat="catAttr in attr.attributeCategoryList">
@@ -519,7 +519,7 @@
 									
 									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }">
 										<div ng-if = "attr.attributeCategoryList.length == 0">
-											<label class="tray-text" style="font-weight:normal">No value found</label>
+											<label class="tray-text" style="font-weight:normal"><fmt:message key="no.value.found" /></label>
 										</div>
 										<div class="panel_category"
 											ng-repeat="catAttr in attr.attributeCategoryList">
@@ -546,7 +546,7 @@
 									
 									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
 										<div ng-if = "attr.attributeCategoryList.length == 0">
-											<label class="tray-text" style="font-weight:normal">No value found</label>
+											<label class="tray-text" style="font-weight:normal"><fmt:message key="no.value.found" /></label>
 										</div>
 										<div class="panel_category"
 											ng-repeat="catAttr in attr.attributeCategoryList">
@@ -573,7 +573,7 @@
 									
 									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
 										<div ng-if = "attr.attributeCategoryList.length == 0">
-											<label class="tray-text" style="font-weight:normal">No value found</label>
+											<label class="tray-text" style="font-weight:normal"><fmt:message key="no.value.found" /></label>
 										</div>
 										<div class="panel_category"
 											ng-repeat="catAttr in attr.attributeCategoryList">
