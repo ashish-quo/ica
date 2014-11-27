@@ -8,7 +8,7 @@ Insert into attribute values (7,'Roaming MT','',5,'mtcallminutesquadroam','java.
 Insert into attribute values (8,'Roaming Data','',6,'tonnagequadroam','java.lang.Integer',1,'tonnagequadroam');
 Insert into attribute values (9,'Roaming SMS ','',7,'mosmscountquadroam','java.lang.Integer',1,'mosmscountquadroam');
 Insert into attribute values (10,'Network Group','',2,'visitednetwork','java.lang.String',3,'homenetwork');
-Insert into attribute values (11,'Device Type','',11,'devicemodel','java.lang.String',3,'devicemodel');
+Insert into attribute values (11,'Device Model','',11,'devicemodel','java.lang.String',3,'devicemodel');
 Insert into attribute values (12,'Device Manufacturer','',12,'devicemanufacturer','java.lang.String',3,'devicemanufacturer');
     
 
@@ -34,6 +34,8 @@ Insert into attribute_category values (18,'SMS Zero',1,9,'1');
 Insert into attribute_category values (19,'SMS Moderate',2,9,'2');
 Insert into attribute_category values (20,'SMS  Heavy',3,9,'3');
     
+
+
 --- insert sql for userinfo and user_roles table
 INSERT INTO userinfo(username, password, enabled)     VALUES ('smruti', '$2a$10$QAFuRJEH1HfDnvrmiCmfrOCRdnzWF2mLA7AuJmqWjFAjzPK6znDj2', TRUE);
 INSERT INTO user_roles(role_name, username) VALUES ( 'ROLE_ADMIN', 'smruti');

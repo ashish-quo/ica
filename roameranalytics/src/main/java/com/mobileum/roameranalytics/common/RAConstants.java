@@ -42,7 +42,7 @@ public class RAConstants {
 	public static final String ATTR_NETWORK_GROUP = "Network Group";
 	
 	/** The Constant ATTR_NETWORK. */
-	public static final String ATTR_DEVICE_MODEL = "Device Type";
+	public static final String ATTR_DEVICE_MODEL = "Device Model";
 	
 	/** The Constant ATTR_NETWORK_GROUP. */
 	public static final String ATTR_MANUFACTURER = "Device Manufacturer";
