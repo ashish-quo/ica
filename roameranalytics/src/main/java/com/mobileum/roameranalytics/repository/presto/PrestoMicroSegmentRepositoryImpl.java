@@ -83,8 +83,12 @@ public class PrestoMicroSegmentRepositoryImpl implements MicroSegmentRepository 
 						throws SQLException {
 
 					categoryValue = catNameValue.get(rs.getString("categoryValue"));
-					if (categoryValue == null) {
+					if (categoryValue == null && !(RAConstants.ATTR_DEVICE_MODEL.equalsIgnoreCase(attributeName)
+							|| RAConstants.ATTR_MANUFACTURER.equalsIgnoreCase(attributeName))) {
 						categoryValue = "Unknown";
+					} else if (RAConstants.ATTR_DEVICE_MODEL.equalsIgnoreCase(attributeName)
+							|| RAConstants.ATTR_MANUFACTURER.equalsIgnoreCase(attributeName)) {
+						categoryValue = rs.getString("categoryValue");
 					}
 					final Object[] roamersObject = new Object[2];
 					roamersObject[0] = categoryValue;

@@ -107,4 +107,34 @@ public class MetaDataQueryBuilder {
 		}
 		return query.toString();
 	}
+	
+	
+	/**
+	 * Query for distinct networks.
+	 *
+	 * @return the string
+	 */
+	public static String queryForDeviceModelAndManufacturer(final Filter filter,final String roamType) {
+		final StringBuilder query = new StringBuilder();
+		if (RoamType.OUT.getRoamType().equalsIgnoreCase(roamType)) {
+			query.append("select distinct trip.").append(BusinessTableColumn.DEVICEMODEL).append(" model, ")
+				.append(" trip.").append(BusinessTableColumn.DEVICEMANUFACTURER).append(" manufacturer ")
+				.append(" from ").append(RAPropertyUtil.getProperty("out.table.business")).append(" trip ")
+				.append(" where trip.usagebintime >= ").append(filter.getDateFrom())
+				.append(" and trip.usagebintime <= ").append(filter.getDateTo()).append(" ")
+				.append(" and trip.").append(BusinessTableColumn.DEVICEMODEL).append(" != 'Unknown'")
+				.append(" and trip.").append(BusinessTableColumn.DEVICEMANUFACTURER).append(" != 'Unknown'")
+				.append(" order by model ");
+		} else {
+			query.append("select distinct trip.").append(BusinessTableColumn.DEVICEMODEL).append(" model, ")
+				.append(" trip.").append(BusinessTableColumn.DEVICEMANUFACTURER).append(" manufacturer ")
+				.append(" from ").append(RAPropertyUtil.getProperty("in.table.business")).append(" trip ")
+				.append(" where trip.usagebintime >= ").append(filter.getDateFrom())
+				.append(" and trip.usagebintime <= ").append(filter.getDateTo()).append(" ")
+				.append(" and trip.").append(BusinessTableColumn.DEVICEMODEL).append(" != 'Unknown'")
+				.append(" and trip.").append(BusinessTableColumn.DEVICEMANUFACTURER).append(" != 'Unknown'")
+				.append(" order by model ");
+		}
+		return query.toString();
+	}
 }

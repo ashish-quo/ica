@@ -286,6 +286,7 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 		LOGGER.debug("Getting other countries traveled ");
 		LOGGER.debug("Other Countries Traveled query : " + query.toString());
 		
+		
 		List<AttributeCategory> otherCountries = new ArrayList<AttributeCategory>(10);
 		try{
 			otherCountries = prestoJdbcTempate.query(query.toString(), 
@@ -311,6 +312,69 @@ public class PrestoMetadataRepositoryImpl implements MetaDataRepository {
 		LOGGER.trace("Other countries traveled names : " + RAConstants.attributeNameValueCache.get(
 				RAConstants.ATTR_OTHER_COUNTRIES_TRAVLED).keySet());
 		return otherCountries;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.mobileum.roameranalytics.repository.MetaDataRepository#getDeviceModelsAndManufactures(com.mobileum.roameranalytics.model.Filter, long, long, java.lang.String)
+	 */
+	@Override
+	public Map<Long, List<AttributeCategory>> getDeviceModelsAndManufactures( final Filter filter,
+			final long deviceModelAttrId, final long deviceManufacturerAttrId, final String roamType)
+			throws RADataAccessException {
+		final String query = MetaDataQueryBuilder.queryForDeviceModelAndManufacturer(filter,roamType);
+		LOGGER.debug("Getting all device models and manufacturers ");
+		LOGGER.debug("Device model and manufacturer query : " + query);
+		
+		final Map<Long, List<AttributeCategory>> result = new HashMap<Long, List<AttributeCategory>>();
+		
+		final List<AttributeCategory> models = new ArrayList<AttributeCategory>(100);
+		final List<AttributeCategory> manufacturers = new ArrayList<AttributeCategory>(100);
+		final Map<String,AttributeCategory> manufacturerMap = new TreeMap<String, AttributeCategory>();
+	    
+		try {
+			this.prestoJdbcTempate.query(query, new RowMapper<AttributeCategory>() {
+				private int manufacturerIndex = 1;
+				@Override
+				public AttributeCategory mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+					
+					final String model = rs.getString("model");
+					final String manufacturer = rs.getString("manufacturer");
+					
+					final AttributeCategory modelCategory = new AttributeCategory();
+					modelCategory.setCategName(model);
+					modelCategory.setAttrId(deviceModelAttrId);
+					modelCategory.setId(rowNum);
+					modelCategory.setCategValue(model);
+					models.add(modelCategory);
+					
+					if (!manufacturerMap.containsKey(manufacturer)) {
+						final AttributeCategory manufacturerCategory = new AttributeCategory();
+						manufacturerCategory.setCategName(manufacturer);
+						manufacturerCategory.setAttrId(deviceManufacturerAttrId);
+						manufacturerCategory.setId(manufacturerIndex++);
+						manufacturerCategory.setCategValue(manufacturer);
+						manufacturerMap.put(manufacturer, manufacturerCategory);
+					}
+					return null;
+				}
+			});
+		} catch (final DataAccessException dae) {
+			LOGGER.error("Error occurred while device models and manufacturer: ", dae);
+			throw new RADataAccessException(dae);
+		}
+		
+		for (final String manufacturer : manufacturerMap.keySet()) {
+			manufacturers.add(manufacturerMap.get(manufacturer));
+		}
+		result.put(deviceModelAttrId, models);
+		result.put(deviceManufacturerAttrId, manufacturers);
+		
+		LOGGER.debug("Device models found : " + models.size());
+		LOGGER.debug("Models  : " + models);
+		
+		LOGGER.debug("Device maufacturer found : " + manufacturerMap.size());
+		LOGGER.debug("Manufacturer : " + manufacturerMap.values());
+		return result;
 	}
 
 }

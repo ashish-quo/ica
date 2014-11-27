@@ -15,7 +15,7 @@
 		}
 		
 		function getMircosegmentCharts() {
-			$scope.graphToBeShown = {};
+			$scope.graphToBeShown = new Array();
 			$scope.title = {};
 			var data = {
 					'params' : util.getParamsFromFilter($rootScope.filters)
@@ -38,27 +38,17 @@
 			});
 			data.params.microsegmentcharts = cahrtArray.join(":");	
 			httpService.get($scope.roamType + "/microsegment/graphs", data).success(function(result) {
-				if (result.length > 4) {
-					$scope.graphToBeShownFirst = result.slice(0,4);
-					$scope.graphToBeShownMore = result.slice(4);
-					$scope.graphToBeShownFirst = $scope.graphToBeShownFirst.map(function (obj) {
-						obj.id = obj.title.replace(/ /g,'');
-						return obj;
-					});
-					$scope.graphToBeShownMore = $scope.graphToBeShownMore.map(function (obj) {
-						obj.id = obj.title.replace(/ /g,'');
-						return obj;
-					});
-				} else {
-					$scope.graphToBeShownFirst = result;
-					$scope.graphToBeShownFirst = $scope.graphToBeShownFirst.map(function (obj) {
-						obj.id = obj.title.replace(/ /g,'');
-						return obj;
-					});
-				}
+				var charts = result.charts;
+				$scope.loadingCount = parseInt(result.loadingCount,10);
+				charts = charts.map(function (obj) {
+					obj.id = obj.title.replace(/ /g,'');
+					return obj;
+				});
+				$scope.graphToBeShown = util.sliceList(charts,$scope.loadingCount);
 				$rootScope.mschartcount = 0;
-				$rootScope.showmore = false;
-				
+				$rootScope.showmore = util.booleanArray(parseInt(charts.length/$scope.loadingCount, 10) + 1);
+				$rootScope.numberOfCharts = charts.length;
+				$rootScope.showmoreindex = 1;
 			}).error(function(data, status, headers, config) {
 		        $rootScope.error = 'Internal server error';
 		    });
@@ -71,7 +61,6 @@
 		});
 		
 		$rootScope.$on("refresh-microsegment-country", function(event) {
-			console.log("refresh-microsegment-country");
 			getMircosegmentCharts();
 		});
 		

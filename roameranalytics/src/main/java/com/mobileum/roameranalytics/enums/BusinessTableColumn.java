@@ -28,7 +28,10 @@ public enum BusinessTableColumn {
 	
 	ISHOMECOUNTRYLEISURE("ishomecountryleisure"),
 	ISHOMECOUNTRYLEISUREPREMIUM("ishomecountryleisurepremium"),
-	HOMECOUNTRYGDP("homecountrygdp");
+	HOMECOUNTRYGDP("homecountrygdp"),
+	
+	DEVICEMODEL("devicemodel"),
+	DEVICEMANUFACTURER("devicemanufacturer");
 	
 	private String column;
 	

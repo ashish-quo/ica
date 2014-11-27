@@ -246,7 +246,17 @@
 			</ul></li>
 		<li class="nav-dropdown"><a href="#"><i class="country-icon"></i>
 				<fmt:message key="attr.all.countries" /> </a>
-			<ul class="nav-sub leftmenu-hover">
+				<ul class="nav-sub leftmenu-hover" ng-if ="countries.length == 0">
+					<li>
+						<div class="panel-heading">
+							<h4 class="panel-title"><p class="tray-text">No country found</p>
+								<div class="clearfix"></div>
+							</h4>
+						</div>
+					</li>
+				</ul>
+			
+			<ul class="nav-sub leftmenu-hover" ng-if ="countries.length > 0" >
 				<li>
 					<div class="country-search">
 						<input type="text" ng-model="countryQuery.countryName"
@@ -481,6 +491,9 @@
 									ng-if="attr.attributeName == 'Network'">
 									
 									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
+										<div ng-if = "attr.attributeCategoryList.length == 0">
+											<label class="tray-text" style="font-weight:normal">No value found</label>
+										</div>
 										<div class="panel_category"
 											ng-repeat="catAttr in attr.attributeCategoryList">
 											<p class="i-checks displyclass">
@@ -497,7 +510,7 @@
 											</p>
 										</div>
 									</div>
-									<div class="menu-select-btn network">
+									<div class="menu-select-btn network" ng-if = "attr.attributeCategoryList.length > 0">
 										<input type="button" name="applyNetwork" value="Apply" ng-click="applyNetworkFilter('attr_'+attr.id)">
 									</div>
 								</div>
@@ -505,6 +518,9 @@
 									ng-if="attr.attributeName == 'Network Group'">
 									
 									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }">
+										<div ng-if = "attr.attributeCategoryList.length == 0">
+											<label class="tray-text" style="font-weight:normal">No value found</label>
+										</div>
 										<div class="panel_category"
 											ng-repeat="catAttr in attr.attributeCategoryList">
 											<p class="i-checks displyclass">
@@ -521,8 +537,62 @@
 											</p>
 										</div>
 									</div>
-									<div class="menu-select-btn network">
+									<div class="menu-select-btn network" ng-if = "attr.attributeCategoryList.length > 0">
 										<input type="button" name="applyNetworkGroup" value="Apply" ng-click="applyNetworkGroupFilter('attr_'+attr.id)">
+									</div>
+								</div>
+								<div id="collapse{{$index}}" class="panel-collapse collapse"
+									ng-if="attr.attributeName == 'Device Type'">
+									
+									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
+										<div ng-if = "attr.attributeCategoryList.length == 0">
+											<label class="tray-text" style="font-weight:normal">No value found</label>
+										</div>
+										<div class="panel_category"
+											ng-repeat="catAttr in attr.attributeCategoryList">
+											<p class="i-checks displyclass">
+												<label class="input-label" for="{{attr.id}}_{{catAttr.id}}">
+													<input type="checkbox"
+													ng-click="updateNetworkFilter(attr.id, catAttr.id)"
+													name="{{catAttr.categName}}"
+													id="{{attr.id}}_{{catAttr.id}}" value=""
+													categ-value="{{catAttr.categValue}}" class="sub-check device_type_sub">
+													<i></i>
+												</label> <label class="input-label1"
+													for="{{attr.id}}_{{catAttr.id}}"
+													title="{{catAttr.categName}}">{{catAttr.categName}}</label>
+											</p>
+										</div>
+									</div>
+									<div class="menu-select-btn deviceType" ng-if = "attr.attributeCategoryList.length > 0">
+										<input type="button" name="applyDeviceModel" value="Apply" ng-click="applyDeviceTypeFilter('attr_'+attr.id)">
+									</div>
+								</div>
+								<div id="collapse{{$index}}" class="panel-collapse collapse"
+									ng-if="attr.attributeName == 'Device Manufacturer'">
+									
+									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
+										<div ng-if = "attr.attributeCategoryList.length == 0">
+											<label class="tray-text" style="font-weight:normal">No value found</label>
+										</div>
+										<div class="panel_category"
+											ng-repeat="catAttr in attr.attributeCategoryList">
+											<p class="i-checks displyclass">
+												<label class="input-label" for="{{attr.id}}_{{catAttr.id}}">
+													<input type="checkbox"
+													ng-click="updateNetworkFilter(attr.id, catAttr.id)"
+													name="{{catAttr.categName}}"
+													id="{{attr.id}}_{{catAttr.id}}" value=""
+													categ-value="{{catAttr.categValue}}" class="sub-check device_manufacturer_sub">
+													<i></i>
+												</label> <label class="input-label1"
+													for="{{attr.id}}_{{catAttr.id}}"
+													title="{{catAttr.categName}}">{{catAttr.categName}}</label>
+											</p>
+										</div>
+									</div>
+									<div class="menu-select-btn deviceManufacturer" ng-if = "attr.attributeCategoryList.length > 0">
+										<input type="button" name="applyDeviceManufacturer" value="Apply" ng-click="applyDeviceManufacturerFilter('attr_'+attr.id)">
 									</div>
 								</div>
 								<div id="collapse{{$index}}" class="panel-collapse collapse"

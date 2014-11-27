@@ -8,6 +8,8 @@ Insert into attribute values (7,'Roaming MT','',5,'mtcallminutesquadroam','java.
 Insert into attribute values (8,'Roaming Data','',6,'tonnagequadroam','java.lang.Integer',1,'tonnagequadroam');
 Insert into attribute values (9,'Roaming SMS ','',7,'mosmscountquadroam','java.lang.Integer',1,'mosmscountquadroam');
 Insert into attribute values (10,'Network Group','',2,'visitednetwork','java.lang.String',3,'homenetwork');
+Insert into attribute values (11,'Device Type','',11,'devicemodel','java.lang.String',3,'devicemodel');
+Insert into attribute values (12,'Device Manufacturer','',12,'devicemanufacturer','java.lang.String',3,'devicemanufacturer');
     
 
 

@@ -210,16 +210,18 @@
 		    		  msChartService.changeAttributeMeasure(result.data,$rootScope.attributemeasure, attrs, element);
 		    		  element.removeClass("loading");
 		    		  $rootScope.mschartcount = $rootScope.mschartcount + 1;
-		    		  if ($rootScope.mschartcount == 4) {
-		    			  $rootScope.showmore = true;
+		    		  if ($rootScope.mschartcount == $scope.loadingCount) {
+		    			  $rootScope.showmore[$rootScope.showmoreindex++] = true;
+		    			  $rootScope.mschartcount = 0;
 		    		  }
 		    	  }).error(function(data, status, headers, config) {
 		    		  element.removeClass("no-data-found");
 		    		  element.removeClass("loading");
 		    		  element.addClass("internal-error");
 		    		  $rootScope.mschartcount = $rootScope.mschartcount + 1;
-		    		  if ($rootScope.mschartcount == 4) {
-		    			  $rootScope.showmore = true;
+		    		  if ($rootScope.mschartcount == $scope.loadingCount) {
+		    			  $rootScope.showmore[$rootScope.showmoreindex++] = true;
+		    			  $rootScope.mschartcount = 0;
 		    		  }
 		    	  });
 	    	  };
@@ -230,7 +232,9 @@
 	    	  $scope.$watch('microsegmentdaterange', function(oldValue, newValue) {
 	    		  if (oldValue != newValue) {
 	    			  $rootScope.mschartcount = 0;
-	  				  $rootScope.showmore = false;
+	    			  $rootScope.showmore = util.booleanArray($rootScope.numberOfCharts%$scope.loadingCount == 0 
+	    					  ? $rootScope.numberOfCharts/$scope.loadingCount:
+	    				  ($rootScope.numberOfCharts/$scope.loadingCount + 1));
 	    			  getDataAndDraw();
 	    		  } 
 	    	  },true);
@@ -238,7 +242,9 @@
 	    	  $scope.$watch('microsegmentrefresh', function(oldValue, newValue) {
 	    		  if (oldValue != newValue && oldValue != null) {
 	    			  $rootScope.mschartcount = 0;
-	  				  $rootScope.showmore = false;
+	    			  $rootScope.showmore = util.booleanArray($rootScope.numberOfCharts%$scope.loadingCount == 0 
+	    					  ? $rootScope.numberOfCharts/$scope.loadingCount:
+	    				  ($rootScope.numberOfCharts/$scope.loadingCount + 1));
 	    			  getDataAndDraw();
 	    		  } 
 	    	  },true);

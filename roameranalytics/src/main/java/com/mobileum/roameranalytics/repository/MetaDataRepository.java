@@ -34,6 +34,15 @@ public interface MetaDataRepository {
 	public Map<Long, List<AttributeCategory>> getAllNetworkAndNetworkGroups(Filter filter, long networkAttrId, 
 			long networkGroupAttrId, String roamType) throws RADataAccessException ;
 	
+	
+	/**
+	 * Gets the all networks.
+	 *
+	 * @return the all networks
+	 */
+	public Map<Long, List<AttributeCategory>> getDeviceModelsAndManufactures(Filter filter, long deviceModelAttrId, 
+			long deviceManufacturerAttrId, String roamType) throws RADataAccessException ;
+	
 	/**
 	 * Gets the all countries.
 	 *

@@ -50,8 +50,13 @@ public class MetaDataServiceImpl implements MetaDataService {
 			commonAttributes = this.metaDataRepository.getAttributeList(filter,roamType);
 			long networkAttrId = 0;
 			long networkGroupAttrId = 0;
+			long deviceModelAttrId = 0;
+			long manufacturerAttrId = 0;
+			
 			Attribute networkAttr = null ;
 			Attribute neworkgGrpupAttr = null;
+			Attribute deviceModel = null;
+			Attribute manufacturer = null;
 			for (final Attribute attribute : commonAttributes) {
 				if (RAConstants.ATTR_NETWORK.equalsIgnoreCase(attribute.getAttributeName())) {
 					networkAttrId = attribute.getId();
@@ -59,6 +64,12 @@ public class MetaDataServiceImpl implements MetaDataService {
 				} else if (RAConstants.ATTR_NETWORK_GROUP.equalsIgnoreCase(attribute.getAttributeName())) {
 					neworkgGrpupAttr = attribute;
 					networkGroupAttrId = attribute.getId();
+				} else if (RAConstants.ATTR_DEVICE_MODEL.equalsIgnoreCase(attribute.getAttributeName())) {
+					deviceModel = attribute;
+					deviceModelAttrId = attribute.getId();
+				} else if (RAConstants.ATTR_MANUFACTURER.equalsIgnoreCase(attribute.getAttributeName())) {
+					manufacturer = attribute;
+					manufacturerAttrId = attribute.getId();
 				}
 			}
 			
@@ -66,6 +77,15 @@ public class MetaDataServiceImpl implements MetaDataService {
 					this.metaDataRepository.getAllNetworkAndNetworkGroups(filter,networkAttrId, networkGroupAttrId,roamType);
 			networkAttr.setAttributeCategoryList(networkAndGroupMap.get(networkAttrId));
 			neworkgGrpupAttr.setAttributeCategoryList(networkAndGroupMap.get(networkGroupAttrId));
+			
+			
+			final Map<Long,List<AttributeCategory>> deviceModelManufacturerMap = 
+					this.metaDataRepository.getDeviceModelsAndManufactures(filter, deviceModelAttrId, manufacturerAttrId, roamType);	
+			
+			deviceModel.setAttributeCategoryList(deviceModelManufacturerMap.get(deviceModelAttrId));
+			manufacturer.setAttributeCategoryList(deviceModelManufacturerMap.get(manufacturerAttrId));
+			
+			
 		} catch (final RADataAccessException dae) {
 			throw new ApplicationException(RAConstants.APPLICATION_EXCEPTION_STRING, dae);
 		}

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mobileum.roameranalytics.common.CommonUtil;
 import com.mobileum.roameranalytics.common.RAConstants;
+import com.mobileum.roameranalytics.common.RAPropertyUtil;
 import com.mobileum.roameranalytics.model.Filter;
 import com.mobileum.roameranalytics.model.chart.MSChartMetadata;
 import com.mobileum.roameranalytics.service.MicroSegmentService;
@@ -45,9 +46,9 @@ public class MicroSegmentController {
 	}
 	
 	@RequestMapping(value="/{roamType}/microsegment/graphs", method = RequestMethod.GET)
-	public @ResponseBody List<MSChartMetadata> getMicroSegmentCharts(@PathVariable("roamType") final String roamType,
+	public @ResponseBody Map<String, Object> getMicroSegmentCharts(@PathVariable("roamType") final String roamType,
 			final HttpServletRequest request) throws ParseException {
-
+		
 		final String microSegmentCharts = request.getParameter("microsegmentcharts");
 		final String countries = request.getParameter("countries");
 		final List<MSChartMetadata> list = new ArrayList<MSChartMetadata>(5);
@@ -78,7 +79,16 @@ public class MicroSegmentController {
 			msChart.setAttributeId(0);
 			list.add(msChart);
 		}
-		return list;
+		
+		final Map<String, Object> result = new HashMap<String, Object>();
+		final String msChartLoadingCount = RAPropertyUtil.getProperty("microsegment.max.chart.loading");
+		if (msChartLoadingCount == null) {
+			result.put("loadingCount", RAConstants.DEFAULT_MICROSEGMENT_CHART_LOADING_COUNT);
+		} else {
+			result.put("loadingCount", msChartLoadingCount);
+		}
+		result.put("charts", list);
+		return result;
 	}
 	
 	

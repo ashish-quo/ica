@@ -7,6 +7,32 @@
 	utillity.factory("util", ['$rootScope',function ($rootScope) {
 		utilityService = {};
 		
+		utilityService.sliceList = function(list, sliceSize) {
+			var result = new Array();
+			var start = 0;
+			if (list.length <= sliceSize) {
+				result.push(list);
+			} else {
+				index = sliceSize ;
+				while(index < list.length) {
+					result.push(list.slice(start,index));
+					start = index;
+					index = index + sliceSize;
+				}
+				result.push(list.slice(start,list.length));
+			}
+			return result;
+		};
+		
+		utilityService.booleanArray = function(length) {
+			var result = new Array(length);
+			for (var index = 1; index < length; index++) {
+				result[index] = false;
+			}
+			result[0] = true;
+			return result;
+		}
+		
 		utilityService.normalizeDate = function(num) {
 			if (num < 10) {
 				return "0"+num;

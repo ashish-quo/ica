@@ -210,7 +210,9 @@
 	
 	<div class="row microsegment-charts" ng-controller="MicroSegmentController">
 		<div class="col-lg-9 clearfix">
-			<div class="microchart-panel" ng-repeat="graph in graphToBeShownFirst">
+			<div ng-repeat="list in graphToBeShown">
+			<div ng-if="showmore[$index]">
+			<div class="microchart-panel" ng-repeat="graph in list" >
 				<div class="segment-charts">
 					<div class="microchart-heading">
 						{{title[graph.title]}} <a href="javascript:void(0)" style="display:none"
@@ -244,6 +246,8 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			</div>
 			</div>
 			<div class="microchart-panel" ng-repeat="graph in graphToBeShownMore" ng-if="showmore">
 				<div class="segment-charts">
