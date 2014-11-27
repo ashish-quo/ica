@@ -231,26 +231,6 @@
 	    	  // get data and draw chart
 	    	  getDataAndDraw();
 	    	  
-	    	  $scope.$watch('microsegmentdaterange', function(oldValue, newValue) {
-	    		  if (oldValue != newValue) {
-	    			  $rootScope.mschartcount = 0;
-	    			  $rootScope.showmore = util.booleanArray($rootScope.numberOfCharts%$scope.loadingCount == 0 
-	    					  ? $rootScope.numberOfCharts/$scope.loadingCount:
-	    				  ($rootScope.numberOfCharts/$scope.loadingCount + 1));
-	    			  getDataAndDraw();
-	    		  } 
-	    	  },true);
-	    	  
-	    	  $scope.$watch('microsegmentrefresh', function(oldValue, newValue) {
-	    		  if (oldValue != newValue && oldValue != null) {
-	    			  $rootScope.mschartcount = 0;
-	    			  $rootScope.showmore = util.booleanArray($rootScope.numberOfCharts%$scope.loadingCount == 0 
-	    					  ? $rootScope.numberOfCharts/$scope.loadingCount:
-	    				  ($rootScope.numberOfCharts/$scope.loadingCount + 1));
-	    			  getDataAndDraw();
-	    		  } 
-	    	  },true);
-	    	  
 	    	  $rootScope.$watch("attributemeasure", function (newValue) {
 	    		  if (newValue != null && $scope.msdata != null && $scope.msdata[newValue] != null) {
 	    			  msChartService.changeAttributeMeasure($scope.msdata,newValue, attrs, element);

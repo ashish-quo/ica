@@ -58,7 +58,8 @@
 		getMircosegmentCharts();
 		
 		$rootScope.$on("refresh-microsegment-daterange", function(event) {
-			$scope.microsegmentrefresh = !$scope.microsegmentrefresh ;
+			getMircosegmentCharts();
+			//$scope.microsegmentrefresh = !$scope.microsegmentrefresh ;
 		});
 		
 		$rootScope.$on("refresh-microsegment-country", function(event) {
