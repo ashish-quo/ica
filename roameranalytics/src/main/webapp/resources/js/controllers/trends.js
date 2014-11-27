@@ -128,8 +128,9 @@
 					if ($scope.roamerSMSChartConfig.series.length == 0) {
 						$scope.roamerSMSChartConfig.subtitle.text = 'No data found'
 					}
-				}).error(function () {
-					 $rootScope.error = 'Internal server error';
+				}).error(function (data, status, headers, config) {
+					if (status != 0)
+						$rootScope.error = 'Internal server error';
 				});
 				
 				$rootScope.$on('refresh-roaming-trends', function (event) {
@@ -158,8 +159,9 @@
 						if ($scope.roamerSMSChartConfig.series.length == 0) {
 							$scope.roamerSMSChartConfig.subtitle.text = 'No data found'
 						}
-					}).error(function () {
-						 $rootScope.error = 'Internal server error';
+					}).error(function (data, status, headers, config) {
+						if (status != 0)
+							$rootScope.error = 'Internal server error';
 					});
 				});
 				
@@ -266,6 +268,9 @@
 					
 					setRoaminstatisticsFontSize();
 					$j(".value").removeClass("donut").removeClass("loading-right");
+				}).error(function (data, status, headers, config) {
+					if (status != 0)
+						$rootScope.error = 'Internal server error';
 				});
 				
 				$rootScope.$on('refresh-roaming-statistics-trends', function (event) {
@@ -307,6 +312,9 @@
 
 						setRoaminstatisticsFontSize();
 						$j(".value").removeClass("donut").removeClass("loading-right");		
+					}).error(function (data, status, headers, config) {
+						if (status != 0)
+							$rootScope.error = 'Internal server error';
 					});
 					
 					
@@ -362,10 +370,6 @@
 						}
 					}
 				}
-				
-
-				
-		
 	}]);
 	
 })();

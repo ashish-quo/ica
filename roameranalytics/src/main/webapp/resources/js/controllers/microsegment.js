@@ -50,7 +50,8 @@
 				$rootScope.numberOfCharts = charts.length;
 				$rootScope.showmoreindex = 1;
 			}).error(function(data, status, headers, config) {
-		        $rootScope.error = 'Internal server error';
+				if (status != 0)
+					$rootScope.error = 'Internal server error';
 		    });
 		};
 		
@@ -115,7 +116,10 @@
 					$scope.totalSms=result.totalSms;
 					setRoaminstatisticsFontSize();
 					$j(".value").removeClass("donut").removeClass("loading-right");
-				});
+				}).error(function(data, status, headers, config) {
+					if (status != 0)
+						$rootScope.error = 'Internal server error';
+			    });
 				
 				$rootScope.$on('refresh-roaming-statistics-microsegment', function (event) {
 					$scope.totalRoamer = 0;
@@ -154,7 +158,10 @@
 						$scope.totalSms=result.totalSms;
 						setRoaminstatisticsFontSize();
 						$j(".value").removeClass("donut").removeClass("loading-right");
-					});
+					}).error(function(data, status, headers, config) {
+						if (status != 0)
+							$rootScope.error = 'Internal server error';
+				    });
 					
 					
 				});
@@ -208,10 +215,6 @@
 						}
 					}
 				}
-				
-						
-				
-		
 	}]);
 
 })();

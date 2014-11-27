@@ -895,6 +895,9 @@ console.log("Inside mapcore");
 							initiateMap(roamerJsonMap,colorAxisRange,'','Roamer Count');
 						}
 						resetAfter();
+					}).error(function (data, status, headers, config) {
+						if (status != 0)
+							$rootScope.error = 'Internal server error';
 					});
 					
 					

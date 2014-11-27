@@ -215,9 +215,11 @@
 		    			  $rootScope.mschartcount = 0;
 		    		  }
 		    	  }).error(function(data, status, headers, config) {
-		    		  element.removeClass("no-data-found");
-		    		  element.removeClass("loading");
-		    		  element.addClass("internal-error");
+		    		  if (status != 0) {
+			    		  element.removeClass("no-data-found");
+			    		  element.removeClass("loading");
+			    		  element.addClass("internal-error");
+		    		  }
 		    		  $rootScope.mschartcount = $rootScope.mschartcount + 1;
 		    		  if ($rootScope.mschartcount == $scope.loadingCount) {
 		    			  $rootScope.showmore[$rootScope.showmoreindex++] = true;
