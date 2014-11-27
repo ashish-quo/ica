@@ -207,7 +207,7 @@
 			return {
 				chart : {
 					type : 'column',
-					height : 170
+					height : 157
 				},
 				title : {
 					text : ''
