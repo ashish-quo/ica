@@ -481,7 +481,7 @@
 												db-column="{{attr.dbColumn}}"
 												column-type="{{attr.columnType}}"> <i></i></label>
 										</p>
-										<a data-toggle="collapse" data-parent="#accordion"
+										<a id="accordian{{$index}}" data-toggle="collapse" data-parent="#accordion" 
 											href="#collapse{{$index}}" title="{{attr.attributeName}}">{{attr.attributeName}}
 										</a>
 										<div class="clearfix"></div>
@@ -542,7 +542,7 @@
 									</div>
 								</div>
 								<div id="collapse{{$index}}" class="panel-collapse collapse"
-									ng-if="attr.attributeName == 'Device Type'">
+									ng-if="attr.attributeName == 'Device Model'">
 									
 									<div class="panel-body" ng-class="{'scrolldiv' : attr.attributeCategoryList.length > 4 }" >
 										<div ng-if = "attr.attributeCategoryList.length == 0">
